@@ -1,0 +1,16 @@
+{
+  "Lua.runtime.version": "LuaJIT",
+  "Lua.runtime.path": [
+    "?.lua",
+    "?/init.lua",
+    ".config/hypr/lua/?.lua",
+    ".config/hypr/lua/?/init.lua"
+  ],
+  "Lua.diagnostics.globals": ["hl"],
+  "Lua.workspace.library": [
+    "${workspaceFolder}/.config/hypr",
+    "${workspaceFolder}/.config/hypr/lua"
+  ],
+  "Lua.workspace.checkThirdParty": false,
+  "Lua.workspace.ignoreDir": [".git", "home"]
+}
