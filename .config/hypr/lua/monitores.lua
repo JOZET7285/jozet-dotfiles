@@ -1,7 +1,4 @@
-require("lua.types")
----@type HyprlandAPI
-local hl = _G.hl or error("Hyprland API 'hl' no disponible")
-
+-- MONITORES --
 hl.monitor({
     name = "Virtual-1",
     resolution = "1920x1080@60",
