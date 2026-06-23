@@ -1,8 +1,8 @@
-hl.dsp.exec_once("waybar")
-hl.dsp.exec_once("hyprpaper")
-hl.dsp.exec_once("nm-applet --indicator")
-hl.dsp.exec_once("pipewire")
-hl.dsp.exec_once("wireplumber")
+hl.dsp.exec_cmd("waybar")
+hl.dsp.exec_cmd("hyprpaper")
+hl.dsp.exec_cmd("nm-applet --indicator")
+hl.dsp.exec_cmd("pipewire")
+hl.dsp.exec_cmd("wireplumber")
 
 hl.env({
     XCURSOR_SIZE = "16",
