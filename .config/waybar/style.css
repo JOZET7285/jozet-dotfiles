@@ -18,8 +18,9 @@ window#waybar {
 #custom-applauncher,
 #mpris,
 #custom-weather {
+    border-radius: 5px;
     background-color: #1a1a1a;
-    margin: 0px;
+    margin: 5px 0px;
     padding: 0 10px;
     color: #ffffff;
 }
