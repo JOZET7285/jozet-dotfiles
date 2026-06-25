@@ -1,10 +1,36 @@
 * {
-    font-family: "JetBrainsMono Nerd Font", Roboto, Helvetica, Arial, sans-serif;
-    font-size: 13px;
+    border: none;
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 14px;
 }
 
 window#waybar {
-    background-color: rgba(26, 27, 38, 0.8);
-    border-bottom: 1px solid #7aa2f7;
-    color: #c0caf5;
+    background-color: transparent;
+}
+
+#workspaces,
+#clock,
+#battery,
+#pulseaudio,
+#backlight,
+#network,
+#bluetooth,
+#custom-applauncher,
+#mpris,
+#custom-weather {
+    background-color: #1a1a1a;
+    border: 1px solid #3c3c3c;
+    border-radius: 4px;
+    margin: 4px 4px;
+    padding: 0 10px;
+    color: #ffffff;
+}
+
+#workspaces button:hover,
+#custom-applauncher:hover {
+    background-color: #2b2b2b;
+}
+
+#clock, #battery {
+    background-color: #2b2b2b; 
 }

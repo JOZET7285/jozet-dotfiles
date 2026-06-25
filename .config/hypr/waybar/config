@@ -1,14 +1,30 @@
 {
     "layer": "top",
     "position": "top",
-    "height": 30,
-    "modules-left": ["hyprland/workspaces"],
-    "modules-center": ["clock"],
-    "modules-right": ["custom/qml-trigger"],
-    
-    "custom/qml-trigger": {
-        "format": "",
-        "on-click": "quickshell -m ~/.config/quickshell/main.qml",
-        "tooltip": false
+    "height": 40,
+    "spacing": 4, 
+    "modules-left": ["custom/applauncher", "hyprland/workspaces", "mpris"],
+    "modules-center": ["clock", "custom/weather"],
+    "modules-right": ["network", "bluetooth", "battery", "pulseaudio", "backlight"],
+
+    "custom/applauncher": {
+        "format": "󰀻",
+        "on-click": "rofi -show drun"
+    },
+    "hyprland/workspaces": {
+        "format": "{icon}"
+    },
+    "clock": {
+        "format": "{:%H:%M}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+    "battery": {
+        "format": "{capacity}% "
+    },
+    "pulseaudio": {
+        "format": "{volume}$ "
+    },
+    "backlight": {
+        "format": "{percentage}% "
     }
 }
