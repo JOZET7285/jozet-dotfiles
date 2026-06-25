@@ -1,5 +1,5 @@
-hl.dsp.exec_cmd("waybar")
-hl.dsp.exec_cmd("quickshell")
+hl.dsp.exec_once("waybar")
+hl.dsp.exec_once("quickshell")
 hl.dsp.exec_cmd("hyprpaper")
 hl.dsp.exec_cmd("nm-applet --indicator")
 hl.dsp.exec_cmd("pipewire")

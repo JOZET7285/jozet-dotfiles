@@ -5,7 +5,7 @@
     "spacing": 4, 
     "modules-left": ["custom/applauncher", "hyprland/workspaces", "mpris"],
     "modules-center": ["clock", "custom/weather"],
-    "modules-right": ["network", "bluetooth", "battery", "pulseaudio", "backlight"],
+    "modules-right": ["network", "bluetooth", "custom/energy", "pulseaudio", "backlight"],
 
     "custom/applauncher": {
         "format": "󰀻",
@@ -30,9 +30,9 @@
         "format": "{:%H:%M}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
     },
-    "battery": {
-        "format": "{capacity}% ",
-        "on-click": "quickshell -m ~/.config/quickshell/Energy/EnergyWidget.qml"
+    "custom/energy": {
+        "format": "󰂄",
+        "on-click": "quickshell --run 'energyPanel.visible = !energyPanel.visible'"
     },
     "pulseaudio": {
         "format": "{volume}$ "
