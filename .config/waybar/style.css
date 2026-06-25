@@ -19,11 +19,21 @@ window#waybar {
 #mpris,
 #custom-weather {
     background-color: #1a1a1a;
-    border: 1px solid #3c3c3c;
-    border-radius: 4px;
-    margin: 4px 4px;
+    margin: 0;
     padding: 0 10px;
     color: #ffffff;
+}
+#workspaces{
+    border-bottom-right-radius: 5px;
+}
+#clock {
+    border-bottom-left-radius: 5px;
+}
+#custom-weather {
+    border-bottom-right-radius: 5px;
+}
+#network {
+    border-bottom-left-radius: 5px;
 }
 
 #workspaces button:hover,
