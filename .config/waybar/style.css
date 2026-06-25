@@ -19,7 +19,7 @@ window#waybar {
 #mpris,
 #custom-weather {
     background-color: #1a1a1a;
-    margin: 0;
+    margin: 0px;
     padding: 0 10px;
     color: #ffffff;
 }
