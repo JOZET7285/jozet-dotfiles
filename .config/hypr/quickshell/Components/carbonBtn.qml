@@ -1,16 +1,21 @@
-// EnergyButton.qml
+// Components/CarbonButton.qml
+import QtQuick
+
 Rectangle {
-    required property string text
-    required property string profileName
+    id: root
+    width: 200; height: 40
+    color: area.pressed || selected ? "#3c3c3c" : "#2b2b2b"
+    radius: 4
     
-    color: area.pressed || root.activeProfile == profileName ? "#3c3c3c" : "#2b2b2b"
-    anchors.fill: parent
-    border.color: Theme.border
-    radius: Theme.borderRadius
+    required property string text
+    property bool selected: false
+    signal clicked()
+
+    Text { anchors.centerIn: parent; text: root.text; color: "white" }
 
     MouseArea {
         id: area
         anchors.fill: parent
-        onClicked: root.setProfile(profileName)
+        onClicked: root.clicked()
     }
 }
