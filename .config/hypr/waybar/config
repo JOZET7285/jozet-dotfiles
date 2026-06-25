@@ -1,0 +1,14 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 30,
+    "modules-left": ["hyprland/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": ["custom/qml-trigger"],
+    
+    "custom/qml-trigger": {
+        "format": "",
+        "on-click": "quickshell -m ~/.config/quickshell/main.qml",
+        "tooltip": false
+    }
+}
