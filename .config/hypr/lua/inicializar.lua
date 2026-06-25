@@ -1,12 +1,14 @@
-local function run_if_not_running(process_name, command)
-    local handle = io.popen("pgrep -x " .. process_name)
-    local result = handle:read("*a")
-    handle:close()
-
-    if result == "" then
-        hl.dsp.exec_cmd(command)
+local function launch_services()
+    local services = {"/usr/bin/waybar", "/usr/bin/quickshell"}
+    
+    for _, service in ipairs(services) do
+        -- Debugging: imprime en el log de hyprland para verificar si entra al loop
+        print("Intentando lanzar: " .. service)
+        hl.dsp.exec_cmd(service)
     end
 end
+
+launch_services()
 
 run_if_not_running("quickshell", "quickshell -s ~/.config/quickshell/main.qml")
 run_if_not_running("waybar", "waybar")
