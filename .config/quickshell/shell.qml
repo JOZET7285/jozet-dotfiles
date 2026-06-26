@@ -1,14 +1,14 @@
-// ~/.config/quickshell/shell.qml
+// shell.qml
 import QtQuick
 import Quickshell
-import "Energy/energyWidget.qml" as EnergyModule
+import "Energy" as EnergyModule
 
 ShellRoot {
-    Main { id: masterWindow } 
+    Main { id: masterWindow }
     TopBar {}
     Floating {}
 
-    EnergyModule.energyWidget { 
+    EnergyModule.EnergyWidget { 
         id: energyPanel
         visible: false 
     }
