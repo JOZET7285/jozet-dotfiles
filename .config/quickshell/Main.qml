@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import "./Energy" as EnergyModule
 
 PanelWindow {
     id: masterWindow
@@ -51,7 +52,11 @@ PanelWindow {
         scale: isVisible ? 1.0 : 0.95
         
         // Aquí instanciamos el widget
-        EnergyWidget { anchors.fill: parent }
+        EnergyModule.EnergyWidget {
+            id: energyPanel
+            visible: false
+            anchors.fill: parent
+        }
     }
 
     IpcServer {
