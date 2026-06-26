@@ -11,7 +11,7 @@ hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("hyprctl dispatch exit"))
 hl.bind(mainMod .. " + C", hl.dsp.window.kill(window))
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))
-hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
+hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("quickshell-client --name quickshell --send toggle"))
 
 -- Movimiento de foco
 hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }))
