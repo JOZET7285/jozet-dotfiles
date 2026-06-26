@@ -5,8 +5,6 @@ import "Energy" as EnergyModule
 
 ShellRoot {
     Main { id: masterWindow }
-    TopBar {}
-    Floating {}
 
     EnergyModule.EnergyWidget { 
         id: energyPanel
