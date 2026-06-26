@@ -31,8 +31,8 @@
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
     },
     "custom/energy": {
-        "format": "󰂄",
-        "on-click": "quickshell --run 'energyPanel.visible = !energyPanel.visible'"
+        "format": "󰂄Bateria",
+        "on-click": "quickshell-ipc 'toggle'"
     },
     "pulseaudio": {
         "format": "{volume}$ "
