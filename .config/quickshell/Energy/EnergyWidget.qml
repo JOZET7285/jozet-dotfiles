@@ -4,7 +4,7 @@ import "../Components"
 
 LayerSurface {
     id: root
-    property string activeProfile: "normal"
+    property string activeProfile: "balanced"
     function setProfile(profile) {
         activeProfile = profile
         Quickshell.exec("powerprofilesctl set " + profile)
@@ -28,9 +28,9 @@ LayerSurface {
                 onClicked: root.setProfile("balanced")
             }
             CarbonButton {
-                text: "Energético"
-                selected: activeProfile == "energy"
-                onClicked: root.setProfile("energy")
+                text: "Ahorro de energía"
+                selected: activeProfile == "power-saver"
+                onClicked: root.setProfile("power-saver")
             }
         }
     }

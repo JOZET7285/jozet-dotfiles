@@ -1,5 +1,6 @@
 import QtQuick
 import Quickshell
+import Quickshell.Ipc
 import Quickshell.Io
 import "./Energy" as EnergyModule
 
@@ -8,11 +9,11 @@ PanelWindow {
     color: "transparent"
     WlrLayershell.namespace: "qs-master"
     WlrLayershell.layer: WlrLayer.Overlay
+    WlrLayershell.keyboardInteractivity: WlrLayer.OnDemand
 
-    Timer {
-        id: hideTimer
-        interval: 250
-        onTriggered: masterWindow.visible = false
+    MouseArea {
+        anchors.fill: parent
+        onClicked: masterWindow.visible = false
     }
 
     Item {
@@ -33,8 +34,12 @@ PanelWindow {
         
         EnergyModule.EnergyWidget {
             id: energyPanel
-            visible: true
             anchors.fill: parent
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: (mouse) => mouse.accepted = true
+            }
         }
     }
 
@@ -46,5 +51,11 @@ PanelWindow {
                 masterWindow.visible = !masterWindow.visible;
             }
         }
+    }
+
+    // Se cierra si la ventana pierde el foco
+    FocusScope {
+        focus: true
+        onFocusChanged: if (!focus) masterWindow.visible = false
     }
 }
