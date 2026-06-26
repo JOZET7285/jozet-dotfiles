@@ -52,4 +52,14 @@ PanelWindow {
         // Aquí instanciamos el widget
         EnergyWidget { anchors.fill: parent }
     }
+
+    IpcServer {
+        name: "quickshell"
+
+        onReceived: (client, message) => {
+            if(message === "toggle"){
+                masterWindow.visible = !masterWindow.visible;
+            }
+        }
+    }
 }
