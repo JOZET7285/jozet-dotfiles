@@ -27,7 +27,7 @@ PanelWindow {
         id: hideTimer
         interval: 250 // Un poco más que la duración de la animación (200ms)
         onTriggered: masterWindow.visible = false
-    
+    }
 
     // 3. Contenedor de Widgets
     // Aquí cargarás tus componentes modulares
