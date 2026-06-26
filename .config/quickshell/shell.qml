@@ -1,7 +1,7 @@
 // ~/.config/quickshell/shell.qml
 import QtQuick
 import Quickshell
-import "Energy"
+import "./Energy"
 
 ShellRoot {
     Main { id: masterWindow } 
