@@ -1,7 +1,8 @@
+
 hl.window_rule({
     name = "general",
-    match = { class = ".*"},
+    match = { class = "negative:^quickshell$" },    
     border_size = 1,
-    rounding = 5,
+    rounding = 6,
     animation = "popin",
 })

@@ -1,7 +1,6 @@
--- MONITORES --
 hl.monitor({
-    output = "Virtual-1",
-    mode = "1280x720@60",
+    output = "eDP-1",
+    mode = "preferred",
     position = "auto",
-    scale = 1
+    scale = 1,
 })

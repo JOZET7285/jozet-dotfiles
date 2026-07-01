@@ -2,7 +2,7 @@
 mainMod = "SUPER" 
 
 -- Lanzadores y sistema
-hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("rofi -show drun"))
+hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("qs ipc call appLauncher toggle"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("dolphin"))
 hl.bind(mainMod .. " + K", hl.dsp.exec_cmd("kitty"))
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("hyprctl dispatch exit")) 
@@ -33,3 +33,6 @@ hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO
 -- Sistema
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set +2%"))
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 2%-"))
+
+-- Atajos
+hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("grim -g \"$(slurp)\" - | wl-copy"))

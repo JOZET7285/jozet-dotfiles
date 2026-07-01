@@ -1,6 +1,11 @@
-import QtQuick
 import Quickshell
+import QtQuick
 
 ShellRoot {
-    Main { id: masterWindow }
+    Main {
+        id: main
+        Component.onCompleted: {
+            globalThis.appLauncher = main.appLauncher
+        }
+    }
 }
