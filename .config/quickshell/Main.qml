@@ -2,19 +2,20 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
+import Quickshell.Wayland
 import "Components"
 import "Popups"
+import "Process"
 
 PanelWindow {
     id: rootAppLauncher
 
-    property int cpuUsage: 0
-    property int ramUsage: 0
-    property int diskUsage: 0
-    property int cpuTemp: 0
+    property bool popupOpen: appLauncher.open
     property string currentTime: "00:00"
     property string currentDate: ""
-    property bool popupOpen: appLauncher.open
+    property string playerState: "Pause"
+    property bool playing: (mainProcesses.currentSongTitle === "Sin reproducción")
+
     function toggle() {
         appLauncher.open = !appLauncher.open
     }
@@ -22,78 +23,29 @@ PanelWindow {
         top: true
     }
     width: Screen.width
-    height: Theme.height+10
+    height: Theme.height + 15 + 570
+    exclusiveZone: Theme.height + 15  
+    mask: Region {
+        Region { item: leftLandMonitor }
+        Region { item: leftLand }
+        Region { item: multimediaLand }
+        Region { item: centerLand }
+        Region { item: rightLand }
+        Region { item: rightLandMonitor }
+    }
     color: "transparent"
-
-    AppLauncher {
-        id: appLauncher
-    }
     
-    HoverHandler {
-        id: hoverPanelWindow
-    }
- 
-    Process {
-        id: memProc
-        command: ["sh", "-c", "free | grep Mem"]
-        stdout: SplitParser {
-            onRead: data => {
-                if (!data) return
-                var parts = data.trim().split(/\s+/)
-                var total = parseInt(parts[1]) || 1
-                var used = parseInt(parts[2]) || 0
-                
-                // Cálculo del porcentaje de RAM utilizada
-                ramUsage = Math.round(100 * used / total)
-            }
-        }
-        Component.onCompleted: running = true
-    }
+    HoverHandler { id: hoverPanelWindow } 
 
-    Process {
-        id: cpuProc
-        command: ["sh", "-c", "top -b -n 2 -d 0.2 | grep '%Cpu' | tail -1 | awk '{print int(100 - $8)}'"]
-        stdout: SplitParser {
-            onRead: data => {
-                if (!data) return
-                var cleanData = data.trim()
-                var parsed = parseInt(cleanData)
-                if (!isNaN(parsed)) {
-                    cpuUsage = parsed
-                }
-            }
+    MainProcess{ id: mainProcesses }
+
+    Timer {
+        interval: 2000
+        running: true
+        repeat: true
+        onTriggered: {
+            mainProcesses.refreshAll()
         }
-        Component.onCompleted: running = true
-    }
-    Process {
-        id: diskProc
-        command: ["sh", "-c", "df /home | awk 'NR==2 {print $5}' | sed 's/%//'"]
-        stdout: SplitParser {
-            onRead: data => {
-                if (!data) return
-                var cleanData = data.trim()
-                var parsed = parseInt(cleanData)
-                if (!isNaN(parsed)) {
-                    diskUsage = parsed
-                }
-            }
-        }
-        Component.onCompleted: running = true
-    }
-    Process {
-        id: tempProc
-        command: ["sh", "-c", "cat /sys/class/thermal/thermal_zone0/temp | awk '{print int($1/1000)}'"]
-        stdout: SplitParser {
-            onRead: data => {
-                if (!data) return
-                var cleanData = data.trim()
-                var parsed = parseInt(cleanData)
-                if (!isNaN(parsed)) {
-                    cpuTemp = parsed
-                }
-            }
-        }
-        Component.onCompleted: running = true
     }
 
     Timer {
@@ -110,114 +62,169 @@ PanelWindow {
         }
     }
 
-    Timer {
-        id: monitoringTimer
-        interval: 2000
-        running: true
-        repeat: true
 
-        onTriggered: {
-            if (!memProc.running) memProc.running = true
-            if (!cpuProc.running) cpuProc.running = true
-            if (!diskProc.running) diskProc.running = true
-            if (!tempProc.running) tempProc.running = true
-        }
-    }
     Item {
         anchors.fill: parent
+
+        // Isla de Monitoreo Izquierda ---------------------------
         Rectangle {
             id: leftLandMonitor
-            x: 10 
-            y: -50
-            width: leftRowLayoutMonitor.implicitWidth+10
-            height: Theme.height
-            color: Theme.bg_1
+            y: 5
+            width: leftRowLayoutMonitor.implicitWidth + 30
+            height: Theme.height+5
+            anchors {
+                right: centerLand.left
+                rightMargin: 15
+            }
+            color: Theme.bg_2
+            border {
+                width: 1
+                color: Theme.bg_1
+            }
             radius: Theme.radius
             clip: true
-            Behavior on width {NumberAnimation {duration: 180; easing.type: Easing.OutCubic }}
+            Behavior on width {NumberAnimation {duration: 750; easing.type: Easing.OutCubic }}
             RowLayout {
                 id: leftRowLayoutMonitor
                 anchors.fill: parent
-                anchors.margins: 4
+                anchors{
+                    margins: 1
+                    leftMargin: 15
+                    rightMargin: 15
+                }
                 spacing: 8
                 // Memory
                 BasePill {
                     icon: "\uf233"
-                    text: ramUsage + "%"
+                    text: mainProcesses.ramUsage + "%"
                 }
                 // Disk
                 BasePill {
                     icon: "\uf0a0" 
-                    text: diskUsage + "%"
+                    text: mainProcesses.diskUsage + "%"
                 }
             }
         }
-    }
-    Item {
-        anchors.fill: parent
-        Rectangle {
-            id: rightLandMonitor
-            x: screen.width - rightLandMonitor.width -10
-            y: -50
-            width: rightRowLayoutMonitor.implicitWidth + 10
-            height: Theme.height
-            color: Theme.bg_1
-            radius: Theme.radius
-            clip: true
-            Behavior on width {NumberAnimation {duration: 180; easing.type: Easing.OutCubic }}
-            RowLayout {
-                id: rightRowLayoutMonitor
-                anchors.fill: parent
-                anchors.margins: 4
-                spacing: 8
-                // cpu
-                BasePill {
-                    icon: "\uf2db"
-                    text: cpuUsage + "%"
-                }
-                // temp
-                BasePill {
-                    icon: "\uf2c9"
-                    text: cpuTemp + "°C"
-                }
-            }
-        }
-    }
-
-
-    Item {
-        anchors.fill: parent
 
         // Isla Izquierda ----------------
         Rectangle {
             id: leftLand
             y: 5
-            width: leftRowLayoutId.implicitWidth + 10
-            height: Theme.height
-            color: Theme.bg_1
+            width: (appLauncher.open || appLauncher.animating)
+                ? Math.max(leftRowLayoutId.implicitWidth + 80, appLauncher.width) 
+                : leftRowLayoutId.implicitWidth + 30
+            height: (appLauncher.open || appLauncher.animating)
+                    ? Theme.height + appLauncher.height
+                    : Theme.height
+            anchors {
+                left: parent.left
+                leftMargin: 15
+            }
+            color: Theme.bg_2
+            border {
+                width: 1
+                color: Theme.bg_1
+            }
             radius: Theme.radius
             clip: true
-            
-            Behavior on width { NumberAnimation { duration: 180; easing.type: Easing.OutCubic } }
+
+            Behavior on width { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
+            Behavior on height { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
 
             RowLayout {
                 id: leftRowLayoutId
-                anchors.fill: parent
-                anchors.margins: 4
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: parent.top
+                    margins: 1
+                    leftMargin: 15
+                    rightMargin: 15
+                }
+                height: Theme.height
                 spacing: 8
 
                 BasePill {
                     icon: "\uf00a"
+                    text: "Apps"
                     selected: appLauncher.open
-                    visible: hoverPanelWindow.hovered || popupOpen
-                    onClicked: {
-                        appLauncher.open = !appLauncher.open
+                    onClicked: appLauncher.open = !appLauncher.open
+                }
+                Workspaces {
+                    Layout.leftMargin: 15
+                    Layout.alignment: Qt.AlignVCenter
+                }
+            }
+
+            AppLauncher {
+                id: appLauncher
+                anchors.top: leftRowLayoutId.bottom
+                anchors.left: parent.left
+            }
+        }
+
+        Rectangle {
+            id: multimediaLand
+            y: 5
+            anchors {
+                left: leftLand.right
+                leftMargin: 15
+            }
+            width: mediaRowLayout.implicitWidth + 30
+            height: Theme.height
+            color: Theme.bg_2
+            border{
+                width: 1
+                color: Theme.bg_1
+            }
+            radius: Theme.radius
+            RowLayout {
+                id: mediaRowLayout
+                anchors.fill: parent
+                anchors {
+                    margins: 1
+                    leftMargin: 15
+                    rightMargin: 15
+                }
+                Rectangle {
+                    Layout.preferredWidth: 120
+                    Layout.preferredHeight: Theme.height - 7
+                    Layout.alignment: Qt.AlignVCenter 
+                    
+                    color: Theme.bg_1
+                    radius: Theme.radius - 5
+
+                    Text {
+                        anchors.fill: parent
+                        anchors.margins: 10
+                        
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        
+                        color: "white"
+                        elide: Text.ElideRight 
+                        text: mainProcesses.currentSongTitle
+                        
+                        font.pixelSize: 12 
                     }
                 }
+                BasePill {
+                    icon: "\uf049"
+                    visible: !playing
+                    onClicked: mainProcesses.execute(["playerctl", "previous"])
+                }
 
-                Workspaces {
-                    Layout.leftMargin: (hoverPanelWindow.hovered || appLauncher.open) ? 0 : 15                    
-                    Layout.alignment: Qt.AlignVCenter
+                BasePill {
+                    id: playPauseBtn
+                    visible: !playing
+                    icon: mainProcesses.playerState ? "\uf04c" : "\uf04b"
+                    onClicked: mainProcesses.execute(["playerctl play-pause"]) 
+                }
+
+                BasePill {
+                    icon: "\uf050"
+                    visible: !playing
+                    onClicked: mainProcesses.execute(["playerctl", "next"])
                 }
             }
         }
@@ -226,22 +233,30 @@ PanelWindow {
         Rectangle {
             id: centerLand
             y: 5
-            width: centerRowLayoutId.implicitWidth + 10
-            anchors.horizontalCenter: parent.horizontalCenter 
-            height: Theme.height
-            color: Theme.bg_1
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+            }
+            width: centerRowLayoutId.implicitWidth + 30
+            height: Theme.height+10
+            color: Theme.bg_2
+            border {
+                width: 1
+                color: Theme.bg_1
+            }
             radius: Theme.radius
 
             RowLayout {
                 id: centerRowLayoutId
                 anchors.fill: parent
-                anchors.margins: 4
-                spacing: 8
+                anchors{
+                    margins: 1
+                    leftMargin: 15
+                    rightMargin: 15
+                }
                 BasePill { 
                     icon: "\uf017"; 
-                    text: currentTime +"\n"+currentDate
+                    text: currentTime +"   |   "+currentDate
                 }
-                // Item { Layout.fillWidth: true }
                 BasePill { 
                     id: basePillClima
                     icon: "\uf0c2"
@@ -254,23 +269,106 @@ PanelWindow {
         Rectangle {
             id: rightLand
             y: 5
-            width: rightRowLayoutId.childrenRect.width + 40
             height: Theme.height
-            color: Theme.bg_1
+            width: rightRowLayoutId.implicitWidth + 40
+            anchors {
+                right: parent.right
+                rightMargin: 15
+            }
+            color: Theme.bg_2
+            border {
+                width: 1
+                color: Theme.bg_1
+            }
             radius: Theme.radius
-
+            
             RowLayout {
                 id: rightRowLayoutId
                 anchors.fill: parent
-                anchors.margins: 4
+                anchors{
+                    margins: 1
+                    leftMargin: 15
+                    rightMargin: 15
+                }
                 spacing: 8
                 BasePill {
-                    icon: "\uf1eb"
-                    tooltipText: "Internet"
+                    id: bpInternet
+                    icon: {
+                        if (mainProcesses.netStatus === "Ethernet") return "\uf0e8"
+                        if (mainProcesses.netStatus === "Wi-Fi") return "\uf1eb"
+                        return "\uf127"
+                    }
                 }
                 BasePill {
+                    id: bpBluetooth
                     icon: "\uf293"
-                    tooltipText: "Bluetooth"
+                    text: ""
+                }
+                BasePill {
+                    icon: "\uf185"
+                }
+                BasePill {
+                    icon: {
+                        if(mainProcesses.volumePercent === "mute") return "\uf6a9"
+                        if(mainProcesses.volumePercent > 60) return "\uf028"
+                        if(mainProcesses.volumePercent > 30) return "\uf027"
+                        return "\uf026"
+                    }
+                }
+                BasePill {
+                    icon: {
+                        if (mainProcesses.batteryPercent === "charging") return "\uf0e7"
+                        if (mainProcesses.batteryPercent > 80) return "\uf240"
+                        if (mainProcesses.batteryPercent > 60) return "\uf241"
+                        if (mainProcesses.batteryPercent > 40) return "\uf242"
+                        if (mainProcesses.batteryPercent > 20) return "\uf243"
+                        return "\uf244"
+                    }
+                }
+                // Ejemplo para el botón de Ajustes
+                BasePill {
+                    icon: "\uf013"
+                 }
+
+                // Ejemplo para el botón de Power
+                BasePill {
+                    icon: "\uf011"
+                }
+            }
+        }
+
+        // Isla de Monitoreo Derecha --------------------------
+        Rectangle {
+            id: rightLandMonitor
+            y: 5
+            width: rightRowLayoutMonitor.implicitWidth + 10
+            height: Theme.height+5
+            anchors {
+                left: centerLand.right
+                leftMargin: 15
+            }
+            radius: Theme.radius
+            color: Theme.bg_2
+            border {
+                width: 1
+                color: Theme.bg_1
+            }
+            clip: true
+            Behavior on width {NumberAnimation {duration: 750; easing.type: Easing.OutCubic }}
+            RowLayout {
+                id: rightRowLayoutMonitor
+                anchors.fill: parent
+                anchors.margins: 4
+                spacing: 8
+                // cpu
+                BasePill {
+                    icon: "\uf2db"
+                    text: mainProcesses.cpuUsage + "%"
+                }
+                // temp
+                BasePill {
+                    icon: "\uf2c9"
+                    text: mainProcesses.cpuTemp + "°C"
                 }
             }
         }
@@ -280,31 +378,21 @@ PanelWindow {
         states: [
             State {
                 name: "CENTRADOS"
-                AnchorChanges { target: centerLand; anchors.horizontalCenter: parent.horizontalCenter }
-                AnchorChanges { target: leftLand; anchors.right: centerLand.left }
-                AnchorChanges { target: rightLand; anchors.left: centerLand.right }
-                PropertyChanges { target: leftLand; anchors.rightMargin: 12 }
-                PropertyChanges { target: rightLand; anchors.leftMargin: 12 }
-                PropertyChanges { target: leftLandMonitor; visible: true; y: 5 }
-                PropertyChanges { target: rightLandMonitor; visible: true; y: 5 }
             },
             State {
                 name: "SEPARADO"
-                AnchorChanges { target: leftLand; anchors.left: parent.left }
-                AnchorChanges { target: centerLand; anchors.horizontalCenter: parent.horizontalCenter }
-                AnchorChanges { target: rightLand; anchors.right: parent.right }
-                PropertyChanges { target: leftLand; anchors.leftMargin: 15 }
-                PropertyChanges { target: rightLand; anchors.rightMargin: 15 }
-                PropertyChanges { target: leftLandMonitor; visible: false; y: -50}
-                PropertyChanges { target: rightLandMonitor; visible: false; y: -50}
             }
         ]
 
         transitions: [
             Transition {
                 from: "*"; to: "*"
-                AnchorAnimation { duration: 350; easing.type: Easing.OutCubic }
-                NumberAnimation { properties: "leftMargin,rightMargin,y,visible,x,left,right,horizontalCenter"; duration: 300; easing.type: Easing.OutCubic }
+                AnchorAnimation { duration: 750; easing.type: Easing.OutCubic }
+                NumberAnimation { 
+                    properties: "leftMargin,rightMargin,left,right,anchors,visible,y,"; 
+                    duration: 750; 
+                    easing.type: Easing.OutCubic 
+                }
             }
         ]
     }

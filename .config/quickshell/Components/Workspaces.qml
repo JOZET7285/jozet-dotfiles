@@ -7,7 +7,7 @@ Row {
     spacing: 6
 
     // How many workspace slots to always draw, even if empty/unused.
-    property int workspaceCount: 5
+    property int workspaceCount: 10
 
     Repeater {
         model: root.workspaceCount

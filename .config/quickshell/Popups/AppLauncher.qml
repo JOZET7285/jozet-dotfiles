@@ -5,22 +5,20 @@ import Quickshell
 import Quickshell.Io
 import "../Components"
 
-PanelWindow {
+Item {
     id: appLauncher
 
     property string searchQuery: ""
     property bool open: false
     property bool animating: false
 
-    width: 430; height: 570
-    anchors {
-        top: true
-        left: true
-    }
-    color: '#00000000'
+    readonly property int contentWidth: 320
+    width: contentWidth
+    height: 570
+    anchors.top: leftLand.bottom
+    anchors.left: leftLand.left-10
+    clip: true
     visible: open || animating
-    focusable: true
-    aboveWindows: true
 
     onOpenChanged: {
         if (open) {
@@ -69,20 +67,19 @@ PanelWindow {
 
         Rectangle {
             id: container
-            // anchors.fill: parent
-            width: 420
+            width: parent.width
             height: 560
-            radius: Theme.radius
-            x: 10
+            topLeftRadius: 0
+            topRightRadius: 0
+            bottomLeftRadius: Theme.radius
+            bottomRightRadius: Theme.radius
             y: -570
-            color: Theme.bg_1
-
-
+            color: Theme.bg_2
 
             Item {
                 id: content
                 anchors.fill: parent
-                anchors.margins: 16
+                anchors.margins: 10
 
                 RowLayout {
                     id: header
@@ -111,7 +108,7 @@ PanelWindow {
                     anchors.right: parent.right
                     anchors.top: header.bottom
                     anchors.topMargin: 10
-                    height: 42
+                    height: 32
                     radius: 10
                     color: Theme.bg_2
                     border.color: searchAppField.activeFocus ? Theme.accent : Theme.border_color
@@ -124,7 +121,7 @@ PanelWindow {
                         anchors.left: parent.left
                         anchors.leftMargin: 12
                         anchors.verticalCenter: parent.verticalCenter
-                        text: "\uf002" // nf-fa-search
+                        text: "\uf002"
                         font.family: Theme.iconFont
                         font.pixelSize: 14
                         color: Theme.text_dim
@@ -183,10 +180,10 @@ PanelWindow {
                         margins: 12
                         bottom: parent.bottom
                     }
-                    cellWidth: 70
+                    cellWidth: 90
                     cellHeight: 95
                     clip: true
-                    flow: GridView.FlowTopToRight
+                    flow: GridView.FlowLeftToRight
 
                     visible: appListModel.values.length > 0
                     contentHeight: Math.ceil(count / 3) * cellHeight
@@ -195,7 +192,7 @@ PanelWindow {
                         id: verticalScrollBar
                         policy: ScrollBar.AsNeeded
                         contentItem: Rectangle {
-                            implicitWidth: 6
+                            implicitWidth: 5
                             radius: 3
                             color: Theme.text_dim
                         }
@@ -303,8 +300,7 @@ PanelWindow {
 
     ParallelAnimation {
         id: openAnim
-        PropertyAnimation { target: container; property: "y"; to: 10; duration: 220; easing.type: Easing.OutCubic }
-        // PropertyAnimation { target: container; property: "opacity"; to: 1; duration: 260 }
+        PropertyAnimation { target: container; property: "y"; to: 0; duration: 220; easing.type: Easing.OutCubic }
         onStopped: {
             animating = false
         }
@@ -313,7 +309,6 @@ PanelWindow {
     ParallelAnimation {
         id: closeAnim
         PropertyAnimation { target: container; property: "y"; to: -570; duration: 220; easing.type: Easing.InCubic }
-        // PropertyAnimation { target: container; property: "opacity"; to: 0; duration: 220 }
         onStopped: {
             animating = false
             visible = false

@@ -15,5 +15,5 @@ QtObject {
 
     // Requires a Nerd Font installed, e.g. `ttf-nerd-fonts-symbols-mono` on Arch.
     // Change this if you use a different Nerd Font variant/name.
-    readonly property string iconFont: "Symbols Nerd Font Mono"
+    readonly property string iconFont: "Font Awesome 7 Free"
 }

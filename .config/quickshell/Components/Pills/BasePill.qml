@@ -43,7 +43,7 @@ Rectangle {
             visible: root.icon.length > 0
             text: root.icon
             font.family: Theme.iconFont
-            font.pixelSize: 22
+            font.pixelSize: 15
             color: root.selected ? Theme.accent : Theme.text_color
             anchors.verticalCenter: parent.verticalCenter
         }
@@ -56,6 +56,14 @@ Rectangle {
             color: root.selected ? Theme.accent : Theme.text_color
             font.pixelSize: 12
             anchors.verticalCenter: parent.verticalCenter
+            Behavior on opacity {
+                NumberAnimation { duration: 200 }
+            }
+            
+            onTextChanged: {
+                opacity = 0
+                Qt.callLater(function() { opacity = 1 })
+            }
         }
     }
 
