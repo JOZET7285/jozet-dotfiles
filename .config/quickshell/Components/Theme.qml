@@ -5,7 +5,7 @@ QtObject {
     readonly property color bg_1: "#2b2b2b"
     readonly property color bg_2: "#1a1a1a"
     readonly property color bg_hover: "#3c3c3c"
-    readonly property color accent: "#5e9eff"
+    readonly property color accent: '#71fffa'
     readonly property int radius: 12
     readonly property int height: 35
     readonly property color text_color: "#ffffff"

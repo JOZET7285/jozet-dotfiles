@@ -11,6 +11,8 @@ Item {
     property string searchQuery: ""
     property bool open: false
     property bool animating: false
+    property string ethStatus: ""
+    property string wifiStatus: ""
 
     readonly property int contentWidth: 320
     width: contentWidth
@@ -218,11 +220,11 @@ Item {
 
                         Rectangle {
                             anchors.fill: parent
-                            anchors.margins: 4
+                            anchors.margins: 1
                             radius: 10
-                            color: delegateRoot.hovered ? Theme.bg_hover : "transparent"
-                            border.color: delegateRoot.hovered ? Theme.border_color : "transparent"
-                            border.width: 1
+                            color: delegateRoot.hovered || index === 0 ? Theme.bg_hover : "transparent"
+                            border.color: delegateRoot.hovered || index === 0 ? Theme.border_color : "transparent"
+
 
                             Behavior on color { ColorAnimation { duration: 100 } }
                         }
@@ -238,30 +240,30 @@ Item {
                         Column {
                             anchors.centerIn: parent
                             width: parent.width
-                            spacing: 8
+                            spacing: 10
                             scale: delegateRoot.hovered ? 1.08 : 1.0
                             Behavior on scale { NumberAnimation { duration: 100; easing.type: Easing.OutQuad } }
 
                             Image {
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                width: 36
+                                width: parent.width * 0.8
                                 height: 36
                                 source: modelData.icon ? Quickshell.iconPath(modelData.icon) : ""
                                 fillMode: Image.PreserveAspectFit
                                 asynchronous: true
 
                                 Text {
-                                    anchors.centerIn: parent
+                                    anchors.horizontalCenter: parent.horizontalCenter
                                     visible: parent.status !== Image.Ready
                                     text: "\uf108" // nf-fa-desktop (fallback)
                                     font.family: Theme.iconFont
-                                    font.pixelSize: 28
+                                    font.pixelSize: 25
                                     color: Theme.text_dim
                                 }
                             }
 
                             Text {
-                                width: parent.width - 12
+                                width: parent.width
                                 text: modelData.name
                                 color: Theme.text_color
                                 font.pixelSize: 11
@@ -282,7 +284,7 @@ Item {
 
                     Text {
                         Layout.alignment: Qt.AlignHCenter
-                        text: "\uf05e" // nf-fa-ban
+                        text: "\uf05e"
                         font.family: Theme.iconFont
                         font.pixelSize: 32
                         color: Theme.text_dim

@@ -8,17 +8,15 @@ import "Popups"
 import "Process"
 
 PanelWindow {
-    id: rootAppLauncher
+    id: rootUISys
 
-    property bool popupOpen: appLauncher.open
+    property bool popupOpen: appLauncher.open || networkPopup.open
     property string currentTime: "00:00"
     property string currentDate: ""
     property string playerState: "Pause"
     property bool playing: (mainProcesses.currentSongTitle === "Sin reproducción")
 
-    function toggle() {
-        appLauncher.open = !appLauncher.open
-    }
+    
     anchors {
         top: true
     }
@@ -34,6 +32,7 @@ PanelWindow {
         Region { item: rightLandMonitor }
     }
     color: "transparent"
+    focusable: popupOpen
     
     HoverHandler { id: hoverPanelWindow } 
 
@@ -137,7 +136,6 @@ PanelWindow {
                     left: parent.left
                     right: parent.right
                     top: parent.top
-                    margins: 1
                     leftMargin: 15
                     rightMargin: 15
                 }
@@ -163,6 +161,7 @@ PanelWindow {
             }
         }
 
+        // Isla Multimedia -----------------------------
         Rectangle {
             id: multimediaLand
             y: 5
@@ -269,27 +268,45 @@ PanelWindow {
         Rectangle {
             id: rightLand
             y: 5
-            height: Theme.height
-            width: rightRowLayoutId.implicitWidth + 40
-            anchors {
-                right: parent.right
-                rightMargin: 15
+
+            property var popups: [networkPopup /* bluetoothPopup, settingsPopup, powerPopup */]
+
+            property var activePopup: {
+                for (var i = 0; i < popups.length; i++) {
+                    var p = popups[i]
+                    if (p && (p.open || p.animating)) return p
+                }
+                return null
+            }
+
+            width: activePopup ? Math.max(rightRowLayoutId.implicitWidth + 80, activePopup.width) : rightRowLayoutId.implicitWidth + 30
+            height: activePopup ? Theme.height + activePopup.height : Theme.height 
+
+            Behavior on width { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
+            Behavior on height { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
+
+            anchors { 
+                right: parent.right 
+                rightMargin: 15 
             }
             color: Theme.bg_2
-            border {
-                width: 1
-                color: Theme.bg_1
+            border { 
+                width: 1 
+                color: Theme.bg_1 
             }
             radius: Theme.radius
+            clip: true
             
             RowLayout {
                 id: rightRowLayoutId
-                anchors.fill: parent
-                anchors{
-                    margins: 1
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: parent.top
                     leftMargin: 15
                     rightMargin: 15
                 }
+                height: Theme.height
                 spacing: 8
                 BasePill {
                     id: bpInternet
@@ -297,7 +314,8 @@ PanelWindow {
                         if (mainProcesses.netStatus === "Ethernet") return "\uf0e8"
                         if (mainProcesses.netStatus === "Wi-Fi") return "\uf1eb"
                         return "\uf127"
-                    }
+                    } 
+                    onClicked: networkPopup.open = !networkPopup.open
                 }
                 BasePill {
                     id: bpBluetooth
@@ -335,6 +353,12 @@ PanelWindow {
                     icon: "\uf011"
                 }
             }
+            NetworkPopup { 
+                id: networkPopup 
+                anchors.top: rightRowLayoutId.bottom 
+                anchors.left: parent.left 
+            }
+            // BluetoothPopup { id: bluetoothPopup; anchors.top: rightRowLayoutId.bottom; anchors.right: parent.right }
         }
 
         // Isla de Monitoreo Derecha --------------------------

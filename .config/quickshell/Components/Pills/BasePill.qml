@@ -5,8 +5,6 @@ import ".."
 Rectangle {
     id: root
 
-    // Set `icon` to a Nerd Font glyph to show an icon.
-    // Set `text` to show a label. You can use either, or both together.
     property string icon: ""
     property string text: ""
     property string tooltipText: ""
@@ -49,22 +47,62 @@ Rectangle {
         }
 
         Text {
+            id: animatedText
+            
             visible: root.text.length > 0
-            text: root.text
+            
+            text: _internalText
+            
             horizontalAlignment: Text.AlignHCenter 
             verticalAlignment: Text.AlignVCenter
             color: root.selected ? Theme.accent : Theme.text_color
             font.pixelSize: 12
             anchors.verticalCenter: parent.verticalCenter
-            Behavior on opacity {
-                NumberAnimation { duration: 200 }
+
+            property string _internalText: root.text
+
+            SequentialAnimation {
+                id: textChangeAnimation
+                
+                NumberAnimation { 
+                    target: animatedText
+                    property: "opacity"
+                    to: 0
+                    duration: 150 
+                    easing.type: Easing.InOutQuad
+                }
+                
+                PropertyAction { 
+                    target: animatedText
+                    property: "_internalText"
+                    value: root.text 
+                }
+                
+                // 3. Muestra el nuevo texto fluidamente
+                NumberAnimation { 
+                    target: animatedText
+                    property: "opacity"
+                    to: 1
+                    duration: 150 
+                    easing.type: Easing.InOutQuad
+                }
             }
-            
-            onTextChanged: {
-                opacity = 0
-                Qt.callLater(function() { opacity = 1 })
+
+            Connections {
+                target: root
+                function onTextChanged() {
+                    if (animatedText._internalText === root.text) return;
+                    
+                    if (animatedText._internalText === "") {
+                        animatedText._internalText = root.text;
+                        return;
+                    }
+
+                    textChangeAnimation.restart();
+                }
             }
         }
+
     }
 
     ToolTip {
