@@ -15,10 +15,11 @@ Item {
     property string wifiStatus: ""
 
     readonly property int contentWidth: 320
-    width: contentWidth
-    height: 570
+    width: contentWidth-5
+    height: 562
     anchors.top: leftLand.bottom
-    anchors.left: leftLand.left-10
+    anchors.left: leftLand.left
+    anchors.leftMargin: 1
     clip: true
     visible: open || animating
 

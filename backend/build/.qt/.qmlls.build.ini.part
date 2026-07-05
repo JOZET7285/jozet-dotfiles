@@ -1,0 +1,3 @@
+[<SLASH>home<SLASH>pruebas<SLASH>jozet-dotfiles<SLASH>backend]
+importPaths="/home/pruebas/jozet-dotfiles/backend/build:/home/pruebas/jozet-dotfiles/backend/build/Jozet/System:/usr/lib/qt6/qml"
+resourceFiles="/home/pruebas/jozet-dotfiles/backend/build/.qt/rcc/qmake_Jozet_System.qrc"

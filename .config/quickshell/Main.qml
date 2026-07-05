@@ -6,6 +6,7 @@ import Quickshell.Wayland
 import "Components"
 import "Popups"
 import "Process"
+import Jozet.System 1.0
 
 PanelWindow {
     id: rootUISys
@@ -37,6 +38,8 @@ PanelWindow {
     HoverHandler { id: hoverPanelWindow } 
 
     MainProcess{ id: mainProcesses }
+
+    SystemManager{ id: sysManager }
 
     Timer {
         interval: 2000
@@ -78,7 +81,7 @@ PanelWindow {
             color: Theme.bg_2
             border {
                 width: 1
-                color: Theme.bg_1
+                color: Theme.accent
             }
             radius: Theme.radius
             clip: true
@@ -95,12 +98,12 @@ PanelWindow {
                 // Memory
                 BasePill {
                     icon: "\uf233"
-                    text: mainProcesses.ramUsage + "%"
+                    text: sysManager.ramUsage + "%"
                 }
                 // Disk
                 BasePill {
                     icon: "\uf0a0" 
-                    text: mainProcesses.diskUsage + "%"
+                    text: sysManager.diskUsage + "%"
                 }
             }
         }
@@ -122,7 +125,7 @@ PanelWindow {
             color: Theme.bg_2
             border {
                 width: 1
-                color: Theme.bg_1
+                color: Theme.accent
             }
             radius: Theme.radius
             clip: true
@@ -143,7 +146,7 @@ PanelWindow {
                 spacing: 8
 
                 BasePill {
-                    icon: "\uf00a"
+                    icon: "\uf46d" 
                     text: "Apps"
                     selected: appLauncher.open
                     onClicked: appLauncher.open = !appLauncher.open
@@ -174,7 +177,7 @@ PanelWindow {
             color: Theme.bg_2
             border{
                 width: 1
-                color: Theme.bg_1
+                color: Theme.accent
             }
             radius: Theme.radius
             RowLayout {
@@ -208,7 +211,7 @@ PanelWindow {
                     }
                 }
                 BasePill {
-                    icon: "\uf049"
+                    icon: "\uf04a"
                     visible: !playing
                     onClicked: mainProcesses.execute(["playerctl", "previous"])
                 }
@@ -221,7 +224,7 @@ PanelWindow {
                 }
 
                 BasePill {
-                    icon: "\uf050"
+                    icon: "\uf04e"
                     visible: !playing
                     onClicked: mainProcesses.execute(["playerctl", "next"])
                 }
@@ -240,7 +243,7 @@ PanelWindow {
             color: Theme.bg_2
             border {
                 width: 1
-                color: Theme.bg_1
+                color: Theme.accent
             }
             radius: Theme.radius
 
@@ -292,7 +295,7 @@ PanelWindow {
             color: Theme.bg_2
             border { 
                 width: 1 
-                color: Theme.bg_1 
+                color: Theme.accent
             }
             radius: Theme.radius
             clip: true
@@ -375,7 +378,7 @@ PanelWindow {
             color: Theme.bg_2
             border {
                 width: 1
-                color: Theme.bg_1
+                color: Theme.accent
             }
             clip: true
             Behavior on width {NumberAnimation {duration: 750; easing.type: Easing.OutCubic }}
@@ -387,12 +390,12 @@ PanelWindow {
                 // cpu
                 BasePill {
                     icon: "\uf2db"
-                    text: mainProcesses.cpuUsage + "%"
+                    text: sysManager.cpuUsage + "%"
                 }
                 // temp
                 BasePill {
                     icon: "\uf2c9"
-                    text: mainProcesses.cpuTemp + "°C"
+                    text: sysManager.cpuTemp + "°C"
                 }
             }
         }

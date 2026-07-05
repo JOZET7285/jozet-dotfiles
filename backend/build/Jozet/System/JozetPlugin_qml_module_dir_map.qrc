@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="/Jozet/System">/home/pruebas/jozet-dotfiles/backend/build/Jozet/System</file>
+
+  </qresource>
+</RCC>

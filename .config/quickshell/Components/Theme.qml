@@ -2,8 +2,8 @@ pragma Singleton
 import QtQuick
 
 QtObject {
-    readonly property color bg_1: "#2b2b2b"
-    readonly property color bg_2: "#1a1a1a"
+    readonly property color bg_1: '#c42b2b2b'
+    readonly property color bg_2: '#d11a1a1a'
     readonly property color bg_hover: "#3c3c3c"
     readonly property color accent: '#71fffa'
     readonly property int radius: 12

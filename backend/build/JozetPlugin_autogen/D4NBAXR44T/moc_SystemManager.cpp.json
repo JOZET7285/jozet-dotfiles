@@ -1,0 +1,168 @@
+{
+    "classes": [
+        {
+            "classInfos": [
+                {
+                    "name": "QML.Element",
+                    "value": "auto"
+                },
+                {
+                    "name": "QML.AddedInVersion",
+                    "value": "65280"
+                }
+            ],
+            "className": "SystemManager",
+            "lineNumber": 5,
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 0,
+                    "lineNumber": 11,
+                    "name": "ramUsage",
+                    "notify": "ramUsageChanged",
+                    "override": false,
+                    "read": "ramUsage",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 1,
+                    "lineNumber": 12,
+                    "name": "cpuUsage",
+                    "notify": "cpuUsageChanged",
+                    "override": false,
+                    "read": "cpuUsage",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 2,
+                    "lineNumber": 13,
+                    "name": "cpuTemp",
+                    "notify": "cpuTempChanged",
+                    "override": false,
+                    "read": "cpuTemp",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 3,
+                    "lineNumber": 14,
+                    "name": "diskUsage",
+                    "notify": "diskUsageChanged",
+                    "override": false,
+                    "read": "diskUsage",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "double",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 4,
+                    "lineNumber": 15,
+                    "name": "uptime",
+                    "notify": "uptimeChanged",
+                    "override": false,
+                    "read": "uptime",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false,
+                    "virtual": false
+                }
+            ],
+            "qualifiedClassName": "jozet::SystemManager",
+            "signals": [
+                {
+                    "access": "public",
+                    "index": 0,
+                    "lineNumber": 27,
+                    "name": "ramUsageChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 1,
+                    "lineNumber": 28,
+                    "name": "cpuUsageChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 2,
+                    "lineNumber": 29,
+                    "name": "cpuTempChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 3,
+                    "lineNumber": 30,
+                    "name": "diskUsageChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 4,
+                    "lineNumber": 31,
+                    "name": "uptimeChanged",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "private",
+                    "index": 5,
+                    "lineNumber": 34,
+                    "name": "update",
+                    "returnType": "void"
+                },
+                {
+                    "access": "private",
+                    "index": 6,
+                    "lineNumber": 35,
+                    "name": "readCpuTemperature",
+                    "returnType": "int"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "SystemManager.h",
+    "outputRevision": 69
+}

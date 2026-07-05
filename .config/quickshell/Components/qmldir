@@ -4,4 +4,3 @@ EnergyWidget 1.0 EnergyWidget.qml
 Workspaces 1.0 Workspaces.qml
 BasePill 1.0 Pills/BasePill.qml
 singleton Theme 1.0 Theme.qml
-plugin NetworkPlugin

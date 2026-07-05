@@ -1,0 +1,11 @@
+--bare
+-I
+/home/pruebas/jozet-dotfiles/backend/build
+-I
+/home/pruebas/jozet-dotfiles/backend/build/Jozet/System
+-I
+/home/pruebas/jozet-dotfiles/backend/build
+-I
+/usr/lib/qt6/qml
+--resource
+/home/pruebas/jozet-dotfiles/backend/build/.qt/rcc/qmake_Jozet_System.qrc

@@ -16,10 +16,8 @@ Rectangle {
     implicitWidth: contentRow.implicitWidth + 20
     implicitHeight: Theme.height - 6
 
-    color: selected ? Theme.bg_2 : (area.containsMouse ? Theme.bg_hover : Theme.bg_1)
+    color: selected ? Theme.bg_1 : (area.containsMouse ? Theme.bg_hover : Theme.bg_2)
     radius: 8
-    border.color: selected ? Theme.accent : "transparent"
-    border.width: 1
 
     Behavior on color { ColorAnimation { duration: 120 } }
     Behavior on border.color { ColorAnimation { duration: 120 } }
