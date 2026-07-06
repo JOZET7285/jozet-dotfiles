@@ -24,6 +24,7 @@ Item {
     visible: open || animating
 
     onOpenChanged: {
+        console.log("popupOpen =", popupOpen)
         if (open) {
             searchQuery = "";
             Qt.callLater(function() {
@@ -77,7 +78,8 @@ Item {
             bottomLeftRadius: Theme.radius
             bottomRightRadius: Theme.radius
             y: -570
-            color: Theme.bg_2
+            color: "transparent"
+            //focus: true
 
             Item {
                 id: content
@@ -142,6 +144,8 @@ Item {
                         color: Theme.text_color
                         background: Item {}
                         leftPadding: 0
+                        focus: true
+                        Component.onCompleted: forceActiveFocus()
                         onTextChanged: {
                             appLauncher.searchQuery = text
                         }

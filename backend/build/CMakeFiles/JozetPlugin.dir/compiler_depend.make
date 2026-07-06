@@ -334,7 +334,15 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o: JozetPlug
   /usr/include/locale.h \
   /usr/include/math.h \
   /usr/include/pthread.h \
+  /usr/include/qt6/QtCore/QFlags \
+  /usr/include/qt6/QtCore/QIODevice \
+  /usr/include/qt6/QtCore/QList \
+  /usr/include/qt6/QtCore/QMetaType \
   /usr/include/qt6/QtCore/QObject \
+  /usr/include/qt6/QtCore/QSharedDataPointer \
+  /usr/include/qt6/QtCore/QString \
+  /usr/include/qt6/QtCore/QUrl \
+  /usr/include/qt6/QtCore/QVariant \
   /usr/include/qt6/QtCore/q17memory.h \
   /usr/include/qt6/QtCore/q20algorithm.h \
   /usr/include/qt6/QtCore/q20bit.h \
@@ -345,6 +353,7 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o: JozetPlug
   /usr/include/qt6/QtCore/q20utility.h \
   /usr/include/qt6/QtCore/q23type_traits.h \
   /usr/include/qt6/QtCore/q23utility.h \
+  /usr/include/qt6/QtCore/q26numeric.h \
   /usr/include/qt6/QtCore/qalgorithms.h \
   /usr/include/qt6/QtCore/qalloc.h \
   /usr/include/qt6/QtCore/qanystringview.h \
@@ -372,6 +381,7 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o: JozetPlug
   /usr/include/qt6/QtCore/qcontainerinfo.h \
   /usr/include/qt6/QtCore/qcontainertools_impl.h \
   /usr/include/qt6/QtCore/qcontiguouscache.h \
+  /usr/include/qt6/QtCore/qcryptographichash.h \
   /usr/include/qt6/QtCore/qdarwinhelpers.h \
   /usr/include/qt6/QtCore/qdatastream.h \
   /usr/include/qt6/QtCore/qdatetime.h \
@@ -387,6 +397,7 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o: JozetPlug
   /usr/include/qt6/QtCore/qglobalstatic.h \
   /usr/include/qt6/QtCore/qhash.h \
   /usr/include/qt6/QtCore/qhashfunctions.h \
+  /usr/include/qt6/QtCore/qiodevice.h \
   /usr/include/qt6/QtCore/qiodevicebase.h \
   /usr/include/qt6/QtCore/qiterable.h \
   /usr/include/qt6/QtCore/qiterable_impl.h \
@@ -469,6 +480,25 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o: JozetPlug
   /usr/include/qt6/QtCore/qversiontagging.h \
   /usr/include/qt6/QtCore/qxptype_traits.h \
   /usr/include/qt6/QtCore/qyieldcpu.h \
+  /usr/include/qt6/QtNetwork/QNetworkAccessManager \
+  /usr/include/qt6/QtNetwork/QNetworkReply \
+  /usr/include/qt6/QtNetwork/QNetworkRequest \
+  /usr/include/qt6/QtNetwork/QSslConfiguration \
+  /usr/include/qt6/QtNetwork/QSslError \
+  /usr/include/qt6/QtNetwork/QSslPreSharedKeyAuthenticator \
+  /usr/include/qt6/QtNetwork/qabstractsocket.h \
+  /usr/include/qt6/QtNetwork/qhostaddress.h \
+  /usr/include/qt6/QtNetwork/qhttpheaders.h \
+  /usr/include/qt6/QtNetwork/qnetworkaccessmanager.h \
+  /usr/include/qt6/QtNetwork/qnetworkreply.h \
+  /usr/include/qt6/QtNetwork/qnetworkrequest.h \
+  /usr/include/qt6/QtNetwork/qssl.h \
+  /usr/include/qt6/QtNetwork/qsslcertificate.h \
+  /usr/include/qt6/QtNetwork/qsslconfiguration.h \
+  /usr/include/qt6/QtNetwork/qsslerror.h \
+  /usr/include/qt6/QtNetwork/qsslpresharedkeyauthenticator.h \
+  /usr/include/qt6/QtNetwork/qsslsocket.h \
+  /usr/include/qt6/QtNetwork/qtcpsocket.h \
   /usr/include/qt6/QtNetwork/qtnetwork-config.h \
   /usr/include/qt6/QtNetwork/qtnetworkexports.h \
   /usr/include/qt6/QtNetwork/qtnetworkglobal.h \
@@ -848,12 +878,19 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o: /home/pruebas/jozet-dotfi
   /usr/include/pthread.h \
   /usr/include/qt6/QtCore/QDir \
   /usr/include/qt6/QtCore/QFile \
+  /usr/include/qt6/QtCore/QFlags \
+  /usr/include/qt6/QtCore/QIODevice \
+  /usr/include/qt6/QtCore/QList \
+  /usr/include/qt6/QtCore/QMetaType \
   /usr/include/qt6/QtCore/QObject \
   /usr/include/qt6/QtCore/QRegularExpression \
+  /usr/include/qt6/QtCore/QSharedDataPointer \
   /usr/include/qt6/QtCore/QStorageInfo \
   /usr/include/qt6/QtCore/QString \
   /usr/include/qt6/QtCore/QTextStream \
   /usr/include/qt6/QtCore/QTimer \
+  /usr/include/qt6/QtCore/QUrl \
+  /usr/include/qt6/QtCore/QVariant \
   /usr/include/qt6/QtCore/q17memory.h \
   /usr/include/qt6/QtCore/q20bit.h \
   /usr/include/qt6/QtCore/q20functional.h \
@@ -863,6 +900,7 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o: /home/pruebas/jozet-dotfi
   /usr/include/qt6/QtCore/q20utility.h \
   /usr/include/qt6/QtCore/q23type_traits.h \
   /usr/include/qt6/QtCore/q23utility.h \
+  /usr/include/qt6/QtCore/q26numeric.h \
   /usr/include/qt6/QtCore/qabstracteventdispatcher.h \
   /usr/include/qt6/QtCore/qalgorithms.h \
   /usr/include/qt6/QtCore/qalloc.h \
@@ -892,6 +930,7 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o: /home/pruebas/jozet-dotfi
   /usr/include/qt6/QtCore/qcontainerinfo.h \
   /usr/include/qt6/QtCore/qcontainertools_impl.h \
   /usr/include/qt6/QtCore/qcontiguouscache.h \
+  /usr/include/qt6/QtCore/qcryptographichash.h \
   /usr/include/qt6/QtCore/qdarwinhelpers.h \
   /usr/include/qt6/QtCore/qdatastream.h \
   /usr/include/qt6/QtCore/qdatetime.h \
@@ -999,6 +1038,24 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o: /home/pruebas/jozet-dotfi
   /usr/include/qt6/QtCore/qversiontagging.h \
   /usr/include/qt6/QtCore/qxptype_traits.h \
   /usr/include/qt6/QtCore/qyieldcpu.h \
+  /usr/include/qt6/QtNetwork/QNetworkAccessManager \
+  /usr/include/qt6/QtNetwork/QNetworkReply \
+  /usr/include/qt6/QtNetwork/QNetworkRequest \
+  /usr/include/qt6/QtNetwork/QSslConfiguration \
+  /usr/include/qt6/QtNetwork/QSslPreSharedKeyAuthenticator \
+  /usr/include/qt6/QtNetwork/qabstractsocket.h \
+  /usr/include/qt6/QtNetwork/qhostaddress.h \
+  /usr/include/qt6/QtNetwork/qhttpheaders.h \
+  /usr/include/qt6/QtNetwork/qnetworkaccessmanager.h \
+  /usr/include/qt6/QtNetwork/qnetworkreply.h \
+  /usr/include/qt6/QtNetwork/qnetworkrequest.h \
+  /usr/include/qt6/QtNetwork/qssl.h \
+  /usr/include/qt6/QtNetwork/qsslcertificate.h \
+  /usr/include/qt6/QtNetwork/qsslconfiguration.h \
+  /usr/include/qt6/QtNetwork/qsslerror.h \
+  /usr/include/qt6/QtNetwork/qsslpresharedkeyauthenticator.h \
+  /usr/include/qt6/QtNetwork/qsslsocket.h \
+  /usr/include/qt6/QtNetwork/qtcpsocket.h \
   /usr/include/qt6/QtNetwork/qtnetwork-config.h \
   /usr/include/qt6/QtNetwork/qtnetworkexports.h \
   /usr/include/qt6/QtNetwork/qtnetworkglobal.h \
@@ -1371,7 +1428,15 @@ CMakeFiles/JozetPlugin.dir/jozetplugin_qmltyperegistrations.cpp.o: jozetplugin_q
   /usr/include/locale.h \
   /usr/include/math.h \
   /usr/include/pthread.h \
+  /usr/include/qt6/QtCore/QFlags \
+  /usr/include/qt6/QtCore/QIODevice \
+  /usr/include/qt6/QtCore/QList \
+  /usr/include/qt6/QtCore/QMetaType \
   /usr/include/qt6/QtCore/QObject \
+  /usr/include/qt6/QtCore/QSharedDataPointer \
+  /usr/include/qt6/QtCore/QString \
+  /usr/include/qt6/QtCore/QUrl \
+  /usr/include/qt6/QtCore/QVariant \
   /usr/include/qt6/QtCore/q17memory.h \
   /usr/include/qt6/QtCore/q20bit.h \
   /usr/include/qt6/QtCore/q20functional.h \
@@ -1381,6 +1446,7 @@ CMakeFiles/JozetPlugin.dir/jozetplugin_qmltyperegistrations.cpp.o: jozetplugin_q
   /usr/include/qt6/QtCore/q20utility.h \
   /usr/include/qt6/QtCore/q23type_traits.h \
   /usr/include/qt6/QtCore/q23utility.h \
+  /usr/include/qt6/QtCore/q26numeric.h \
   /usr/include/qt6/QtCore/qalgorithms.h \
   /usr/include/qt6/QtCore/qalloc.h \
   /usr/include/qt6/QtCore/qanystringview.h \
@@ -1408,6 +1474,7 @@ CMakeFiles/JozetPlugin.dir/jozetplugin_qmltyperegistrations.cpp.o: jozetplugin_q
   /usr/include/qt6/QtCore/qcontainerinfo.h \
   /usr/include/qt6/QtCore/qcontainertools_impl.h \
   /usr/include/qt6/QtCore/qcontiguouscache.h \
+  /usr/include/qt6/QtCore/qcryptographichash.h \
   /usr/include/qt6/QtCore/qdarwinhelpers.h \
   /usr/include/qt6/QtCore/qdatastream.h \
   /usr/include/qt6/QtCore/qdatetime.h \
@@ -1423,6 +1490,7 @@ CMakeFiles/JozetPlugin.dir/jozetplugin_qmltyperegistrations.cpp.o: jozetplugin_q
   /usr/include/qt6/QtCore/qglobalstatic.h \
   /usr/include/qt6/QtCore/qhash.h \
   /usr/include/qt6/QtCore/qhashfunctions.h \
+  /usr/include/qt6/QtCore/qiodevice.h \
   /usr/include/qt6/QtCore/qiodevicebase.h \
   /usr/include/qt6/QtCore/qiterable.h \
   /usr/include/qt6/QtCore/qiterable_impl.h \
@@ -1503,6 +1571,24 @@ CMakeFiles/JozetPlugin.dir/jozetplugin_qmltyperegistrations.cpp.o: jozetplugin_q
   /usr/include/qt6/QtCore/qversiontagging.h \
   /usr/include/qt6/QtCore/qxptype_traits.h \
   /usr/include/qt6/QtCore/qyieldcpu.h \
+  /usr/include/qt6/QtNetwork/QNetworkAccessManager \
+  /usr/include/qt6/QtNetwork/QNetworkReply \
+  /usr/include/qt6/QtNetwork/QNetworkRequest \
+  /usr/include/qt6/QtNetwork/QSslConfiguration \
+  /usr/include/qt6/QtNetwork/QSslPreSharedKeyAuthenticator \
+  /usr/include/qt6/QtNetwork/qabstractsocket.h \
+  /usr/include/qt6/QtNetwork/qhostaddress.h \
+  /usr/include/qt6/QtNetwork/qhttpheaders.h \
+  /usr/include/qt6/QtNetwork/qnetworkaccessmanager.h \
+  /usr/include/qt6/QtNetwork/qnetworkreply.h \
+  /usr/include/qt6/QtNetwork/qnetworkrequest.h \
+  /usr/include/qt6/QtNetwork/qssl.h \
+  /usr/include/qt6/QtNetwork/qsslcertificate.h \
+  /usr/include/qt6/QtNetwork/qsslconfiguration.h \
+  /usr/include/qt6/QtNetwork/qsslerror.h \
+  /usr/include/qt6/QtNetwork/qsslpresharedkeyauthenticator.h \
+  /usr/include/qt6/QtNetwork/qsslsocket.h \
+  /usr/include/qt6/QtNetwork/qtcpsocket.h \
   /usr/include/qt6/QtNetwork/qtnetwork-config.h \
   /usr/include/qt6/QtNetwork/qtnetworkexports.h \
   /usr/include/qt6/QtNetwork/qtnetworkglobal.h \
@@ -1583,19 +1669,45 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o:
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/16/libatomic_asneeded.so:
 
-/usr/lib/gcc/x86_64-pc-linux-gnu/16/libatomic.a:
-
 /usr/lib/gcc/x86_64-pc-linux-gnu/16/crtendS.o:
 
 /usr/lib/libstdc++.so:
 
-/usr/lib/libm.so:
+/usr/lib/crti.o:
+
+/usr/include/qt6/QtQml/qqmlmoduleregistration.h:
+
+/usr/include/qt6/QtCore/qtimer.h:
+
+/usr/include/qt6/QtCore/qfileinfo.h:
+
+/usr/include/qt6/QtCore/qfile.h:
+
+/usr/include/qt6/QtCore/qeventloop.h:
+
+/usr/include/qt6/QtCore/qdirlisting.h:
+
+/usr/include/qt6/QtCore/qbasictimer.h:
+
+/usr/include/qt6/QtCore/qabstracteventdispatcher.h:
+
+/usr/include/qt6/QtCore/QTimer:
+
+/usr/include/qt6/QtCore/QTextStream:
+
+/usr/include/qt6/QtCore/qstorageinfo.h:
+
+/usr/include/qt6/QtCore/QStorageInfo:
+
+/usr/include/qt6/QtCore/QRegularExpression:
+
+/usr/include/c++/16/iomanip:
 
 /usr/include/bits/types/struct_tm.h:
 
 /usr/include/c++/16/format:
 
-/usr/include/c++/16/cstddef:
+/usr/include/qt6/QtNetwork/qhttpheaders.h:
 
 /usr/include/bits/thread-shared-types.h:
 
@@ -1610,6 +1722,10 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o:
 /usr/include/c++/16/exception:
 
 /usr/include/c++/16/debug/debug.h:
+
+/usr/lib/libc.so:
+
+/usr/include/asm-generic/types.h:
 
 /usr/include/asm-generic/bitsperlong.h:
 
@@ -1637,6 +1753,10 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o:
 
 /usr/include/c++/16/bits/locale_classes.h:
 
+/usr/include/qt6/QtCore/qdeadlinetimer.h:
+
+/usr/include/c++/16/utility:
+
 /usr/include/c++/16/bits/version.h:
 
 /usr/include/c++/16/bits/unique_ptr.h:
@@ -1648,8 +1768,6 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o:
 /usr/include/c++/16/bits/streambuf_iterator.h:
 
 /usr/include/c++/16/bits/stl_vector.h:
-
-/usr/include/features-time64.h:
 
 /usr/include/c++/16/bits/stl_pair.h:
 
@@ -1693,13 +1811,9 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o:
 
 /usr/include/c++/16/tr1/poly_laguerre.tcc:
 
-/usr/include/qt6/QtCore/qscopeguard.h:
-
 /usr/include/c++/16/bits/ranges_algobase.h:
 
 /usr/include/sys/types.h:
-
-/usr/include/c++/16/bits/postypes.h:
 
 /usr/include/c++/16/bits/parse_numbers.h:
 
@@ -1727,8 +1841,6 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o:
 
 /usr/include/c++/16/bits/locale_facets.tcc:
 
-/usr/include/qt6/QtCore/QTextStream:
-
 /usr/include/c++/16/bits/locale_facets.h:
 
 /usr/include/bits/struct_mutex.h:
@@ -1738,6 +1850,8 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o:
 /usr/include/c++/16/ext/atomicity.h:
 
 /usr/include/qt6/QtCore/qyieldcpu.h:
+
+/usr/include/qt6/QtCore/QMetaType:
 
 /usr/include/qt6/QtCore/qprocessordetection.h:
 
@@ -1763,9 +1877,9 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o:
 
 /usr/include/bits/types.h:
 
-/usr/include/qt6/QtCore/qtaggedpointer.h:
-
 /usr/include/qt6/QtCore/qiodevice.h:
+
+/usr/include/qt6/QtCore/qtaggedpointer.h:
 
 /usr/include/asm/errno.h:
 
@@ -1776,6 +1890,14 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o:
 /usr/include/c++/16/bits/locale_facets_nonio.tcc:
 
 /usr/include/c++/16/bits/shared_ptr_atomic.h:
+
+/usr/lib/libc_nonshared.a:
+
+/usr/include/qt6/QtCore/qfiledevice.h:
+
+/usr/include/c++/16/bits/uniform_int_dist.h:
+
+/usr/include/c++/16/bits/ostream.tcc:
 
 /usr/include/pthread.h:
 
@@ -1821,9 +1943,11 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o:
 
 /usr/include/bits/types/cookie_io_functions_t.h:
 
-/usr/include/asm-generic/types.h:
+jozetplugin_qmltyperegistrations.cpp:
 
-/usr/lib/libc.so:
+/usr/include/bits/pthreadtypes.h:
+
+/usr/include/qt6/QtCore/QUrl:
 
 /usr/include/c++/16/backward/auto_ptr.h:
 
@@ -1836,6 +1960,10 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o:
 /usr/include/wchar.h:
 
 /home/pruebas/jozet-dotfiles/backend/System/SystemManager.cpp:
+
+/usr/lib/libm.so:
+
+/usr/include/qt6/QtCore/q26numeric.h:
 
 /usr/include/c++/16/tr1/riemann_zeta.tcc:
 
@@ -1871,8 +1999,6 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o:
 
 /usr/include/qt6/QtCore/qxptype_traits.h:
 
-/usr/include/bits/mathcalls-macros.h:
-
 /usr/include/c++/16/bits/cxxabi_init_exception.h:
 
 /usr/include/bits/long-double.h:
@@ -1895,7 +2021,11 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o:
 
 /usr/include/asm/types.h:
 
+/usr/include/qt6/QtNetwork/QNetworkAccessManager:
+
 /usr/include/c++/16/bits/stdexcept_except.h:
+
+/usr/include/qt6/QtNetwork/QNetworkRequest:
 
 /usr/include/bits/types/struct_FILE.h:
 
@@ -1923,6 +2053,10 @@ JozetPlugin_autogen/D4NBAXR44T/moc_SystemManager.cpp:
 
 /home/pruebas/jozet-dotfiles/backend/System/SystemManager.h:
 
+/usr/include/qt6/QtCore/qtimezone.h:
+
+/usr/include/bits/stdio_lim.h:
+
 /usr/include/c++/16/bits/allocated_ptr.h:
 
 /usr/include/c++/16/cerrno:
@@ -1941,10 +2075,6 @@ JozetPlugin_autogen/D4NBAXR44T/moc_SystemManager.cpp:
 
 /usr/include/qt6/QtCore/qlist.h:
 
-/usr/include/bits/pthreadtypes.h:
-
-jozetplugin_qmltyperegistrations.cpp:
-
 /usr/include/bits/types/clockid_t.h:
 
 /usr/include/c++/16/bits/stl_heap.h:
@@ -1954,8 +2084,6 @@ jozetplugin_qmltyperegistrations.cpp:
 /usr/include/qt6/QtCore/qbytearray.h:
 
 /usr/include/c++/16/bits/requires_hosted.h:
-
-/usr/include/qt6/QtCore/qeventloop.h:
 
 /usr/include/bits/byteswap.h:
 
@@ -1968,10 +2096,6 @@ JozetPlugin_autogen/mocs_compilation.cpp:
 /usr/include/c++/16/bits/algorithmfwd.h:
 
 /usr/include/c++/16/tr1/bessel_function.tcc:
-
-/usr/include/qt6/QtCore/QTimer:
-
-/usr/include/qt6/QtQml/qqmlmoduleregistration.h:
 
 /usr/include/c++/16/bits/stl_multimap.h:
 
@@ -1993,11 +2117,19 @@ JozetPlugin_autogen/mocs_compilation.cpp:
 
 /usr/include/bits/types/__mbstate_t.h:
 
+/usr/lib/libgcc_s.so.1:
+
+/usr/include/qt6/QtQml/qqmlparserstatus.h:
+
 /usr/include/bits/timex.h:
+
+/usr/include/qt6/QtCore/QIODevice:
 
 /usr/include/bits/errno.h:
 
-/usr/include/c++/16/bits/ios_base.h:
+/usr/include/qt6/QtCore/qdir.h:
+
+/usr/include/bits/iscanonical.h:
 
 /usr/include/qt6/QtCore/qdatastream.h:
 
@@ -2029,6 +2161,10 @@ CMakeFiles/JozetPlugin.dir/build/.qt/rcc/qrc_qmake_Jozet_System.cpp.o:
 
 /usr/include/bits/types/__fpos_t.h:
 
+/usr/include/qt6/QtCore/QFile:
+
+/usr/include/c++/16/bits/char_traits.h:
+
 /usr/include/c++/16/ranges:
 
 /usr/include/bits/types/clock_t.h:
@@ -2042,6 +2178,8 @@ CMakeFiles/JozetPlugin.dir/build/.qt/rcc/qrc_qmake_Jozet_System.cpp.o:
 /usr/include/bits/types/mbstate_t.h:
 
 /usr/include/c++/16/bits/memory_resource.h:
+
+/usr/include/qt6/QtNetwork/qsslerror.h:
 
 /usr/include/qt6/QtCore/qversionnumber.h:
 
@@ -2058,8 +2196,6 @@ CMakeFiles/JozetPlugin.dir/build/.qt/rcc/qrc_qmake_Jozet_System.cpp.o:
 /usr/include/qt6/QtCore/qconfig.h:
 
 /usr/include/bits/struct_rwlock.h:
-
-/usr/include/c++/16/iomanip:
 
 /usr/include/bits/types/struct_itimerspec.h:
 
@@ -2082,8 +2218,6 @@ CMakeFiles/JozetPlugin.dir/build/.qt/rcc/qrc_qmake_Jozet_System.cpp.o:
 /usr/include/bits/wordsize.h:
 
 /usr/include/c++/16/stdexcept:
-
-/usr/include/stdio.h:
 
 CMakeFiles/JozetPlugin.dir/jozetplugin_qmltyperegistrations.cpp.o:
 
@@ -2114,6 +2248,10 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o:
 /usr/include/c++/16/bits/basic_ios.h:
 
 /usr/include/qt6/QtCore/qtmetamacros.h:
+
+/usr/include/c++/16/cstddef:
+
+/usr/include/qt6/QtNetwork/QSslPreSharedKeyAuthenticator:
 
 /usr/include/asm-generic/errno.h:
 
@@ -2153,6 +2291,8 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o:
 
 /usr/include/qt6/QtCore/qcontainertools_impl.h:
 
+/usr/include/qt6/QtNetwork/qnetworkrequest.h:
+
 /usr/include/qt6/QtQml/qjsprimitivevalue.h:
 
 /usr/include/bits/cpu-set.h:
@@ -2161,11 +2301,7 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o:
 
 /usr/include/qt6/QtCore/qarraydatapointer.h:
 
-/usr/include/c++/16/ios:
-
 /usr/include/qt6/QtCore/q20memory.h:
-
-/usr/include/qt6/QtCore/qbasictimer.h:
 
 /usr/include/bits/libm-simd-decl-stubs.h:
 
@@ -2243,11 +2379,15 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o:
 
 /usr/include/c++/16/numbers:
 
+/usr/include/qt6/QtCore/QList:
+
 /usr/include/c++/16/pstl/glue_memory_defs.h:
 
 /usr/include/c++/16/pstl/glue_numeric_defs.h:
 
 /usr/include/c++/16/ratio:
+
+/usr/include/qt6/QtNetwork/qsslpresharedkeyauthenticator.h:
 
 /usr/include/c++/16/bits/stl_iterator_base_types.h:
 
@@ -2310,8 +2450,6 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o:
 /usr/include/c++/16/variant:
 
 /usr/include/c++/16/x86_64-pc-linux-gnu/bits/c++allocator.h:
-
-/usr/include/qt6/QtCore/qtimer.h:
 
 /usr/include/c++/16/x86_64-pc-linux-gnu/bits/c++locale.h:
 
@@ -2377,17 +2515,29 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o:
 
 /usr/include/linux/stddef.h:
 
+/usr/include/qt6/QtCore/QSharedDataPointer:
+
 /usr/include/linux/types.h:
 
+/usr/include/qt6/QtCore/qscopeguard.h:
+
+/usr/include/qt6/QtNetwork/QNetworkReply:
+
 /usr/include/math.h:
+
+/usr/include/c++/16/bits/ios_base.h:
+
+/usr/include/qt6/QtCore/QFlags:
+
+/usr/include/qt6/QtCore/QVariant:
 
 /usr/include/qt6/QtCore/q20algorithm.h:
 
 /usr/include/qt6/QtCore/q20bit.h:
 
-/usr/include/qt6/QtCore/qstorageinfo.h:
+/usr/include/qt6/QtCore/QDir:
 
-/usr/include/qt6/QtCore/QStorageInfo:
+/usr/include/qt6/QtCore/q20functional.h:
 
 /usr/include/qt6/QtCore/q20utility.h:
 
@@ -2427,10 +2577,6 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o:
 
 /usr/include/qt6/QtCore/qcompare.h:
 
-/usr/include/bits/iscanonical.h:
-
-/usr/include/qt6/QtCore/qdir.h:
-
 /usr/include/qt6/QtCore/qcomparehelpers.h:
 
 /usr/include/qt6/QtCore/qconstructormacros.h:
@@ -2442,6 +2588,12 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o:
 /usr/include/qt6/QtCore/qcontainerinfo.h:
 
 /usr/include/qt6/QtCore/qcontiguouscache.h:
+
+/usr/include/c++/16/bits/postypes.h:
+
+/usr/include/qt6/QtCore/qcryptographichash.h:
+
+/usr/include/qt6/QtCore/qswap.h:
 
 /usr/include/qt6/QtCore/qdarwinhelpers.h:
 
@@ -2476,6 +2628,10 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o:
 /usr/include/bits/stdint-uintn.h:
 
 /usr/include/qt6/QtCore/qlogging.h:
+
+/usr/include/stdio.h:
+
+/usr/include/qt6/QtNetwork/qnetworkreply.h:
 
 /usr/include/qt6/QtCore/qmalloc.h:
 
@@ -2537,8 +2693,6 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o:
 
 /usr/include/qt6/QtCore/qstring.h:
 
-/usr/lib/crti.o:
-
 /usr/include/qt6/QtCore/qregularexpression.h:
 
 /usr/include/qt6/QtCore/qstringconverter.h:
@@ -2550,8 +2704,6 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o:
 /usr/include/qt6/QtCore/qstringmatcher.h:
 
 /usr/include/qt6/QtCore/qstringtokenizer.h:
-
-/usr/include/qt6/QtCore/qswap.h:
 
 /usr/include/qt6/QtCore/qsysinfo.h:
 
@@ -2566,6 +2718,8 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o:
 /usr/include/qt6/QtCore/qtdeprecationmarkers.h:
 
 /usr/include/qt6/QtCore/qtextstream.h:
+
+/usr/include/qt6/QtNetwork/qhostaddress.h:
 
 /usr/include/c++/16/numeric:
 
@@ -2597,6 +2751,36 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o:
 
 /usr/include/qt6/QtCore/qurl.h:
 
+/usr/include/features-time64.h:
+
+/usr/include/qt6/QtNetwork/QSslConfiguration:
+
+/usr/include/bits/mathcalls-macros.h:
+
+/usr/include/qt6/QtNetwork/qsslcertificate.h:
+
+/usr/include/qt6/QtNetwork/QSslError:
+
+/usr/include/qt6/QtNetwork/qabstractsocket.h:
+
+/usr/include/qt6/QtNetwork/qnetworkaccessmanager.h:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/16/libatomic.a:
+
+/usr/include/qt6/QtNetwork/qssl.h:
+
+/usr/include/qt6/QtQml/qqmlpropertyvaluesource.h:
+
+/usr/include/c++/16/filesystem:
+
+/usr/include/qt6/QtNetwork/qsslconfiguration.h:
+
+/usr/include/qt6/QtNetwork/qsslsocket.h:
+
+/usr/include/c++/16/ios:
+
+/usr/include/qt6/QtNetwork/qtcpsocket.h:
+
 /usr/include/qt6/QtCore/qtenvironmentvariables.h:
 
 /usr/include/qt6/QtNetwork/qtnetwork-config.h:
@@ -2610,8 +2794,6 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o:
 /usr/include/qt6/QtQml/qqml.h:
 
 /usr/include/qt6/QtQml/qqmllist.h:
-
-/usr/include/qt6/QtQml/qqmlpropertyvaluesource.h:
 
 /usr/include/qt6/QtQml/qtqml-config.h:
 
@@ -2648,43 +2830,3 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o:
 /usr/include/bits/timesize.h:
 
 /usr/include/c++/16/codecvt:
-
-/usr/include/c++/16/filesystem:
-
-/usr/include/qt6/QtCore/q20functional.h:
-
-/usr/include/qt6/QtCore/QDir:
-
-/usr/include/c++/16/bits/char_traits.h:
-
-/usr/include/qt6/QtCore/QFile:
-
-/usr/include/qt6/QtCore/QRegularExpression:
-
-/usr/include/qt6/QtCore/qabstracteventdispatcher.h:
-
-/usr/include/c++/16/utility:
-
-/usr/include/qt6/QtCore/qdeadlinetimer.h:
-
-/usr/include/qt6/QtCore/qdirlisting.h:
-
-/usr/lib/libc_nonshared.a:
-
-/usr/include/c++/16/bits/uniform_int_dist.h:
-
-/usr/include/c++/16/bits/ostream.tcc:
-
-/usr/include/qt6/QtCore/qfiledevice.h:
-
-/usr/include/bits/stdio_lim.h:
-
-/usr/include/qt6/QtCore/qtimezone.h:
-
-/usr/include/qt6/QtCore/qfile.h:
-
-/usr/include/qt6/QtCore/qfileinfo.h:
-
-/usr/include/qt6/QtQml/qqmlparserstatus.h:
-
-/usr/lib/libgcc_s.so.1:

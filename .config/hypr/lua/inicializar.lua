@@ -1,6 +1,6 @@
 hl.on("hyprland.start", function ()
     hl.exec_cmd("QML2_IMPORT_PATH=/home/pruebas/jozet-dotfiles/backend/build quickshell")
-    hl.exec_cmd("hyprpaper")
+    hl.exec_cmd("awww-daemon")
     hl.exec_cmd("nm-applet --indicator")
     hl.exec_cmd("pipewire")
     hl.exec_cmd("wireplumber")

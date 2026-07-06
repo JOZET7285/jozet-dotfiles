@@ -287,7 +287,15 @@
  mdp:/usr/include/linux/types.h
  mdp:/usr/include/locale.h
  mdp:/usr/include/pthread.h
+ mdp:/usr/include/qt6/QtCore/QFlags
+ mdp:/usr/include/qt6/QtCore/QIODevice
+ mdp:/usr/include/qt6/QtCore/QList
+ mdp:/usr/include/qt6/QtCore/QMetaType
  mdp:/usr/include/qt6/QtCore/QObject
+ mdp:/usr/include/qt6/QtCore/QSharedDataPointer
+ mdp:/usr/include/qt6/QtCore/QString
+ mdp:/usr/include/qt6/QtCore/QUrl
+ mdp:/usr/include/qt6/QtCore/QVariant
  mdp:/usr/include/qt6/QtCore/q17memory.h
  mdp:/usr/include/qt6/QtCore/q20bit.h
  mdp:/usr/include/qt6/QtCore/q20functional.h
@@ -297,6 +305,7 @@
  mdp:/usr/include/qt6/QtCore/q20utility.h
  mdp:/usr/include/qt6/QtCore/q23type_traits.h
  mdp:/usr/include/qt6/QtCore/q23utility.h
+ mdp:/usr/include/qt6/QtCore/q26numeric.h
  mdp:/usr/include/qt6/QtCore/qalgorithms.h
  mdp:/usr/include/qt6/QtCore/qalloc.h
  mdp:/usr/include/qt6/QtCore/qanystringview.h
@@ -324,6 +333,7 @@
  mdp:/usr/include/qt6/QtCore/qcontainerinfo.h
  mdp:/usr/include/qt6/QtCore/qcontainertools_impl.h
  mdp:/usr/include/qt6/QtCore/qcontiguouscache.h
+ mdp:/usr/include/qt6/QtCore/qcryptographichash.h
  mdp:/usr/include/qt6/QtCore/qdarwinhelpers.h
  mdp:/usr/include/qt6/QtCore/qdatastream.h
  mdp:/usr/include/qt6/QtCore/qdatetime.h
@@ -339,6 +349,7 @@
  mdp:/usr/include/qt6/QtCore/qglobalstatic.h
  mdp:/usr/include/qt6/QtCore/qhash.h
  mdp:/usr/include/qt6/QtCore/qhashfunctions.h
+ mdp:/usr/include/qt6/QtCore/qiodevice.h
  mdp:/usr/include/qt6/QtCore/qiodevicebase.h
  mdp:/usr/include/qt6/QtCore/qiterable.h
  mdp:/usr/include/qt6/QtCore/qiterable_impl.h
@@ -419,6 +430,24 @@
  mdp:/usr/include/qt6/QtCore/qversiontagging.h
  mdp:/usr/include/qt6/QtCore/qxptype_traits.h
  mdp:/usr/include/qt6/QtCore/qyieldcpu.h
+ mdp:/usr/include/qt6/QtNetwork/QNetworkAccessManager
+ mdp:/usr/include/qt6/QtNetwork/QNetworkReply
+ mdp:/usr/include/qt6/QtNetwork/QNetworkRequest
+ mdp:/usr/include/qt6/QtNetwork/QSslConfiguration
+ mdp:/usr/include/qt6/QtNetwork/QSslPreSharedKeyAuthenticator
+ mdp:/usr/include/qt6/QtNetwork/qabstractsocket.h
+ mdp:/usr/include/qt6/QtNetwork/qhostaddress.h
+ mdp:/usr/include/qt6/QtNetwork/qhttpheaders.h
+ mdp:/usr/include/qt6/QtNetwork/qnetworkaccessmanager.h
+ mdp:/usr/include/qt6/QtNetwork/qnetworkreply.h
+ mdp:/usr/include/qt6/QtNetwork/qnetworkrequest.h
+ mdp:/usr/include/qt6/QtNetwork/qssl.h
+ mdp:/usr/include/qt6/QtNetwork/qsslcertificate.h
+ mdp:/usr/include/qt6/QtNetwork/qsslconfiguration.h
+ mdp:/usr/include/qt6/QtNetwork/qsslerror.h
+ mdp:/usr/include/qt6/QtNetwork/qsslpresharedkeyauthenticator.h
+ mdp:/usr/include/qt6/QtNetwork/qsslsocket.h
+ mdp:/usr/include/qt6/QtNetwork/qtcpsocket.h
  mdp:/usr/include/qt6/QtNetwork/qtnetwork-config.h
  mdp:/usr/include/qt6/QtNetwork/qtnetworkexports.h
  mdp:/usr/include/qt6/QtNetwork/qtnetworkglobal.h

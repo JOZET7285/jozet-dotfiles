@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Effects
 import ".."
 
 Rectangle {
@@ -15,9 +16,8 @@ Rectangle {
 
     implicitWidth: contentRow.implicitWidth + 20
     implicitHeight: Theme.height - 6
-
-    color: selected ? Theme.bg_1 : (area.containsMouse ? Theme.bg_hover : Theme.bg_2)
-    radius: 8
+    color: root.selected ? Theme.btn_selected_color : (area.containsMouse ? Theme.btn_accent_color : Theme.btn_color)
+    radius: root.selected ? Theme.radius : 8
 
     Behavior on color { ColorAnimation { duration: 120 } }
     Behavior on border.color { ColorAnimation { duration: 120 } }
@@ -28,6 +28,10 @@ Rectangle {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         onClicked: root.clicked()
+
+        ToolTip.visible: root.tooltipText.length > 0 && containsMouse
+        ToolTip.text: root.tooltipText
+        ToolTip.delay: 400
     }
 
     Row {
@@ -40,7 +44,7 @@ Rectangle {
             text: root.icon
             font.family: Theme.iconFont
             font.pixelSize: 15
-            color: root.selected ? Theme.accent : Theme.text_color
+            color: Theme.btn_text_color
             anchors.verticalCenter: parent.verticalCenter
         }
 
@@ -48,12 +52,11 @@ Rectangle {
             id: animatedText
             
             visible: root.text.length > 0
-            
             text: _internalText
-            
             horizontalAlignment: Text.AlignHCenter 
             verticalAlignment: Text.AlignVCenter
-            color: root.selected ? Theme.accent : Theme.text_color
+            color: Theme.btn_text_color
+            font.family: Theme.fontName
             font.pixelSize: 12
             anchors.verticalCenter: parent.verticalCenter
 
@@ -76,7 +79,6 @@ Rectangle {
                     value: root.text 
                 }
                 
-                // 3. Muestra el nuevo texto fluidamente
                 NumberAnimation { 
                     target: animatedText
                     property: "opacity"
@@ -100,12 +102,5 @@ Rectangle {
                 }
             }
         }
-
-    }
-
-    ToolTip {
-        visible: root.tooltipText.length > 0 && area.containsMouse
-        text: root.tooltipText
-        delay: 400
     }
 }

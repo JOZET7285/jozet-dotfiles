@@ -1,12 +1,12 @@
 // Components/CarbonButton.qml
 import QtQuick
-import "."
+import "../."
 
 Rectangle {
     id: root
     implicitWidth: contentRow.implicitWidth + 24
-    implicitHeight: 40
-    color: selected ? Theme.accent : (area.containsMouse ? Theme.bg_hover : Theme.bg_2)
+    implicitHeight: 30
+    color: selected ? Theme.accent : (area.containsMouse ? Theme.bg_hover : Theme.bg_1)
     radius: 8
     border.color: selected ? Theme.accent : Theme.border_color
     border.width: 1

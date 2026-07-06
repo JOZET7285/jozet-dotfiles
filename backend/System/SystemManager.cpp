@@ -11,12 +11,38 @@ namespace jozet {
     SystemManager::SystemManager(QObject *parent)
         : QObject(parent)
     {
+        m_networkManager = new QNetworkAccessManager(this);   
+
         QTimer *timer = new QTimer(this);
 
         connect(timer, &QTimer::timeout,
                 this, &SystemManager::update);
 
         timer->start(3000);
+
+        QTimer *weatherTimer = new QTimer(this);
+        connect(weatherTimer, &QTimer::timeout, this, &SystemManager::fetchWeather);
+        weatherTimer->start(600000);
+
+        connect(m_networkManager, &QNetworkAccessManager::finished, this, &SystemManager::handleNetworkReply);
+        
+        fetchWeather();
+    }
+    void SystemManager::fetchWeather() {
+        QUrl url("https://wttr.in/?format=%t");
+        QNetworkRequest request(url);
+        request.setHeader(QNetworkRequest::UserAgentHeader, "curl/7.64.1");
+        m_networkManager->get(request);
+    }
+    void SystemManager::handleNetworkReply(QNetworkReply *reply) {
+        if (reply && reply->error() == QNetworkReply::NoError) {
+        m_weather = reply->readAll().trimmed();
+        qDebug() << "Clima recibido:" << m_weather; // <--- MIRA TU TERMINAL
+        emit weatherChanged();
+    } else {
+        qDebug() << "Error en red:" << (reply ? reply->errorString() : "Desconocido");
+    }
+        reply->deleteLater();
     }
 
     int SystemManager::ramUsage() const
