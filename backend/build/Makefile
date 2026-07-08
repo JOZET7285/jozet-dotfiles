@@ -461,6 +461,126 @@ JozetPluginplugin_autogen/mocs_compilation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPluginplugin.dir/build.make CMakeFiles/JozetPluginplugin.dir/JozetPluginplugin_autogen/mocs_compilation.cpp.s
 .PHONY : JozetPluginplugin_autogen/mocs_compilation.cpp.s
 
+System/Readers/CpuReader.o: System/Readers/CpuReader.cpp.o
+.PHONY : System/Readers/CpuReader.o
+
+# target to build an object file
+System/Readers/CpuReader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/CpuReader.cpp.o
+.PHONY : System/Readers/CpuReader.cpp.o
+
+System/Readers/CpuReader.i: System/Readers/CpuReader.cpp.i
+.PHONY : System/Readers/CpuReader.i
+
+# target to preprocess a source file
+System/Readers/CpuReader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/CpuReader.cpp.i
+.PHONY : System/Readers/CpuReader.cpp.i
+
+System/Readers/CpuReader.s: System/Readers/CpuReader.cpp.s
+.PHONY : System/Readers/CpuReader.s
+
+# target to generate assembly for a file
+System/Readers/CpuReader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/CpuReader.cpp.s
+.PHONY : System/Readers/CpuReader.cpp.s
+
+System/Readers/DiskReader.o: System/Readers/DiskReader.cpp.o
+.PHONY : System/Readers/DiskReader.o
+
+# target to build an object file
+System/Readers/DiskReader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.o
+.PHONY : System/Readers/DiskReader.cpp.o
+
+System/Readers/DiskReader.i: System/Readers/DiskReader.cpp.i
+.PHONY : System/Readers/DiskReader.i
+
+# target to preprocess a source file
+System/Readers/DiskReader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.i
+.PHONY : System/Readers/DiskReader.cpp.i
+
+System/Readers/DiskReader.s: System/Readers/DiskReader.cpp.s
+.PHONY : System/Readers/DiskReader.s
+
+# target to generate assembly for a file
+System/Readers/DiskReader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.s
+.PHONY : System/Readers/DiskReader.cpp.s
+
+System/Readers/NetworkReader.o: System/Readers/NetworkReader.cpp.o
+.PHONY : System/Readers/NetworkReader.o
+
+# target to build an object file
+System/Readers/NetworkReader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.o
+.PHONY : System/Readers/NetworkReader.cpp.o
+
+System/Readers/NetworkReader.i: System/Readers/NetworkReader.cpp.i
+.PHONY : System/Readers/NetworkReader.i
+
+# target to preprocess a source file
+System/Readers/NetworkReader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.i
+.PHONY : System/Readers/NetworkReader.cpp.i
+
+System/Readers/NetworkReader.s: System/Readers/NetworkReader.cpp.s
+.PHONY : System/Readers/NetworkReader.s
+
+# target to generate assembly for a file
+System/Readers/NetworkReader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.s
+.PHONY : System/Readers/NetworkReader.cpp.s
+
+System/Readers/RamReader.o: System/Readers/RamReader.cpp.o
+.PHONY : System/Readers/RamReader.o
+
+# target to build an object file
+System/Readers/RamReader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.o
+.PHONY : System/Readers/RamReader.cpp.o
+
+System/Readers/RamReader.i: System/Readers/RamReader.cpp.i
+.PHONY : System/Readers/RamReader.i
+
+# target to preprocess a source file
+System/Readers/RamReader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.i
+.PHONY : System/Readers/RamReader.cpp.i
+
+System/Readers/RamReader.s: System/Readers/RamReader.cpp.s
+.PHONY : System/Readers/RamReader.s
+
+# target to generate assembly for a file
+System/Readers/RamReader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.s
+.PHONY : System/Readers/RamReader.cpp.s
+
+System/Readers/TempReader.o: System/Readers/TempReader.cpp.o
+.PHONY : System/Readers/TempReader.o
+
+# target to build an object file
+System/Readers/TempReader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.o
+.PHONY : System/Readers/TempReader.cpp.o
+
+System/Readers/TempReader.i: System/Readers/TempReader.cpp.i
+.PHONY : System/Readers/TempReader.i
+
+# target to preprocess a source file
+System/Readers/TempReader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.i
+.PHONY : System/Readers/TempReader.cpp.i
+
+System/Readers/TempReader.s: System/Readers/TempReader.cpp.s
+.PHONY : System/Readers/TempReader.s
+
+# target to generate assembly for a file
+System/Readers/TempReader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.s
+.PHONY : System/Readers/TempReader.cpp.s
+
 System/SystemManager.o: System/SystemManager.cpp.o
 .PHONY : System/SystemManager.o
 
@@ -571,6 +691,21 @@ help:
 	@echo "... JozetPluginplugin_autogen/mocs_compilation.o"
 	@echo "... JozetPluginplugin_autogen/mocs_compilation.i"
 	@echo "... JozetPluginplugin_autogen/mocs_compilation.s"
+	@echo "... System/Readers/CpuReader.o"
+	@echo "... System/Readers/CpuReader.i"
+	@echo "... System/Readers/CpuReader.s"
+	@echo "... System/Readers/DiskReader.o"
+	@echo "... System/Readers/DiskReader.i"
+	@echo "... System/Readers/DiskReader.s"
+	@echo "... System/Readers/NetworkReader.o"
+	@echo "... System/Readers/NetworkReader.i"
+	@echo "... System/Readers/NetworkReader.s"
+	@echo "... System/Readers/RamReader.o"
+	@echo "... System/Readers/RamReader.i"
+	@echo "... System/Readers/RamReader.s"
+	@echo "... System/Readers/TempReader.o"
+	@echo "... System/Readers/TempReader.i"
+	@echo "... System/Readers/TempReader.s"
 	@echo "... System/SystemManager.o"
 	@echo "... System/SystemManager.i"
 	@echo "... System/SystemManager.s"

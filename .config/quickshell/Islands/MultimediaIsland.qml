@@ -6,7 +6,6 @@ import Quickshell.Wayland
 import "../Components"
 import "../Components/Buttons"
 import "../Popups"
-import "../Process"
 import Jozet.System 1.0
 
 Rectangle {
@@ -19,7 +18,12 @@ Rectangle {
     height: Theme.height
     color: Theme.bg_2
     radius: Theme.radius
-    visible: !mainProcess.playerState ? true : false
+    visible: !playing ? true : false
+    Behavior on opacity {
+        NumberAnimation{
+            duration: 120
+        }
+    }
     RowLayout {
         id: mediaRowLayout
         anchors.fill: parent

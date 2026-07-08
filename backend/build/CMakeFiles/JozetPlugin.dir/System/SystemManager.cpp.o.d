@@ -386,21 +386,26 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o: \
  /usr/include/qt6/QtCore/QIODevice \
  /usr/include/qt6/QtNetwork/QNetworkRequest \
  /usr/include/qt6/QtNetwork/QNetworkAccessManager \
+ /home/pruebas/jozet-dotfiles/backend/System/Readers/CpuReader.h \
+ /home/pruebas/jozet-dotfiles/backend/System/Readers/RamReader.h \
+ /home/pruebas/jozet-dotfiles/backend/System/Readers/DiskReader.h \
+ /usr/include/qt6/QtCore/QString \
+ /home/pruebas/jozet-dotfiles/backend/System/Readers/TempReader.h \
+ /home/pruebas/jozet-dotfiles/backend/System/Readers/NetworkReader.h \
+ /usr/include/qt6/QtCore/QDir /usr/include/qt6/QtCore/qdir.h \
+ /usr/include/qt6/QtCore/qdirlisting.h \
+ /usr/include/qt6/QtCore/qfiledevice.h /usr/include/c++/16/filesystem \
+ /usr/include/c++/16/bits/fs_fwd.h /usr/include/c++/16/bits/fs_path.h \
+ /usr/include/c++/16/iomanip /usr/include/c++/16/bits/quoted_string.h \
+ /usr/include/c++/16/codecvt /usr/include/c++/16/bits/fs_dir.h \
+ /usr/include/c++/16/bits/fs_ops.h /usr/include/qt6/QtCore/qfile.h \
+ /usr/include/qt6/QtCore/qfileinfo.h /usr/include/qt6/QtCore/qtimezone.h \
+ /usr/include/qt6/QtCore/QFile /usr/include/qt6/QtCore/QVariantMap \
+ /usr/include/qt6/QtCore/qvariantmap.h /usr/include/qt6/QtCore/QMap \
  /usr/include/qt6/QtCore/QTimer /usr/include/qt6/QtCore/qtimer.h \
  /usr/include/qt6/QtCore/qbasictimer.h \
  /usr/include/qt6/QtCore/qabstracteventdispatcher.h \
  /usr/include/qt6/QtCore/qeventloop.h \
- /usr/include/qt6/QtCore/qdeadlinetimer.h /usr/include/qt6/QtCore/QFile \
- /usr/include/qt6/QtCore/qfile.h /usr/include/qt6/QtCore/qfiledevice.h \
- /usr/include/c++/16/filesystem /usr/include/c++/16/bits/fs_fwd.h \
- /usr/include/c++/16/bits/fs_path.h /usr/include/c++/16/iomanip \
- /usr/include/c++/16/bits/quoted_string.h /usr/include/c++/16/codecvt \
- /usr/include/c++/16/bits/fs_dir.h /usr/include/c++/16/bits/fs_ops.h \
- /usr/include/qt6/QtCore/QString /usr/include/qt6/QtCore/QTextStream \
- /usr/include/qt6/QtCore/QRegularExpression \
- /usr/include/qt6/QtCore/qregularexpression.h \
- /usr/include/qt6/QtCore/QStorageInfo \
- /usr/include/qt6/QtCore/qstorageinfo.h /usr/include/qt6/QtCore/qdir.h \
- /usr/include/qt6/QtCore/qdirlisting.h \
- /usr/include/qt6/QtCore/qfileinfo.h /usr/include/qt6/QtCore/qtimezone.h \
- /usr/include/qt6/QtCore/QDir
+ /usr/include/qt6/QtCore/qdeadlinetimer.h /usr/include/qt6/QtCore/QUrl \
+ /usr/include/qt6/QtNetwork/QNetworkRequest \
+ /usr/include/qt6/QtCore/QDebug

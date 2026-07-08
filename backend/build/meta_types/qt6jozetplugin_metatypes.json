@@ -13,7 +13,41 @@
                     }
                 ],
                 "className": "SystemManager",
-                "lineNumber": 8,
+                "lineNumber": 13,
+                "methods": [
+                    {
+                        "access": "public",
+                        "index": 9,
+                        "isConst": true,
+                        "lineNumber": 38,
+                        "name": "availableNetworks",
+                        "returnType": "QVariantList"
+                    },
+                    {
+                        "access": "public",
+                        "index": 10,
+                        "lineNumber": 39,
+                        "name": "scanNetworks",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "ssid",
+                                "type": "QString"
+                            },
+                            {
+                                "name": "password",
+                                "type": "QString"
+                            }
+                        ],
+                        "index": 11,
+                        "lineNumber": 40,
+                        "name": "connectToNetwork",
+                        "returnType": "void"
+                    }
+                ],
                 "object": true,
                 "properties": [
                     {
@@ -21,7 +55,7 @@
                         "designable": true,
                         "final": false,
                         "index": 0,
-                        "lineNumber": 14,
+                        "lineNumber": 19,
                         "name": "ramUsage",
                         "notify": "ramUsageChanged",
                         "override": false,
@@ -38,7 +72,7 @@
                         "designable": true,
                         "final": false,
                         "index": 1,
-                        "lineNumber": 15,
+                        "lineNumber": 20,
                         "name": "cpuUsage",
                         "notify": "cpuUsageChanged",
                         "override": false,
@@ -55,24 +89,7 @@
                         "designable": true,
                         "final": false,
                         "index": 2,
-                        "lineNumber": 16,
-                        "name": "cpuTemp",
-                        "notify": "cpuTempChanged",
-                        "override": false,
-                        "read": "cpuTemp",
-                        "required": false,
-                        "scriptable": true,
-                        "stored": true,
-                        "type": "int",
-                        "user": false,
-                        "virtual": false
-                    },
-                    {
-                        "constant": false,
-                        "designable": true,
-                        "final": false,
-                        "index": 3,
-                        "lineNumber": 17,
+                        "lineNumber": 21,
                         "name": "diskUsage",
                         "notify": "diskUsageChanged",
                         "override": false,
@@ -88,8 +105,25 @@
                         "constant": false,
                         "designable": true,
                         "final": false,
+                        "index": 3,
+                        "lineNumber": 22,
+                        "name": "cpuTemp",
+                        "notify": "cpuTempChanged",
+                        "override": false,
+                        "read": "cpuTemp",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false,
+                        "virtual": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
                         "index": 4,
-                        "lineNumber": 18,
+                        "lineNumber": 23,
                         "name": "weather",
                         "notify": "weatherChanged",
                         "override": false,
@@ -106,15 +140,49 @@
                         "designable": true,
                         "final": false,
                         "index": 5,
-                        "lineNumber": 19,
-                        "name": "uptime",
-                        "notify": "uptimeChanged",
+                        "lineNumber": 24,
+                        "name": "availableNetworks",
+                        "notify": "networkChanged",
                         "override": false,
-                        "read": "uptime",
+                        "read": "availableNetworks",
                         "required": false,
                         "scriptable": true,
                         "stored": true,
-                        "type": "QString",
+                        "type": "QVariantList",
+                        "user": false,
+                        "virtual": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 6,
+                        "lineNumber": 25,
+                        "name": "ethernetInfo",
+                        "notify": "networkChanged",
+                        "override": false,
+                        "read": "ethernetInfo",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QVariantMap",
+                        "user": false,
+                        "virtual": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 7,
+                        "lineNumber": 26,
+                        "name": "wifiInfo",
+                        "notify": "networkChanged",
+                        "override": false,
+                        "read": "wifiInfo",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QVariantMap",
                         "user": false,
                         "virtual": false
                     }
@@ -124,43 +192,43 @@
                     {
                         "access": "public",
                         "index": 0,
-                        "lineNumber": 32,
+                        "lineNumber": 45,
                         "name": "ramUsageChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
                         "index": 1,
-                        "lineNumber": 33,
+                        "lineNumber": 46,
                         "name": "cpuUsageChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
                         "index": 2,
-                        "lineNumber": 34,
-                        "name": "cpuTempChanged",
-                        "returnType": "void"
-                    },
-                    {
-                        "access": "public",
-                        "index": 3,
-                        "lineNumber": 35,
+                        "lineNumber": 47,
                         "name": "diskUsageChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
+                        "index": 3,
+                        "lineNumber": 48,
+                        "name": "cpuTempChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
                         "index": 4,
-                        "lineNumber": 36,
-                        "name": "uptimeChanged",
+                        "lineNumber": 49,
+                        "name": "weatherChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
                         "index": 5,
-                        "lineNumber": 37,
-                        "name": "weatherChanged",
+                        "lineNumber": 50,
+                        "name": "networkChanged",
                         "returnType": "void"
                     }
                 ],
@@ -168,21 +236,14 @@
                     {
                         "access": "private",
                         "index": 6,
-                        "lineNumber": 40,
+                        "lineNumber": 53,
                         "name": "update",
                         "returnType": "void"
                     },
                     {
                         "access": "private",
                         "index": 7,
-                        "lineNumber": 41,
-                        "name": "readCpuTemperature",
-                        "returnType": "int"
-                    },
-                    {
-                        "access": "private",
-                        "index": 8,
-                        "lineNumber": 42,
+                        "lineNumber": 54,
                         "name": "fetchWeather",
                         "returnType": "void"
                     },
@@ -194,8 +255,8 @@
                                 "type": "QNetworkReply*"
                             }
                         ],
-                        "index": 9,
-                        "lineNumber": 43,
+                        "index": 8,
+                        "lineNumber": 55,
                         "name": "handleNetworkReply",
                         "returnType": "void"
                     }

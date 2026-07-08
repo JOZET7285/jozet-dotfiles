@@ -75,6 +75,7 @@ jozetplugin_qmltyperegistrations.cpp: /usr/lib/qt6/qmltyperegistrar
 jozetplugin_qmltyperegistrations.cpp: /usr/lib/qt6/metatypes/qt6qml_metatypes.json
 jozetplugin_qmltyperegistrations.cpp: /usr/lib/qt6/metatypes/qt6core_metatypes.json
 jozetplugin_qmltyperegistrations.cpp: /usr/lib/qt6/metatypes/qt6network_metatypes.json
+jozetplugin_qmltyperegistrations.cpp: /usr/lib/qt6/metatypes/qt6dbus_metatypes.json
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/pruebas/jozet-dotfiles/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic QML type registration for target JozetPlugin"
 	/usr/lib/qt6/qmltyperegistrar --generate-qmltypes=/home/pruebas/jozet-dotfiles/backend/build/Jozet/System/JozetPlugin.qmltypes --import-name=Jozet.System --major-version=1 --minor-version=0 @/home/pruebas/jozet-dotfiles/backend/build/qmltypes/JozetPlugin_foreign_types.txt -o /home/pruebas/jozet-dotfiles/backend/build/jozetplugin_qmltyperegistrations.cpp /home/pruebas/jozet-dotfiles/backend/build/meta_types/qt6jozetplugin_metatypes.json
 	/usr/bin/cmake -E make_directory /home/pruebas/jozet-dotfiles/backend/build/.qt/qmltypes

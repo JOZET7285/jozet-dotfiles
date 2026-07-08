@@ -16,11 +16,20 @@ Rectangle {
 
     implicitWidth: contentRow.implicitWidth + 20
     implicitHeight: Theme.height - 6
-    color: root.selected ? Theme.btn_selected_color : (area.containsMouse ? Theme.btn_accent_color : Theme.btn_color)
+    color: (root.selected ? Theme.bg_3 : (area.containsMouse ? Theme.bg_2 : "transparent"))
     radius: root.selected ? Theme.radius : 8
 
-    Behavior on color { ColorAnimation { duration: 120 } }
-    Behavior on border.color { ColorAnimation { duration: 120 } }
+    Behavior on color { 
+        ColorAnimation { 
+            duration: 150 
+        } 
+    }
+
+    Behavior on border.color { 
+        ColorAnimation { 
+            duration: 120 
+        } 
+    }
 
     MouseArea {
         id: area
@@ -44,7 +53,7 @@ Rectangle {
             text: root.icon
             font.family: Theme.iconFont
             font.pixelSize: 15
-            color: Theme.btn_text_color
+            color: Theme.btn_text_color_light
             anchors.verticalCenter: parent.verticalCenter
         }
 
@@ -55,7 +64,7 @@ Rectangle {
             text: _internalText
             horizontalAlignment: Text.AlignHCenter 
             verticalAlignment: Text.AlignVCenter
-            color: Theme.btn_text_color
+            color: Theme.btn_text_color_light
             font.family: Theme.fontName
             font.pixelSize: 12
             anchors.verticalCenter: parent.verticalCenter

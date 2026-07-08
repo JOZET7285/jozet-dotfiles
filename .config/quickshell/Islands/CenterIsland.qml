@@ -14,7 +14,7 @@ Rectangle {
         horizontalCenter: parent.horizontalCenter
     }
     width: centerRowLayoutId.implicitWidth + 30
-    height: Theme.height+10
+    height: Theme.height
     color: Theme.bg_2
     radius: Theme.radius
 

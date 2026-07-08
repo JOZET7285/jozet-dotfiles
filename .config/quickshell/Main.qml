@@ -24,7 +24,7 @@ PanelWindow {
     }
     width: Screen.width
     height: Theme.height + 15 + 570
-    exclusiveZone: Theme.height + 5  
+    exclusiveZone: Theme.height
     mask: Region {
         Region { item: leftLandMonitor }
         Region { item: leftLand }
@@ -41,6 +41,8 @@ PanelWindow {
 
     MainProcess{ id: mainProcesses }
 
+    NetworkProcess{ id: networkProcesses }
+
     SystemManager{ id: sysManager }
 
     Timer {
@@ -49,6 +51,7 @@ PanelWindow {
         repeat: true
         onTriggered: {
             mainProcesses.refreshAll()
+            networkProcesses.refreshAll()
         }
     }
 

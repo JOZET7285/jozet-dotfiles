@@ -81,6 +81,7 @@ jozetplugin_qmltyperegistrations.cpp: /usr/lib/qt6/qmltyperegistrar
 jozetplugin_qmltyperegistrations.cpp: /usr/lib/qt6/metatypes/qt6qml_metatypes.json
 jozetplugin_qmltyperegistrations.cpp: /usr/lib/qt6/metatypes/qt6core_metatypes.json
 jozetplugin_qmltyperegistrations.cpp: /usr/lib/qt6/metatypes/qt6network_metatypes.json
+jozetplugin_qmltyperegistrations.cpp: /usr/lib/qt6/metatypes/qt6dbus_metatypes.json
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/pruebas/jozet-dotfiles/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Automatic QML type registration for target JozetPlugin"
 	/usr/lib/qt6/qmltyperegistrar --generate-qmltypes=/home/pruebas/jozet-dotfiles/backend/build/Jozet/System/JozetPlugin.qmltypes --import-name=Jozet.System --major-version=1 --minor-version=0 @/home/pruebas/jozet-dotfiles/backend/build/qmltypes/JozetPlugin_foreign_types.txt -o /home/pruebas/jozet-dotfiles/backend/build/jozetplugin_qmltyperegistrations.cpp /home/pruebas/jozet-dotfiles/backend/build/meta_types/qt6jozetplugin_metatypes.json
 	/usr/bin/cmake -E make_directory /home/pruebas/jozet-dotfiles/backend/build/.qt/qmltypes
@@ -163,12 +164,87 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pruebas/jozet-dotfiles/backend/System/SystemManager.cpp -o CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.s
 
+CMakeFiles/JozetPlugin.dir/System/Readers/CpuReader.cpp.o: CMakeFiles/JozetPlugin.dir/flags.make
+CMakeFiles/JozetPlugin.dir/System/Readers/CpuReader.cpp.o: /home/pruebas/jozet-dotfiles/backend/System/Readers/CpuReader.cpp
+CMakeFiles/JozetPlugin.dir/System/Readers/CpuReader.cpp.o: CMakeFiles/JozetPlugin.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pruebas/jozet-dotfiles/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/JozetPlugin.dir/System/Readers/CpuReader.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/JozetPlugin.dir/System/Readers/CpuReader.cpp.o -MF CMakeFiles/JozetPlugin.dir/System/Readers/CpuReader.cpp.o.d -o CMakeFiles/JozetPlugin.dir/System/Readers/CpuReader.cpp.o -c /home/pruebas/jozet-dotfiles/backend/System/Readers/CpuReader.cpp
+
+CMakeFiles/JozetPlugin.dir/System/Readers/CpuReader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/JozetPlugin.dir/System/Readers/CpuReader.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pruebas/jozet-dotfiles/backend/System/Readers/CpuReader.cpp > CMakeFiles/JozetPlugin.dir/System/Readers/CpuReader.cpp.i
+
+CMakeFiles/JozetPlugin.dir/System/Readers/CpuReader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/JozetPlugin.dir/System/Readers/CpuReader.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pruebas/jozet-dotfiles/backend/System/Readers/CpuReader.cpp -o CMakeFiles/JozetPlugin.dir/System/Readers/CpuReader.cpp.s
+
+CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.o: CMakeFiles/JozetPlugin.dir/flags.make
+CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.o: /home/pruebas/jozet-dotfiles/backend/System/Readers/RamReader.cpp
+CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.o: CMakeFiles/JozetPlugin.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pruebas/jozet-dotfiles/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.o -MF CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.o.d -o CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.o -c /home/pruebas/jozet-dotfiles/backend/System/Readers/RamReader.cpp
+
+CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pruebas/jozet-dotfiles/backend/System/Readers/RamReader.cpp > CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.i
+
+CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pruebas/jozet-dotfiles/backend/System/Readers/RamReader.cpp -o CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.s
+
+CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.o: CMakeFiles/JozetPlugin.dir/flags.make
+CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.o: /home/pruebas/jozet-dotfiles/backend/System/Readers/DiskReader.cpp
+CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.o: CMakeFiles/JozetPlugin.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pruebas/jozet-dotfiles/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.o -MF CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.o.d -o CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.o -c /home/pruebas/jozet-dotfiles/backend/System/Readers/DiskReader.cpp
+
+CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pruebas/jozet-dotfiles/backend/System/Readers/DiskReader.cpp > CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.i
+
+CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pruebas/jozet-dotfiles/backend/System/Readers/DiskReader.cpp -o CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.s
+
+CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.o: CMakeFiles/JozetPlugin.dir/flags.make
+CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.o: /home/pruebas/jozet-dotfiles/backend/System/Readers/TempReader.cpp
+CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.o: CMakeFiles/JozetPlugin.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pruebas/jozet-dotfiles/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.o -MF CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.o.d -o CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.o -c /home/pruebas/jozet-dotfiles/backend/System/Readers/TempReader.cpp
+
+CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pruebas/jozet-dotfiles/backend/System/Readers/TempReader.cpp > CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.i
+
+CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pruebas/jozet-dotfiles/backend/System/Readers/TempReader.cpp -o CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.s
+
+CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.o: CMakeFiles/JozetPlugin.dir/flags.make
+CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.o: /home/pruebas/jozet-dotfiles/backend/System/Readers/NetworkReader.cpp
+CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.o: CMakeFiles/JozetPlugin.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pruebas/jozet-dotfiles/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.o -MF CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.o.d -o CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.o -c /home/pruebas/jozet-dotfiles/backend/System/Readers/NetworkReader.cpp
+
+CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pruebas/jozet-dotfiles/backend/System/Readers/NetworkReader.cpp > CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.i
+
+CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pruebas/jozet-dotfiles/backend/System/Readers/NetworkReader.cpp -o CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.s
+
 # Object files for target JozetPlugin
 JozetPlugin_OBJECTS = \
 "CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o" \
 "CMakeFiles/JozetPlugin.dir/jozetplugin_qmltyperegistrations.cpp.o" \
 "CMakeFiles/JozetPlugin.dir/build/.qt/rcc/qrc_qmake_Jozet_System.cpp.o" \
-"CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o"
+"CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o" \
+"CMakeFiles/JozetPlugin.dir/System/Readers/CpuReader.cpp.o" \
+"CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.o" \
+"CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.o" \
+"CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.o" \
+"CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.o"
 
 # External object files for target JozetPlugin
 JozetPlugin_EXTERNAL_OBJECTS =
@@ -177,13 +253,19 @@ libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilati
 libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/jozetplugin_qmltyperegistrations.cpp.o
 libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/build/.qt/rcc/qrc_qmake_Jozet_System.cpp.o
 libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o
+libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/System/Readers/CpuReader.cpp.o
+libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.o
+libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.o
+libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.o
+libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.o
 libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/build.make
 libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/compiler_depend.ts
 libJozetPlugin.so: /usr/lib/libQt6Qml.so.6.11.1
 libJozetPlugin.so: /usr/lib/libQt6Network.so.6.11.1
+libJozetPlugin.so: /usr/lib/libQt6DBus.so.6.11.1
 libJozetPlugin.so: /usr/lib/libQt6Core.so.6.11.1
 libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/pruebas/jozet-dotfiles/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX shared library libJozetPlugin.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/pruebas/jozet-dotfiles/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX shared library libJozetPlugin.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/JozetPlugin.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

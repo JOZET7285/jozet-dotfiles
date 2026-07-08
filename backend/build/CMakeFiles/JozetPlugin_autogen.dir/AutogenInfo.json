@@ -1164,6 +1164,34 @@
 		"/usr/lib/cmake/Qt6Qml/Qt6QTcpServerConnectionFactoryPluginTargets-relwithdebinfo.cmake",
 		"/usr/lib/cmake/Qt6Qml/Qt6QTcpServerConnectionFactoryPluginAdditionalTargetInfo.cmake",
 		"/usr/lib/cmake/Qt6Qml/Qt6QmlVersionlessAliasTargets.cmake",
+		"/usr/lib/cmake/Qt6DBus/Qt6DBusConfigVersion.cmake",
+		"/usr/lib/cmake/Qt6DBus/Qt6DBusConfigVersionImpl.cmake",
+		"/usr/lib/cmake/Qt6DBus/Qt6DBusConfig.cmake",
+		"/usr/share/cmake/Modules/CMakeFindDependencyMacro.cmake",
+		"/usr/lib/cmake/Qt6DBus/Qt6DBusDependencies.cmake",
+		"/usr/lib/cmake/Qt6DBusTools/Qt6DBusToolsConfigVersion.cmake",
+		"/usr/lib/cmake/Qt6DBusTools/Qt6DBusToolsConfigVersionImpl.cmake",
+		"/usr/lib/cmake/Qt6DBusTools/Qt6DBusToolsConfig.cmake",
+		"/usr/share/cmake/Modules/CMakeFindDependencyMacro.cmake",
+		"/usr/lib/cmake/Qt6DBusTools/Qt6DBusToolsDependencies.cmake",
+		"/usr/lib/cmake/Qt6CoreTools/Qt6CoreToolsConfigVersion.cmake",
+		"/usr/lib/cmake/Qt6CoreTools/Qt6CoreToolsConfigVersionImpl.cmake",
+		"/usr/lib/cmake/Qt6CoreTools/Qt6CoreToolsConfig.cmake",
+		"/usr/share/cmake/Modules/CMakeFindDependencyMacro.cmake",
+		"/usr/lib/cmake/Qt6CoreTools/Qt6CoreToolsDependencies.cmake",
+		"/usr/lib/cmake/Qt6CoreTools/Qt6CoreToolsTargetsPrecheck.cmake",
+		"/usr/lib/cmake/Qt6DBusTools/Qt6DBusToolsTargetsPrecheck.cmake",
+		"/usr/lib/cmake/Qt6DBusTools/Qt6DBusToolsTargets.cmake",
+		"/usr/lib/cmake/Qt6DBusTools/Qt6DBusToolsTargets-relwithdebinfo.cmake",
+		"/usr/lib/cmake/Qt6DBusTools/Qt6DBusToolsAdditionalTargetInfo.cmake",
+		"/usr/lib/cmake/Qt6DBusTools/Qt6DBusToolsVersionlessTargets.cmake",
+		"/usr/lib/cmake/Qt6DBus/Qt6DBusTargetsPrecheck.cmake",
+		"/usr/lib/cmake/Qt6DBus/Qt6DBusTargets.cmake",
+		"/usr/lib/cmake/Qt6DBus/Qt6DBusTargets-relwithdebinfo.cmake",
+		"/usr/lib/cmake/Qt6DBus/Qt6DBusAdditionalTargetInfo.cmake",
+		"/usr/lib/cmake/Qt6DBus/Qt6DBusMacros.cmake",
+		"/usr/share/cmake/Modules/MacroAddFileDependencies.cmake",
+		"/usr/lib/cmake/Qt6DBus/Qt6DBusVersionlessAliasTargets.cmake",
 		"/usr/lib/cmake/Qt6Core/Qt6CoreConfigureFileTemplate.in",
 		"/usr/lib/cmake/Qt6Qml/Qt6QmlPluginTemplate.cpp.in",
 		"/usr/lib/cmake/Qt6Qml/Qt6QmlModuleDirMappingTemplate.qrc.in",
@@ -1176,6 +1204,36 @@
 	"DEP_FILE_RULE_NAME" : "JozetPlugin_autogen/timestamp",
 	"HEADERS" : 
 	[
+		[
+			"/home/pruebas/jozet-dotfiles/backend/System/Readers/CpuReader.h",
+			"MU",
+			"4ZSOXKNVYZ/moc_CpuReader.cpp",
+			null
+		],
+		[
+			"/home/pruebas/jozet-dotfiles/backend/System/Readers/DiskReader.h",
+			"MU",
+			"4ZSOXKNVYZ/moc_DiskReader.cpp",
+			null
+		],
+		[
+			"/home/pruebas/jozet-dotfiles/backend/System/Readers/NetworkReader.h",
+			"MU",
+			"4ZSOXKNVYZ/moc_NetworkReader.cpp",
+			null
+		],
+		[
+			"/home/pruebas/jozet-dotfiles/backend/System/Readers/RamReader.h",
+			"MU",
+			"4ZSOXKNVYZ/moc_RamReader.cpp",
+			null
+		],
+		[
+			"/home/pruebas/jozet-dotfiles/backend/System/Readers/TempReader.h",
+			"MU",
+			"4ZSOXKNVYZ/moc_TempReader.cpp",
+			null
+		],
 		[
 			"/home/pruebas/jozet-dotfiles/backend/System/SystemManager.h",
 			"MU",
@@ -1190,6 +1248,7 @@
 	[
 		"JozetPlugin_EXPORTS",
 		"QT_CORE_LIB",
+		"QT_DBUS_LIB",
 		"QT_NETWORK_LIB",
 		"QT_NO_DEBUG",
 		"QT_QMLINTEGRATION_LIB",
@@ -1212,6 +1271,7 @@
 		"/usr/lib/qt6/mkspecs/linux-g++",
 		"/usr/include/qt6/QtQmlIntegration",
 		"/usr/include/qt6/QtNetwork",
+		"/usr/include/qt6/QtDBus",
 		"/usr/include/c++/16",
 		"/usr/include/c++/16/x86_64-pc-linux-gnu",
 		"/usr/include/c++/16/backward",
@@ -1255,6 +1315,31 @@
 	"SETTINGS_FILE" : "/home/pruebas/jozet-dotfiles/backend/build/CMakeFiles/JozetPlugin_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
+		[
+			"/home/pruebas/jozet-dotfiles/backend/System/Readers/CpuReader.cpp",
+			"MU",
+			null
+		],
+		[
+			"/home/pruebas/jozet-dotfiles/backend/System/Readers/DiskReader.cpp",
+			"MU",
+			null
+		],
+		[
+			"/home/pruebas/jozet-dotfiles/backend/System/Readers/NetworkReader.cpp",
+			"MU",
+			null
+		],
+		[
+			"/home/pruebas/jozet-dotfiles/backend/System/Readers/RamReader.cpp",
+			"MU",
+			null
+		],
+		[
+			"/home/pruebas/jozet-dotfiles/backend/System/Readers/TempReader.cpp",
+			"MU",
+			null
+		],
 		[
 			"/home/pruebas/jozet-dotfiles/backend/System/SystemManager.cpp",
 			"MU",

@@ -11,15 +11,6 @@ PanelWindow {
     exclusiveZone: 0
     color: "transparent"
 
-    /*HoverHandler {
-        onHoveredChanged: {
-            if (hovered) {
-                GlobalRefs.wallpaperWidget.open = true
-            } else {
-                GlobalRefs.wallpaperWidget.scheduleClose()
-            }
-        }
-    }*/
     Rectangle{
         anchors.fill: parent
         color: mouseArea.containsMouse ? Theme.bg_1 : Theme.bg_2

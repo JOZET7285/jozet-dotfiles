@@ -47,22 +47,29 @@ template <> constexpr inline auto jozet::SystemManager::qt_create_metaobjectdata
         "ramUsageChanged",
         "",
         "cpuUsageChanged",
-        "cpuTempChanged",
         "diskUsageChanged",
-        "uptimeChanged",
+        "cpuTempChanged",
         "weatherChanged",
+        "networkChanged",
         "update",
-        "readCpuTemperature",
         "fetchWeather",
         "handleNetworkReply",
         "QNetworkReply*",
         "reply",
+        "availableNetworks",
+        "QVariantList",
+        "scanNetworks",
+        "connectToNetwork",
+        "ssid",
+        "password",
         "ramUsage",
         "cpuUsage",
-        "cpuTemp",
         "diskUsage",
+        "cpuTemp",
         "weather",
-        "uptime"
+        "ethernetInfo",
+        "QVariantMap",
+        "wifiInfo"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -70,38 +77,48 @@ template <> constexpr inline auto jozet::SystemManager::qt_create_metaobjectdata
         QtMocHelpers::SignalData<void()>(5, 6, QMC::AccessPublic, QMetaType::Void),
         // Signal 'cpuUsageChanged'
         QtMocHelpers::SignalData<void()>(7, 6, QMC::AccessPublic, QMetaType::Void),
-        // Signal 'cpuTempChanged'
-        QtMocHelpers::SignalData<void()>(8, 6, QMC::AccessPublic, QMetaType::Void),
         // Signal 'diskUsageChanged'
+        QtMocHelpers::SignalData<void()>(8, 6, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'cpuTempChanged'
         QtMocHelpers::SignalData<void()>(9, 6, QMC::AccessPublic, QMetaType::Void),
-        // Signal 'uptimeChanged'
-        QtMocHelpers::SignalData<void()>(10, 6, QMC::AccessPublic, QMetaType::Void),
         // Signal 'weatherChanged'
+        QtMocHelpers::SignalData<void()>(10, 6, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'networkChanged'
         QtMocHelpers::SignalData<void()>(11, 6, QMC::AccessPublic, QMetaType::Void),
         // Slot 'update'
         QtMocHelpers::SlotData<void()>(12, 6, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'readCpuTemperature'
-        QtMocHelpers::SlotData<int()>(13, 6, QMC::AccessPrivate, QMetaType::Int),
         // Slot 'fetchWeather'
-        QtMocHelpers::SlotData<void()>(14, 6, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(13, 6, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'handleNetworkReply'
-        QtMocHelpers::SlotData<void(QNetworkReply *)>(15, 6, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 16, 17 },
+        QtMocHelpers::SlotData<void(QNetworkReply *)>(14, 6, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 15, 16 },
+        }}),
+        // Method 'availableNetworks'
+        QtMocHelpers::MethodData<QVariantList() const>(17, 6, QMC::AccessPublic, 0x80000000 | 18),
+        // Method 'scanNetworks'
+        QtMocHelpers::MethodData<void()>(19, 6, QMC::AccessPublic, QMetaType::Void),
+        // Method 'connectToNetwork'
+        QtMocHelpers::MethodData<void(const QString &, const QString &)>(20, 6, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 21 }, { QMetaType::QString, 22 },
         }}),
     };
     QtMocHelpers::UintData qt_properties {
         // property 'ramUsage'
-        QtMocHelpers::PropertyData<int>(18, QMetaType::Int, QMC::DefaultPropertyFlags, 0),
+        QtMocHelpers::PropertyData<int>(23, QMetaType::Int, QMC::DefaultPropertyFlags, 0),
         // property 'cpuUsage'
-        QtMocHelpers::PropertyData<int>(19, QMetaType::Int, QMC::DefaultPropertyFlags, 1),
-        // property 'cpuTemp'
-        QtMocHelpers::PropertyData<int>(20, QMetaType::Int, QMC::DefaultPropertyFlags, 2),
+        QtMocHelpers::PropertyData<int>(24, QMetaType::Int, QMC::DefaultPropertyFlags, 1),
         // property 'diskUsage'
-        QtMocHelpers::PropertyData<double>(21, QMetaType::Double, QMC::DefaultPropertyFlags, 3),
+        QtMocHelpers::PropertyData<double>(25, QMetaType::Double, QMC::DefaultPropertyFlags, 2),
+        // property 'cpuTemp'
+        QtMocHelpers::PropertyData<int>(26, QMetaType::Int, QMC::DefaultPropertyFlags, 3),
         // property 'weather'
-        QtMocHelpers::PropertyData<QString>(22, QMetaType::QString, QMC::DefaultPropertyFlags, 5),
-        // property 'uptime'
-        QtMocHelpers::PropertyData<QString>(23, QMetaType::QString, QMC::DefaultPropertyFlags, 4),
+        QtMocHelpers::PropertyData<QString>(27, QMetaType::QString, QMC::DefaultPropertyFlags, 4),
+        // property 'availableNetworks'
+        QtMocHelpers::PropertyData<QVariantList>(17, 0x80000000 | 18, QMC::DefaultPropertyFlags | QMC::EnumOrFlag, 5),
+        // property 'ethernetInfo'
+        QtMocHelpers::PropertyData<QVariantMap>(28, 0x80000000 | 29, QMC::DefaultPropertyFlags | QMC::EnumOrFlag, 5),
+        // property 'wifiInfo'
+        QtMocHelpers::PropertyData<QVariantMap>(30, 0x80000000 | 29, QMC::DefaultPropertyFlags | QMC::EnumOrFlag, 5),
     };
     QtMocHelpers::UintData qt_enums {
     };
@@ -130,22 +147,24 @@ void jozet::SystemManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c,
         switch (_id) {
         case 0: _t->ramUsageChanged(); break;
         case 1: _t->cpuUsageChanged(); break;
-        case 2: _t->cpuTempChanged(); break;
-        case 3: _t->diskUsageChanged(); break;
-        case 4: _t->uptimeChanged(); break;
-        case 5: _t->weatherChanged(); break;
+        case 2: _t->diskUsageChanged(); break;
+        case 3: _t->cpuTempChanged(); break;
+        case 4: _t->weatherChanged(); break;
+        case 5: _t->networkChanged(); break;
         case 6: _t->update(); break;
-        case 7: { int _r = _t->readCpuTemperature();
-            if (_a[0]) *reinterpret_cast<int*>(_a[0]) = std::move(_r); }  break;
-        case 8: _t->fetchWeather(); break;
-        case 9: _t->handleNetworkReply((*reinterpret_cast<std::add_pointer_t<QNetworkReply*>>(_a[1]))); break;
+        case 7: _t->fetchWeather(); break;
+        case 8: _t->handleNetworkReply((*reinterpret_cast<std::add_pointer_t<QNetworkReply*>>(_a[1]))); break;
+        case 9: { QVariantList _r = _t->availableNetworks();
+            if (_a[0]) *reinterpret_cast<QVariantList*>(_a[0]) = std::move(_r); }  break;
+        case 10: _t->scanNetworks(); break;
+        case 11: _t->connectToNetwork((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2]))); break;
         default: ;
         }
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
-        case 9:
+        case 8:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
             case 0:
@@ -159,13 +178,13 @@ void jozet::SystemManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c,
             return;
         if (QtMocHelpers::indexOfMethod<void (SystemManager::*)()>(_a, &SystemManager::cpuUsageChanged, 1))
             return;
-        if (QtMocHelpers::indexOfMethod<void (SystemManager::*)()>(_a, &SystemManager::cpuTempChanged, 2))
+        if (QtMocHelpers::indexOfMethod<void (SystemManager::*)()>(_a, &SystemManager::diskUsageChanged, 2))
             return;
-        if (QtMocHelpers::indexOfMethod<void (SystemManager::*)()>(_a, &SystemManager::diskUsageChanged, 3))
+        if (QtMocHelpers::indexOfMethod<void (SystemManager::*)()>(_a, &SystemManager::cpuTempChanged, 3))
             return;
-        if (QtMocHelpers::indexOfMethod<void (SystemManager::*)()>(_a, &SystemManager::uptimeChanged, 4))
+        if (QtMocHelpers::indexOfMethod<void (SystemManager::*)()>(_a, &SystemManager::weatherChanged, 4))
             return;
-        if (QtMocHelpers::indexOfMethod<void (SystemManager::*)()>(_a, &SystemManager::weatherChanged, 5))
+        if (QtMocHelpers::indexOfMethod<void (SystemManager::*)()>(_a, &SystemManager::networkChanged, 5))
             return;
     }
     if (_c == QMetaObject::ReadProperty) {
@@ -173,10 +192,12 @@ void jozet::SystemManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c,
         switch (_id) {
         case 0: *reinterpret_cast<int*>(_v) = _t->ramUsage(); break;
         case 1: *reinterpret_cast<int*>(_v) = _t->cpuUsage(); break;
-        case 2: *reinterpret_cast<int*>(_v) = _t->cpuTemp(); break;
-        case 3: *reinterpret_cast<double*>(_v) = _t->diskUsage(); break;
+        case 2: *reinterpret_cast<double*>(_v) = _t->diskUsage(); break;
+        case 3: *reinterpret_cast<int*>(_v) = _t->cpuTemp(); break;
         case 4: *reinterpret_cast<QString*>(_v) = _t->weather(); break;
-        case 5: *reinterpret_cast<QString*>(_v) = _t->uptime(); break;
+        case 5: *reinterpret_cast<QVariantList*>(_v) = _t->availableNetworks(); break;
+        case 6: *reinterpret_cast<QVariantMap*>(_v) = _t->ethernetInfo(); break;
+        case 7: *reinterpret_cast<QVariantMap*>(_v) = _t->wifiInfo(); break;
         default: break;
         }
     }
@@ -201,20 +222,20 @@ int jozet::SystemManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 10)
+        if (_id < 12)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 12;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 10)
+        if (_id < 12)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 10;
+        _id -= 12;
     }
     if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
             || _c == QMetaObject::ResetProperty || _c == QMetaObject::BindableProperty
             || _c == QMetaObject::RegisterPropertyMetaType) {
         qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 8;
     }
     return _id;
 }
@@ -232,25 +253,25 @@ void jozet::SystemManager::cpuUsageChanged()
 }
 
 // SIGNAL 2
-void jozet::SystemManager::cpuTempChanged()
+void jozet::SystemManager::diskUsageChanged()
 {
     QMetaObject::activate(this, &staticMetaObject, 2, nullptr);
 }
 
 // SIGNAL 3
-void jozet::SystemManager::diskUsageChanged()
+void jozet::SystemManager::cpuTempChanged()
 {
     QMetaObject::activate(this, &staticMetaObject, 3, nullptr);
 }
 
 // SIGNAL 4
-void jozet::SystemManager::uptimeChanged()
+void jozet::SystemManager::weatherChanged()
 {
     QMetaObject::activate(this, &staticMetaObject, 4, nullptr);
 }
 
 // SIGNAL 5
-void jozet::SystemManager::weatherChanged()
+void jozet::SystemManager::networkChanged()
 {
     QMetaObject::activate(this, &staticMetaObject, 5, nullptr);
 }

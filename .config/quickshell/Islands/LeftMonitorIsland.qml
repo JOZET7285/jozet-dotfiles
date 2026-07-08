@@ -11,7 +11,7 @@ import Jozet.System 1.0
 Rectangle {
     y: 5
     width: leftRowLayoutMonitor.implicitWidth + 30
-    height: Theme.height+5
+    height: Theme.height
     anchors {
         right: centerLand.left
         rightMargin: 15

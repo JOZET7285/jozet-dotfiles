@@ -387,6 +387,22 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o: \
  /usr/include/qt6/QtCore/QIODevice \
  /usr/include/qt6/QtNetwork/QNetworkRequest \
  /usr/include/qt6/QtNetwork/QNetworkAccessManager \
+ /home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/D4NBAXR44T/../../../System/Readers/CpuReader.h \
+ /home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/D4NBAXR44T/../../../System/Readers/RamReader.h \
+ /home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/D4NBAXR44T/../../../System/Readers/DiskReader.h \
+ /usr/include/qt6/QtCore/QString \
+ /home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/D4NBAXR44T/../../../System/Readers/TempReader.h \
+ /home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/D4NBAXR44T/../../../System/Readers/NetworkReader.h \
+ /usr/include/qt6/QtCore/QDir /usr/include/qt6/QtCore/qdir.h \
+ /usr/include/qt6/QtCore/qdirlisting.h \
+ /usr/include/qt6/QtCore/qfiledevice.h /usr/include/c++/16/filesystem \
+ /usr/include/c++/16/bits/fs_fwd.h /usr/include/c++/16/bits/fs_path.h \
+ /usr/include/c++/16/iomanip /usr/include/c++/16/bits/quoted_string.h \
+ /usr/include/c++/16/codecvt /usr/include/c++/16/bits/fs_dir.h \
+ /usr/include/c++/16/bits/fs_ops.h /usr/include/qt6/QtCore/qfile.h \
+ /usr/include/qt6/QtCore/qfileinfo.h /usr/include/qt6/QtCore/qtimezone.h \
+ /usr/include/qt6/QtCore/QFile /usr/include/qt6/QtCore/QVariantMap \
+ /usr/include/qt6/QtCore/qvariantmap.h /usr/include/qt6/QtCore/QMap \
  /usr/include/qt6/QtNetwork/QSslError \
  /usr/include/qt6/QtCore/qtmochelpers.h \
  /usr/include/qt6/QtCore/qtmocconstants.h \

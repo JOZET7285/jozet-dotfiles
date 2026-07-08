@@ -11,8 +11,6 @@ Item {
     property string searchQuery: ""
     property bool open: false
     property bool animating: false
-    property string ethStatus: ""
-    property string wifiStatus: ""
 
     readonly property int contentWidth: 320
     width: contentWidth-5
@@ -24,7 +22,6 @@ Item {
     visible: open || animating
 
     onOpenChanged: {
-        console.log("popupOpen =", popupOpen)
         if (open) {
             searchQuery = "";
             Qt.callLater(function() {

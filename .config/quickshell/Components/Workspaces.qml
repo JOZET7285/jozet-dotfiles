@@ -5,8 +5,6 @@ import "."
 Row {
     id: root
     spacing: 6
-
-    // How many workspace slots to always draw, even if empty/unused.
     property int workspaceCount: 10
 
     Repeater {
@@ -25,9 +23,13 @@ Row {
             height: 8
             radius: 4
             color: isActive ? Theme.accent : (hasWindows ? Theme.text_dim : Theme.border_color)
+            border {
+                width: hasWindows ? 0 : 1
+                color: Theme.border_color_2
+            }
 
-            Behavior on width { NumberAnimation { duration: 150; easing.type: Easing.OutQuad } }
-            Behavior on color { ColorAnimation { duration: 150 } }
+            Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.OutQuad } }
+            Behavior on color { ColorAnimation { duration: 250 } } 
 
             MouseArea {
                 anchors.fill: parent

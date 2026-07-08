@@ -16,7 +16,7 @@ PanelWindow {
     }
 
     implicitHeight: 300
-    width: 480 
+    implicitWidth: 480 
     color: "transparent"
     exclusiveZone: 0
     focusable: false

@@ -528,6 +528,25 @@ JozetPluginplugin_autogen/timestamp: \
 	/usr/lib/cmake/Qt6CoreTools/Qt6CoreToolsTargets.cmake \
 	/usr/lib/cmake/Qt6CoreTools/Qt6CoreToolsTargetsPrecheck.cmake \
 	/usr/lib/cmake/Qt6CoreTools/Qt6CoreToolsVersionlessTargets.cmake \
+	/usr/lib/cmake/Qt6DBus/Qt6DBusAdditionalTargetInfo.cmake \
+	/usr/lib/cmake/Qt6DBus/Qt6DBusConfig.cmake \
+	/usr/lib/cmake/Qt6DBus/Qt6DBusConfigVersion.cmake \
+	/usr/lib/cmake/Qt6DBus/Qt6DBusConfigVersionImpl.cmake \
+	/usr/lib/cmake/Qt6DBus/Qt6DBusDependencies.cmake \
+	/usr/lib/cmake/Qt6DBus/Qt6DBusMacros.cmake \
+	/usr/lib/cmake/Qt6DBus/Qt6DBusTargets-relwithdebinfo.cmake \
+	/usr/lib/cmake/Qt6DBus/Qt6DBusTargets.cmake \
+	/usr/lib/cmake/Qt6DBus/Qt6DBusTargetsPrecheck.cmake \
+	/usr/lib/cmake/Qt6DBus/Qt6DBusVersionlessAliasTargets.cmake \
+	/usr/lib/cmake/Qt6DBusTools/Qt6DBusToolsAdditionalTargetInfo.cmake \
+	/usr/lib/cmake/Qt6DBusTools/Qt6DBusToolsConfig.cmake \
+	/usr/lib/cmake/Qt6DBusTools/Qt6DBusToolsConfigVersion.cmake \
+	/usr/lib/cmake/Qt6DBusTools/Qt6DBusToolsConfigVersionImpl.cmake \
+	/usr/lib/cmake/Qt6DBusTools/Qt6DBusToolsDependencies.cmake \
+	/usr/lib/cmake/Qt6DBusTools/Qt6DBusToolsTargets-relwithdebinfo.cmake \
+	/usr/lib/cmake/Qt6DBusTools/Qt6DBusToolsTargets.cmake \
+	/usr/lib/cmake/Qt6DBusTools/Qt6DBusToolsTargetsPrecheck.cmake \
+	/usr/lib/cmake/Qt6DBusTools/Qt6DBusToolsVersionlessTargets.cmake \
 	/usr/lib/cmake/Qt6Network/Qt6NetworkAdditionalTargetInfo.cmake \
 	/usr/lib/cmake/Qt6Network/Qt6NetworkConfig.cmake \
 	/usr/lib/cmake/Qt6Network/Qt6NetworkConfigVersion.cmake \
@@ -1212,6 +1231,7 @@ JozetPluginplugin_autogen/timestamp: \
 	/usr/share/cmake/Modules/Internal/FeatureTesting.cmake \
 	/usr/share/cmake/Modules/Linker/GNU-CXX.cmake \
 	/usr/share/cmake/Modules/Linker/GNU.cmake \
+	/usr/share/cmake/Modules/MacroAddFileDependencies.cmake \
 	/usr/share/cmake/Modules/Platform/Linker/GNU.cmake \
 	/usr/share/cmake/Modules/Platform/Linker/Linux-GNU-CXX.cmake \
 	/usr/share/cmake/Modules/Platform/Linker/Linux-GNU.cmake \

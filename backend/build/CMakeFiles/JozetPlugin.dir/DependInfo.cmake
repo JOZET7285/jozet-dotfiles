@@ -9,6 +9,11 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/mocs_compilation.cpp" "CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o" "gcc" "CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o.d"
+  "/home/pruebas/jozet-dotfiles/backend/System/Readers/CpuReader.cpp" "CMakeFiles/JozetPlugin.dir/System/Readers/CpuReader.cpp.o" "gcc" "CMakeFiles/JozetPlugin.dir/System/Readers/CpuReader.cpp.o.d"
+  "/home/pruebas/jozet-dotfiles/backend/System/Readers/DiskReader.cpp" "CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.o" "gcc" "CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.o.d"
+  "/home/pruebas/jozet-dotfiles/backend/System/Readers/NetworkReader.cpp" "CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.o" "gcc" "CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.o.d"
+  "/home/pruebas/jozet-dotfiles/backend/System/Readers/RamReader.cpp" "CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.o" "gcc" "CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.o.d"
+  "/home/pruebas/jozet-dotfiles/backend/System/Readers/TempReader.cpp" "CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.o" "gcc" "CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.o.d"
   "/home/pruebas/jozet-dotfiles/backend/System/SystemManager.cpp" "CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o" "gcc" "CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o.d"
   "/home/pruebas/jozet-dotfiles/backend/build/.qt/rcc/qrc_qmake_Jozet_System.cpp" "CMakeFiles/JozetPlugin.dir/build/.qt/rcc/qrc_qmake_Jozet_System.cpp.o" "gcc" "CMakeFiles/JozetPlugin.dir/build/.qt/rcc/qrc_qmake_Jozet_System.cpp.o.d"
   "/home/pruebas/jozet-dotfiles/backend/build/jozetplugin_qmltyperegistrations.cpp" "CMakeFiles/JozetPlugin.dir/jozetplugin_qmltyperegistrations.cpp.o" "gcc" "CMakeFiles/JozetPlugin.dir/jozetplugin_qmltyperegistrations.cpp.o.d"

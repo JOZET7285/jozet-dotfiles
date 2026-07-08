@@ -4,35 +4,36 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
 import "../Components"
+import "../Modules/Network"
 
 Item {
     id: networkPopup
 
     property bool open: false
     property bool animating: false
-
     readonly property int contentWidth: 320
-    width: parent.width
-    height: 570
+
+    width: parent ? parent.width : contentWidth
+    height: open || animating ? content.height : 0
     clip: true
     visible: open || animating
+
+    Component.onCompleted: {
+        container.y = -content.height
+    }
+
     onOpenChanged: {
         if (open) {
-            Qt.callLater(function() {
-                visible = true;
-                animating = true;
-                openAnim.start();
-            })
+            sysManager.scanNetworks()
+            visible = true;
+            animating = true;
+            openAnim.start();
         } else {
-            Qt.callLater(function() {
-                animating = true;
-                closeAnim.start();
-            })
+            animating = true;
+            closeAnim.start();
         }
     }
-    function closeLauncher() {
-        networkPopup.open = false
-    }
+    
     IpcHandler {
         target: "networkPopup"
 
@@ -46,73 +47,93 @@ Item {
             networkPopup.open = false
         }
     }
+
     function launch(app) {
         if (app && app.command && app.command.length > 0) {
             Quickshell.execDetached(app.command);
             networkPopup.closeLauncher();
         }
     }
-    Item {
-        id: containerWrapper
-        Rectangle {
-            id: container
-            width: parent.width
-            height: parent.height
-            y: -570
-            color: Theme.bg_1
+    
+    function closeLauncher() {
+        networkPopup.open = false
+    }
 
-            Item {
-                id: content
+    Rectangle {
+        id: container
+        width: parent.width
+        height: content.height
+        color: "transparent"
+
+        Item {
+            id: content
+            width: parent.width
+            height: connection.type === "wifi" ? 550 : 210
+            
+            Behavior on height { 
+                NumberAnimation { duration: 180; easing.type: Easing.InOutQuad } 
+            }
+
+            ColumnLayout {
                 anchors.fill: parent
                 anchors.margins: 10
+                spacing: 10
+
+                Text {
+                    text: "Conexiones"
+                    color: Theme.text_color
+                    font.pixelSize: 15
+                    font.bold: true
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 22
+                }
+
                 RowLayout {
-                    id: header
-                    anchors { 
-                        left: parent.left 
-                        top: parent.top 
+                    Layout.fillWidth: true
+                    Layout.fillHeight: false
+                    Layout.preferredHeight: 110
+                    spacing: 10
+
+                    NetworkActiveBtn { 
+                        id: activeNetBtn 
                     }
-                    height: 22
-                    Text {
-                        text: "Conexiones"
-                        color: Theme.text_color
-                        font.pixelSize: 15
-                        font.bold: true
+                    
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        Layout.preferredWidth: 7
+                        Layout.preferredHeight: 2
+                        color: Theme.bg_1
+                        radius: 15
+                        
+                        NetworkDetails { 
+                            id: infoConnection 
+                            anchors.fill: parent
+                            anchors.margins: 10
+                        }
                     }
                 }
-                RowLayout {
-                    id: infoCurrentConnect
-                    anchors{ 
-                        left: parent.left 
-                        right: parent.right 
-                        top: header.bottom 
-                    }
-                    height: 300
-                    Rectangle {
-                        anchors {
-                            left: parent.left
-                            top: parent.top
-                        }
-                        height: parent.height
-                        color: Theme.bg_1
-                        Text {
-                            text: {
-                                if (netProcesses.netStatus === "Ethernet") return "\uf0e8"
-                                if (netProcesses.netStatus === "Wi-Fi") return "\uf1eb"
-                                return "\uf127"
-                            }
-                            font.family: Theme.iconFont  
-                            width: 300
-                            height: parent.height 
-                        }
-                    }
+
+                NetworkAvailableList { id: wifiAvailableNets }
+                
+                NetworkTypeToggle {
+                    id: typeToggleBtn
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 45
                 }
             }
         }
-
     }
+    
     ParallelAnimation {
         id: openAnim
-        PropertyAnimation { target: container; property: "y"; to: 0; duration: 220; easing.type: Easing.OutCubic }
+        PropertyAnimation { 
+            target: container
+            property: "y"
+            to: 0
+            duration: 220
+            easing.type: Easing.OutCubic 
+        }
         onStopped: {
             animating = false
         }
@@ -120,7 +141,13 @@ Item {
 
     ParallelAnimation {
         id: closeAnim
-        PropertyAnimation { target: container; property: "y"; to: -570; duration: 220; easing.type: Easing.InCubic }
+        PropertyAnimation { 
+            target: container
+            property: "y"
+            to: -content.height 
+            duration: 220
+            easing.type: Easing.InCubic 
+        }
         onStopped: {
             animating = false
             visible = false

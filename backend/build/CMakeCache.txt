@@ -265,6 +265,12 @@ Qt6CoreTools_DIR:PATH=/usr/lib/cmake/Qt6CoreTools
 //The directory containing a CMake configuration file for Qt6Core.
 Qt6Core_DIR:PATH=/usr/lib/cmake/Qt6Core
 
+//The directory containing a CMake configuration file for Qt6DBusTools.
+Qt6DBusTools_DIR:PATH=/usr/lib/cmake/Qt6DBusTools
+
+//The directory containing a CMake configuration file for Qt6DBus.
+Qt6DBus_DIR:PATH=/usr/lib/cmake/Qt6DBus
+
 //The directory containing a CMake configuration file for Qt6Network.
 Qt6Network_DIR:PATH=/usr/lib/cmake/Qt6Network
 
