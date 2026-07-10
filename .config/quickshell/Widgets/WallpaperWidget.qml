@@ -85,7 +85,7 @@ PanelWindow {
             }
             height: parent.height
             topLeftRadius: Theme.radius
-            color: Theme.bg_2
+            color: Theme.color_1
 
             y: wallpaperWidget.visualOpen ? 0 : wallpaperWidget.height
 
@@ -120,9 +120,9 @@ PanelWindow {
                 delegate: Rectangle {
                     width: grid.cellWidth - 8
                     height: grid.cellHeight - 8
-                    radius: Theme.radius - 4
+                    radius: Theme.radius
                     color: "transparent"
-                    border.color: Theme.accent
+                    border.color: Theme.color_b
                     border.width: 1
                     clip: true
 

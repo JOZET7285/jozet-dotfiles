@@ -13,8 +13,8 @@ PanelWindow {
 
     Rectangle{
         anchors.fill: parent
-        color: mouseArea.containsMouse ? Theme.bg_1 : Theme.bg_2
-        topLeftRadius: Theme.radius 
+        color: mouseArea.containsMouse ? Theme.color_2 : Theme.color_1
+        topLeftRadius: 45 
         Behavior on color {
             ColorAnimation {
                 duration: 400

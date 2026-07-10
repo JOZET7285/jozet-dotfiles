@@ -15,7 +15,7 @@ Rectangle {
     id: rightIsland
     y: 5
 
-    property var popups: [networkPopup, bluetoothPopup, powerPopup, volumePopup]
+    property var popups: [networkPopup, bluetoothPopup, energyPopup, volumePopup, powerPopup]
     property var connection:
     sysManager.ethernetInfo.status !== "down"
         ? sysManager.ethernetInfo
@@ -33,6 +33,7 @@ Rectangle {
         activePopup === networkPopup ? 400 :
         activePopup === powerPopup ? 200 :
         activePopup === bluetoothPopup ? 400 :
+        activePopup === energyPopup ? 420 : 0,
         activePopup === volumePopup ? 420 : 0
         ) : rightRowLayoutId.implicitWidth + 30
     height: activePopup ? Theme.height + activePopup.height : Theme.height 
@@ -44,7 +45,7 @@ Rectangle {
         right: parent.right 
         rightMargin: 15 
     }
-    color: Theme.bg_2
+    color: Theme.color_1
     radius: Theme.radius
     clip: true
     RowLayout {
@@ -67,12 +68,12 @@ Rectangle {
         }
         Rectangle {
             id: volumeBtn
-            implicitWidth: volumePopup.open ? parent.width : contentRow.implicitWidth+20
+            implicitWidth: volumePopup.open ? parent.width : contentvolRow.implicitWidth+20
             implicitHeight: Theme.height - 6
-            color: (volumePopup.selected ? Theme.bg_3 : (volumeBtnArea.containsMouse ? Theme.bg_2 : "transparent"))
+            color: (volumePopup.selected ? Theme.color_3 : (volumeBtnArea.containsMouse ? Theme.color_1 : "transparent"))
             radius: volumePopup.selected ? Theme.radius : 8
             visible: activePopup == null || activePopup == volumePopup
-            Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
+            Behavior on color { ColorAnimation { duration: 350; easing.type: Easing.InOutQuad } }
             Behavior on implicitWidth { NumberAnimation { duration: 150; easing.type: Easing.InOutQuad } }
             
             MouseArea {
@@ -83,7 +84,7 @@ Rectangle {
                 onClicked: volumePopup.open = !volumePopup.open
             }
             Row {
-                id: contentRow
+                id: contentvolRow
                 anchors.centerIn: parent
                 spacing: 6
                 Text {
@@ -93,32 +94,79 @@ Rectangle {
                         if(volumePopup.playbackDevice && volumePopup.playbackDevice.volume > 30.0) return "\uf027"
                         return "\uf026"
                     }
-                    color: "white"
-                    font.pixelSize: 13
+                    color: Theme.color_b
+                    font.pixelSize: 14
                 }
                 Text {
                     text: volumePopup.playbackDevice ? volumePopup.playbackDevice.volume + "%" : "0%"
-                    color: "white"
-                    font.pixelSize: 13
+                    color: Theme.color_b
+                    font.pixelSize: 12
+                    font.bold: true
+                    anchors.verticalCenter: parent.verticalCenter
                 }
             }
         }
-        BasePill {
-            icon: {
-                if (mainProcesses.batteryPercent === "charging") return "\uf0e7"
-                if (mainProcesses.batteryPercent > 80) return "\uf240"
-                if (mainProcesses.batteryPercent > 60) return "\uf241"
-                if (mainProcesses.batteryPercent > 40) return "\uf242"
-                if (mainProcesses.batteryPercent > 20) return "\uf243"
-                return "\uf244"
+        Rectangle {
+            id: batteryBtn
+            implicitWidth: energyPopup.open ? parent.width : contentbatRow.implicitWidth+20
+            implicitHeight: Theme.height - 6
+            color: energyPopup.selected ? Theme.color_3 : (batteryBtnArea.containsMouse ? Theme.color_1 : "transparent")
+            radius: energyPopup.selected ? Theme.radius : 8
+            visible: activePopup == null || activePopup == energyPopup
+            
+            Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.In } }
+            Behavior on implicitWidth { NumberAnimation { duration: 150; easing.type: Easing.InOutQuad } }
+            Row {
+                id: contentbatRow
+                anchors.centerIn: parent
+                spacing: 8
+                Text {
+                    color: {
+                        if(sysManager.batteryPercent === "Chagging") return Theme.color_g
+                        if (mainProcesses.batteryPercent > 80) return Theme.color_b
+                        if (mainProcesses.batteryPercent > 60) return Theme.color_y
+                        if (mainProcesses.batteryPercent > 40) return Theme.color_o
+                        if (mainProcesses.batteryPercent > 20) return Theme.color_r
+                        return Theme.light_1_solid
+                    }
+                    font.pixelSize: 14
+                    text: {
+                        if (mainProcesses.batteryPercent === "charging") return "\uf0e7"
+                        if (mainProcesses.batteryPercent > 80) return "\uf240"
+                        if (mainProcesses.batteryPercent > 60) return "\uf241"
+                        if (mainProcesses.batteryPercent > 40) return "\uf242"
+                        if (mainProcesses.batteryPercent > 20) return "\uf243"
+                        return "\uf244"
+                    }
+                }   
+                Text {
+                    color: {
+                        if(sysManager.batteryPercent === "Chagging") return Theme.color_g
+                        if (mainProcesses.batteryPercent > 80) return Theme.color_b
+                        if (mainProcesses.batteryPercent > 60) return Theme.color_y
+                        if (mainProcesses.batteryPercent > 40) return Theme.color_o
+                        if (mainProcesses.batteryPercent > 20) return Theme.color_r
+                        return Theme.light_1_solid
+                    }
+                    text: "10%"
+                    font.pixelSize: 12
+                    anchors.verticalCenter: parent.verticalCenter
+                    font.bold: true
+                }
             }
-            visible: activePopup == null
+            MouseArea {
+                id: batteryBtnArea
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                onClicked: energyPopup.open = !energyPopup.open
+            }
         }
         Rectangle {
             id: powerBtn
-            implicitWidth: powerPopup.open ? parent.width : contentbtRow.implicitWidth+20
+            implicitWidth: powerPopup.open ? parent.width : contentpowerRow.implicitWidth+20
             implicitHeight: Theme.height - 6
-            color: (powerPopup.selected ? Theme.bg_3 : (powerBtnArea.containsMouse ? Theme.bg_2 : "transparent"))
+            color: (powerPopup.selected ? Theme.color_3 : (powerBtnArea.containsMouse ? Theme.color_1 : "transparent"))
             radius: powerBtn.selected ? Theme.radius : 8
             visible: activePopup == null || activePopup == powerPopup
             Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
@@ -132,12 +180,12 @@ Rectangle {
                 onClicked: powerPopup.open = !powerPopup.open
             }
             Row {
-                id: contentbtRow
+                id: contentpowerRow
                 anchors.centerIn: parent
                 spacing: 6
                 Text {
                     text: "\uf011"
-                    color: "white"
+                    color: Theme.color_o
                     font.pixelSize: 13
                 }
             }
@@ -149,10 +197,6 @@ Rectangle {
         anchors.top: rightRowLayoutId.bottom
         connection: rightIsland.connection
     }
-    PowerPopup {
-        id: powerPopup
-        anchors.top: rightRowLayoutId.bottom
-    }
     BluetoothPopup { 
         id: bluetoothPopup
         anchors.top: rightRowLayoutId.bottom 
@@ -162,5 +206,14 @@ Rectangle {
         id: volumePopup
         anchors.top: rightRowLayoutId.bottom
         anchors.right: parent.right
+    }
+    EnergyPopup {
+        id: energyPopup
+        anchors.top: rightRowLayoutId.bottom
+        anchors.right: parent.right
+    }
+    PowerPopup {
+        id: powerPopup
+        anchors.top: rightRowLayoutId.bottom
     }
 }

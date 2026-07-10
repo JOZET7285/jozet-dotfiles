@@ -9,7 +9,7 @@ Rectangle {
     Layout.fillWidth: true
     Layout.fillHeight: false
     Layout.preferredHeight: sysManager.playingApplications.length > 0 ? Math.min(appsLayout.implicitHeight + 12, 300) : 0
-    color: Theme.bg_1
+    color: Theme.color_2
     radius: 15
     clip: true
     visible: sysManager.playingApplications.length > 0
@@ -30,7 +30,7 @@ Rectangle {
                 delegate: Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 55
-                    color: Theme.bg_2
+                    color: Theme.color_1
                     radius: 8
 
                     RowLayout {
@@ -67,13 +67,13 @@ Rectangle {
                                     implicitWidth: 200
                                     implicitHeight: 4
                                     y: (parent.height - height) / 2
-                                    color: Theme.bg_3
+                                    color: Theme.color_3
                                     radius: 2
 
                                     Rectangle {
                                         width: volumeSlider.visualPosition * parent.width
                                         height: parent.height
-                                        color: Theme.accent
+                                        color: Theme.color_p
                                         radius: 8
                                     }
                                 }
@@ -84,7 +84,7 @@ Rectangle {
                                     implicitWidth: 16
                                     implicitHeight: 16
                                     radius: 8
-                                    color: Theme.accent
+                                    color: Theme.color_p
                                 }
                             }
                         }

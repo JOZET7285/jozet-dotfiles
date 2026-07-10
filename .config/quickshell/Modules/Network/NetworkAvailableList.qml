@@ -9,7 +9,7 @@ Rectangle {
     Layout.fillWidth: true
     Layout.fillHeight: true
     clip: true
-    color: Theme.bg_1
+    color: Theme.color_2
     radius: 15
 
     opacity: connection.type === "wifi" ? connection.status === "up" ? 1.0 : 0.0 : 0.0
@@ -34,7 +34,7 @@ Rectangle {
                 id: networkAvailableContainer
                 width: parent.width
                 height: verifyConnect.visible ? 35 + 35 : 35
-                color: maNetworkBtn.containsMouse ? Theme.bg_3 : Theme.bg_2_solid
+                color: maNetworkBtn.containsMouse ? Theme.color_3 : Theme.color_1_solid
                 radius: 8
                 
                 Behavior on color { ColorAnimation { duration: 200; easing.type: Easing.InOutQuad }}
@@ -45,7 +45,8 @@ Rectangle {
                     anchors.topMargin: 10 
                     anchors.horizontalCenter: parent.horizontalCenter
                     text: modelData.ssid + " - " + modelData.signal + "%"
-                    color: "white"
+                    color: Theme.color_b
+                    font.bold: true
                     font.pixelSize: 13
                 }
                 RowLayout {
@@ -59,7 +60,7 @@ Rectangle {
 
                     TextField {
                         id: passwordField
-                        color: "#FFFFFF"
+                        color: Theme.light_3
                         Layout.fillWidth: false
                         Layout.preferredWidth: 250
                         Layout.fillHeight: true
@@ -76,15 +77,15 @@ Rectangle {
                         background: Rectangle {
                             implicitWidth: 280
                             implicitHeight: 30
-                            color: passwordField.activeFocus ? Theme.bg_3 : Theme.bg_1
+                            color: passwordField.activeFocus ? Theme.color_3 : Theme.color_2
                             radius: 10
                             
                             border.color: {
-                                if (passwordField.activeFocus) return '#6d78aa' // Azul si tiene el foco
-                                if (passwordField.hovered) return "#4E4E6A"     // Gris claro si el ratón está encima
-                                return "transparent"                              // Sin borde por defecto
+                                if (passwordField.activeFocus) return Theme.color_b
+                                if (passwordField.hovered) return Theme.color_b_dark
+                                return "transparent"
                             }
-                            border.width: 1.5
+                            border.width: 1
 
                             Behavior on border.color { ColorAnimation { duration: 150 } }
                             Behavior on color { ColorAnimation { duration: 150 } }
@@ -94,8 +95,15 @@ Rectangle {
                     Rectangle {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        color: maConnectNetBtn.containsMouse ? Theme.bg_3 : Theme.bg_1
+                        color: maConnectNetBtn.containsMouse ? Theme.color_3 : Theme.color_2
                         radius: 15
+                        Text {
+                            text: "Conectar"
+                            font.pixelSize: 12
+                            font.bold: true
+                            anchors.centerIn: parent
+                            color: Theme.color_g
+                        }
                         MouseArea {
                             id: maConnectNetBtn
                             anchors.fill: parent

@@ -16,7 +16,7 @@ Rectangle {
     }
     width: mediaRowLayout.implicitWidth + 30
     height: Theme.height
-    color: Theme.bg_2
+    color: Theme.color_1
     radius: Theme.radius
     visible: !playing ? true : false
     Behavior on opacity {
@@ -37,7 +37,7 @@ Rectangle {
             Layout.preferredHeight: Theme.height - 7
             Layout.alignment: Qt.AlignVCenter 
             
-            color: Theme.bg_1
+            color: Theme.color_2
             radius: Theme.radius - 5
 
             Text {
@@ -47,7 +47,7 @@ Rectangle {
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
                 
-                color: "white"
+                color: Theme.text_color
                 elide: Text.ElideRight 
                 text: mainProcesses.currentSongTitle
                 

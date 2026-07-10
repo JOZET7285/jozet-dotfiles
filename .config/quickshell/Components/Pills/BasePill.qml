@@ -16,7 +16,7 @@ Rectangle {
 
     implicitWidth: contentRow.implicitWidth + 20
     implicitHeight: Theme.height - 6
-    color: (root.selected ? Theme.bg_3 : (area.containsMouse ? Theme.bg_2 : "transparent"))
+    color: (root.selected ? Theme.color_3 : (area.containsMouse ? Theme.color_3 : "transparent"))
     radius: root.selected ? Theme.radius : 8
 
     Behavior on color { 
@@ -53,7 +53,7 @@ Rectangle {
             text: root.icon
             font.family: Theme.iconFont
             font.pixelSize: 15
-            color: Theme.btn_text_color_light
+            color: Theme.text_color
             anchors.verticalCenter: parent.verticalCenter
         }
 
@@ -64,9 +64,10 @@ Rectangle {
             text: _internalText
             horizontalAlignment: Text.AlignHCenter 
             verticalAlignment: Text.AlignVCenter
-            color: Theme.btn_text_color_light
+            color: Theme.color_b
             font.family: Theme.fontName
             font.pixelSize: 12
+            font.bold: true
             anchors.verticalCenter: parent.verticalCenter
 
             property string _internalText: root.text

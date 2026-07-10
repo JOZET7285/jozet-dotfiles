@@ -11,7 +11,7 @@ Rectangle {
     id: bluetoothBtn
     implicitWidth: bluetoothPopup.open ? parent.width : contentbtRow.implicitWidth+20
     implicitHeight: Theme.height - 6
-    color: (bluetoothBtn.selected ? Theme.bg_3 : (area.containsMouse ? Theme.bg_2 : "transparent"))
+    color: (bluetoothBtn.selected ? Theme.color_3 : (area.containsMouse ? Theme.color_1 : "transparent"))
     radius: bluetoothBtn.selected ? Theme.radius : 8
     
     property int currentDeviceIndex: 0
@@ -53,7 +53,12 @@ Rectangle {
         spacing: 8
         Text {
             text: "\uf293"
-            color: "white"
+            color: {   
+                let devices = sysManager.availableBluetoothDevices;
+                let connectedOnly = devices.filter(device => device.connected === true);
+                if(connectedOnly.length === 0) return Theme.color_b
+                return Theme.color_g
+            }
             font.pixelSize: 14
         }
         Text {
@@ -67,7 +72,13 @@ Rectangle {
             }
             anchors.verticalCenter: parent.verticalCenter
             font.pixelSize: 12
-            color: "white"
+            color: {   
+                let devices = sysManager.availableBluetoothDevices;
+                let connectedOnly = devices.filter(device => device.connected === true);
+                if(connectedOnly.length === 0) return Theme.color_b
+                return Theme.color_g
+            }
+            font.bold: true
         }
     }
     

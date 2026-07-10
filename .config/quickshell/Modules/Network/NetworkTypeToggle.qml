@@ -12,7 +12,7 @@ Rectangle {
     Layout.preferredHeight: 40
     
     radius: 15
-    color: Theme.bg_1
+    color: Theme.color_3
 
     RowLayout {
         anchors.fill: parent
@@ -35,8 +35,8 @@ Rectangle {
 
                 readonly property bool isActive: toggleRoot.connection.type === modelData.name
 
-                color: isActive ? Theme.btn_color : Theme.bg_2
-                border.color: isActive ? Theme.bg_1 : mouseArea.containsMouse ? Theme.accent : Theme.bg_1
+                color: isActive ? Theme.color_2 : Theme.color_2_solid
+                border.color: isActive ? Theme.color_g : mouseArea.containsMouse ? Theme.light_4: Theme.color_2
 
                 Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
                 Behavior on border.color { ColorAnimation { duration: 200; easing.type: Easing.InOutQuad } }
@@ -46,7 +46,7 @@ Rectangle {
                     anchors.centerIn: parent
                     font.pixelSize: 14
                     font.bold: true
-                    color: buttonDelegate.isActive ? Theme.bg_2_solid : Theme.btn_color
+                    color: buttonDelegate.isActive ? Theme.color_g : Theme.text_color
                     
                     Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
                 }

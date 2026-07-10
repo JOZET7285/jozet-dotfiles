@@ -88,7 +88,7 @@ Item {
 
                 Label {
                     text: "Conectados"
-                    color: "white"
+                    color: Theme.text_color
                     font.bold: true
                     font.pointSize: 11
                 }
@@ -107,7 +107,7 @@ Item {
                     Text {
                         visible: connectedRow.count === 0
                         text: "Sin conexión"
-                        color: "grey"
+                        color: Theme.light_4
                         font.italic: true
                         Layout.fillWidth: true
                     }
@@ -119,7 +119,7 @@ Item {
                         delegate: Rectangle {
                             Layout.fillWidth: true
                             Layout.fillHeight: true
-                            color: Theme.bg_3
+                            color: Theme.color_3
                             radius: 8
                             clip: true
 
@@ -132,20 +132,20 @@ Item {
                                     width: 10
                                     height: 10
                                     radius: 5
-                                    color: Theme.accent
+                                    color: Theme.color_b
                                 }
 
                                 Column {
                                     Layout.fillWidth: true
                                     Text {
                                         text: modelData.name || "Dispositivo"
-                                        color: "white"
+                                        color: Theme.text_color
                                         font.bold: true
                                         font.pixelSize: 11
                                     }
                                     Text {
                                         text: modelData.address
-                                        color: "gray"
+                                        color: Theme.light_4
                                         font.pixelSize: 9
                                     }
                                 }
@@ -156,12 +156,12 @@ Item {
                                     text: "✕"
                                     contentItem: Text {
                                         text: parent.text
-                                        color: "white"
+                                        color: Theme.text_color
                                         horizontalAlignment: Text.AlignHCenter
                                         verticalAlignment: Text.AlignVCenter
                                     }
                                     background: Rectangle {
-                                        color: parent.hovered ? '#ff8888' : '#454545'
+                                        color: parent.hovered ? Theme.color_r_solid : Theme.color_3_solid
                                         radius: 4
                                         Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.InOutQuad } }
                                     }
@@ -177,13 +177,12 @@ Item {
                 Rectangle {
                     Layout.fillWidth: true
                     height: 1
-                    color: "#444444"
+                    color: Theme.color_3_solid
                 }
 
-                // DISPOSITIVOS DISPONIBLES
                 Label {
                     text: "Disponibles"
-                    color: "white"
+                    color: Theme.text_color
                     font.bold: true
                     font.pointSize: 11
                 }
@@ -221,8 +220,11 @@ Item {
 
                                 Text {
                                     text: isConnecting ? "Conectando..." : (device.name || "Desconocido")
-                                    color: "white"
+                                    color: Theme.text_color
                                     horizontalAlignment: Text.AlignHCenter
+                                    verticalAlignment: Text.AlignVCenter
+                                    wrapMode: Text.Wrap
+                                    maximumLineCount: 2
                                     width: parent.width
                                     elide: Text.ElideRight
                                     font.pointSize: 9
@@ -237,10 +239,10 @@ Item {
                             }
 
                             background: Rectangle {
-                                color: isConnecting ? Theme.accent : 
-                                       (parent.down ? Theme.bg_1 : 
-                                       (parent.hovered ? Theme.bg_3 : Theme.bg_2_solid))
-                                border.color: isConnecting ? Theme.accent : Theme.bg_light_1
+                                color: isConnecting ? Theme.color_b : 
+                                       (parent.down ? Theme.color_2 : 
+                                       (parent.hovered ? Theme.color_3 : Theme.color_1_solid))
+                                border.color: isConnecting ? Theme.color_b : Theme.light_3
                                 border.width: isConnecting ? 2 : 1
                                 radius: 10
                                 opacity: enabled ? 1.0 : 0.5
@@ -259,7 +261,7 @@ Item {
                     Text {
                         visible: gridContainer.count === 0
                         text: "No hay dispositivos disponibles"
-                        color: "gray"
+                        color: Theme.light_4
                         font.italic: true
                         Layout.columnSpan: 3
                         Layout.alignment: Qt.AlignHCenter

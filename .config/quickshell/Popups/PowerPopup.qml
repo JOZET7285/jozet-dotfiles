@@ -95,7 +95,7 @@ Item{
                             id: buttonRect
                             Layout.fillWidth: true
                             Layout.preferredHeight: 35
-                            color: Theme.bg_2
+                            color: Theme.color_1
                             radius: 10
                          
                             Rectangle {
@@ -159,13 +159,13 @@ Item{
                                 Text {
                                     text: modelData.icon
                                     font.family: Theme.iconFont
-                                    color: mouseArea.pressed ? "#1a1a1a" : "#ccc" 
+                                    color: mouseArea.pressed ? Theme.color_1_solid : "#ccc" 
                                     Behavior on color{ColorAnimation{duration: 1500; easing.type: Easing.InOutQuad}}
                                 }
                                 Text {
                                     text: modelData.label
                                     font.pixelSize: 13
-                                    color: mouseArea.pressed ? "#1a1a1a" : "#ccc"
+                                    color: mouseArea.pressed ? Theme.color_1_solid : "#ccc"
                                     Behavior on color{ColorAnimation{duration: 1500; easing.type: Easing.InOutQuad}}
                                 }
                             }

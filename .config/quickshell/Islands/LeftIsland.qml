@@ -20,7 +20,7 @@ Rectangle {
         left: parent.left
         leftMargin: 15
     }
-    color: Theme.bg_2
+    color: Theme.color_1
     radius: Theme.radius
     clip: true
     property alias appLauncherOpen: appLauncher.open

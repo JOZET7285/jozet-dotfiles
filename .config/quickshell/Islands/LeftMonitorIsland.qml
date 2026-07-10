@@ -16,7 +16,7 @@ Rectangle {
         right: centerLand.left
         rightMargin: 15
     }
-    color: Theme.bg_2
+    color: Theme.color_1
     radius: Theme.radius
     clip: true
     Behavior on width {NumberAnimation {duration: 750; easing.type: Easing.OutCubic }}
@@ -29,12 +29,10 @@ Rectangle {
             rightMargin: 15
         }
         spacing: 8
-        // Memory
         BasePill {
             icon: "\uf233"
             text: sysManager.ramUsage + "%"
         }
-        // Disk
         BasePill {
             icon: "\uf0a0" 
             text: sysManager.diskUsage + "%"

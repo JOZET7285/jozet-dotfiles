@@ -22,10 +22,10 @@ Row {
             width: isActive ? 20 : 8
             height: 8
             radius: 4
-            color: isActive ? Theme.accent : (hasWindows ? Theme.text_dim : Theme.border_color)
+            color: isActive ? Theme.color_b : (hasWindows ? Theme.light_4 : Theme.color_1)
             border {
                 width: hasWindows ? 0 : 1
-                color: Theme.border_color_2
+                color: Theme.light_1
             }
 
             Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.OutQuad } }

@@ -121,7 +121,7 @@ Item {
                         Layout.fillHeight: true
                         Layout.preferredWidth: 7
                         Layout.preferredHeight: 2
-                        color: Theme.bg_1
+                        color: Theme.color_2
                         radius: 15
                         
                         NetworkDetails { 

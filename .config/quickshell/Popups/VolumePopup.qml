@@ -63,7 +63,7 @@ Item {
         Item {
             id: content
             width: parent.width
-            height: 450
+            height: 390
             
             Behavior on height { 
                 NumberAnimation { duration: 180; easing.type: Easing.InOutQuad } 
@@ -97,7 +97,7 @@ Item {
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 1
-                    color: Theme.bg_3
+                    color: Theme.color_3
                 }
 
                 Text {
@@ -116,7 +116,7 @@ Item {
                 }
                 Text {
                     text: "No hay aplicaciones reproduciendo audio"
-                    color: "grey"
+                    color: Theme.light_4
                     font.pixelSize: 11
                     font.italic: true
                     Layout.fillWidth: true

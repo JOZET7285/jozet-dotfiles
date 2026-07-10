@@ -18,7 +18,7 @@ Rectangle {
         leftMargin: 15
     }
     radius: Theme.radius
-    color: Theme.bg_2
+    color: Theme.color_1
     clip: true
     Behavior on width {NumberAnimation {duration: 750; easing.type: Easing.OutCubic }}
     RowLayout {

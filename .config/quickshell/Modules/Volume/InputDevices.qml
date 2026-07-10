@@ -8,7 +8,7 @@ import "../../Components"
 Rectangle {
     Layout.fillWidth: true
     Layout.fillHeight: true
-    color: Theme.bg_1
+    color: Theme.color_2
     radius: 15
 
     ColumnLayout {
@@ -27,7 +27,7 @@ Rectangle {
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: 35
-            color: Theme.bg_2
+            color: Theme.color_1
             radius: 8
 
             Text {
@@ -50,13 +50,13 @@ Rectangle {
                 implicitWidth: 200
                 implicitHeight: 4
                 y: (parent.height - height) / 2
-                color: Theme.bg_3
+                color: Theme.color_3
                 radius: 2
 
                 Rectangle {
                     width: volumeSlider.visualPosition * parent.width
                     height: parent.height
-                    color: Theme.accent
+                    color: Theme.color_y
                     radius: 8
                 }
             }
@@ -67,7 +67,7 @@ Rectangle {
                 implicitWidth: 16
                 implicitHeight: 16
                 radius: 8
-                color: Theme.accent
+                color: Theme.color_y
             }
         }
 

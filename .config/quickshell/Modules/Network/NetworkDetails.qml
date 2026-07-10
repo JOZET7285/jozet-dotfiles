@@ -35,7 +35,7 @@ ColumnLayout {
             Layout.topMargin: index === 0 ? 10 : 0
             Layout.bottomMargin: index === 2 ? 10 : 0
 
-            color: Theme.bg_2_solid
+            color: Theme.color_2_solid
             radius: 12
 
             opacity: {

@@ -15,7 +15,7 @@ Rectangle {
     }
     width: centerRowLayoutId.implicitWidth + 30
     height: Theme.height
-    color: Theme.bg_2
+    color: Theme.color_1
     radius: Theme.radius
 
     RowLayout {

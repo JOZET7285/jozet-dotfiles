@@ -76,7 +76,6 @@ Item {
             bottomRightRadius: Theme.radius
             y: -570
             color: "transparent"
-            //focus: true
 
             Item {
                 id: content
@@ -99,7 +98,7 @@ Item {
                     Item { Layout.fillWidth: true }
                     Text {
                         text: appListModel.values.length + " resultado" + (appListModel.values.length === 1 ? "" : "s")
-                        color: Theme.text_dim
+                        color: Theme.light_3
                         font.pixelSize: 12
                     }
                 }
@@ -112,8 +111,8 @@ Item {
                     anchors.topMargin: 10
                     height: 32
                     radius: 10
-                    color: Theme.bg_2
-                    border.color: searchAppField.activeFocus ? Theme.accent : Theme.border_color
+                    color: Theme.color_1
+                    border.color: searchAppField.activeFocus ? Theme.color_b : Theme.light_2
                     border.width: 1
 
                     Behavior on border.color { ColorAnimation { duration: 120 } }
@@ -126,7 +125,7 @@ Item {
                         text: "\uf002"
                         font.family: Theme.iconFont
                         font.pixelSize: 14
-                        color: Theme.text_dim
+                        color: Theme.light_3
                     }
 
                     TextField {
@@ -158,10 +157,10 @@ Item {
                         anchors.right: parent.right
                         anchors.rightMargin: 12
                         anchors.verticalCenter: parent.verticalCenter
-                        text: "\uf00d" // nf-fa-times
+                        text: "\uf00d"
                         font.family: Theme.iconFont
                         font.pixelSize: 13
-                        color: Theme.text_dim
+                        color: Theme.light_3
 
                         MouseArea {
                             anchors.fill: parent
@@ -198,7 +197,7 @@ Item {
                         contentItem: Rectangle {
                             implicitWidth: 5
                             radius: 3
-                            color: Theme.text_dim
+                            color: Theme.light_3
                         }
                     }
 
@@ -224,8 +223,8 @@ Item {
                             anchors.fill: parent
                             anchors.margins: 1
                             radius: 10
-                            color: delegateRoot.hovered || index === 0 ? Theme.bg_hover : "transparent"
-                            border.color: delegateRoot.hovered || index === 0 ? Theme.border_color : "transparent"
+                            color: delegateRoot.hovered || index === 0 ? Theme.color_3 : "transparent"
+                            //border.color: delegateRoot.hovered || index === 0 ? Theme.light_1 : "transparent"
 
 
                             Behavior on color { ColorAnimation { duration: 100 } }
@@ -257,10 +256,10 @@ Item {
                                 Text {
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     visible: parent.status !== Image.Ready
-                                    text: "\uf108" // nf-fa-desktop (fallback)
+                                    text: "\uf108"
                                     font.family: Theme.iconFont
                                     font.pixelSize: 25
-                                    color: Theme.text_dim
+                                    color: Theme.light_3
                                 }
                             }
 
@@ -289,12 +288,12 @@ Item {
                         text: "\uf05e"
                         font.family: Theme.iconFont
                         font.pixelSize: 32
-                        color: Theme.text_dim
+                        color: Theme.light_3
                     }
                     Text {
                         Layout.alignment: Qt.AlignHCenter
                         text: "No se encontraron aplicaciones"
-                        color: Theme.text_dim
+                        color: Theme.light_3
                         font.pixelSize: 13
                     }
                 }
