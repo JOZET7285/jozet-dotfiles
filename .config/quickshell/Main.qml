@@ -22,8 +22,8 @@ PanelWindow {
     anchors {
         top: true
     }
-    width: Screen.width
-    height: Theme.height + 15 + 570
+    implicitWidth: Screen.width
+    implicitHeight: Theme.height + 15 + 570
     exclusiveZone: Theme.height
     mask: Region {
         Region { item: leftLandMonitor }
@@ -41,9 +41,12 @@ PanelWindow {
 
     MainProcess{ id: mainProcesses }
 
-    NetworkProcess{ id: networkProcesses }
-
-    SystemManager{ id: sysManager }
+    SystemManager{ 
+        id: sysManager 
+        Component.onCompleted: {
+            sysManager.scanBluetooth(true)
+        }    
+    }
 
     Timer {
         interval: 2000
@@ -51,7 +54,6 @@ PanelWindow {
         repeat: true
         onTriggered: {
             mainProcesses.refreshAll()
-            networkProcesses.refreshAll()
         }
     }
 

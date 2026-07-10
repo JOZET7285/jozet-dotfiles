@@ -4,13 +4,15 @@ import QtQuick.Layouts
 import "../../Components"
 
 Rectangle {
+    id: networkAvailableList
+    required property var connection
     Layout.fillWidth: true
     Layout.fillHeight: true
     clip: true
     color: Theme.bg_1
     radius: 15
 
-    opacity: connection.type === "wifi" ? 1.0 : 0.0
+    opacity: connection.type === "wifi" ? connection.status === "up" ? 1.0 : 0.0 : 0.0
     visible: opacity > 0.0
     
     Behavior on opacity { 

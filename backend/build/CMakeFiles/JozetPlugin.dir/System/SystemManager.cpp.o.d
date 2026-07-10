@@ -402,6 +402,12 @@ CMakeFiles/JozetPlugin.dir/System/SystemManager.cpp.o: \
  /usr/include/qt6/QtCore/qfileinfo.h /usr/include/qt6/QtCore/qtimezone.h \
  /usr/include/qt6/QtCore/QFile /usr/include/qt6/QtCore/QVariantMap \
  /usr/include/qt6/QtCore/qvariantmap.h /usr/include/qt6/QtCore/QMap \
+ /usr/include/qt6/QtCore/QProcess /usr/include/qt6/QtCore/qprocess.h \
+ /home/pruebas/jozet-dotfiles/backend/System/Readers/BluetoothReader.h \
+ /usr/include/qt6/QtCore/QVariantList \
+ /usr/include/qt6/QtCore/qvariantlist.h \
+ /usr/include/qt6/QtCore/QStringList \
+ /home/pruebas/jozet-dotfiles/backend/System/Readers/VolumeReader.h \
  /usr/include/qt6/QtCore/QTimer /usr/include/qt6/QtCore/qtimer.h \
  /usr/include/qt6/QtCore/qbasictimer.h \
  /usr/include/qt6/QtCore/qabstracteventdispatcher.h \

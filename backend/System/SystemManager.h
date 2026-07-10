@@ -8,6 +8,8 @@
 #include "Readers/DiskReader.h"
 #include "Readers/TempReader.h"
 #include "Readers/NetworkReader.h"
+#include "Readers/BluetoothReader.h"
+#include "Readers/VolumeReader.h"
 
 namespace jozet {
     class SystemManager : public QObject
@@ -24,6 +26,11 @@ namespace jozet {
         Q_PROPERTY(QVariantList availableNetworks READ availableNetworks NOTIFY networkChanged)
         Q_PROPERTY(QVariantMap ethernetInfo READ ethernetInfo NOTIFY networkChanged)
         Q_PROPERTY(QVariantMap wifiInfo READ wifiInfo NOTIFY networkChanged)
+        Q_PROPERTY(QVariantList availableBluetoothDevices READ availableBluetoothDevices NOTIFY bluetoothChanged)
+        Q_PROPERTY(QVariantMap playbackDeviceInfo READ playbackDeviceInfo NOTIFY volumeChanged)
+        Q_PROPERTY(QVariantMap inputDeviceInfo READ inputDeviceInfo NOTIFY volumeChanged)
+        Q_PROPERTY(QVariantList playingApplications READ playingApplications NOTIFY volumeChanged)
+        Q_PROPERTY(bool isVolumeReady READ isVolumeReady NOTIFY volumeChanged)
 
     public:
         explicit SystemManager(QObject *parent = nullptr);
@@ -35,11 +42,29 @@ namespace jozet {
         QString weather() const;
         QVariantMap ethernetInfo() const { return m_networkReader.ethernetInfo(); }
         QVariantMap wifiInfo() const { return m_networkReader.wifiInfo(); }
+        QVariantList availableBluetoothDevices() const { return m_bluetoothReader.availableDevices(); }
+        Q_INVOKABLE QVariantMap playbackDeviceInfo() const;
+        Q_INVOKABLE QVariantMap inputDeviceInfo() const;
+        Q_INVOKABLE QVariantList playingApplications() const { return m_volumeReader.playingApplications(); }
+        bool isVolumeReady() const { return !m_volumeReader.playbackDeviceInfo().isEmpty(); }
+
         Q_INVOKABLE QVariantList availableNetworks() const { return m_networkReader.availableNetworks(); }
         Q_INVOKABLE void scanNetworks() { m_networkReader.scanAvailableNetworks(); }
         Q_INVOKABLE void connectToNetwork(const QString &ssid, const QString &password) {
             m_networkReader.connectToWifi(ssid, password);
         }
+        Q_INVOKABLE void scanBluetooth(bool start);
+        Q_INVOKABLE void connectBluetooth(const QString &address);
+        Q_INVOKABLE void disconnectBluetooth(const QString &address);
+        Q_INVOKABLE void forgetBluetooth(const QString &address);
+
+        Q_INVOKABLE void setPlaybackVolume(int volume) { m_volumeReader.setPlaybackVolume(volume); }
+        Q_INVOKABLE void setInputVolume(int volume) { m_volumeReader.setInputVolume(volume); }
+        Q_INVOKABLE void setPlaybackMuted(bool muted) { m_volumeReader.setPlaybackMuted(muted); }
+        Q_INVOKABLE void setInputMuted(bool muted) { m_volumeReader.setInputMuted(muted); }
+        Q_INVOKABLE void setApplicationVolume(uint32_t pid, int volume) { m_volumeReader.setApplicationVolume(pid, volume); }
+        Q_INVOKABLE void setDefaultPlaybackDevice(uint32_t index) { m_volumeReader.setDefaultPlaybackDevice(index); }
+        Q_INVOKABLE void setDefaultInputDevice(uint32_t index) { m_volumeReader.setDefaultInputDevice(index); }
 
     signals:
         void ramUsageChanged();
@@ -48,6 +73,8 @@ namespace jozet {
         void cpuTempChanged();
         void weatherChanged();
         void networkChanged();
+        void bluetoothChanged();
+        void volumeChanged();
 
     private slots:
         void update();
@@ -66,6 +93,8 @@ namespace jozet {
         DiskReader m_diskReader;
         TempReader m_tempReader;
         NetworkReader m_networkReader;
+        BluetoothReader m_bluetoothReader;
+        VolumeReader m_volumeReader;
 
         QNetworkAccessManager *m_networkManager = nullptr;
     };

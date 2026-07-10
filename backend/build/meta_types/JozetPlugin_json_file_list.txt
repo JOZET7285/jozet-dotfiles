@@ -1,1 +1,3 @@
+/home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/include/../4ZSOXKNVYZ/moc_BluetoothReader.cpp.json
+/home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/include/../4ZSOXKNVYZ/moc_VolumeReader.cpp.json
 /home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/include/../D4NBAXR44T/moc_SystemManager.cpp.json

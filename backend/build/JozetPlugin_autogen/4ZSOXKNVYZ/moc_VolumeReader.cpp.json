@@ -1,0 +1,149 @@
+{
+    "classes": [
+        {
+            "className": "VolumeReader",
+            "lineNumber": 39,
+            "methods": [
+                {
+                    "access": "public",
+                    "index": 1,
+                    "isConst": true,
+                    "lineNumber": 50,
+                    "name": "playingApplications",
+                    "returnType": "QVariantList"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "volume",
+                            "type": "int"
+                        }
+                    ],
+                    "index": 2,
+                    "lineNumber": 52,
+                    "name": "setPlaybackVolume",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "volume",
+                            "type": "int"
+                        }
+                    ],
+                    "index": 3,
+                    "lineNumber": 53,
+                    "name": "setInputVolume",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "pid",
+                            "type": "uint32_t"
+                        },
+                        {
+                            "name": "volume",
+                            "type": "int"
+                        }
+                    ],
+                    "index": 4,
+                    "lineNumber": 54,
+                    "name": "setApplicationVolume",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "muted",
+                            "type": "bool"
+                        }
+                    ],
+                    "index": 5,
+                    "lineNumber": 55,
+                    "name": "setPlaybackMuted",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "muted",
+                            "type": "bool"
+                        }
+                    ],
+                    "index": 6,
+                    "lineNumber": 56,
+                    "name": "setInputMuted",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "index",
+                            "type": "uint32_t"
+                        }
+                    ],
+                    "index": 7,
+                    "lineNumber": 57,
+                    "name": "setDefaultPlaybackDevice",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "index",
+                            "type": "uint32_t"
+                        }
+                    ],
+                    "index": 8,
+                    "lineNumber": 58,
+                    "name": "setDefaultInputDevice",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "pid",
+                            "type": "uint32_t"
+                        },
+                        {
+                            "name": "muted",
+                            "type": "bool"
+                        }
+                    ],
+                    "index": 9,
+                    "lineNumber": 59,
+                    "name": "setApplicationMuted",
+                    "returnType": "void"
+                }
+            ],
+            "object": true,
+            "qualifiedClassName": "jozet::VolumeReader",
+            "signals": [
+                {
+                    "access": "public",
+                    "index": 0,
+                    "lineNumber": 62,
+                    "name": "dataUpdated",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "VolumeReader.h",
+    "outputRevision": 69
+}

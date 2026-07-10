@@ -85,7 +85,7 @@ PanelWindow {
             }
             height: parent.height
             topLeftRadius: Theme.radius
-            color: Theme.bg_2_solid
+            color: Theme.bg_2
 
             y: wallpaperWidget.visualOpen ? 0 : wallpaperWidget.height
 

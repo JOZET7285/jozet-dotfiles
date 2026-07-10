@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QVariantMap>
 #include <vector>
+#include <QProcess>
 
 namespace jozet {
     enum class InterfaceType {
@@ -48,6 +49,7 @@ namespace jozet {
         QString getSpeed(const QString &iface, InterfaceType type);
         int getWifiQuality(const QString &iface);
         QString getWifiFreq(const QString &iface);
+        static bool runProcess(QProcess &process, int timeoutMs);
         
         QString m_ethInterface;
         QString m_wifiInterface;

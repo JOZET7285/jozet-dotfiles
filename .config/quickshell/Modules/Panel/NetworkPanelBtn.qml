@@ -32,7 +32,7 @@ Rectangle {
             color: Theme.text_color
         }
         Text{
-            text: connection.name
+            text: connection.name !== "" ? connection.name : (connection.type == "ethernet" ? "Ethernet" : connection.type == "wifi" ? "Wi-Fi" : "No connection")
             color: Theme.text_color
         }
         visible: activePopup == null || activePopup == networkPopup

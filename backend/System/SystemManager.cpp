@@ -21,6 +21,25 @@ SystemManager::SystemManager(QObject *parent)
 
     connect(m_networkManager, &QNetworkAccessManager::finished, this, &SystemManager::handleNetworkReply);
 
+    connect(&m_bluetoothReader, &BluetoothReader::devicesChanged, this, [this]() {
+        emit bluetoothChanged();
+    });
+
+    connect(&m_volumeReader, &VolumeReader::dataUpdated, this, [this]() {
+        emit volumeChanged();
+    });
+
+    QTimer *appsTimer = new QTimer(this);
+    connect(appsTimer, &QTimer::timeout, this, [this]() {
+        m_volumeReader.updateVolumeStatus();
+    });
+    appsTimer->start(8000);
+    
+    m_volumeReader.startEventListener([]() {
+    });
+
+    m_bluetoothReader.updateDevices();
+    m_volumeReader.updateVolumeStatus();
     fetchWeather();
 }
 
@@ -45,8 +64,28 @@ void SystemManager::update() {
 
     m_networkReader.updateNetworkStatus();
     emit networkChanged();
+
+    m_bluetoothReader.updateDevices();
+    emit bluetoothChanged();
+
+    m_volumeReader.updateVolumeStatus();
+    emit volumeChanged();
+}
+QVariantMap SystemManager::playbackDeviceInfo() const {
+    QVariantMap info = m_volumeReader.playbackDeviceInfo();
+    if (info.isEmpty()) {
+        return { {"volume", 0}, {"isMuted", false}, {"name", "Esperando Audio..."} };
+    }
+    return info;
 }
 
+QVariantMap SystemManager::inputDeviceInfo() const {
+    QVariantMap info = m_volumeReader.inputDeviceInfo();
+    if (info.isEmpty()) {
+        return { {"volume", 0}, {"isMuted", false}, {"name", "Sin Micrófono"} };
+    }
+    return info;
+}
 void SystemManager::fetchWeather() {
     QUrl url("https://wttr.in/?format=%t");
     QNetworkRequest request(url);
@@ -62,6 +101,25 @@ void SystemManager::handleNetworkReply(QNetworkReply *reply) {
         qDebug() << "Error en red:" << (reply ? reply->errorString() : "Desconocido");
     }
     reply->deleteLater();
+}
+
+void SystemManager::scanBluetooth(bool start) {
+    m_bluetoothReader.scan(start);
+    if (start) {
+        m_bluetoothReader.updateDevices();
+    }
+}
+
+void SystemManager::connectBluetooth(const QString &address) {
+    m_bluetoothReader.connectDevice(address);
+}
+
+void SystemManager::disconnectBluetooth(const QString &address) {
+    m_bluetoothReader.disconnectDevice(address);
+}
+
+void SystemManager::forgetBluetooth(const QString &address) {
+    m_bluetoothReader.forgetDevice(address);
 }
 
 }

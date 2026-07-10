@@ -3,8 +3,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
+import Qt5Compat.GraphicalEffects
 import "../Components"
-
 Item {
     id: appLauncher
 

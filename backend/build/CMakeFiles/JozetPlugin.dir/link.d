@@ -10,6 +10,8 @@ libJozetPlugin.so: \
   CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.o \
   CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.o \
   CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.o \
+  CMakeFiles/JozetPlugin.dir/System/Readers/BluetoothReader.cpp.o \
+  CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.o \
   /usr/lib/libQt6Qml.so.6.11.1 \
   /usr/lib/libQt6Network.so.6.11.1 \
   /usr/lib/libQt6DBus.so.6.11.1 \
@@ -64,6 +66,10 @@ CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.o:
 CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.o:
 
 CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.o:
+
+CMakeFiles/JozetPlugin.dir/System/Readers/BluetoothReader.cpp.o:
+
+CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.o:
 
 /usr/lib/libQt6Qml.so.6.11.1:
 

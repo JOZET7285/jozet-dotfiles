@@ -461,6 +461,30 @@ JozetPluginplugin_autogen/mocs_compilation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPluginplugin.dir/build.make CMakeFiles/JozetPluginplugin.dir/JozetPluginplugin_autogen/mocs_compilation.cpp.s
 .PHONY : JozetPluginplugin_autogen/mocs_compilation.cpp.s
 
+System/Readers/BluetoothReader.o: System/Readers/BluetoothReader.cpp.o
+.PHONY : System/Readers/BluetoothReader.o
+
+# target to build an object file
+System/Readers/BluetoothReader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/BluetoothReader.cpp.o
+.PHONY : System/Readers/BluetoothReader.cpp.o
+
+System/Readers/BluetoothReader.i: System/Readers/BluetoothReader.cpp.i
+.PHONY : System/Readers/BluetoothReader.i
+
+# target to preprocess a source file
+System/Readers/BluetoothReader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/BluetoothReader.cpp.i
+.PHONY : System/Readers/BluetoothReader.cpp.i
+
+System/Readers/BluetoothReader.s: System/Readers/BluetoothReader.cpp.s
+.PHONY : System/Readers/BluetoothReader.s
+
+# target to generate assembly for a file
+System/Readers/BluetoothReader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/BluetoothReader.cpp.s
+.PHONY : System/Readers/BluetoothReader.cpp.s
+
 System/Readers/CpuReader.o: System/Readers/CpuReader.cpp.o
 .PHONY : System/Readers/CpuReader.o
 
@@ -581,6 +605,30 @@ System/Readers/TempReader.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.s
 .PHONY : System/Readers/TempReader.cpp.s
 
+System/Readers/VolumeReader.o: System/Readers/VolumeReader.cpp.o
+.PHONY : System/Readers/VolumeReader.o
+
+# target to build an object file
+System/Readers/VolumeReader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.o
+.PHONY : System/Readers/VolumeReader.cpp.o
+
+System/Readers/VolumeReader.i: System/Readers/VolumeReader.cpp.i
+.PHONY : System/Readers/VolumeReader.i
+
+# target to preprocess a source file
+System/Readers/VolumeReader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.i
+.PHONY : System/Readers/VolumeReader.cpp.i
+
+System/Readers/VolumeReader.s: System/Readers/VolumeReader.cpp.s
+.PHONY : System/Readers/VolumeReader.s
+
+# target to generate assembly for a file
+System/Readers/VolumeReader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/JozetPlugin.dir/build.make CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.s
+.PHONY : System/Readers/VolumeReader.cpp.s
+
 System/SystemManager.o: System/SystemManager.cpp.o
 .PHONY : System/SystemManager.o
 
@@ -691,6 +739,9 @@ help:
 	@echo "... JozetPluginplugin_autogen/mocs_compilation.o"
 	@echo "... JozetPluginplugin_autogen/mocs_compilation.i"
 	@echo "... JozetPluginplugin_autogen/mocs_compilation.s"
+	@echo "... System/Readers/BluetoothReader.o"
+	@echo "... System/Readers/BluetoothReader.i"
+	@echo "... System/Readers/BluetoothReader.s"
 	@echo "... System/Readers/CpuReader.o"
 	@echo "... System/Readers/CpuReader.i"
 	@echo "... System/Readers/CpuReader.s"
@@ -706,6 +757,9 @@ help:
 	@echo "... System/Readers/TempReader.o"
 	@echo "... System/Readers/TempReader.i"
 	@echo "... System/Readers/TempReader.s"
+	@echo "... System/Readers/VolumeReader.o"
+	@echo "... System/Readers/VolumeReader.i"
+	@echo "... System/Readers/VolumeReader.s"
 	@echo "... System/SystemManager.o"
 	@echo "... System/SystemManager.i"
 	@echo "... System/SystemManager.s"

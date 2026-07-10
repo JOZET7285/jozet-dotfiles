@@ -51,25 +51,50 @@ template <> constexpr inline auto jozet::SystemManager::qt_create_metaobjectdata
         "cpuTempChanged",
         "weatherChanged",
         "networkChanged",
+        "bluetoothChanged",
+        "volumeChanged",
         "update",
         "fetchWeather",
         "handleNetworkReply",
         "QNetworkReply*",
         "reply",
-        "availableNetworks",
+        "playbackDeviceInfo",
+        "QVariantMap",
+        "inputDeviceInfo",
+        "playingApplications",
         "QVariantList",
+        "availableNetworks",
         "scanNetworks",
         "connectToNetwork",
         "ssid",
         "password",
+        "scanBluetooth",
+        "start",
+        "connectBluetooth",
+        "address",
+        "disconnectBluetooth",
+        "forgetBluetooth",
+        "setPlaybackVolume",
+        "volume",
+        "setInputVolume",
+        "setPlaybackMuted",
+        "muted",
+        "setInputMuted",
+        "setApplicationVolume",
+        "uint32_t",
+        "pid",
+        "setDefaultPlaybackDevice",
+        "index",
+        "setDefaultInputDevice",
         "ramUsage",
         "cpuUsage",
         "diskUsage",
         "cpuTemp",
         "weather",
         "ethernetInfo",
-        "QVariantMap",
-        "wifiInfo"
+        "wifiInfo",
+        "availableBluetoothDevices",
+        "isVolumeReady"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -85,40 +110,104 @@ template <> constexpr inline auto jozet::SystemManager::qt_create_metaobjectdata
         QtMocHelpers::SignalData<void()>(10, 6, QMC::AccessPublic, QMetaType::Void),
         // Signal 'networkChanged'
         QtMocHelpers::SignalData<void()>(11, 6, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'bluetoothChanged'
+        QtMocHelpers::SignalData<void()>(12, 6, QMC::AccessPublic, QMetaType::Void),
+        // Signal 'volumeChanged'
+        QtMocHelpers::SignalData<void()>(13, 6, QMC::AccessPublic, QMetaType::Void),
         // Slot 'update'
-        QtMocHelpers::SlotData<void()>(12, 6, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(14, 6, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'fetchWeather'
-        QtMocHelpers::SlotData<void()>(13, 6, QMC::AccessPrivate, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(15, 6, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'handleNetworkReply'
-        QtMocHelpers::SlotData<void(QNetworkReply *)>(14, 6, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 15, 16 },
+        QtMocHelpers::SlotData<void(QNetworkReply *)>(16, 6, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 17, 18 },
         }}),
+        // Method 'playbackDeviceInfo'
+        QtMocHelpers::MethodData<QVariantMap() const>(19, 6, QMC::AccessPublic, 0x80000000 | 20),
+        // Method 'inputDeviceInfo'
+        QtMocHelpers::MethodData<QVariantMap() const>(21, 6, QMC::AccessPublic, 0x80000000 | 20),
+        // Method 'playingApplications'
+        QtMocHelpers::MethodData<QVariantList() const>(22, 6, QMC::AccessPublic, 0x80000000 | 23),
         // Method 'availableNetworks'
-        QtMocHelpers::MethodData<QVariantList() const>(17, 6, QMC::AccessPublic, 0x80000000 | 18),
+        QtMocHelpers::MethodData<QVariantList() const>(24, 6, QMC::AccessPublic, 0x80000000 | 23),
         // Method 'scanNetworks'
-        QtMocHelpers::MethodData<void()>(19, 6, QMC::AccessPublic, QMetaType::Void),
+        QtMocHelpers::MethodData<void()>(25, 6, QMC::AccessPublic, QMetaType::Void),
         // Method 'connectToNetwork'
-        QtMocHelpers::MethodData<void(const QString &, const QString &)>(20, 6, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QString, 21 }, { QMetaType::QString, 22 },
+        QtMocHelpers::MethodData<void(const QString &, const QString &)>(26, 6, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 27 }, { QMetaType::QString, 28 },
+        }}),
+        // Method 'scanBluetooth'
+        QtMocHelpers::MethodData<void(bool)>(29, 6, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Bool, 30 },
+        }}),
+        // Method 'connectBluetooth'
+        QtMocHelpers::MethodData<void(const QString &)>(31, 6, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 32 },
+        }}),
+        // Method 'disconnectBluetooth'
+        QtMocHelpers::MethodData<void(const QString &)>(33, 6, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 32 },
+        }}),
+        // Method 'forgetBluetooth'
+        QtMocHelpers::MethodData<void(const QString &)>(34, 6, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 32 },
+        }}),
+        // Method 'setPlaybackVolume'
+        QtMocHelpers::MethodData<void(int)>(35, 6, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Int, 36 },
+        }}),
+        // Method 'setInputVolume'
+        QtMocHelpers::MethodData<void(int)>(37, 6, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Int, 36 },
+        }}),
+        // Method 'setPlaybackMuted'
+        QtMocHelpers::MethodData<void(bool)>(38, 6, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Bool, 39 },
+        }}),
+        // Method 'setInputMuted'
+        QtMocHelpers::MethodData<void(bool)>(40, 6, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::Bool, 39 },
+        }}),
+        // Method 'setApplicationVolume'
+        QtMocHelpers::MethodData<void(uint32_t, int)>(41, 6, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 42, 43 }, { QMetaType::Int, 36 },
+        }}),
+        // Method 'setDefaultPlaybackDevice'
+        QtMocHelpers::MethodData<void(uint32_t)>(44, 6, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 42, 45 },
+        }}),
+        // Method 'setDefaultInputDevice'
+        QtMocHelpers::MethodData<void(uint32_t)>(46, 6, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 42, 45 },
         }}),
     };
     QtMocHelpers::UintData qt_properties {
         // property 'ramUsage'
-        QtMocHelpers::PropertyData<int>(23, QMetaType::Int, QMC::DefaultPropertyFlags, 0),
+        QtMocHelpers::PropertyData<int>(47, QMetaType::Int, QMC::DefaultPropertyFlags, 0),
         // property 'cpuUsage'
-        QtMocHelpers::PropertyData<int>(24, QMetaType::Int, QMC::DefaultPropertyFlags, 1),
+        QtMocHelpers::PropertyData<int>(48, QMetaType::Int, QMC::DefaultPropertyFlags, 1),
         // property 'diskUsage'
-        QtMocHelpers::PropertyData<double>(25, QMetaType::Double, QMC::DefaultPropertyFlags, 2),
+        QtMocHelpers::PropertyData<double>(49, QMetaType::Double, QMC::DefaultPropertyFlags, 2),
         // property 'cpuTemp'
-        QtMocHelpers::PropertyData<int>(26, QMetaType::Int, QMC::DefaultPropertyFlags, 3),
+        QtMocHelpers::PropertyData<int>(50, QMetaType::Int, QMC::DefaultPropertyFlags, 3),
         // property 'weather'
-        QtMocHelpers::PropertyData<QString>(27, QMetaType::QString, QMC::DefaultPropertyFlags, 4),
+        QtMocHelpers::PropertyData<QString>(51, QMetaType::QString, QMC::DefaultPropertyFlags, 4),
         // property 'availableNetworks'
-        QtMocHelpers::PropertyData<QVariantList>(17, 0x80000000 | 18, QMC::DefaultPropertyFlags | QMC::EnumOrFlag, 5),
+        QtMocHelpers::PropertyData<QVariantList>(24, 0x80000000 | 23, QMC::DefaultPropertyFlags | QMC::EnumOrFlag, 5),
         // property 'ethernetInfo'
-        QtMocHelpers::PropertyData<QVariantMap>(28, 0x80000000 | 29, QMC::DefaultPropertyFlags | QMC::EnumOrFlag, 5),
+        QtMocHelpers::PropertyData<QVariantMap>(52, 0x80000000 | 20, QMC::DefaultPropertyFlags | QMC::EnumOrFlag, 5),
         // property 'wifiInfo'
-        QtMocHelpers::PropertyData<QVariantMap>(30, 0x80000000 | 29, QMC::DefaultPropertyFlags | QMC::EnumOrFlag, 5),
+        QtMocHelpers::PropertyData<QVariantMap>(53, 0x80000000 | 20, QMC::DefaultPropertyFlags | QMC::EnumOrFlag, 5),
+        // property 'availableBluetoothDevices'
+        QtMocHelpers::PropertyData<QVariantList>(54, 0x80000000 | 23, QMC::DefaultPropertyFlags | QMC::EnumOrFlag, 6),
+        // property 'playbackDeviceInfo'
+        QtMocHelpers::PropertyData<QVariantMap>(19, 0x80000000 | 20, QMC::DefaultPropertyFlags | QMC::EnumOrFlag, 7),
+        // property 'inputDeviceInfo'
+        QtMocHelpers::PropertyData<QVariantMap>(21, 0x80000000 | 20, QMC::DefaultPropertyFlags | QMC::EnumOrFlag, 7),
+        // property 'playingApplications'
+        QtMocHelpers::PropertyData<QVariantList>(22, 0x80000000 | 23, QMC::DefaultPropertyFlags | QMC::EnumOrFlag, 7),
+        // property 'isVolumeReady'
+        QtMocHelpers::PropertyData<bool>(55, QMetaType::Bool, QMC::DefaultPropertyFlags, 7),
     };
     QtMocHelpers::UintData qt_enums {
     };
@@ -151,20 +240,39 @@ void jozet::SystemManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c,
         case 3: _t->cpuTempChanged(); break;
         case 4: _t->weatherChanged(); break;
         case 5: _t->networkChanged(); break;
-        case 6: _t->update(); break;
-        case 7: _t->fetchWeather(); break;
-        case 8: _t->handleNetworkReply((*reinterpret_cast<std::add_pointer_t<QNetworkReply*>>(_a[1]))); break;
-        case 9: { QVariantList _r = _t->availableNetworks();
+        case 6: _t->bluetoothChanged(); break;
+        case 7: _t->volumeChanged(); break;
+        case 8: _t->update(); break;
+        case 9: _t->fetchWeather(); break;
+        case 10: _t->handleNetworkReply((*reinterpret_cast<std::add_pointer_t<QNetworkReply*>>(_a[1]))); break;
+        case 11: { QVariantMap _r = _t->playbackDeviceInfo();
+            if (_a[0]) *reinterpret_cast<QVariantMap*>(_a[0]) = std::move(_r); }  break;
+        case 12: { QVariantMap _r = _t->inputDeviceInfo();
+            if (_a[0]) *reinterpret_cast<QVariantMap*>(_a[0]) = std::move(_r); }  break;
+        case 13: { QVariantList _r = _t->playingApplications();
             if (_a[0]) *reinterpret_cast<QVariantList*>(_a[0]) = std::move(_r); }  break;
-        case 10: _t->scanNetworks(); break;
-        case 11: _t->connectToNetwork((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2]))); break;
+        case 14: { QVariantList _r = _t->availableNetworks();
+            if (_a[0]) *reinterpret_cast<QVariantList*>(_a[0]) = std::move(_r); }  break;
+        case 15: _t->scanNetworks(); break;
+        case 16: _t->connectToNetwork((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2]))); break;
+        case 17: _t->scanBluetooth((*reinterpret_cast<std::add_pointer_t<bool>>(_a[1]))); break;
+        case 18: _t->connectBluetooth((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
+        case 19: _t->disconnectBluetooth((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
+        case 20: _t->forgetBluetooth((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
+        case 21: _t->setPlaybackVolume((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 22: _t->setInputVolume((*reinterpret_cast<std::add_pointer_t<int>>(_a[1]))); break;
+        case 23: _t->setPlaybackMuted((*reinterpret_cast<std::add_pointer_t<bool>>(_a[1]))); break;
+        case 24: _t->setInputMuted((*reinterpret_cast<std::add_pointer_t<bool>>(_a[1]))); break;
+        case 25: _t->setApplicationVolume((*reinterpret_cast<std::add_pointer_t<uint32_t>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[2]))); break;
+        case 26: _t->setDefaultPlaybackDevice((*reinterpret_cast<std::add_pointer_t<uint32_t>>(_a[1]))); break;
+        case 27: _t->setDefaultInputDevice((*reinterpret_cast<std::add_pointer_t<uint32_t>>(_a[1]))); break;
         default: ;
         }
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
-        case 8:
+        case 10:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
             case 0:
@@ -186,6 +294,10 @@ void jozet::SystemManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c,
             return;
         if (QtMocHelpers::indexOfMethod<void (SystemManager::*)()>(_a, &SystemManager::networkChanged, 5))
             return;
+        if (QtMocHelpers::indexOfMethod<void (SystemManager::*)()>(_a, &SystemManager::bluetoothChanged, 6))
+            return;
+        if (QtMocHelpers::indexOfMethod<void (SystemManager::*)()>(_a, &SystemManager::volumeChanged, 7))
+            return;
     }
     if (_c == QMetaObject::ReadProperty) {
         void *_v = _a[0];
@@ -198,6 +310,11 @@ void jozet::SystemManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c,
         case 5: *reinterpret_cast<QVariantList*>(_v) = _t->availableNetworks(); break;
         case 6: *reinterpret_cast<QVariantMap*>(_v) = _t->ethernetInfo(); break;
         case 7: *reinterpret_cast<QVariantMap*>(_v) = _t->wifiInfo(); break;
+        case 8: *reinterpret_cast<QVariantList*>(_v) = _t->availableBluetoothDevices(); break;
+        case 9: *reinterpret_cast<QVariantMap*>(_v) = _t->playbackDeviceInfo(); break;
+        case 10: *reinterpret_cast<QVariantMap*>(_v) = _t->inputDeviceInfo(); break;
+        case 11: *reinterpret_cast<QVariantList*>(_v) = _t->playingApplications(); break;
+        case 12: *reinterpret_cast<bool*>(_v) = _t->isVolumeReady(); break;
         default: break;
         }
     }
@@ -222,20 +339,20 @@ int jozet::SystemManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 12)
+        if (_id < 28)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 28;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 12)
+        if (_id < 28)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 28;
     }
     if (_c == QMetaObject::ReadProperty || _c == QMetaObject::WriteProperty
             || _c == QMetaObject::ResetProperty || _c == QMetaObject::BindableProperty
             || _c == QMetaObject::RegisterPropertyMetaType) {
         qt_static_metacall(this, _c, _id, _a);
-        _id -= 8;
+        _id -= 13;
     }
     return _id;
 }
@@ -274,5 +391,17 @@ void jozet::SystemManager::weatherChanged()
 void jozet::SystemManager::networkChanged()
 {
     QMetaObject::activate(this, &staticMetaObject, 5, nullptr);
+}
+
+// SIGNAL 6
+void jozet::SystemManager::bluetoothChanged()
+{
+    QMetaObject::activate(this, &staticMetaObject, 6, nullptr);
+}
+
+// SIGNAL 7
+void jozet::SystemManager::volumeChanged()
+{
+    QMetaObject::activate(this, &staticMetaObject, 7, nullptr);
 }
 QT_WARNING_POP

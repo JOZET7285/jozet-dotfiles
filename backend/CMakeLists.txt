@@ -25,6 +25,10 @@ qt6_add_qml_module(JozetPlugin
         System/Readers/TempReader.h
         System/Readers/NetworkReader.cpp
         System/Readers/NetworkReader.h
+        System/Readers/BluetoothReader.cpp
+        System/Readers/BluetoothReader.h
+        System/Readers/VolumeReader.cpp
+        System/Readers/VolumeReader.h
 )
 target_include_directories(JozetPlugin PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}

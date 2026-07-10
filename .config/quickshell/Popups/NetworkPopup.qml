@@ -9,6 +9,23 @@ import "../Modules/Network"
 Item {
     id: networkPopup
 
+    property string selectedConnectionType: "auto"
+    property var connection: sysManager.ethernetInfo.status !== "down" ? sysManager.ethernetInfo : sysManager.wifiInfo
+
+    onSelectedConnectionTypeChanged: {
+        console.log("selectedConnectionType changed to:", selectedConnectionType);
+        if (selectedConnectionType === "ethernet") {
+            connection = sysManager.ethernetInfo;
+            console.log("Set connection to ethernetInfo");
+        } else if (selectedConnectionType === "wifi") {
+            connection = sysManager.wifiInfo;
+            console.log("Set connection to wifiInfo");
+        } else {
+            connection = sysManager.ethernetInfo.status !== "down" ? sysManager.ethernetInfo : sysManager.wifiInfo;
+            console.log("Set connection to auto (active connection)");
+        }
+    }
+
     property bool open: false
     property bool animating: false
     readonly property int contentWidth: 320
@@ -68,7 +85,7 @@ Item {
         Item {
             id: content
             width: parent.width
-            height: connection.type === "wifi" ? 550 : 210
+            height: networkPopup.connection.type === "wifi" ? networkPopup.connection.status === "up" ? 550 : 210 : 210
             
             Behavior on height { 
                 NumberAnimation { duration: 180; easing.type: Easing.InOutQuad } 
@@ -95,7 +112,8 @@ Item {
                     spacing: 10
 
                     NetworkActiveBtn { 
-                        id: activeNetBtn 
+                        id: activeNetBtn
+                        connection: networkPopup.connection
                     }
                     
                     Rectangle {
@@ -107,19 +125,28 @@ Item {
                         radius: 15
                         
                         NetworkDetails { 
-                            id: infoConnection 
+                            id: infoConnection
                             anchors.fill: parent
                             anchors.margins: 10
+                            connection: networkPopup.connection
                         }
                     }
                 }
 
-                NetworkAvailableList { id: wifiAvailableNets }
+                NetworkAvailableList { 
+                    id: wifiAvailableNets
+                    connection: networkPopup.connection
+                }
                 
                 NetworkTypeToggle {
                     id: typeToggleBtn
                     Layout.fillWidth: true
                     Layout.preferredHeight: 45
+                    connection: networkPopup.connection
+                    onConnectionTypeChanged: function(type) {
+                        console.log("Switching to connection type:", type);
+                        networkPopup.selectedConnectionType = type;
+                    }
                 }
             }
         }

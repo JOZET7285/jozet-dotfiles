@@ -12,20 +12,44 @@
                 }
             ],
             "className": "SystemManager",
-            "lineNumber": 13,
+            "lineNumber": 15,
             "methods": [
                 {
                     "access": "public",
-                    "index": 9,
+                    "index": 11,
                     "isConst": true,
-                    "lineNumber": 38,
+                    "lineNumber": 46,
+                    "name": "playbackDeviceInfo",
+                    "returnType": "QVariantMap"
+                },
+                {
+                    "access": "public",
+                    "index": 12,
+                    "isConst": true,
+                    "lineNumber": 47,
+                    "name": "inputDeviceInfo",
+                    "returnType": "QVariantMap"
+                },
+                {
+                    "access": "public",
+                    "index": 13,
+                    "isConst": true,
+                    "lineNumber": 48,
+                    "name": "playingApplications",
+                    "returnType": "QVariantList"
+                },
+                {
+                    "access": "public",
+                    "index": 14,
+                    "isConst": true,
+                    "lineNumber": 51,
                     "name": "availableNetworks",
                     "returnType": "QVariantList"
                 },
                 {
                     "access": "public",
-                    "index": 10,
-                    "lineNumber": 39,
+                    "index": 15,
+                    "lineNumber": 52,
                     "name": "scanNetworks",
                     "returnType": "void"
                 },
@@ -41,9 +65,156 @@
                             "type": "QString"
                         }
                     ],
-                    "index": 11,
-                    "lineNumber": 40,
+                    "index": 16,
+                    "lineNumber": 53,
                     "name": "connectToNetwork",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "start",
+                            "type": "bool"
+                        }
+                    ],
+                    "index": 17,
+                    "lineNumber": 56,
+                    "name": "scanBluetooth",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "address",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 18,
+                    "lineNumber": 57,
+                    "name": "connectBluetooth",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "address",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 19,
+                    "lineNumber": 58,
+                    "name": "disconnectBluetooth",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "address",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 20,
+                    "lineNumber": 59,
+                    "name": "forgetBluetooth",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "volume",
+                            "type": "int"
+                        }
+                    ],
+                    "index": 21,
+                    "lineNumber": 61,
+                    "name": "setPlaybackVolume",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "volume",
+                            "type": "int"
+                        }
+                    ],
+                    "index": 22,
+                    "lineNumber": 62,
+                    "name": "setInputVolume",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "muted",
+                            "type": "bool"
+                        }
+                    ],
+                    "index": 23,
+                    "lineNumber": 63,
+                    "name": "setPlaybackMuted",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "muted",
+                            "type": "bool"
+                        }
+                    ],
+                    "index": 24,
+                    "lineNumber": 64,
+                    "name": "setInputMuted",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "pid",
+                            "type": "uint32_t"
+                        },
+                        {
+                            "name": "volume",
+                            "type": "int"
+                        }
+                    ],
+                    "index": 25,
+                    "lineNumber": 65,
+                    "name": "setApplicationVolume",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "index",
+                            "type": "uint32_t"
+                        }
+                    ],
+                    "index": 26,
+                    "lineNumber": 66,
+                    "name": "setDefaultPlaybackDevice",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "index",
+                            "type": "uint32_t"
+                        }
+                    ],
+                    "index": 27,
+                    "lineNumber": 67,
+                    "name": "setDefaultInputDevice",
                     "returnType": "void"
                 }
             ],
@@ -54,7 +225,7 @@
                     "designable": true,
                     "final": false,
                     "index": 0,
-                    "lineNumber": 19,
+                    "lineNumber": 21,
                     "name": "ramUsage",
                     "notify": "ramUsageChanged",
                     "override": false,
@@ -71,7 +242,7 @@
                     "designable": true,
                     "final": false,
                     "index": 1,
-                    "lineNumber": 20,
+                    "lineNumber": 22,
                     "name": "cpuUsage",
                     "notify": "cpuUsageChanged",
                     "override": false,
@@ -88,7 +259,7 @@
                     "designable": true,
                     "final": false,
                     "index": 2,
-                    "lineNumber": 21,
+                    "lineNumber": 23,
                     "name": "diskUsage",
                     "notify": "diskUsageChanged",
                     "override": false,
@@ -105,7 +276,7 @@
                     "designable": true,
                     "final": false,
                     "index": 3,
-                    "lineNumber": 22,
+                    "lineNumber": 24,
                     "name": "cpuTemp",
                     "notify": "cpuTempChanged",
                     "override": false,
@@ -122,7 +293,7 @@
                     "designable": true,
                     "final": false,
                     "index": 4,
-                    "lineNumber": 23,
+                    "lineNumber": 25,
                     "name": "weather",
                     "notify": "weatherChanged",
                     "override": false,
@@ -139,7 +310,7 @@
                     "designable": true,
                     "final": false,
                     "index": 5,
-                    "lineNumber": 24,
+                    "lineNumber": 26,
                     "name": "availableNetworks",
                     "notify": "networkChanged",
                     "override": false,
@@ -156,7 +327,7 @@
                     "designable": true,
                     "final": false,
                     "index": 6,
-                    "lineNumber": 25,
+                    "lineNumber": 27,
                     "name": "ethernetInfo",
                     "notify": "networkChanged",
                     "override": false,
@@ -173,7 +344,7 @@
                     "designable": true,
                     "final": false,
                     "index": 7,
-                    "lineNumber": 26,
+                    "lineNumber": 28,
                     "name": "wifiInfo",
                     "notify": "networkChanged",
                     "override": false,
@@ -184,6 +355,91 @@
                     "type": "QVariantMap",
                     "user": false,
                     "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 8,
+                    "lineNumber": 29,
+                    "name": "availableBluetoothDevices",
+                    "notify": "bluetoothChanged",
+                    "override": false,
+                    "read": "availableBluetoothDevices",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QVariantList",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 9,
+                    "lineNumber": 30,
+                    "name": "playbackDeviceInfo",
+                    "notify": "volumeChanged",
+                    "override": false,
+                    "read": "playbackDeviceInfo",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QVariantMap",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 10,
+                    "lineNumber": 31,
+                    "name": "inputDeviceInfo",
+                    "notify": "volumeChanged",
+                    "override": false,
+                    "read": "inputDeviceInfo",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QVariantMap",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 11,
+                    "lineNumber": 32,
+                    "name": "playingApplications",
+                    "notify": "volumeChanged",
+                    "override": false,
+                    "read": "playingApplications",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QVariantList",
+                    "user": false,
+                    "virtual": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 12,
+                    "lineNumber": 33,
+                    "name": "isVolumeReady",
+                    "notify": "volumeChanged",
+                    "override": false,
+                    "read": "isVolumeReady",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "bool",
+                    "user": false,
+                    "virtual": false
                 }
             ],
             "qualifiedClassName": "jozet::SystemManager",
@@ -191,58 +447,72 @@
                 {
                     "access": "public",
                     "index": 0,
-                    "lineNumber": 45,
+                    "lineNumber": 70,
                     "name": "ramUsageChanged",
                     "returnType": "void"
                 },
                 {
                     "access": "public",
                     "index": 1,
-                    "lineNumber": 46,
+                    "lineNumber": 71,
                     "name": "cpuUsageChanged",
                     "returnType": "void"
                 },
                 {
                     "access": "public",
                     "index": 2,
-                    "lineNumber": 47,
+                    "lineNumber": 72,
                     "name": "diskUsageChanged",
                     "returnType": "void"
                 },
                 {
                     "access": "public",
                     "index": 3,
-                    "lineNumber": 48,
+                    "lineNumber": 73,
                     "name": "cpuTempChanged",
                     "returnType": "void"
                 },
                 {
                     "access": "public",
                     "index": 4,
-                    "lineNumber": 49,
+                    "lineNumber": 74,
                     "name": "weatherChanged",
                     "returnType": "void"
                 },
                 {
                     "access": "public",
                     "index": 5,
-                    "lineNumber": 50,
+                    "lineNumber": 75,
                     "name": "networkChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 6,
+                    "lineNumber": 76,
+                    "name": "bluetoothChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "index": 7,
+                    "lineNumber": 77,
+                    "name": "volumeChanged",
                     "returnType": "void"
                 }
             ],
             "slots": [
                 {
                     "access": "private",
-                    "index": 6,
-                    "lineNumber": 53,
+                    "index": 8,
+                    "lineNumber": 80,
                     "name": "update",
                     "returnType": "void"
                 },
                 {
                     "access": "private",
-                    "index": 7,
-                    "lineNumber": 54,
+                    "index": 9,
+                    "lineNumber": 81,
                     "name": "fetchWeather",
                     "returnType": "void"
                 },
@@ -254,8 +524,8 @@
                             "type": "QNetworkReply*"
                         }
                     ],
-                    "index": 8,
-                    "lineNumber": 55,
+                    "index": 10,
+                    "lineNumber": 82,
                     "name": "handleNetworkReply",
                     "returnType": "void"
                 }

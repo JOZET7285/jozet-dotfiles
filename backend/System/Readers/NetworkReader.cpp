@@ -87,7 +87,7 @@ void NetworkReader::connectToWifi(const QString &ssid, const QString &password) 
     QProcess process;
     QStringList args = {"device", "wifi", "connect", ssid, "password", password};
     process.start("nmcli", args);
-    process.waitForFinished();
+    runProcess(process, 15000); 
 }
 
 QVariantList NetworkReader::availableNetworks() const
@@ -125,7 +125,7 @@ QString NetworkReader::getWifiFreq(const QString &iface) {
     QProcess process;
     process.start("/usr/bin/iw", {"dev", iface, "info"});
     
-    if (process.waitForFinished(500)) {
+    if (runProcess(process, 800)) {
         QString output = process.readAllStandardOutput();
         QRegularExpression re("channel \\d+ \\((\\d+ MHz)\\)");
         QRegularExpressionMatch match = re.match(output);
@@ -136,11 +136,20 @@ QString NetworkReader::getWifiFreq(const QString &iface) {
     return "N/A";
 }
 
+bool NetworkReader::runProcess(QProcess &process, int timeoutMs) {
+    if (process.waitForFinished(timeoutMs)) {
+        return true;
+    }
+    process.kill();
+    process.waitForFinished(200);
+    return false;
+}
+
 int NetworkReader::getWifiQuality(const QString &iface) {
     QProcess process;
-    process.start("nmcli", {"-t", "-f", "IN-USE,BARS,SIGNAL", "dev", "wifi"});
+    process.start("nmcli", {"-t", "-f", "IN-USE,BARS,SIGNAL", "dev", "wifi", "list", "--rescan", "no"});
     
-    if (process.waitForFinished(500)) {
+    if (runProcess(process, 800)) {
         QStringList lines = QString(process.readAllStandardOutput()).split('\n');
         for (const QString &line : lines) {
             if (line.startsWith("*")) {
@@ -176,7 +185,7 @@ QString NetworkReader::getSpeed(const QString &iface, InterfaceType type) {
     else if (type == InterfaceType::wifi) {
         QProcess process;
         process.start("/usr/bin/iw", {"dev", iface, "link"});
-        if (process.waitForFinished(500)) {
+        if (runProcess(process, 800)) {
             QString output = process.readAllStandardOutput();
             QRegularExpression re("tx bitrate: ([0-9.]+)");
             QRegularExpressionMatch match = re.match(output);
@@ -202,7 +211,7 @@ QString NetworkReader::getWifiSsid(const QString &iface)
         iface
     });
 
-    if (!process.waitForFinished(1000))
+    if (!runProcess(process, 1000))
         return "No conectado";
 
     QString ssid = process.readAllStandardOutput().trimmed();

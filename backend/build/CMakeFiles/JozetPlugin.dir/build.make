@@ -234,6 +234,34 @@ CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pruebas/jozet-dotfiles/backend/System/Readers/NetworkReader.cpp -o CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.s
 
+CMakeFiles/JozetPlugin.dir/System/Readers/BluetoothReader.cpp.o: CMakeFiles/JozetPlugin.dir/flags.make
+CMakeFiles/JozetPlugin.dir/System/Readers/BluetoothReader.cpp.o: /home/pruebas/jozet-dotfiles/backend/System/Readers/BluetoothReader.cpp
+CMakeFiles/JozetPlugin.dir/System/Readers/BluetoothReader.cpp.o: CMakeFiles/JozetPlugin.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pruebas/jozet-dotfiles/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/JozetPlugin.dir/System/Readers/BluetoothReader.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/JozetPlugin.dir/System/Readers/BluetoothReader.cpp.o -MF CMakeFiles/JozetPlugin.dir/System/Readers/BluetoothReader.cpp.o.d -o CMakeFiles/JozetPlugin.dir/System/Readers/BluetoothReader.cpp.o -c /home/pruebas/jozet-dotfiles/backend/System/Readers/BluetoothReader.cpp
+
+CMakeFiles/JozetPlugin.dir/System/Readers/BluetoothReader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/JozetPlugin.dir/System/Readers/BluetoothReader.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pruebas/jozet-dotfiles/backend/System/Readers/BluetoothReader.cpp > CMakeFiles/JozetPlugin.dir/System/Readers/BluetoothReader.cpp.i
+
+CMakeFiles/JozetPlugin.dir/System/Readers/BluetoothReader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/JozetPlugin.dir/System/Readers/BluetoothReader.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pruebas/jozet-dotfiles/backend/System/Readers/BluetoothReader.cpp -o CMakeFiles/JozetPlugin.dir/System/Readers/BluetoothReader.cpp.s
+
+CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.o: CMakeFiles/JozetPlugin.dir/flags.make
+CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.o: /home/pruebas/jozet-dotfiles/backend/System/Readers/VolumeReader.cpp
+CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.o: CMakeFiles/JozetPlugin.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/pruebas/jozet-dotfiles/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.o -MF CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.o.d -o CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.o -c /home/pruebas/jozet-dotfiles/backend/System/Readers/VolumeReader.cpp
+
+CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pruebas/jozet-dotfiles/backend/System/Readers/VolumeReader.cpp > CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.i
+
+CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pruebas/jozet-dotfiles/backend/System/Readers/VolumeReader.cpp -o CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.s
+
 # Object files for target JozetPlugin
 JozetPlugin_OBJECTS = \
 "CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o" \
@@ -244,7 +272,9 @@ JozetPlugin_OBJECTS = \
 "CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.o" \
 "CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.o" \
 "CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.o" \
-"CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.o"
+"CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.o" \
+"CMakeFiles/JozetPlugin.dir/System/Readers/BluetoothReader.cpp.o" \
+"CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.o"
 
 # External object files for target JozetPlugin
 JozetPlugin_EXTERNAL_OBJECTS =
@@ -258,6 +288,8 @@ libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/System/Readers/RamReader.cpp.o
 libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/System/Readers/DiskReader.cpp.o
 libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/System/Readers/TempReader.cpp.o
 libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.o
+libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/System/Readers/BluetoothReader.cpp.o
+libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.o
 libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/build.make
 libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/compiler_depend.ts
 libJozetPlugin.so: /usr/lib/libQt6Qml.so.6.11.1
@@ -265,7 +297,7 @@ libJozetPlugin.so: /usr/lib/libQt6Network.so.6.11.1
 libJozetPlugin.so: /usr/lib/libQt6DBus.so.6.11.1
 libJozetPlugin.so: /usr/lib/libQt6Core.so.6.11.1
 libJozetPlugin.so: CMakeFiles/JozetPlugin.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/pruebas/jozet-dotfiles/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Linking CXX shared library libJozetPlugin.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/pruebas/jozet-dotfiles/backend/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Linking CXX shared library libJozetPlugin.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/JozetPlugin.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

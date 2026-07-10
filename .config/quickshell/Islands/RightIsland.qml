@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
+import QtQuick.Effects
 import "../Components"
 import "../Popups"
 import "../Process"
@@ -11,9 +12,10 @@ import "../Modules/Panel"
 import Jozet.System 1.0
 
 Rectangle {
+    id: rightIsland
     y: 5
 
-    property var popups: [networkPopup /* bluetoothPopup, settingsPopup*/, powerPopup ]
+    property var popups: [networkPopup, bluetoothPopup, powerPopup, volumePopup]
     property var connection:
     sysManager.ethernetInfo.status !== "down"
         ? sysManager.ethernetInfo
@@ -29,7 +31,9 @@ Rectangle {
 
     width: activePopup ? Math.max(
         activePopup === networkPopup ? 400 :
-        activePopup === powerPopup && 200
+        activePopup === powerPopup ? 200 :
+        activePopup === bluetoothPopup ? 400 :
+        activePopup === volumePopup ? 420 : 0
         ) : rightRowLayoutId.implicitWidth + 30
     height: activePopup ? Theme.height + activePopup.height : Theme.height 
 
@@ -43,7 +47,6 @@ Rectangle {
     color: Theme.bg_2
     radius: Theme.radius
     clip: true
-
     RowLayout {
         id: rightRowLayoutId
         anchors {
@@ -59,20 +62,46 @@ Rectangle {
         NetworkPanelBtn {
             visible: activePopup == null || activePopup == networkPopup
         }
-        
-        BasePill {
-            icon: "\uf293"
-            text: ""
-            visible: activePopup == null
+        BluetoothPanelBtn {
+            visible: activePopup == null || activePopup == bluetoothPopup
         }
-        BasePill {
-            icon: {
-                if(mainProcesses.volumePercent === "mute") return "\uf6a9"
-                if(mainProcesses.volumePercent > 60) return "\uf028"
-                if(mainProcesses.volumePercent > 30) return "\uf027"
-                return "\uf026"
+        Rectangle {
+            id: volumeBtn
+            implicitWidth: volumePopup.open ? parent.width : contentRow.implicitWidth+20
+            implicitHeight: Theme.height - 6
+            color: (volumePopup.selected ? Theme.bg_3 : (volumeBtnArea.containsMouse ? Theme.bg_2 : "transparent"))
+            radius: volumePopup.selected ? Theme.radius : 8
+            visible: activePopup == null || activePopup == volumePopup
+            Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
+            Behavior on implicitWidth { NumberAnimation { duration: 150; easing.type: Easing.InOutQuad } }
+            
+            MouseArea {
+                id: volumeBtnArea
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                onClicked: volumePopup.open = !volumePopup.open
             }
-            visible: activePopup == null
+            Row {
+                id: contentRow
+                anchors.centerIn: parent
+                spacing: 6
+                Text {
+                    text: {
+                        if(volumePopup.playbackDevice && volumePopup.playbackDevice.isMuted) return "\uf026"
+                        if(volumePopup.playbackDevice && volumePopup.playbackDevice.volume > 70.0) return "\uf028"
+                        if(volumePopup.playbackDevice && volumePopup.playbackDevice.volume > 30.0) return "\uf027"
+                        return "\uf026"
+                    }
+                    color: "white"
+                    font.pixelSize: 13
+                }
+                Text {
+                    text: volumePopup.playbackDevice ? volumePopup.playbackDevice.volume + "%" : "0%"
+                    color: "white"
+                    font.pixelSize: 13
+                }
+            }
         }
         BasePill {
             icon: {
@@ -85,19 +114,53 @@ Rectangle {
             }
             visible: activePopup == null
         }
-        BasePill {
-            icon: "\uf011"
-            onClicked: powerPopup.open = !powerPopup.open
+        Rectangle {
+            id: powerBtn
+            implicitWidth: powerPopup.open ? parent.width : contentbtRow.implicitWidth+20
+            implicitHeight: Theme.height - 6
+            color: (powerPopup.selected ? Theme.bg_3 : (powerBtnArea.containsMouse ? Theme.bg_2 : "transparent"))
+            radius: powerBtn.selected ? Theme.radius : 8
             visible: activePopup == null || activePopup == powerPopup
+            Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
+            Behavior on implicitWidth { NumberAnimation { duration: 150; easing.type: Easing.InOutQuad } }
+            
+            MouseArea {
+                id: powerBtnArea
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                onClicked: powerPopup.open = !powerPopup.open
+            }
+            Row {
+                id: contentbtRow
+                anchors.centerIn: parent
+                spacing: 6
+                Text {
+                    text: "\uf011"
+                    color: "white"
+                    font.pixelSize: 13
+                }
+            }
         }
     }
+    
     NetworkPopup { 
         id: networkPopup 
-        anchors.top: rightRowLayoutId.bottom 
+        anchors.top: rightRowLayoutId.bottom
+        connection: rightIsland.connection
     }
     PowerPopup {
         id: powerPopup
         anchors.top: rightRowLayoutId.bottom
     }
-    // BluetoothPopup { id: bluetoothPopup; anchors.top: rightRowLayoutId.bottom; anchors.right: parent.right }
+    BluetoothPopup { 
+        id: bluetoothPopup
+        anchors.top: rightRowLayoutId.bottom 
+        anchors.right: parent.right 
+    }
+    VolumePopup {
+        id: volumePopup
+        anchors.top: rightRowLayoutId.bottom
+        anchors.right: parent.right
+    }
 }

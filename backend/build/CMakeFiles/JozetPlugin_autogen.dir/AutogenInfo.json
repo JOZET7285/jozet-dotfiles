@@ -1205,6 +1205,12 @@
 	"HEADERS" : 
 	[
 		[
+			"/home/pruebas/jozet-dotfiles/backend/System/Readers/BluetoothReader.h",
+			"MU",
+			"4ZSOXKNVYZ/moc_BluetoothReader.cpp",
+			null
+		],
+		[
 			"/home/pruebas/jozet-dotfiles/backend/System/Readers/CpuReader.h",
 			"MU",
 			"4ZSOXKNVYZ/moc_CpuReader.cpp",
@@ -1232,6 +1238,12 @@
 			"/home/pruebas/jozet-dotfiles/backend/System/Readers/TempReader.h",
 			"MU",
 			"4ZSOXKNVYZ/moc_TempReader.cpp",
+			null
+		],
+		[
+			"/home/pruebas/jozet-dotfiles/backend/System/Readers/VolumeReader.h",
+			"MU",
+			"4ZSOXKNVYZ/moc_VolumeReader.cpp",
 			null
 		],
 		[
@@ -1316,6 +1328,11 @@
 	"SOURCES" : 
 	[
 		[
+			"/home/pruebas/jozet-dotfiles/backend/System/Readers/BluetoothReader.cpp",
+			"MU",
+			null
+		],
+		[
 			"/home/pruebas/jozet-dotfiles/backend/System/Readers/CpuReader.cpp",
 			"MU",
 			null
@@ -1337,6 +1354,11 @@
 		],
 		[
 			"/home/pruebas/jozet-dotfiles/backend/System/Readers/TempReader.cpp",
+			"MU",
+			null
+		],
+		[
+			"/home/pruebas/jozet-dotfiles/backend/System/Readers/VolumeReader.cpp",
 			"MU",
 			null
 		],

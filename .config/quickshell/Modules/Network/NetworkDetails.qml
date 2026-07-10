@@ -4,6 +4,8 @@ import QtQuick.Layouts
 import "../../Components"
 
 ColumnLayout {
+    id: networkDetails
+    required property var connection
     Layout.fillWidth: true
     Layout.fillHeight: true
     spacing: 8
@@ -11,16 +13,16 @@ ColumnLayout {
     Repeater {
         model: [
             { 
-                text: "Quality: " + connection.qual + "% @ " + connection.freq, 
-                show: connection.type === "wifi" 
+                label: "Quality",
+                show: "connection.type === 'wifi'" 
             },
             { 
-                text: "Speed Connection: " + connection.speed, 
-                show: true 
+                label: "Speed Connection",
+                show: "true" 
             },
             { 
-                text: "IP Address: " + connection.address, 
-                show: true 
+                label: "IP Address",
+                show: "true" 
             }
         ]
 
@@ -36,7 +38,10 @@ ColumnLayout {
             color: Theme.bg_2_solid
             radius: 12
 
-            opacity: modelData.show ? 1.0 : 0.0
+            opacity: {
+                if (index === 0) return networkDetails.connection.type === "wifi" ? 1.0 : 0.0;                
+                return 1.0;            
+            }
             visible: opacity > 0.0
             
             Behavior on opacity { 
@@ -45,7 +50,12 @@ ColumnLayout {
 
             Text {
                 anchors.centerIn: parent
-                text: modelData.text
+                text: {
+                    if (index === 0) return "Quality: " + networkDetails.connection.qual + "% @ " + networkDetails.connection.freq;
+                    if (index === 1) return "Speed Connection: " + networkDetails.connection.speed;
+                    if (index === 2) return "IP Address: " + networkDetails.connection.address;
+                    return "";
+                }
                 color: Theme.text_color
                 font.pixelSize: 12
                 font.bold: true

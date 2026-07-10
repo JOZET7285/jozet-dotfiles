@@ -350,8 +350,8 @@ CMakeFiles/JozetPlugin.dir/System/Readers/NetworkReader.cpp.o: \
  /usr/include/qt6/QtCore/QFile /usr/include/qt6/QtCore/QVariantMap \
  /usr/include/qt6/QtCore/qvariantmap.h /usr/include/qt6/QtCore/QMap \
  /usr/include/qt6/QtCore/QVariant /usr/include/qt6/QtCore/QString \
- /usr/include/qt6/QtCore/QTextStream /usr/include/qt6/QtCore/QProcess \
- /usr/include/qt6/QtCore/qprocess.h /usr/include/qt6/QtCore/QStringList \
+ /usr/include/qt6/QtCore/QProcess /usr/include/qt6/QtCore/qprocess.h \
+ /usr/include/qt6/QtCore/QTextStream /usr/include/qt6/QtCore/QStringList \
  /usr/include/qt6/QtNetwork/QNetworkInterface \
  /usr/include/qt6/QtNetwork/qnetworkinterface.h \
  /usr/include/qt6/QtNetwork/qtnetworkglobal.h \

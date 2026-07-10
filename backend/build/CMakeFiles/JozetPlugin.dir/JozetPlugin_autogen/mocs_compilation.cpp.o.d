@@ -1,8 +1,8 @@
 CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o: \
  /home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/mocs_compilation.cpp \
  /usr/include/stdc-predef.h \
- /home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/D4NBAXR44T/moc_SystemManager.cpp \
- /home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/D4NBAXR44T/../../../System/SystemManager.h \
+ /home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/4ZSOXKNVYZ/moc_BluetoothReader.cpp \
+ /home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/4ZSOXKNVYZ/../../../System/Readers/BluetoothReader.h \
  /usr/include/qt6/QtCore/QObject /usr/include/qt6/QtCore/qobject.h \
  /usr/include/qt6/QtCore/qobjectdefs.h \
  /usr/include/qt6/QtCore/qnamespace.h /usr/include/qt6/QtCore/qglobal.h \
@@ -317,18 +317,11 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o: \
  /usr/include/c++/16/bits/ostream.tcc \
  /usr/include/c++/16/bits/istream.tcc \
  /usr/include/c++/16/bits/sstream.tcc \
- /usr/include/c++/16/bits/chrono_io.h /usr/include/qt6/QtQml/qqml.h \
- /usr/include/qt6/QtQml/qqmlprivate.h \
- /usr/include/qt6/QtQml/qjsprimitivevalue.h \
- /usr/include/qt6/QtQml/qtqmlglobal.h \
- /usr/include/qt6/QtQml/qtqml-config.h \
- /usr/include/qt6/QtNetwork/qtnetworkglobal.h \
- /usr/include/qt6/QtNetwork/qtnetwork-config.h \
- /usr/include/qt6/QtNetwork/qtnetworkexports.h \
- /usr/include/qt6/QtQml/qtqmlexports.h \
- /usr/include/qt6/QtQml/qjsnumbercoercion.h \
- /usr/include/qt6/QtCore/qvariant.h /usr/include/qt6/QtCore/qdebug.h \
- /usr/include/qt6/QtCore/qtextstream.h \
+ /usr/include/c++/16/bits/chrono_io.h \
+ /usr/include/qt6/QtCore/QVariantList \
+ /usr/include/qt6/QtCore/qvariantlist.h /usr/include/qt6/QtCore/QList \
+ /usr/include/qt6/QtCore/QVariant /usr/include/qt6/QtCore/qvariant.h \
+ /usr/include/qt6/QtCore/qdebug.h /usr/include/qt6/QtCore/qtextstream.h \
  /usr/include/qt6/QtCore/qcontiguouscache.h /usr/include/c++/16/climits \
  /usr/lib/gcc/x86_64-pc-linux-gnu/16/include/limits.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/16/include/syslimits.h \
@@ -346,8 +339,35 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o: \
  /usr/include/qt6/QtCore/qset.h /usr/include/qt6/QtCore/qhash.h \
  /usr/include/qt6/QtCore/qvarlengtharray.h \
  /usr/include/qt6/QtCore/qalloc.h /usr/include/qt6/QtCore/q23utility.h \
- /usr/include/qt6/QtCore/q20utility.h /usr/include/qt6/QtQml/qjsvalue.h \
- /usr/include/qt6/QtQml/qqmllist.h \
+ /usr/include/qt6/QtCore/q20utility.h /usr/include/qt6/QtCore/QProcess \
+ /usr/include/qt6/QtCore/qprocess.h /usr/include/qt6/QtCore/qiodevice.h \
+ /usr/include/qt6/QtCore/qspan.h /usr/include/c++/16/cassert \
+ /usr/include/qt6/QtCore/q20iterator.h /usr/include/qt6/QtCore/QString \
+ /usr/include/qt6/QtCore/QStringList \
+ /usr/include/qt6/QtCore/qtmochelpers.h \
+ /usr/include/qt6/QtCore/qtmocconstants.h \
+ /usr/include/qt6/QtCore/q20algorithm.h \
+ /home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/4ZSOXKNVYZ/moc_VolumeReader.cpp \
+ /home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/4ZSOXKNVYZ/../../../System/Readers/VolumeReader.h \
+ /usr/include/qt6/QtCore/QVariantMap \
+ /usr/include/qt6/QtCore/qvariantmap.h /usr/include/qt6/QtCore/QMap \
+ /usr/include/qt6/QtCore/QString /usr/include/qt6/QtCore/QTimer \
+ /usr/include/qt6/QtCore/qtimer.h /usr/include/qt6/QtCore/qbasictimer.h \
+ /usr/include/qt6/QtCore/qabstracteventdispatcher.h \
+ /usr/include/qt6/QtCore/qeventloop.h \
+ /usr/include/qt6/QtCore/qdeadlinetimer.h \
+ /home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/D4NBAXR44T/moc_SystemManager.cpp \
+ /home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/D4NBAXR44T/../../../System/SystemManager.h \
+ /usr/include/qt6/QtQml/qqml.h /usr/include/qt6/QtQml/qqmlprivate.h \
+ /usr/include/qt6/QtQml/qjsprimitivevalue.h \
+ /usr/include/qt6/QtQml/qtqmlglobal.h \
+ /usr/include/qt6/QtQml/qtqml-config.h \
+ /usr/include/qt6/QtNetwork/qtnetworkglobal.h \
+ /usr/include/qt6/QtNetwork/qtnetwork-config.h \
+ /usr/include/qt6/QtNetwork/qtnetworkexports.h \
+ /usr/include/qt6/QtQml/qtqmlexports.h \
+ /usr/include/qt6/QtQml/qjsnumbercoercion.h \
+ /usr/include/qt6/QtQml/qjsvalue.h /usr/include/qt6/QtQml/qqmllist.h \
  /usr/include/qt6/QtQml/qqmlparserstatus.h \
  /usr/include/qt6/QtQml/qqmlpropertyvaluesource.h \
  /usr/include/qt6/QtCore/qdatetime.h /usr/include/qt6/QtCore/qcalendar.h \
@@ -356,24 +376,20 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o: \
  /usr/include/qt6/QtCore/qiterable_impl.h \
  /usr/include/qt6/QtCore/qmetaobject.h /usr/include/qt6/QtCore/qpointer.h \
  /usr/include/qt6/QtCore/qurl.h /usr/include/qt6/QtCore/qtyperevision.h \
- /usr/include/qt6/QtCore/qversionnumber.h /usr/include/qt6/QtCore/qspan.h \
- /usr/include/c++/16/cassert /usr/include/qt6/QtCore/q20iterator.h \
+ /usr/include/qt6/QtCore/qversionnumber.h \
  /usr/include/qt6/QtQml/qqmlregistration.h \
  /usr/include/qt6/QtQmlIntegration/qqmlintegration.h \
  /usr/include/qt6/QtNetwork/QNetworkAccessManager \
  /usr/include/qt6/QtNetwork/qnetworkaccessmanager.h \
  /usr/include/qt6/QtNetwork/qnetworkrequest.h \
  /usr/include/qt6/QtNetwork/qhttpheaders.h \
- /usr/include/qt6/QtCore/QSharedDataPointer \
- /usr/include/qt6/QtCore/QString /usr/include/qt6/QtCore/QUrl \
- /usr/include/qt6/QtCore/QVariant /usr/include/qt6/QtCore/q26numeric.h \
- /usr/include/qt6/QtCore/QList /usr/include/qt6/QtCore/QObject \
+ /usr/include/qt6/QtCore/QSharedDataPointer /usr/include/qt6/QtCore/QUrl \
+ /usr/include/qt6/QtCore/q26numeric.h /usr/include/qt6/QtCore/QObject \
  /usr/include/qt6/QtNetwork/QSslConfiguration \
  /usr/include/qt6/QtNetwork/qsslconfiguration.h \
  /usr/include/qt6/QtNetwork/qsslsocket.h \
  /usr/include/qt6/QtNetwork/qtcpsocket.h \
  /usr/include/qt6/QtNetwork/qabstractsocket.h \
- /usr/include/qt6/QtCore/qiodevice.h \
  /usr/include/qt6/QtNetwork/qhostaddress.h \
  /usr/include/qt6/QtNetwork/qsslerror.h \
  /usr/include/qt6/QtNetwork/qsslcertificate.h \
@@ -390,7 +406,6 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o: \
  /home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/D4NBAXR44T/../../../System/Readers/CpuReader.h \
  /home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/D4NBAXR44T/../../../System/Readers/RamReader.h \
  /home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/D4NBAXR44T/../../../System/Readers/DiskReader.h \
- /usr/include/qt6/QtCore/QString \
  /home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/D4NBAXR44T/../../../System/Readers/TempReader.h \
  /home/pruebas/jozet-dotfiles/backend/build/JozetPlugin_autogen/D4NBAXR44T/../../../System/Readers/NetworkReader.h \
  /usr/include/qt6/QtCore/QDir /usr/include/qt6/QtCore/qdir.h \
@@ -401,9 +416,4 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o: \
  /usr/include/c++/16/codecvt /usr/include/c++/16/bits/fs_dir.h \
  /usr/include/c++/16/bits/fs_ops.h /usr/include/qt6/QtCore/qfile.h \
  /usr/include/qt6/QtCore/qfileinfo.h /usr/include/qt6/QtCore/qtimezone.h \
- /usr/include/qt6/QtCore/QFile /usr/include/qt6/QtCore/QVariantMap \
- /usr/include/qt6/QtCore/qvariantmap.h /usr/include/qt6/QtCore/QMap \
- /usr/include/qt6/QtNetwork/QSslError \
- /usr/include/qt6/QtCore/qtmochelpers.h \
- /usr/include/qt6/QtCore/qtmocconstants.h \
- /usr/include/qt6/QtCore/q20algorithm.h
+ /usr/include/qt6/QtCore/QFile /usr/include/qt6/QtNetwork/QSslError

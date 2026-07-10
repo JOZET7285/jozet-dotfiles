@@ -5,6 +5,8 @@ import "../../Components"
 
 Rectangle {
     id: toggleRoot
+    property var connection
+    property var onConnectionTypeChanged
     Layout.fillWidth: true
     Layout.fillHeight: false
     Layout.preferredHeight: 40
@@ -31,7 +33,7 @@ Rectangle {
                 radius: 15
                 border.width: 1
 
-                readonly property bool isActive: connection.type === modelData.name
+                readonly property bool isActive: toggleRoot.connection.type === modelData.name
 
                 color: isActive ? Theme.btn_color : Theme.bg_2
                 border.color: isActive ? Theme.bg_1 : mouseArea.containsMouse ? Theme.accent : Theme.bg_1
@@ -56,10 +58,9 @@ Rectangle {
                     cursorShape: Qt.PointingHandCursor
                     
                     onClicked: {
-                        if (modelData.name === "ethernet") {
-                            connection = sysManager.ethernetInfo;
-                        } else {
-                            connection = sysManager.wifiInfo;
+                        console.log("Connection type clicked:", modelData.name);
+                        if (toggleRoot.onConnectionTypeChanged) {
+                            toggleRoot.onConnectionTypeChanged(modelData.name);
                         }
                     }
                 }
