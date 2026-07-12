@@ -5,7 +5,7 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
 import "../Components"
-import "GlobalRefs.js" as GlobalRefs // <-- 1. Importación añadida
+import "GlobalRefs.js" as GlobalRefs 
 
 PanelWindow {
     id: wallpaperWidget
@@ -18,12 +18,12 @@ PanelWindow {
         bottom: 15
     }
 
-    implicitHeight: 300
-    implicitWidth: 480 
+    implicitHeight: 350
+    implicitWidth: 505 
     color: "transparent"
     exclusiveZone: 0
     focusable: false
-    visible: false // <-- 2. Inicia oculto para no estorbar a Hyprland
+    visible: false
 
     property string wallpaperDir: Quickshell.env("WALLPAPER_DIR") 
         || (Quickshell.env("XDG_CONFIG_HOME") || (Quickshell.env("HOME") + "/.config")) + "/quickshell/wallpapers"
@@ -37,7 +37,6 @@ PanelWindow {
         GlobalRefs.wallpaperWidget = wallpaperWidget
     }
 
-    // 3. Timer para asegurar que Wayland dibuje la ventana antes de animar
     Timer {
         id: waylandMapTimer
         interval: 20
@@ -49,7 +48,7 @@ PanelWindow {
         if (open) {
             visible = true
             contentLoader.active = true
-            waylandMapTimer.start() // Reemplazo de Qt.callLater
+            waylandMapTimer.start()
         } else {
             visualOpen = false
         }
@@ -126,7 +125,7 @@ PanelWindow {
                 FolderListModel {
                     id: wallpaperModel
                     folder: "file://" + wallpaperWidget.wallpaperDir
-                    nameFilters: ["*.jpg", "*.jpeg", "*.png"]
+                    nameFilters: ["*.jpg", "*.jpeg", "*.png", "*.gif"]
                     showDirs: false
                 }
 
@@ -137,11 +136,9 @@ PanelWindow {
                     cellWidth: 160
                     cellHeight: 100
                     model: wallpaperModel
-
                     delegate: Rectangle {
-                        width: grid.cellWidth - 8
-                        height: grid.cellHeight - 8
-                        radius: Theme.radius
+                        width: grid.cellWidth - 12
+                        height: grid.cellHeight - 12
                         color: "transparent"
                         border.color: Theme.color_b
                         border.width: 1
@@ -151,8 +148,8 @@ PanelWindow {
                             anchors.fill: parent
                             anchors.margins: 2
                             source: fileUrl
-                            sourceSize.width: grid.cellWidth - 8
-                            sourceSize.height: grid.cellHeight - 8
+                            sourceSize.width: grid.cellWidth - 13
+                            sourceSize.height: grid.cellHeight - 13
                             fillMode: Image.PreserveAspectCrop
                             asynchronous: true
                         }

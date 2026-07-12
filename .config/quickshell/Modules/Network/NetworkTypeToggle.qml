@@ -58,7 +58,6 @@ Rectangle {
                     cursorShape: Qt.PointingHandCursor
                     
                     onClicked: {
-                        console.log("Connection type clicked:", modelData.name);
                         if (toggleRoot.onConnectionTypeChanged) {
                             toggleRoot.onConnectionTypeChanged(modelData.name);
                         }

@@ -13,6 +13,7 @@ PanelWindow {
     id: rootUISys
 
     property bool popupOpen: leftLand.appLauncherOpen
+                        || rightLand.activePopup
     property string currentTime: "00:00"
     property string currentDate: ""
     property string playerState: "Pause"
@@ -35,7 +36,7 @@ PanelWindow {
     }
     color: "transparent"
     focusable: false
-    WlrLayershell.keyboardFocus: popupOpen ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None    
+    WlrLayershell.keyboardFocus: popupOpen ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
     
     HoverHandler { id: hoverPanelWindow } 
 

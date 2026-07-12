@@ -11,7 +11,7 @@ PanelWindow {
         right: true 
     }
     implicitHeight: 15
-    implicitWidth: 480
+    implicitWidth: 505
     exclusiveZone: 0
     color: "transparent"
     Rectangle{

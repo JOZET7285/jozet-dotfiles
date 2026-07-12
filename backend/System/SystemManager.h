@@ -134,6 +134,9 @@ namespace jozet {
         void updateBattery();
         void updateBrightness();
 
+        void runCommandAsync(const QString &program, const QStringList &args,
+                      std::function<void(const QString &)> callback);
+
         QNetworkAccessManager *m_networkManager = nullptr;
     };
 }

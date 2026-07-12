@@ -39,12 +39,6 @@ SystemManager::SystemManager(QObject *parent)
     m_volumeReader.startEventListener([]() {
     });
 
-    QTimer *batteryTImer = new QTimer(this);
-    connect(batteryTImer, &QTimer::timeout, this, [this]() {
-        emit batteryCapacityChanged();
-    });
-    batteryTImer->start(10000);
-
     m_bluetoothReader.updateDevices();
     m_volumeReader.updateVolumeStatus();
     fetchWeather();
@@ -128,25 +122,20 @@ void jozet::SystemManager::updatePowerProfile() {
         emit powerProfileChanged();
     }
 }
-void jozet::SystemManager::updateBrightness() {
-    QProcess process;
-    process.start("brightnessctl", QStringList() << "-m");
-    process.waitForFinished(500);
-    
-    QString output = process.readAllStandardOutput().trimmed();
-    if (!output.isEmpty()) {
+void SystemManager::updateBrightness() {
+    runCommandAsync("brightnessctl", {"-m"}, [this](const QString &output) {
+        if (output.isEmpty()) return;
         QStringList parts = output.split(',');
         if (parts.size() >= 4) {
-            QString percentStr = parts[3];
-            percentStr.remove('%');
-            int brightness = percentStr.toInt();
+            int brightness = parts[3].chopped(1).toInt();
             if (m_brightness != brightness) {
                 m_brightness = brightness;
                 emit brightnessChanged();
             }
         }
-    }
+    });
 }
+
 QVariantMap SystemManager::playbackDeviceInfo() const {
     QVariantMap info = m_volumeReader.playbackDeviceInfo();
     if (info.isEmpty()) {
@@ -170,11 +159,12 @@ void SystemManager::fetchWeather() {
 }
 
 void SystemManager::handleNetworkReply(QNetworkReply *reply) {
-    if (reply && reply->error() == QNetworkReply::NoError) {
+    if (!reply) return;
+    if (reply->error() == QNetworkReply::NoError) {
         m_weather = reply->readAll().trimmed();
         emit weatherChanged();
     } else {
-        qDebug() << "Error en red:" << (reply ? reply->errorString() : "Desconocido");
+        qDebug() << "Error en red:" << reply->errorString();
     }
     reply->deleteLater();
 }
@@ -184,6 +174,19 @@ void SystemManager::scanBluetooth(bool start) {
     if (start) {
         m_bluetoothReader.updateDevices();
     }
+}
+
+void SystemManager::runCommandAsync(const QString &program, const QStringList &args,
+                                     std::function<void(const QString &)> callback) {
+    QProcess *process = new QProcess(this);
+    connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+            [process, callback](int exitCode, QProcess::ExitStatus status) {
+        if (status == QProcess::NormalExit && exitCode == 0) {
+            callback(QString::fromUtf8(process->readAllStandardOutput()).trimmed());
+        }
+        process->deleteLater();
+    });
+    process->start(program, args);
 }
 
 void SystemManager::connectBluetooth(const QString &address) {

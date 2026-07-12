@@ -16,13 +16,11 @@ Item {
         console.log("selectedConnectionType changed to:", selectedConnectionType);
         if (selectedConnectionType === "ethernet") {
             connection = sysManager.ethernetInfo;
-            console.log("Set connection to ethernetInfo");
         } else if (selectedConnectionType === "wifi") {
             connection = sysManager.wifiInfo;
-            console.log("Set connection to wifiInfo");
+            sysManager.scanNetworks();
         } else {
             connection = sysManager.ethernetInfo.status !== "down" ? sysManager.ethernetInfo : sysManager.wifiInfo;
-            console.log("Set connection to auto (active connection)");
         }
     }
 
