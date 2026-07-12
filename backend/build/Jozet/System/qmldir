@@ -1,7 +1,0 @@
-module Jozet.System
-linktarget JozetPluginplugin
-optional plugin JozetPluginplugin
-classname Jozet_SystemPlugin
-typeinfo JozetPlugin.qmltypes
-prefer :/Jozet/System/
-
