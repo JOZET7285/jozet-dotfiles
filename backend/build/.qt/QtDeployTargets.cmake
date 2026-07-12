@@ -1,4 +1,0 @@
-set(__QT_DEPLOY_TARGET_JozetPlugin_FILE /home/pruebas/jozet-dotfiles/backend/build/libJozetPlugin.so)
-set(__QT_DEPLOY_TARGET_JozetPlugin_TYPE SHARED_LIBRARY)
-set(__QT_DEPLOY_TARGET_JozetPluginplugin_FILE /home/pruebas/jozet-dotfiles/backend/build/Jozet/System/libJozetPluginplugin.so)
-set(__QT_DEPLOY_TARGET_JozetPluginplugin_TYPE MODULE_LIBRARY)

@@ -1,6 +1,0 @@
-<RCC>
-  <qresource prefix="/Jozet/System">
-    <file alias="qmldir">/home/pruebas/jozet-dotfiles/backend/build/Jozet/System/qmldir</file>
-  </qresource>
-</RCC>
-
