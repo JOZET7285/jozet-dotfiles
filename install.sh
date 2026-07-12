@@ -15,8 +15,9 @@ set -euo pipefail
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKUP_DIR="$HOME/.jozet-dotfiles-backup-$(date +%Y%m%d-%H%M%S)"
 ASSUME_YES=false
-[[ "${1:-}" == "--yes" ]] && ASSUME_YES=true
-
+if [[ "${1:-}" == "--yes" ]]; then 
+    ASSUME_YES=true
+fi
 # paquetes oficiales (repo), todos disponibles vía pacman/yay
 PACMAN_PKGS=(
     hyprland qt6-base qt6-declarative quickshell awww capitaine-cursors
@@ -49,7 +50,9 @@ err()   { echo -e "${c_err}  ✗${c_off} $*" >&2; }
 die()   { err "$*"; exit 1; }
 
 confirm() {
-    $ASSUME_YES && return 0
+    if $ASSUME_YES; then 
+        return 0
+    fi
     local prompt="$1"
     read -rp "$(echo -e "${c_warn}?${c_off} ${prompt} [s/N] ")" reply
     [[ "$reply" =~ ^[sSyY]$ ]]
@@ -63,7 +66,9 @@ check_arch() {
 }
 
 check_not_root() {
-    [[ "$EUID" -eq 0 ]] && die "No corras este script como root. Usa tu usuario normal (pedirá sudo cuando lo necesite)."
+    if [[ "$EUID" -eq 0 ]]; then 
+        die "No corras este script como root. Usa tu usuario normal (pedirá sudo cuando lo necesite)."
+    fi
 }
 
 ensure_yay() {
