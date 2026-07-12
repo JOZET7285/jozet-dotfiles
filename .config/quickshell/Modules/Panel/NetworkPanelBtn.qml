@@ -29,12 +29,12 @@ Rectangle {
         spacing: 8
         Text{
             text: (connection.type == "ethernet" ? "\uf0e8" : connection.type == "wifi" ? "\uf1eb" : "\uf127")
-            color: Theme.color_b
+            color: connection.type == "unknown" ? Theme.color_r : Theme.text_color
             font.pixelSize: 14
         }
         Text{
             text: connection.name !== "" ? connection.name : (connection.type == "ethernet" ? "Ethernet" : connection.type == "wifi" ? "Wi-Fi" : "No connection")
-            color: Theme.color_b
+            color: connection.type == "unknown" ? Theme.color_r : Theme.color_b
             font.bold: true
             font.pixelSize: 12
             anchors.verticalCenter: parent.verticalCenter

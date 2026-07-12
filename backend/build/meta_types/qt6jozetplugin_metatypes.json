@@ -302,40 +302,53 @@
                 "methods": [
                     {
                         "access": "public",
-                        "index": 11,
+                        "index": 15,
                         "isConst": true,
-                        "lineNumber": 46,
+                        "lineNumber": 61,
                         "name": "playbackDeviceInfo",
                         "returnType": "QVariantMap"
                     },
                     {
                         "access": "public",
-                        "index": 12,
+                        "index": 16,
                         "isConst": true,
-                        "lineNumber": 47,
+                        "lineNumber": 62,
                         "name": "inputDeviceInfo",
                         "returnType": "QVariantMap"
                     },
                     {
                         "access": "public",
-                        "index": 13,
+                        "index": 17,
                         "isConst": true,
-                        "lineNumber": 48,
+                        "lineNumber": 63,
                         "name": "playingApplications",
                         "returnType": "QVariantList"
                     },
                     {
                         "access": "public",
-                        "index": 14,
+                        "arguments": [
+                            {
+                                "name": "profile",
+                                "type": "QString"
+                            }
+                        ],
+                        "index": 18,
+                        "lineNumber": 66,
+                        "name": "setPowerProfile",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 19,
                         "isConst": true,
-                        "lineNumber": 51,
+                        "lineNumber": 68,
                         "name": "availableNetworks",
                         "returnType": "QVariantList"
                     },
                     {
                         "access": "public",
-                        "index": 15,
-                        "lineNumber": 52,
+                        "index": 20,
+                        "lineNumber": 69,
                         "name": "scanNetworks",
                         "returnType": "void"
                     },
@@ -351,8 +364,8 @@
                                 "type": "QString"
                             }
                         ],
-                        "index": 16,
-                        "lineNumber": 53,
+                        "index": 21,
+                        "lineNumber": 70,
                         "name": "connectToNetwork",
                         "returnType": "void"
                     },
@@ -364,8 +377,8 @@
                                 "type": "bool"
                             }
                         ],
-                        "index": 17,
-                        "lineNumber": 56,
+                        "index": 22,
+                        "lineNumber": 73,
                         "name": "scanBluetooth",
                         "returnType": "void"
                     },
@@ -377,8 +390,8 @@
                                 "type": "QString"
                             }
                         ],
-                        "index": 18,
-                        "lineNumber": 57,
+                        "index": 23,
+                        "lineNumber": 74,
                         "name": "connectBluetooth",
                         "returnType": "void"
                     },
@@ -390,8 +403,8 @@
                                 "type": "QString"
                             }
                         ],
-                        "index": 19,
-                        "lineNumber": 58,
+                        "index": 24,
+                        "lineNumber": 75,
                         "name": "disconnectBluetooth",
                         "returnType": "void"
                     },
@@ -403,8 +416,8 @@
                                 "type": "QString"
                             }
                         ],
-                        "index": 20,
-                        "lineNumber": 59,
+                        "index": 25,
+                        "lineNumber": 76,
                         "name": "forgetBluetooth",
                         "returnType": "void"
                     },
@@ -416,8 +429,8 @@
                                 "type": "int"
                             }
                         ],
-                        "index": 21,
-                        "lineNumber": 61,
+                        "index": 26,
+                        "lineNumber": 78,
                         "name": "setPlaybackVolume",
                         "returnType": "void"
                     },
@@ -429,8 +442,8 @@
                                 "type": "int"
                             }
                         ],
-                        "index": 22,
-                        "lineNumber": 62,
+                        "index": 27,
+                        "lineNumber": 79,
                         "name": "setInputVolume",
                         "returnType": "void"
                     },
@@ -442,8 +455,8 @@
                                 "type": "bool"
                             }
                         ],
-                        "index": 23,
-                        "lineNumber": 63,
+                        "index": 28,
+                        "lineNumber": 80,
                         "name": "setPlaybackMuted",
                         "returnType": "void"
                     },
@@ -455,8 +468,8 @@
                                 "type": "bool"
                             }
                         ],
-                        "index": 24,
-                        "lineNumber": 64,
+                        "index": 29,
+                        "lineNumber": 81,
                         "name": "setInputMuted",
                         "returnType": "void"
                     },
@@ -472,8 +485,8 @@
                                 "type": "int"
                             }
                         ],
-                        "index": 25,
-                        "lineNumber": 65,
+                        "index": 30,
+                        "lineNumber": 82,
                         "name": "setApplicationVolume",
                         "returnType": "void"
                     },
@@ -485,8 +498,8 @@
                                 "type": "uint32_t"
                             }
                         ],
-                        "index": 26,
-                        "lineNumber": 66,
+                        "index": 31,
+                        "lineNumber": 83,
                         "name": "setDefaultPlaybackDevice",
                         "returnType": "void"
                     },
@@ -498,9 +511,43 @@
                                 "type": "uint32_t"
                             }
                         ],
-                        "index": 27,
-                        "lineNumber": 67,
+                        "index": 32,
+                        "lineNumber": 84,
                         "name": "setDefaultInputDevice",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "percentage",
+                                "type": "int"
+                            }
+                        ],
+                        "index": 33,
+                        "lineNumber": 85,
+                        "name": "setBrightness",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 34,
+                        "lineNumber": 87,
+                        "name": "powerOff",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 35,
+                        "lineNumber": 88,
+                        "name": "reboot",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 36,
+                        "lineNumber": 89,
+                        "name": "suspend",
                         "returnType": "void"
                     }
                 ],
@@ -579,7 +626,7 @@
                         "designable": true,
                         "final": false,
                         "index": 4,
-                        "lineNumber": 25,
+                        "lineNumber": 26,
                         "name": "weather",
                         "notify": "weatherChanged",
                         "override": false,
@@ -596,7 +643,7 @@
                         "designable": true,
                         "final": false,
                         "index": 5,
-                        "lineNumber": 26,
+                        "lineNumber": 28,
                         "name": "availableNetworks",
                         "notify": "networkChanged",
                         "override": false,
@@ -613,7 +660,7 @@
                         "designable": true,
                         "final": false,
                         "index": 6,
-                        "lineNumber": 27,
+                        "lineNumber": 29,
                         "name": "ethernetInfo",
                         "notify": "networkChanged",
                         "override": false,
@@ -630,7 +677,7 @@
                         "designable": true,
                         "final": false,
                         "index": 7,
-                        "lineNumber": 28,
+                        "lineNumber": 30,
                         "name": "wifiInfo",
                         "notify": "networkChanged",
                         "override": false,
@@ -647,7 +694,7 @@
                         "designable": true,
                         "final": false,
                         "index": 8,
-                        "lineNumber": 29,
+                        "lineNumber": 32,
                         "name": "availableBluetoothDevices",
                         "notify": "bluetoothChanged",
                         "override": false,
@@ -664,7 +711,7 @@
                         "designable": true,
                         "final": false,
                         "index": 9,
-                        "lineNumber": 30,
+                        "lineNumber": 34,
                         "name": "playbackDeviceInfo",
                         "notify": "volumeChanged",
                         "override": false,
@@ -681,7 +728,7 @@
                         "designable": true,
                         "final": false,
                         "index": 10,
-                        "lineNumber": 31,
+                        "lineNumber": 35,
                         "name": "inputDeviceInfo",
                         "notify": "volumeChanged",
                         "override": false,
@@ -698,7 +745,7 @@
                         "designable": true,
                         "final": false,
                         "index": 11,
-                        "lineNumber": 32,
+                        "lineNumber": 36,
                         "name": "playingApplications",
                         "notify": "volumeChanged",
                         "override": false,
@@ -715,7 +762,7 @@
                         "designable": true,
                         "final": false,
                         "index": 12,
-                        "lineNumber": 33,
+                        "lineNumber": 37,
                         "name": "isVolumeReady",
                         "notify": "volumeChanged",
                         "override": false,
@@ -726,6 +773,74 @@
                         "type": "bool",
                         "user": false,
                         "virtual": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 13,
+                        "lineNumber": 39,
+                        "name": "batteryCapacity",
+                        "notify": "batteryCapacityChanged",
+                        "override": false,
+                        "read": "batteryCapacity",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false,
+                        "virtual": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 14,
+                        "lineNumber": 40,
+                        "name": "batteryStatus",
+                        "notify": "batteryStatusChanged",
+                        "override": false,
+                        "read": "batteryStatus",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false,
+                        "virtual": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 15,
+                        "lineNumber": 42,
+                        "name": "brightness",
+                        "notify": "brightnessChanged",
+                        "override": false,
+                        "read": "brightness",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false,
+                        "virtual": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 16,
+                        "lineNumber": 44,
+                        "name": "powerProfile",
+                        "notify": "powerProfileChanged",
+                        "override": false,
+                        "read": "powerProfile",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false,
+                        "virtual": false
                     }
                 ],
                 "qualifiedClassName": "jozet::SystemManager",
@@ -733,72 +848,100 @@
                     {
                         "access": "public",
                         "index": 0,
-                        "lineNumber": 70,
+                        "lineNumber": 92,
                         "name": "ramUsageChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
                         "index": 1,
-                        "lineNumber": 71,
+                        "lineNumber": 93,
                         "name": "cpuUsageChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
                         "index": 2,
-                        "lineNumber": 72,
+                        "lineNumber": 94,
                         "name": "diskUsageChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
                         "index": 3,
-                        "lineNumber": 73,
+                        "lineNumber": 95,
                         "name": "cpuTempChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
                         "index": 4,
-                        "lineNumber": 74,
+                        "lineNumber": 96,
                         "name": "weatherChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
                         "index": 5,
-                        "lineNumber": 75,
+                        "lineNumber": 97,
                         "name": "networkChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
                         "index": 6,
-                        "lineNumber": 76,
+                        "lineNumber": 98,
                         "name": "bluetoothChanged",
                         "returnType": "void"
                     },
                     {
                         "access": "public",
                         "index": 7,
-                        "lineNumber": 77,
+                        "lineNumber": 99,
                         "name": "volumeChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 8,
+                        "lineNumber": 101,
+                        "name": "batteryCapacityChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 9,
+                        "lineNumber": 102,
+                        "name": "batteryStatusChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 10,
+                        "lineNumber": 103,
+                        "name": "brightnessChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "index": 11,
+                        "lineNumber": 104,
+                        "name": "powerProfileChanged",
                         "returnType": "void"
                     }
                 ],
                 "slots": [
                     {
                         "access": "private",
-                        "index": 8,
-                        "lineNumber": 80,
+                        "index": 12,
+                        "lineNumber": 107,
                         "name": "update",
                         "returnType": "void"
                     },
                     {
                         "access": "private",
-                        "index": 9,
-                        "lineNumber": 81,
+                        "index": 13,
+                        "lineNumber": 108,
                         "name": "fetchWeather",
                         "returnType": "void"
                     },
@@ -810,8 +953,8 @@
                                 "type": "QNetworkReply*"
                             }
                         ],
-                        "index": 10,
-                        "lineNumber": 82,
+                        "index": 14,
+                        "lineNumber": 109,
                         "name": "handleNetworkReply",
                         "returnType": "void"
                     }

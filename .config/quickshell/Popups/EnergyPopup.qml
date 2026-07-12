@@ -14,80 +14,95 @@ Item {
     readonly property int contentWidth: 420
 
     width: parent ? parent.width : contentWidth
-    height: open || animating ? content.height : 0
+    height: (open || animating) && contentLoader.item ? contentLoader.item.popupHeight : 0    
     clip: true
     visible: open || animating
 
-    Component.onCompleted: {
-        container.y = -content.height
-    }
-
     onOpenChanged: {
         if (open) {
-            visible = true;
-            animating = true;
-            openAnim.start();
+            contentLoader.active = true;
         } else {
-            animating = true;
-            closeAnim.start();
+            if(contentLoader.item){
+                contentLoader.item.startCloseAnimation();
+            }
         }
     }
     
     IpcHandler {
         target: "energyPopup"
-
-        function toggle(): void {
-            energyPopup.open = !energyPopup.open
-        }
-        function show(): void {
-            energyPopup.open = true
-        }
-        function hide(): void {
-            energyPopup.open = false
-        }
+        function toggle(): void { energyPopup.open = !energyPopup.open }
+        function show(): void { energyPopup.open = true }
+        function hide(): void { energyPopup.open = false }
     }
-    function closePopup() {
-        energyPopup.open = false
+    Loader {
+        id: contentLoader
+        anchors.fill: parent
+        active: false
+        sourceComponent: energyContent
     }
-    Rectangle {
-        id: container
-        width: parent.width
-        height: content.height
-        color: "transparent"
+    Component {
+        id: energyContent
         Item {
-            id: content
-            width: parent.width
-            height: 390
-            EnergyModule {
-                anchors.fill: parent
+            id: internalRoot
+            anchors.fill: parent
+
+            readonly property int popupHeight: content.height
+
+            Component.onCompleted: {
+                container.y = -content.height;
+                energyPopup.animating = true;
+                openAnim.start();
+            }
+            function startCloseAnimation() {
+                energyPopup.animating = true;
+                closeAnim.start();
+            }
+            Rectangle {
+                id: container
+                width: parent.width
+                height: content.height
+                color: "transparent"
+                Item {
+                    id: content
+                    width: parent.width
+                    height: 200
+                    ColumnLayout {
+                        anchors.fill: parent
+                        anchors.margins: 10
+                        spacing: 8
+                        EnergyModule {
+                        }
+                        BrightnessModule {
+                        }
+                    }
+                }
+            }
+            ParallelAnimation {
+                id: openAnim
+                PropertyAnimation { 
+                    target: container
+                    property: "y"
+                    to: 0
+                    duration: 220
+                    easing.type: Easing.OutCubic 
+                }
+                onStopped: energyPopup.animating = false;
+            }
+            ParallelAnimation {
+                id: closeAnim
+                PropertyAnimation { 
+                    target: container
+                    property: "y"
+                    to: -content.height 
+                    duration: 220
+                    easing.type: Easing.InCubic 
+                }
+                onStopped: {
+                    energyPopup.animating = false
+                    contentLoader.active = false
+                    gc()
+                }
             }
         }
-    }
-    ParallelAnimation {
-        id: openAnim
-        PropertyAnimation { 
-            target: container
-            property: "y"
-            to: 0
-            duration: 220
-            easing.type: Easing.OutCubic 
-        }
-        onStopped: {
-            animating = false
-        }
-    }
-    ParallelAnimation {
-        id: closeAnim
-        PropertyAnimation { 
-            target: container
-            property: "y"
-            to: -content.height 
-            duration: 220
-            easing.type: Easing.InCubic 
-        }
-        onStopped: {
-            animating = false
-            visible = false
-        }
-    }
+    }    
 }

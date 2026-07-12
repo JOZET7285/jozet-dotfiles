@@ -38,8 +38,8 @@ Rectangle {
         ) : rightRowLayoutId.implicitWidth + 30
     height: activePopup ? Theme.height + activePopup.height : Theme.height 
 
-    Behavior on width { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
-    Behavior on height { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
+    Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
+    Behavior on height { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
 
     anchors { 
         right: parent.right 
@@ -94,7 +94,7 @@ Rectangle {
                         if(volumePopup.playbackDevice && volumePopup.playbackDevice.volume > 30.0) return "\uf027"
                         return "\uf026"
                     }
-                    color: Theme.color_b
+                    color: Theme.text_color
                     font.pixelSize: 14
                 }
                 Text {
@@ -114,44 +114,54 @@ Rectangle {
             radius: energyPopup.selected ? Theme.radius : 8
             visible: activePopup == null || activePopup == energyPopup
             
-            Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.In } }
+            Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
             Behavior on implicitWidth { NumberAnimation { duration: 150; easing.type: Easing.InOutQuad } }
             Row {
                 id: contentbatRow
                 anchors.centerIn: parent
                 spacing: 8
                 Text {
+                    anchors.verticalCenter: parent.verticalCenter
                     color: {
-                        if(sysManager.batteryPercent === "Chagging") return Theme.color_g
-                        if (mainProcesses.batteryPercent > 80) return Theme.color_b
-                        if (mainProcesses.batteryPercent > 60) return Theme.color_y
-                        if (mainProcesses.batteryPercent > 40) return Theme.color_o
-                        if (mainProcesses.batteryPercent > 20) return Theme.color_r
-                        return Theme.light_1_solid
+                        if(sysManager.batteryStatus === "Charging") return Theme.color_g
+                        else if (sysManager.batteryStatus === "Full") return Theme.text_color
+                        else{
+                            if (sysManager.batteryCapacity > 90) return Theme.text_color
+                            if (sysManager.batteryCapacity > 60) return Theme.color_y
+                            if (sysManager.batteryCapacity > 30) return Theme.color_o
+                            return Theme.color_r
+                        }
                     }
-                    font.pixelSize: 14
+                    font.pixelSize: 15
                     text: {
-                        if (mainProcesses.batteryPercent === "charging") return "\uf0e7"
-                        if (mainProcesses.batteryPercent > 80) return "\uf240"
-                        if (mainProcesses.batteryPercent > 60) return "\uf241"
-                        if (mainProcesses.batteryPercent > 40) return "\uf242"
-                        if (mainProcesses.batteryPercent > 20) return "\uf243"
-                        return "\uf244"
+                        if (sysManager.batteryStatus === "Charging") return "\uf0e7"
+                        else if (sysManager.batteryStatus === "Full") return "\uf240"
+                        else {
+                            if (sysManager.batteryCapacity > 80) return "\uf240"
+                            if (sysManager.batteryCapacity > 60) return "\uf241"
+                            if (sysManager.batteryCapacity > 40) return "\uf242"
+                            if (sysManager.batteryCapacity > 20) return "\uf243"
+                            return "\uf244"
+                        }
                     }
+                    Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
                 }   
                 Text {
                     color: {
-                        if(sysManager.batteryPercent === "Chagging") return Theme.color_g
-                        if (mainProcesses.batteryPercent > 80) return Theme.color_b
-                        if (mainProcesses.batteryPercent > 60) return Theme.color_y
-                        if (mainProcesses.batteryPercent > 40) return Theme.color_o
-                        if (mainProcesses.batteryPercent > 20) return Theme.color_r
-                        return Theme.light_1_solid
+                        if(sysManager.batteryStatus === "Charging") return Theme.color_g
+                        else if (sysManager.batteryStatus === "Full") return Theme.color_b
+                        else{
+                            if (sysManager.batteryCapacity > 90) return Theme.color_b
+                            if (sysManager.batteryCapacity > 60) return Theme.color_y
+                            if (sysManager.batteryCapacity > 30) return Theme.color_o
+                            return Theme.color_r
+                        }
                     }
-                    text: "10%"
-                    font.pixelSize: 12
+                    text: sysManager.batteryCapacity + "%"
+                    font.pixelSize: 13
                     anchors.verticalCenter: parent.verticalCenter
                     font.bold: true
+                    Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
                 }
             }
             MouseArea {

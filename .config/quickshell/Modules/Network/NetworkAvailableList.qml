@@ -11,9 +11,10 @@ Rectangle {
     clip: true
     color: Theme.color_2
     radius: 15
+    property bool isActiveWifi: connection.type === "wifi" && connection.status === "up"
 
-    opacity: connection.type === "wifi" ? connection.status === "up" ? 1.0 : 0.0 : 0.0
-    visible: opacity > 0.0
+    opacity: isActiveWifi ? 1.0 : 0.0
+    visible: isActiveWifi
     
     Behavior on opacity { 
         NumberAnimation { duration: 150 } 

@@ -6,45 +6,41 @@ import Quickshell.Io
 import "../Components"
 
 Item{
+    id: powerPopup
+
     property bool open: false
     property bool animating: false
 
     readonly property int contentWidth: 320
 
     width: parent.width
-    height: content.height
+    height: (open || animating) && contentLoader.item ? contentLoader.item.popupHeight : 0    
     clip: true
     visible: open || animating
-    Component.onCompleted: {
-        container.y = -content.height
-    }
     onOpenChanged: {
         if (open) {
             Qt.callLater(function() {
-                visible = true;
-                animating = true;
-                openAnim.start();
+                contentLoader.active = true;
             })
         } else {
             Qt.callLater(function() {
-                animating = true;
-                closeAnim.start();
+                contentLoader.item.startCloseAnimation();
             })
         }
     }
     
     IpcHandler {
         target: "powerPopup"
+        function toggle(): void { powerPopup.open = !powerPopup.open }
+        function show(): void { powerPopup.open = true }
+        function hide(): void { powerPopup.open = false }
+    }
 
-        function toggle(): void {
-            powerPopup.open = !powerPopup.open
-        }
-        function show(): void {
-            powerPopup.open = true
-        }
-        function hide(): void {
-            powerPopup.open = false
-        }
+    Loader {
+        id: contentLoader
+        anchors.fill: parent
+        active: false
+        sourceComponent: powerContent
     }
 
     function launch(app) {
@@ -53,154 +49,169 @@ Item{
             powerPopup.closeLauncher();
         }
     }
-    function closeLauncher() {
-        powerPopup.open = false
-    }
-    Item {
-        id: containerWrapper
-        anchors.fill: parent
-        Rectangle {
-            id: container
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: content.height
-            color: "transparent"
+    Component {
+        id: powerContent
+        Item {
+            id: internalRoot
+            anchors.fill: parent
+
+            readonly property int popupHeight: content.height
+
+            Component.onCompleted: {
+                container.y = -content.height;
+                powerPopup.animating = true;
+                openAnim.start();
+            }
+            function startCloseAnimation() {
+                powerPopup.animating = true;
+                closeAnim.start();
+            }
             Item {
-                id: content
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: parent.top
-                height: 190
-                
-                ColumnLayout {
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                        top: parent.top
-                        bottom: parent.bottom
-                        margins: 10
-                    }
-                    spacing: 10
-
-                    Repeater {
-                        model: [
-                            { label: "Apagar", icon: "\uf011", executable: "/usr/bin/systemctl", args: ["poweroff"], color: "#fca5a5" },
-                            { label: "Reiniciar", icon: "\uf021", executable: "/usr/bin/systemctl", args: ["reboot"], color: "#fde68a" },
-                            { label: "Suspender", icon: "\uf186", executable: "/usr/bin/systemctl", args: ["suspend"], color: "#93c5fd" },
-                            { label: "Bloquear", icon: "\uf023", executable: "/usr/bin/hyprlock", args: [], color: "#a7f3d0"
+                id: containerWrapper
+                anchors.fill: parent
+                Rectangle {
+                    id: container
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: content.height
+                    color: "transparent"
+                    Item {
+                        id: content
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        height: 190
+                        
+                        ColumnLayout {
+                            anchors {
+                                left: parent.left
+                                right: parent.right
+                                top: parent.top
+                                bottom: parent.bottom
+                                margins: 10
                             }
-                        ]
+                            spacing: 10
 
-                        Rectangle {
-                            id: buttonRect
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 35
-                            color: Theme.color_1
-                            radius: 10
-                         
-                            Rectangle {
-                                color: modelData.color
-                                anchors.right: parent.right
-                                anchors.top: parent.top
-                                anchors.bottom: parent.bottom
-                                width: mouseArea.pressed ?  parent.width : 10
-                                opacity: holdTimer.running ? 1 : 0
-                                topRightRadius: 5
-                                bottomRightRadius: 5
-                                topLeftRadius: mouseArea.pressed ? 5 : 0
-                                bottomLeftRadius: mouseArea.pressed ? 5 : 0
-                                Behavior on radius {
-                                    NumberAnimation { 
-                                        duration: 1500
-                                        easing.type: Easing.InOutQuad 
+                            Repeater {
+                                model: [
+                                    { label: "Apagar", icon: "\uf011", executable: "/usr/bin/systemctl", args: ["poweroff"], color: "#fca5a5" },
+                                    { label: "Reiniciar", icon: "\uf021", executable: "/usr/bin/systemctl", args: ["reboot"], color: "#fde68a" },
+                                    { label: "Suspender", icon: "\uf186", executable: "/usr/bin/systemctl", args: ["suspend"], color: "#93c5fd" },
+                                    { label: "Bloquear", icon: "\uf023", executable: "/usr/bin/hyprlock", args: [], color: "#a7f3d0"
                                     }
-                                }
-                                Behavior on opacity {
-                                    NumberAnimation { duration: 300; easing.type: Easing.InOutSine }
-                                }
-                                Behavior on width {
-                                    NumberAnimation { 
-                                        duration: 1500
-                                        easing.type: Easing.InOutQuad 
-                                    }
-                                }
-                            }
-                            Timer {
-                                id: holdTimer
-                                interval: 1500
-                                onTriggered: {
-                                    console.log("Triggered", modelData.label)
-                                    if (mouseArea.pressed) {
-                                        Quickshell.execDetached([
-                                            modelData.executable,
-                                            ...modelData.args
-                                        ])
-                                    }
-                                }
-                            }
+                                ]
 
-                            MouseArea {
-                                id: mouseArea
-                                anchors.fill: parent
+                                Rectangle {
+                                    id: buttonRect
+                                    Layout.fillWidth: true
+                                    Layout.preferredHeight: 35
+                                    color: Theme.color_1
+                                    radius: 10
                                 
-                                onPressed: {
-                                    holdTimer.start()
-                                }
-                                onReleased: {
-                                    holdTimer.stop()
-                                }
-                            }
+                                    Rectangle {
+                                        color: modelData.color
+                                        anchors.right: parent.right
+                                        anchors.top: parent.top
+                                        anchors.bottom: parent.bottom
+                                        width: mouseArea.pressed ?  parent.width : 10
+                                        opacity: holdTimer.running ? 1 : 0
+                                        topRightRadius: 5
+                                        bottomRightRadius: 5
+                                        topLeftRadius: mouseArea.pressed ? 5 : 0
+                                        bottomLeftRadius: mouseArea.pressed ? 5 : 0
+                                        Behavior on radius {
+                                            NumberAnimation { 
+                                                duration: 1500
+                                                easing.type: Easing.InOutQuad 
+                                            }
+                                        }
+                                        Behavior on opacity {
+                                            NumberAnimation { duration: 300; easing.type: Easing.InOutSine }
+                                        }
+                                        Behavior on width {
+                                            NumberAnimation { 
+                                                duration: 1500
+                                                easing.type: Easing.InOutQuad 
+                                            }
+                                        }
+                                    }
+                                    Timer {
+                                        id: holdTimer
+                                        interval: 1500
+                                        onTriggered: {
+                                            console.log("Triggered", modelData.label)
+                                            if (mouseArea.pressed) {
+                                                Quickshell.execDetached([
+                                                    modelData.executable,
+                                                    ...modelData.args
+                                                ])
+                                            }
+                                        }
+                                    }
 
-                            RowLayout {
-                                anchors.fill: parent
-                                anchors.leftMargin: 15
-                                spacing: 10
+                                    MouseArea {
+                                        id: mouseArea
+                                        anchors.fill: parent
+                                        
+                                        onPressed: {
+                                            holdTimer.start()
+                                        }
+                                        onReleased: {
+                                            holdTimer.stop()
+                                        }
+                                    }
 
-                                Text {
-                                    text: modelData.icon
-                                    font.family: Theme.iconFont
-                                    color: mouseArea.pressed ? Theme.color_1_solid : "#ccc" 
-                                    Behavior on color{ColorAnimation{duration: 1500; easing.type: Easing.InOutQuad}}
-                                }
-                                Text {
-                                    text: modelData.label
-                                    font.pixelSize: 13
-                                    color: mouseArea.pressed ? Theme.color_1_solid : "#ccc"
-                                    Behavior on color{ColorAnimation{duration: 1500; easing.type: Easing.InOutQuad}}
+                                    RowLayout {
+                                        anchors.fill: parent
+                                        anchors.leftMargin: 15
+                                        spacing: 10
+
+                                        Text {
+                                            text: modelData.icon
+                                            font.family: Theme.iconFont
+                                            color: mouseArea.pressed ? Theme.color_1_solid : "#ccc" 
+                                            Behavior on color{ColorAnimation{duration: 1500; easing.type: Easing.InOutQuad}}
+                                        }
+                                        Text {
+                                            text: modelData.label
+                                            font.pixelSize: 13
+                                            color: mouseArea.pressed ? Theme.color_1_solid : "#ccc"
+                                            Behavior on color{ColorAnimation{duration: 1500; easing.type: Easing.InOutQuad}}
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-        }
-    }
-    ParallelAnimation {
-        id: openAnim
-        PropertyAnimation { 
-            target: container
-            property: "y"
-            to: 0
-            duration: 220
-            easing.type: Easing.OutCubic 
-        }
-        onStopped: {
-            animating = false
-        }
-    }
+            ParallelAnimation {
+                id: openAnim
+                PropertyAnimation { 
+                    target: container
+                    property: "y"
+                    to: 0
+                    duration: 220
+                    easing.type: Easing.OutCubic 
+                }
+                onStopped: powerPopup.animating = false
+            }
 
-    ParallelAnimation {
-        id: closeAnim
-        PropertyAnimation { 
-            target: container
-            property: "y"
-            to: -content.height 
-            duration: 220
-            easing.type: Easing.InCubic 
+            ParallelAnimation {
+                id: closeAnim
+                PropertyAnimation { 
+                    target: container
+                    property: "y"
+                    to: -content.height 
+                    duration: 220
+                    easing.type: Easing.InCubic 
+                }
+                onStopped: {
+                    powerPopup.animating = false
+                    contentLoader.active = false
+                    gc()
+                }
+            }
         }
-        onStopped: {
-            animating = false
-            visible = false
-        }
-    }
+    }       
 }

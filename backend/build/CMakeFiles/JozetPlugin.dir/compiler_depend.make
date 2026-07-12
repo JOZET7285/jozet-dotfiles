@@ -3871,6 +3871,7 @@ CMakeFiles/JozetPlugin.dir/System/Readers/VolumeReader.cpp.o: /home/pruebas/joze
   /usr/include/qt6/QtCore/QMap \
   /usr/include/qt6/QtCore/QObject \
   /usr/include/qt6/QtCore/QProcess \
+  /usr/include/qt6/QtCore/QProcessEnvironment \
   /usr/include/qt6/QtCore/QString \
   /usr/include/qt6/QtCore/QTimer \
   /usr/include/qt6/QtCore/QVariant \
@@ -5257,6 +5258,8 @@ CMakeFiles/JozetPlugin.dir/JozetPlugin_autogen/mocs_compilation.cpp.o:
 /usr/include/qt6/QtCore/qjsondocument.h:
 
 /usr/include/qt6/QtCore/qcborvalue.h:
+
+/usr/include/qt6/QtCore/QProcessEnvironment:
 
 /usr/include/qt6/QtCore/QJsonArray:
 

@@ -22,16 +22,31 @@ namespace jozet {
         Q_PROPERTY(int cpuUsage READ cpuUsage NOTIFY cpuUsageChanged)
         Q_PROPERTY(double diskUsage READ diskUsage NOTIFY diskUsageChanged)
         Q_PROPERTY(int cpuTemp READ cpuTemp NOTIFY cpuTempChanged)
+
         Q_PROPERTY(QString weather READ weather NOTIFY weatherChanged)
+
         Q_PROPERTY(QVariantList availableNetworks READ availableNetworks NOTIFY networkChanged)
         Q_PROPERTY(QVariantMap ethernetInfo READ ethernetInfo NOTIFY networkChanged)
         Q_PROPERTY(QVariantMap wifiInfo READ wifiInfo NOTIFY networkChanged)
+
         Q_PROPERTY(QVariantList availableBluetoothDevices READ availableBluetoothDevices NOTIFY bluetoothChanged)
+
         Q_PROPERTY(QVariantMap playbackDeviceInfo READ playbackDeviceInfo NOTIFY volumeChanged)
         Q_PROPERTY(QVariantMap inputDeviceInfo READ inputDeviceInfo NOTIFY volumeChanged)
         Q_PROPERTY(QVariantList playingApplications READ playingApplications NOTIFY volumeChanged)
         Q_PROPERTY(bool isVolumeReady READ isVolumeReady NOTIFY volumeChanged)
+        
+        Q_PROPERTY(int batteryCapacity READ batteryCapacity NOTIFY batteryCapacityChanged)
+        Q_PROPERTY(QString batteryStatus READ batteryStatus NOTIFY batteryStatusChanged)
 
+        Q_PROPERTY(int brightness READ brightness NOTIFY brightnessChanged)
+
+        Q_PROPERTY(QString powerProfile READ powerProfile NOTIFY powerProfileChanged)
+        
+        int batteryCapacity() const { return m_batteryCapacity; }
+        QString batteryStatus() const { return m_batteryStatus; }
+        int brightness() const { return m_brightness; }
+        
     public:
         explicit SystemManager(QObject *parent = nullptr);
 
@@ -47,6 +62,8 @@ namespace jozet {
         Q_INVOKABLE QVariantMap inputDeviceInfo() const;
         Q_INVOKABLE QVariantList playingApplications() const { return m_volumeReader.playingApplications(); }
         bool isVolumeReady() const { return !m_volumeReader.playbackDeviceInfo().isEmpty(); }
+        QString powerProfile() const;
+        Q_INVOKABLE void setPowerProfile(const QString& profile);
 
         Q_INVOKABLE QVariantList availableNetworks() const { return m_networkReader.availableNetworks(); }
         Q_INVOKABLE void scanNetworks() { m_networkReader.scanAvailableNetworks(); }
@@ -65,6 +82,11 @@ namespace jozet {
         Q_INVOKABLE void setApplicationVolume(uint32_t pid, int volume) { m_volumeReader.setApplicationVolume(pid, volume); }
         Q_INVOKABLE void setDefaultPlaybackDevice(uint32_t index) { m_volumeReader.setDefaultPlaybackDevice(index); }
         Q_INVOKABLE void setDefaultInputDevice(uint32_t index) { m_volumeReader.setDefaultInputDevice(index); }
+        Q_INVOKABLE void setBrightness(int percentage);
+
+        Q_INVOKABLE void powerOff();
+        Q_INVOKABLE void reboot();
+        Q_INVOKABLE void suspend();
 
     signals:
         void ramUsageChanged();
@@ -75,6 +97,11 @@ namespace jozet {
         void networkChanged();
         void bluetoothChanged();
         void volumeChanged();
+
+        void batteryCapacityChanged();
+        void batteryStatusChanged();
+        void brightnessChanged();
+        void powerProfileChanged();
 
     private slots:
         void update();
@@ -95,6 +122,17 @@ namespace jozet {
         NetworkReader m_networkReader;
         BluetoothReader m_bluetoothReader;
         VolumeReader m_volumeReader;
+        
+        QString m_powerProfile = "balanced";
+        
+        void updatePowerProfile();
+        int m_batteryCapacity = 0;
+
+        QString m_batteryStatus = "Unknown";
+        int m_brightness = 0;
+        
+        void updateBattery();
+        void updateBrightness();
 
         QNetworkAccessManager *m_networkManager = nullptr;
     };

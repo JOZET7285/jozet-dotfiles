@@ -3,6 +3,7 @@
 #include <QUrl>
 #include <QNetworkRequest>
 #include <QDebug>
+#include <algorithm>
 
 namespace jozet {
 
@@ -38,6 +39,12 @@ SystemManager::SystemManager(QObject *parent)
     m_volumeReader.startEventListener([]() {
     });
 
+    QTimer *batteryTImer = new QTimer(this);
+    connect(batteryTImer, &QTimer::timeout, this, [this]() {
+        emit batteryCapacityChanged();
+    });
+    batteryTImer->start(10000);
+
     m_bluetoothReader.updateDevices();
     m_volumeReader.updateVolumeStatus();
     fetchWeather();
@@ -70,6 +77,75 @@ void SystemManager::update() {
 
     m_volumeReader.updateVolumeStatus();
     emit volumeChanged();
+
+    updateBattery();
+    updateBrightness();
+    updatePowerProfile();
+}
+void jozet::SystemManager::updateBattery() {
+    QFile capacityFile("/sys/class/power_supply/BAT1/capacity");
+    if (capacityFile.open(QIODevice::ReadOnly)) {
+        int capacity = capacityFile.readAll().trimmed().toInt();
+        if (m_batteryCapacity != capacity) {
+            m_batteryCapacity = capacity;
+            emit batteryCapacityChanged();
+        }
+    }
+
+    QFile statusFile("/sys/class/power_supply/BAT1/status");
+    if (statusFile.open(QIODevice::ReadOnly)) {
+        QString status = statusFile.readAll().trimmed();
+        if (m_batteryStatus != status) {
+            m_batteryStatus = status;
+            emit batteryStatusChanged();
+        }
+    }
+}
+void jozet::SystemManager::setPowerProfile(const QString& profile) {
+    if (profile == "power-saver" || profile == "balanced" || profile == "performance") {
+        QProcess::startDetached("powerprofilesctl", QStringList() << "set" << profile);
+        m_powerProfile = profile;
+        emit powerProfileChanged();
+    }
+}
+void jozet::SystemManager::setBrightness(int percentage) {
+    percentage = std::clamp(percentage, 5, 100); 
+    
+    QString command = QString("brightnessctl set %1%").arg(percentage);
+    QProcess::startDetached("/bin/sh", QStringList() << "-c" << command);
+    
+    m_brightness = percentage;
+    emit brightnessChanged();
+}
+void jozet::SystemManager::updatePowerProfile() {
+    QProcess process;
+    process.start("powerprofilesctl", QStringList() << "get");
+    process.waitForFinished(500);
+
+    QString current = process.readAllStandardOutput().trimmed();
+    if (!current.isEmpty() && m_powerProfile != current) {
+        m_powerProfile = current;
+        emit powerProfileChanged();
+    }
+}
+void jozet::SystemManager::updateBrightness() {
+    QProcess process;
+    process.start("brightnessctl", QStringList() << "-m");
+    process.waitForFinished(500);
+    
+    QString output = process.readAllStandardOutput().trimmed();
+    if (!output.isEmpty()) {
+        QStringList parts = output.split(',');
+        if (parts.size() >= 4) {
+            QString percentStr = parts[3];
+            percentStr.remove('%');
+            int brightness = percentStr.toInt();
+            if (m_brightness != brightness) {
+                m_brightness = brightness;
+                emit brightnessChanged();
+            }
+        }
+    }
 }
 QVariantMap SystemManager::playbackDeviceInfo() const {
     QVariantMap info = m_volumeReader.playbackDeviceInfo();
@@ -122,4 +198,7 @@ void SystemManager::forgetBluetooth(const QString &address) {
     m_bluetoothReader.forgetDevice(address);
 }
 
+QString jozet::SystemManager::powerProfile() const {
+    return m_powerProfile;
+}
 }

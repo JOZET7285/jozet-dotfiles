@@ -56,7 +56,7 @@ Module {
             read: "weather"
             notify: "weatherChanged"
             index: 4
-            lineNumber: 25
+            lineNumber: 26
             isReadonly: true
         }
         Property {
@@ -65,7 +65,7 @@ Module {
             read: "availableNetworks"
             notify: "networkChanged"
             index: 5
-            lineNumber: 26
+            lineNumber: 28
             isReadonly: true
         }
         Property {
@@ -74,7 +74,7 @@ Module {
             read: "ethernetInfo"
             notify: "networkChanged"
             index: 6
-            lineNumber: 27
+            lineNumber: 29
             isReadonly: true
         }
         Property {
@@ -83,7 +83,7 @@ Module {
             read: "wifiInfo"
             notify: "networkChanged"
             index: 7
-            lineNumber: 28
+            lineNumber: 30
             isReadonly: true
         }
         Property {
@@ -92,7 +92,7 @@ Module {
             read: "availableBluetoothDevices"
             notify: "bluetoothChanged"
             index: 8
-            lineNumber: 29
+            lineNumber: 32
             isReadonly: true
         }
         Property {
@@ -101,7 +101,7 @@ Module {
             read: "playbackDeviceInfo"
             notify: "volumeChanged"
             index: 9
-            lineNumber: 30
+            lineNumber: 34
             isReadonly: true
         }
         Property {
@@ -110,7 +110,7 @@ Module {
             read: "inputDeviceInfo"
             notify: "volumeChanged"
             index: 10
-            lineNumber: 31
+            lineNumber: 35
             isReadonly: true
         }
         Property {
@@ -119,7 +119,7 @@ Module {
             read: "playingApplications"
             notify: "volumeChanged"
             index: 11
-            lineNumber: 32
+            lineNumber: 36
             isReadonly: true
         }
         Property {
@@ -128,105 +128,158 @@ Module {
             read: "isVolumeReady"
             notify: "volumeChanged"
             index: 12
-            lineNumber: 33
+            lineNumber: 37
             isReadonly: true
         }
-        Signal { name: "ramUsageChanged"; lineNumber: 70 }
-        Signal { name: "cpuUsageChanged"; lineNumber: 71 }
-        Signal { name: "diskUsageChanged"; lineNumber: 72 }
-        Signal { name: "cpuTempChanged"; lineNumber: 73 }
-        Signal { name: "weatherChanged"; lineNumber: 74 }
-        Signal { name: "networkChanged"; lineNumber: 75 }
-        Signal { name: "bluetoothChanged"; lineNumber: 76 }
-        Signal { name: "volumeChanged"; lineNumber: 77 }
-        Method { name: "update"; lineNumber: 80 }
-        Method { name: "fetchWeather"; lineNumber: 81 }
+        Property {
+            name: "batteryCapacity"
+            type: "int"
+            read: "batteryCapacity"
+            notify: "batteryCapacityChanged"
+            index: 13
+            lineNumber: 39
+            isReadonly: true
+        }
+        Property {
+            name: "batteryStatus"
+            type: "QString"
+            read: "batteryStatus"
+            notify: "batteryStatusChanged"
+            index: 14
+            lineNumber: 40
+            isReadonly: true
+        }
+        Property {
+            name: "brightness"
+            type: "int"
+            read: "brightness"
+            notify: "brightnessChanged"
+            index: 15
+            lineNumber: 42
+            isReadonly: true
+        }
+        Property {
+            name: "powerProfile"
+            type: "QString"
+            read: "powerProfile"
+            notify: "powerProfileChanged"
+            index: 16
+            lineNumber: 44
+            isReadonly: true
+        }
+        Signal { name: "ramUsageChanged"; lineNumber: 92 }
+        Signal { name: "cpuUsageChanged"; lineNumber: 93 }
+        Signal { name: "diskUsageChanged"; lineNumber: 94 }
+        Signal { name: "cpuTempChanged"; lineNumber: 95 }
+        Signal { name: "weatherChanged"; lineNumber: 96 }
+        Signal { name: "networkChanged"; lineNumber: 97 }
+        Signal { name: "bluetoothChanged"; lineNumber: 98 }
+        Signal { name: "volumeChanged"; lineNumber: 99 }
+        Signal { name: "batteryCapacityChanged"; lineNumber: 101 }
+        Signal { name: "batteryStatusChanged"; lineNumber: 102 }
+        Signal { name: "brightnessChanged"; lineNumber: 103 }
+        Signal { name: "powerProfileChanged"; lineNumber: 104 }
+        Method { name: "update"; lineNumber: 107 }
+        Method { name: "fetchWeather"; lineNumber: 108 }
         Method {
             name: "handleNetworkReply"
-            lineNumber: 82
+            lineNumber: 109
             Parameter { name: "reply"; type: "QNetworkReply"; isPointer: true }
         }
         Method {
             name: "playbackDeviceInfo"
             type: "QVariantMap"
             isMethodConstant: true
-            lineNumber: 46
+            lineNumber: 61
         }
-        Method { name: "inputDeviceInfo"; type: "QVariantMap"; isMethodConstant: true; lineNumber: 47 }
+        Method { name: "inputDeviceInfo"; type: "QVariantMap"; isMethodConstant: true; lineNumber: 62 }
         Method {
             name: "playingApplications"
             type: "QVariantList"
             isMethodConstant: true
-            lineNumber: 48
+            lineNumber: 63
+        }
+        Method {
+            name: "setPowerProfile"
+            lineNumber: 66
+            Parameter { name: "profile"; type: "QString" }
         }
         Method {
             name: "availableNetworks"
             type: "QVariantList"
             isMethodConstant: true
-            lineNumber: 51
+            lineNumber: 68
         }
-        Method { name: "scanNetworks"; lineNumber: 52 }
+        Method { name: "scanNetworks"; lineNumber: 69 }
         Method {
             name: "connectToNetwork"
-            lineNumber: 53
+            lineNumber: 70
             Parameter { name: "ssid"; type: "QString" }
             Parameter { name: "password"; type: "QString" }
         }
         Method {
             name: "scanBluetooth"
-            lineNumber: 56
+            lineNumber: 73
             Parameter { name: "start"; type: "bool" }
         }
         Method {
             name: "connectBluetooth"
-            lineNumber: 57
+            lineNumber: 74
             Parameter { name: "address"; type: "QString" }
         }
         Method {
             name: "disconnectBluetooth"
-            lineNumber: 58
+            lineNumber: 75
             Parameter { name: "address"; type: "QString" }
         }
         Method {
             name: "forgetBluetooth"
-            lineNumber: 59
+            lineNumber: 76
             Parameter { name: "address"; type: "QString" }
         }
         Method {
             name: "setPlaybackVolume"
-            lineNumber: 61
+            lineNumber: 78
             Parameter { name: "volume"; type: "int" }
         }
         Method {
             name: "setInputVolume"
-            lineNumber: 62
+            lineNumber: 79
             Parameter { name: "volume"; type: "int" }
         }
         Method {
             name: "setPlaybackMuted"
-            lineNumber: 63
+            lineNumber: 80
             Parameter { name: "muted"; type: "bool" }
         }
         Method {
             name: "setInputMuted"
-            lineNumber: 64
+            lineNumber: 81
             Parameter { name: "muted"; type: "bool" }
         }
         Method {
             name: "setApplicationVolume"
-            lineNumber: 65
+            lineNumber: 82
             Parameter { name: "pid"; type: "uint" }
             Parameter { name: "volume"; type: "int" }
         }
         Method {
             name: "setDefaultPlaybackDevice"
-            lineNumber: 66
+            lineNumber: 83
             Parameter { name: "index"; type: "uint" }
         }
         Method {
             name: "setDefaultInputDevice"
-            lineNumber: 67
+            lineNumber: 84
             Parameter { name: "index"; type: "uint" }
         }
+        Method {
+            name: "setBrightness"
+            lineNumber: 85
+            Parameter { name: "percentage"; type: "int" }
+        }
+        Method { name: "powerOff"; lineNumber: 87 }
+        Method { name: "reboot"; lineNumber: 88 }
+        Method { name: "suspend"; lineNumber: 89 }
     }
 }

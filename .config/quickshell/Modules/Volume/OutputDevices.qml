@@ -48,10 +48,11 @@ Rectangle {
 
             background: Rectangle {
                 implicitWidth: 200
-                implicitHeight: 4
+                implicitHeight: 6
+                height: implicitHeight
                 y: (parent.height - height) / 2
                 color: Theme.color_3
-                radius: 2
+                radius: 3
 
                 Rectangle {
                     width: volumeSlider.visualPosition * parent.width
@@ -64,9 +65,9 @@ Rectangle {
             handle: Rectangle {
                 x: volumeSlider.leftPadding + volumeSlider.visualPosition * (volumeSlider.availableWidth - width)
                 y: (volumeSlider.height - height) / 2
-                implicitWidth: 16
-                implicitHeight: 16
-                radius: 8
+                implicitWidth: 12
+                implicitHeight: 12
+                radius: 6
                 color: Theme.color_g
             }
         }

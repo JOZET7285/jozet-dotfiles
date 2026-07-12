@@ -56,7 +56,7 @@ Rectangle {
             color: {   
                 let devices = sysManager.availableBluetoothDevices;
                 let connectedOnly = devices.filter(device => device.connected === true);
-                if(connectedOnly.length === 0) return Theme.color_b
+                if(connectedOnly.length === 0) return Theme.text_color
                 return Theme.color_g
             }
             font.pixelSize: 14
