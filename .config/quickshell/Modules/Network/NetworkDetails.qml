@@ -28,9 +28,9 @@ ColumnLayout {
 
         delegate: Rectangle {
             Layout.fillWidth: true
-            Layout.preferredHeight: 20
-            Layout.leftMargin: 10
-            Layout.rightMargin: 10
+            Layout.preferredHeight: 20 * scaleFactor
+            Layout.leftMargin: 10 * scaleFactor
+            Layout.rightMargin: 10 * scaleFactor
             
             Layout.topMargin: index === 0 ? 10 : 0
             Layout.bottomMargin: index === 2 ? 10 : 0
@@ -57,7 +57,7 @@ ColumnLayout {
                     return "";
                 }
                 color: Theme.text_color
-                font.pixelSize: 12
+                font.pixelSize: 13 * scaleFactor
                 font.bold: true
             }
         }

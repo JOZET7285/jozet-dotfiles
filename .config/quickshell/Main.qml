@@ -11,7 +11,6 @@ import Jozet.System 1.0
 
 PanelWindow {
     id: rootUISys
-
     property bool popupOpen: leftLand.appLauncherOpen
                         || rightLand.activePopup
     property string currentTime: "00:00"
@@ -19,13 +18,18 @@ PanelWindow {
     property string playerState: "Pause"
     property bool playing: (mainProcesses.currentSongTitle === "Sin reproducción")
 
+    property var modelData 
+    screen: modelData
+    
+    property real baseWidth: 1920
+    property real scaleFactor: modelData ? (modelData.width / baseWidth) : 1.0
     
     anchors {
         top: true
     }
-    implicitWidth: Screen.width
-    implicitHeight: Theme.height + 15 + 570
-    exclusiveZone: Theme.height
+    implicitWidth: modelData ? modelData.width : 1920
+    implicitHeight: (50 * scaleFactor) + 570
+    exclusiveZone: Theme.height * scaleFactor
     mask: Region {
         Region { item: leftLandMonitor }
         Region { item: leftLand }

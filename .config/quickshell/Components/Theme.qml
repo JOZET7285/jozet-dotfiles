@@ -52,6 +52,7 @@ QtObject {
 
     readonly property int radius: 12
     readonly property int height: 35 
+    readonly property real referenceWidth: 1920
     readonly property string fontName: "Inter"
     readonly property string iconFont: "Font Awesome 7 Free"
 }

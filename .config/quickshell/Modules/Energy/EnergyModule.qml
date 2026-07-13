@@ -14,8 +14,8 @@ RowLayout {
 
     Item {
         id: batteryCircle
-        Layout.preferredWidth: 100
-        Layout.preferredHeight: 100
+        Layout.preferredWidth: 100 * scaleFactor
+        Layout.preferredHeight: 100 * scaleFactor
         Layout.fillHeight: false
         Layout.fillWidth: false
 
@@ -51,7 +51,7 @@ RowLayout {
                 color: batteryCircle.fillColor
 
                 Behavior on height { NumberAnimation { duration: 400; easing.type: Easing.OutCubic } }
-                Behavior on color { ColorAnimation { duration: 300 } }
+                Behavior on color { ColorAnimation { duration: 300; easing.type: Easing.Cubic } }
             }
         }
 
@@ -156,12 +156,12 @@ RowLayout {
                         text: sysManager.powerProfile
                         font.capitalization: Font.AllUppercase
                         font.bold: true
-                        font.pixelSize: 14
+                        font.pixelSize: 15 * scaleFactor
                     }
                     Text {
                         anchors.horizontalCenter: parent.horizontalCenter
                         text: "click to change"
-                        font.pixelSize: 10
+                        font.pixelSize: 10 
                         color: Theme.color_3
                     }
                 }

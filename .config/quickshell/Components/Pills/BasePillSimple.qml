@@ -1,0 +1,57 @@
+import QtQuick
+import QtQuick.Layouts
+import Quickshell
+import Quickshell.Io
+import Quickshell.Wayland
+import ".."
+
+Rectangle {
+    id: root
+
+    property string text: ""
+    property string icon: ""
+    signal clicked()
+
+    Layout.preferredHeight: parent.height - 5
+    Layout.preferredWidth: btnAppLauncherContent.implicitWidth + 25 
+    color: maAppLauncherBtn.containsMouse ? Theme.color_1 : "transparent"
+    radius: 10 * scaleFactor
+    Behavior on color { ColorAnimation { duration: 200; easing.type: Easing.InOutQuad }}
+    RowLayout {
+        id: btnAppLauncherContent
+        anchors.fill: parent
+        anchors.leftMargin: 10 * scaleFactor
+        anchors.rightMargin: 10 * scaleFactor
+        spacing: 5 * scaleFactor
+        
+        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+
+        Text {
+            Layout.alignment: Qt.AlignVCenter
+            visible: root.icon.length > 0
+            text: root.icon
+            color: Theme.text_color
+            font.pixelSize: 14
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
+
+        Text {
+            Layout.alignment: Qt.AlignVCenter
+            visible: root.text.length > 0
+            text: root.text
+            color: Theme.color_b
+            font.pixelSize: 12
+            font.bold: true
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
+    }
+
+    MouseArea {
+        id: maAppLauncherBtn
+        anchors.fill: parent
+        hoverEnabled: true
+        onClicked: root.clicked()
+    }
+}

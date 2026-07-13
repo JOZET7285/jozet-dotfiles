@@ -15,6 +15,7 @@ Rectangle {
     id: rightIsland
     y: 5
 
+    property int marginScaled: 15 * scaleFactor
     property var popups: [networkPopup, bluetoothPopup, energyPopup, volumePopup, powerPopup]
     property var connection:
     sysManager.ethernetInfo.status !== "down"
@@ -31,19 +32,19 @@ Rectangle {
 
     width: activePopup ? Math.max(
         activePopup === networkPopup ? 400 :
-        activePopup === powerPopup ? 200 :
+        activePopup === powerPopup ? 200  :
         activePopup === bluetoothPopup ? 400 :
         activePopup === energyPopup ? 420 : 0,
         activePopup === volumePopup ? 420 : 0
-        ) : rightRowLayoutId.implicitWidth + 30
-    height: activePopup ? Theme.height + activePopup.height : Theme.height 
+        ) * (scaleFactor + 0.1)  : rightRowLayoutId.implicitWidth + 30
+    height: activePopup ? 38 * scaleFactor + activePopup.height : 38 * scaleFactor 
 
     Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
     Behavior on height { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
 
     anchors { 
         right: parent.right 
-        rightMargin: 15 
+        rightMargin: marginScaled
     }
     color: Theme.color_1
     radius: Theme.radius
@@ -54,11 +55,11 @@ Rectangle {
             left: parent.left
             right: parent.right
             top: parent.top
-            leftMargin: 15
-            rightMargin: 15
+            leftMargin: marginScaled
+            rightMargin: marginScaled
         }
-        height: Theme.height
-        spacing: 8
+        height: Theme.height * scaleFactor
+        spacing: 8 * scaleFactor
 
         NetworkPanelBtn {
             visible: activePopup == null || activePopup == networkPopup
@@ -69,9 +70,9 @@ Rectangle {
         Rectangle {
             id: volumeBtn
             implicitWidth: volumePopup.open ? parent.width : contentvolRow.implicitWidth+20
-            implicitHeight: Theme.height - 6
+            implicitHeight: (Theme.height - 5) * scaleFactor
             color: (volumePopup.selected ? Theme.color_3 : (volumeBtnArea.containsMouse ? Theme.color_1 : "transparent"))
-            radius: volumePopup.selected ? Theme.radius : 8
+            radius: 8
             visible: activePopup == null || activePopup == volumePopup
             Behavior on color { ColorAnimation { duration: 350; easing.type: Easing.InOutQuad } }
             Behavior on implicitWidth { NumberAnimation { duration: 150; easing.type: Easing.InOutQuad } }
@@ -98,6 +99,7 @@ Rectangle {
                     font.pixelSize: 14
                 }
                 Text {
+                    visible: scaleFactor > 0.8 ? true : volumeBtnArea.containsMouse 
                     text: volumePopup.playbackDevice ? volumePopup.playbackDevice.volume + "%" : "0%"
                     color: Theme.color_b
                     font.pixelSize: 12
@@ -109,7 +111,7 @@ Rectangle {
         Rectangle {
             id: batteryBtn
             implicitWidth: energyPopup.open ? parent.width : contentbatRow.implicitWidth+20
-            implicitHeight: Theme.height - 6
+            implicitHeight: (Theme.height - 6) * scaleFactor
             color: energyPopup.selected ? Theme.color_3 : (batteryBtnArea.containsMouse ? Theme.color_1 : "transparent")
             radius: energyPopup.selected ? Theme.radius : 8
             visible: activePopup == null || activePopup == energyPopup
@@ -132,7 +134,7 @@ Rectangle {
                             return Theme.color_r
                         }
                     }
-                    font.pixelSize: 15
+                    font.pixelSize: 14
                     text: {
                         if (sysManager.batteryStatus === "Charging") return "\uf0e7"
                         else if (sysManager.batteryStatus === "Full") return "\uf240"
@@ -147,6 +149,7 @@ Rectangle {
                     Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
                 }   
                 Text {
+                    visible: scaleFactor > 0.8 ? true : batteryBtnArea.containsMouse
                     color: {
                         if(sysManager.batteryStatus === "Charging") return Theme.color_g
                         else if (sysManager.batteryStatus === "Full") return Theme.color_b
@@ -158,7 +161,7 @@ Rectangle {
                         }
                     }
                     text: sysManager.batteryCapacity + "%"
-                    font.pixelSize: 13
+                    font.pixelSize: 12
                     anchors.verticalCenter: parent.verticalCenter
                     font.bold: true
                     Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
@@ -175,9 +178,9 @@ Rectangle {
         Rectangle {
             id: powerBtn
             implicitWidth: powerPopup.open ? parent.width : contentpowerRow.implicitWidth+20
-            implicitHeight: Theme.height - 6
+            implicitHeight: (Theme.height - 5) * scaleFactor
             color: (powerPopup.selected ? Theme.color_3 : (powerBtnArea.containsMouse ? Theme.color_1 : "transparent"))
-            radius: powerBtn.selected ? Theme.radius : 8
+            radius: 8
             visible: activePopup == null || activePopup == powerPopup
             Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
             Behavior on implicitWidth { NumberAnimation { duration: 150; easing.type: Easing.InOutQuad } }

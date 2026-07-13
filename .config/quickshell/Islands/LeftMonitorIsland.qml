@@ -4,17 +4,19 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
 import "../Components"
+import "../Components/Pills"
 import "../Popups"
 import "../Process"
 import Jozet.System 1.0
 
 Rectangle {
+    readonly property var marginScaled: 10 * scaleFactor
     y: 5
-    width: leftRowLayoutMonitor.implicitWidth + 30
-    height: Theme.height
+    width: leftRowLayoutMonitor.implicitWidth + 20
+    height: 38 * scaleFactor
     anchors {
         right: centerLand.left
-        rightMargin: 15
+        rightMargin: marginScaled
     }
     color: Theme.color_1
     radius: Theme.radius
@@ -22,18 +24,19 @@ Rectangle {
     Behavior on width {NumberAnimation {duration: 750; easing.type: Easing.OutCubic }}
     RowLayout {
         id: leftRowLayoutMonitor
-        anchors.fill: parent
+        anchors.fill: parent 
         anchors{
             margins: 1
-            leftMargin: 15
-            rightMargin: 15
+            leftMargin: marginScaled
+            rightMargin: marginScaled
         }
-        spacing: 8
-        BasePill {
+        spacing: 5 * scaleFactor
+
+        BasePillSimple {
             icon: "\uf233"
             text: sysManager.ramUsage + "%"
         }
-        BasePill {
+        BasePillSimple {
             icon: "\uf0a0" 
             text: sysManager.diskUsage + "%"
         }

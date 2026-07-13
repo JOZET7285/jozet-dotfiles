@@ -292,8 +292,6 @@ Item {
                                 }
                             }
                         }
-
-                        // Empty state
                         ColumnLayout {
                             anchors.centerIn: parent
                             visible: appListModel.values.length === 0
@@ -322,7 +320,7 @@ Item {
                 PropertyAnimation { target: container; property: "y"; to: 0; duration: 220; easing.type: Easing.OutCubic }
                 onStopped: {
                     appLauncher.animating = false
-                    searchField.forceActiveFocus()
+                    searchAppField.forceActiveFocus() 
                 }
             }
 

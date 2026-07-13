@@ -10,9 +10,9 @@ import "../Process"
 Rectangle {
     id: bluetoothBtn
     implicitWidth: bluetoothPopup.open ? parent.width : contentbtRow.implicitWidth+20
-    implicitHeight: Theme.height - 6
+    implicitHeight: (Theme.height - 5) * scaleFactor
     color: (bluetoothBtn.selected ? Theme.color_3 : (area.containsMouse ? Theme.color_1 : "transparent"))
-    radius: bluetoothBtn.selected ? Theme.radius : 8
+    radius: 8
     
     property int currentDeviceIndex: 0
 
@@ -62,6 +62,7 @@ Rectangle {
             font.pixelSize: 14
         }
         Text {
+            visible: scaleFactor > 0.8 ? true : area.containsMouse
             text: {
                 let devices = sysManager.availableBluetoothDevices;
                 let connectedOnly = devices.filter(device => device.connected === true);

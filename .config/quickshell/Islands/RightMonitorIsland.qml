@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
+import "../Components/Pills"
 import "../Components"
 import "../Popups"
 import "../Process"
@@ -12,10 +13,10 @@ import Jozet.System 1.0
 Rectangle {
     y: 5
     width: rightRowLayoutMonitor.implicitWidth + 10
-    height: Theme.height
+    height: 38 * scaleFactor
     anchors {
         left: centerLand.right
-        leftMargin: 15
+        leftMargin: 15 * scaleFactor
     }
     radius: Theme.radius
     color: Theme.color_1
@@ -24,15 +25,14 @@ Rectangle {
     RowLayout {
         id: rightRowLayoutMonitor
         anchors.fill: parent
-        anchors.margins: 4
-        spacing: 8
+        spacing: 5
         // cpu
-        BasePill {
+        BasePillSimple {
             icon: "\uf2db"
             text: sysManager.cpuUsage + "%"
         }
         // temp
-        BasePill {
+        BasePillSimple {
             icon: "\uf2c9"
             text: sysManager.cpuTemp + "°C"
         }

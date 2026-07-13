@@ -9,16 +9,17 @@ import "../Process"
 import Jozet.System 1.0
 
 Rectangle {
+    property int marginScaled: 15 * scaleFactor
     y: 5
-    width: (appLauncher.open || appLauncher.animating)
+    width: ((appLauncher.open || appLauncher.animating)
         ? Math.max(leftRowLayoutId.implicitWidth + 80, appLauncher.width) 
-        : leftRowLayoutId.implicitWidth + 30
-    height: (appLauncher.open || appLauncher.animating)
-            ? Theme.height + appLauncher.height
-            : Theme.height
+        : leftRowLayoutId.implicitWidth + 30)
+    height: ((appLauncher.open || appLauncher.animating)
+            ? 38 + appLauncher.height
+            : 38) * scaleFactor
     anchors {
         left: parent.left
-        leftMargin: 15
+        leftMargin: marginScaled
     }
     color: Theme.color_1
     radius: Theme.radius
@@ -34,20 +35,57 @@ Rectangle {
             left: parent.left
             right: parent.right
             top: parent.top
-            leftMargin: 15
-            rightMargin: 15
+            leftMargin: marginScaled
+            rightMargin: marginScaled
         }
-        height: Theme.height
-        spacing: 8
+        height: 38 * scaleFactor
+        spacing: 8 * scaleFactor
 
-        BasePill {
-            icon: "\uf46d" 
-            text: "Apps"
-            selected: appLauncher.open
-            onClicked: appLauncher.open = !appLauncher.open
+        Rectangle {
+            Layout.preferredHeight: parent.height - 5
+            Layout.preferredWidth: btnAppLauncherContent.implicitWidth + 25 
+            color: maAppLauncherBtn.containsMouse ? Theme.color_1 : "transparent"
+            radius: 10 * scaleFactor
+            Behavior on color { ColorAnimation { duration: 200; easing.type: Easing.InOutQuad }}
+            RowLayout {
+                id: btnAppLauncherContent
+                anchors.fill: parent
+                anchors.leftMargin: 10 * scaleFactor
+                anchors.rightMargin: 10 * scaleFactor
+                spacing: 5 * scaleFactor
+                
+                Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+
+                Text {
+                    Layout.alignment: Qt.AlignVCenter
+                    text: "\uf46d"
+                    color: Theme.text_color
+                    font.pixelSize: 14
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                Text {
+                    Layout.alignment: Qt.AlignVCenter
+                    text: "Apps"
+                    color: Theme.color_b
+                    font.pixelSize: 12
+                    font.bold: true
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+            }
+
+            MouseArea {
+                id: maAppLauncherBtn
+                anchors.fill: parent
+                hoverEnabled: true
+                onClicked: appLauncher.open = !appLauncher.open
+            }
         }
         Workspaces {
-            Layout.leftMargin: 15
+            Layout.fillWidth: true
+            Layout.leftMargin: marginScaled
             Layout.alignment: Qt.AlignVCenter
         }
     }

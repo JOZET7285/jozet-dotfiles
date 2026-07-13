@@ -5,44 +5,70 @@ import "Widgets"
 import "Widgets/GlobalRefs.js" as GlobalRefs
 
 ShellRoot {
-    Main {
-        id: main
-        Component.onCompleted: {
-            GlobalRefs.appLauncher = main.appLauncher
+
+    Variants {
+        model: Quickshell.screens
+        Main {
+            Component.onCompleted: {
+                if (typeof GlobalRefs.appLaunchers === "undefined") GlobalRefs.appLaunchers = {}
+                GlobalRefs.appLaunchers[modelData.name] = appLauncher
+            }
         }
     }
 
-    WallpaperWidget {
-        id: wallpaperWidget
-        Component.onCompleted: {
-            GlobalRefs.wallpaperWidget = wallpaperWidget
+    Variants {
+        model: Quickshell.screens
+        WallpaperWidget {
+            Component.onCompleted: {
+                if (typeof GlobalRefs.wallpaperWidgets === "undefined") GlobalRefs.wallpaperWidgets = {}
+                GlobalRefs.wallpaperWidgets[modelData.name] = this
+            }
         }
     }
 
-    WallpaperHoverZone {
-        id: wallpaperHoverZone
+    Variants {
+        model: Quickshell.screens
+        WallpaperHoverZone {
+            screen: modelData
+        }
     }
-    Loader {
-        id: wallpaperLoader
-        active: false
-        source: "WallpaperWidget.qml"
-        
-        onLoaded: {
-            item.open = true 
+
+    Variants {
+        model: Quickshell.screens
+        Loader {
+            active: false
+            source: "WallpaperWidget.qml"
             
-            item.closeCompleted.connect(function() {
-                active = false
-            })
+            Component.onCompleted: {
+                if (typeof GlobalRefs.wallpaperLoaders === "undefined") GlobalRefs.wallpaperLoaders = []
+                GlobalRefs.wallpaperLoaders.push(this)
+            }
+            
+            onLoaded: {
+                item.screen = currentScreen
+                item.open = true 
+                
+                item.closeCompleted.connect(function() {
+                    active = false
+                })
+            }
         }
     }
+
     IpcHandler {
         target: "wallpaperManager"
         
         function toggle() {
-            if (wallpaperLoader.active) {
-                wallpaperLoader.item.open = false 
-            } else {
-                wallpaperLoader.active = true 
+            if (typeof GlobalRefs.wallpaperLoaders === "undefined") return
+            
+            // Alterna el estado del loader en TODAS las pantallas
+            for (var i = 0; i < GlobalRefs.wallpaperLoaders.length; i++) {
+                var loader = GlobalRefs.wallpaperLoaders[i]
+                if (loader.active) {
+                    loader.item.open = false 
+                } else {
+                    loader.active = true 
+                }
             }
         }
     }

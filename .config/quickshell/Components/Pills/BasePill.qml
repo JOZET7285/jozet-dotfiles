@@ -14,10 +14,10 @@ Rectangle {
 
     signal clicked()
 
-    implicitWidth: contentRow.implicitWidth + 20
-    implicitHeight: Theme.height - 6
+    implicitWidth: contentRow.implicitWidth * scaleFactor + 20
+    implicitHeight: 38 * scaleFactor
     color: (root.selected ? Theme.color_3 : (area.containsMouse ? Theme.color_3 : "transparent"))
-    radius: root.selected ? Theme.radius : 8
+    radius: 8
 
     Behavior on color { 
         ColorAnimation { 
