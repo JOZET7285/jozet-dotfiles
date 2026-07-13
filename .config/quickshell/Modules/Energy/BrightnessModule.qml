@@ -7,7 +7,7 @@ import "../../Components"
 Rectangle {
     Layout.fillWidth: true
     Layout.fillHeight: false
-    Layout.preferredHeight: 70
+    Layout.preferredHeight: 70 * scaleFactor
     color: Theme.color_2
     radius: 20
     ColumnLayout {

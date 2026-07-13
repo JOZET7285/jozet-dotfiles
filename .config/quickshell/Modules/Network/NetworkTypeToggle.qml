@@ -9,7 +9,7 @@ Rectangle {
     property var onConnectionTypeChanged
     Layout.fillWidth: true
     Layout.fillHeight: false
-    Layout.preferredHeight: 40
+    Layout.preferredHeight: 40 * scaleFactor
     
     radius: 15
     color: Theme.color_3

@@ -62,7 +62,7 @@ Rectangle {
                         id: passwordField
                         color: Theme.light_3
                         Layout.fillWidth: false
-                        Layout.preferredWidth: 250
+                        Layout.preferredWidth: 250 * scaleFactor
                         Layout.fillHeight: true
                         echoMode: TextInput.Password
                         placeholderText: "Contraseña..."
@@ -75,7 +75,7 @@ Rectangle {
                         selectionColor: Theme.bg_3
 
                         background: Rectangle {
-                            implicitWidth: 280
+                            implicitWidth: 280 * scaleFactor
                             implicitHeight: 30
                             color: passwordField.activeFocus ? Theme.color_3 : Theme.color_2
                             radius: 10

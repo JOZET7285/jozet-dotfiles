@@ -11,7 +11,7 @@ import Jozet.System 1.0
 Rectangle {
     id: networkBtn
     implicitWidth: networkPopup.open ? parent.width : contentRow.implicitWidth+20
-    implicitHeight: Theme.height - 6
+    implicitHeight: (Theme.height - 5)* scaleFactor
     color: (networkBtn.selected ? Theme.color_3 : (area.containsMouse ? Theme.color_1 : "transparent"))
     radius: networkBtn.selected ? Theme.radius : 8 
     Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
@@ -33,6 +33,7 @@ Rectangle {
             font.pixelSize: 14
         }
         Text{
+            visible: scaleFactor > 0.8 ? true : area.containsMouse
             text: connection.name !== "" ? connection.name : (connection.type == "ethernet" ? "Ethernet" : connection.type == "wifi" ? "Wi-Fi" : "No connection")
             color: connection.type == "unknown" ? Theme.color_r : Theme.color_b
             font.bold: true

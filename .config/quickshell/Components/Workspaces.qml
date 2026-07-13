@@ -5,7 +5,7 @@ import "."
 Row {
     id: root
     spacing: 6
-    property int workspaceCount: 10
+    property int workspaceCount: 10 * scaleFactor
 
     Repeater {
         model: root.workspaceCount
@@ -22,7 +22,7 @@ Row {
             width: isActive ? 20 : 8
             height: 8
             radius: 4
-            color: isActive ? Theme.color_b : (hasWindows ? Theme.light_4 : Theme.color_1)
+            color: isActive ? Theme.color_b : (hasWindows ? Theme.light_1 : "transparent")
             border {
                 width: hasWindows ? 0 : 1
                 color: Theme.light_1

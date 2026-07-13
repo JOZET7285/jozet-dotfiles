@@ -6,7 +6,7 @@ import "../../Components"
 
 Rectangle {
     id: indicatorRoot
-    Layout.preferredWidth: 95 
+    Layout.preferredWidth: 95 * scaleFactor
     Layout.fillWidth: false
     Layout.fillHeight: true
     
@@ -16,7 +16,7 @@ Rectangle {
     readonly property bool isUp: connection.status === "up"
 
     color: isUp ? Theme.color_b : Theme.color_2
-    radius: connection.type === "ethernet" ? 25 : 50
+    radius: connection.type === "ethernet" ? 30 : 50
     
     border {
         width: 3
@@ -30,7 +30,7 @@ Rectangle {
     Text {
         text: connection.type === "unknown" ? "\uf127" : connection.type === "ethernet" ? "\uf0e8" : "\uf1eb"
         color: indicatorRoot.isUp ? Theme.color_2 : Theme.light_1
-        font.pixelSize: 55
+        font.pixelSize: 55 * scaleFactor
         anchors.centerIn: parent
         opacity: indicatorRoot.isToggling ? 0.5 : 1.0
         Behavior on color { ColorAnimation { duration: 300; easing.type: Easing.InOutQuad } }
