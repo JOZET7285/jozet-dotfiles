@@ -7,7 +7,7 @@ hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("dolphin"))
 hl.bind(mainMod .. " + F", hl.dsp.exec_cmd("floorp"))
 hl.bind(mainMod .. " + K", hl.dsp.exec_cmd("kitty"))
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("hyprctl dispatch exit")) 
-hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("qs ipc call wallpaperWidget toggle"))
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("qs ipc call wallpaperSelector toggle"))
 
 -- Ventanas
 hl.bind(mainMod .. " + C", hl.dsp.window.kill(active))

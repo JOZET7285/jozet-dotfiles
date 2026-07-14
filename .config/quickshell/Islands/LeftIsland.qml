@@ -80,7 +80,7 @@ Rectangle {
                 id: maAppLauncherBtn
                 anchors.fill: parent
                 hoverEnabled: true
-                onClicked: appLauncher.open = !appLauncher.open
+                onClicked: Quickshell.ipc("appLauncher_" + modelData.name).toggle()
             }
         }
         Workspaces {

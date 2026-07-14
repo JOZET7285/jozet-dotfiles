@@ -34,7 +34,7 @@ Rectangle {
         activePopup === networkPopup ? 400 :
         activePopup === powerPopup ? 200  :
         activePopup === bluetoothPopup ? 400 :
-        activePopup === energyPopup ? 420 : 0,
+        activePopup === energyPopup ? 420 :
         activePopup === volumePopup ? 420 : 0
         ) * (scaleFactor + 0.1)  : rightRowLayoutId.implicitWidth + 30
     height: activePopup ? 38 * scaleFactor + activePopup.height : 38 * scaleFactor 
