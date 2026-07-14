@@ -4,6 +4,8 @@
 #include <QNetworkRequest>
 #include <QDebug>
 #include <algorithm>
+#include <QThread>
+#include <QProcess>
 
 namespace jozet {
 
@@ -75,6 +77,7 @@ void SystemManager::update() {
     updateBattery();
     updateBrightness();
     updatePowerProfile();
+
 }
 void jozet::SystemManager::updateBattery() {
     QFile capacityFile("/sys/class/power_supply/BAT1/capacity");
@@ -204,4 +207,40 @@ void SystemManager::forgetBluetooth(const QString &address) {
 QString jozet::SystemManager::powerProfile() const {
     return m_powerProfile;
 }
+
+#include <QThread>
+
+void SystemManager::refreshDiskStats() {
+    QThread *workerThread = QThread::create([this]() {
+        
+        QVariantList tempFolders = m_diskReader.getHomeFoldersUsage();
+        QVariantList tempPartitions = m_diskReader.getPartitionsStatus();
+        QVariantMap tempIO = m_diskReader.getDiskHealthAndIO();
+        QVariantMap tempMaint = m_diskReader.getMaintenanceInfo();
+
+        QMetaObject::invokeMethod(this, [this, tempFolders, tempPartitions, tempIO, tempMaint]() {
+            m_homeFoldersUsage = tempFolders;
+            m_partitionsStatus = tempPartitions;
+            m_diskHealthAndIO = tempIO;
+            m_maintenanceInfo = tempMaint;
+            
+            emit diskUsageChanged();
+        }, Qt::QueuedConnection);
+    });
+
+    connect(workerThread, &QThread::finished, workerThread, &QObject::deleteLater);
+    
+    workerThread->start();
+}
+
+void SystemManager::cleanCache() {
+    QProcess::startDetached("/bin/sh", QStringList() << "-c" << "rm -rf ~/.cache/* 2>/dev/null");    
+    refreshDiskStats();
+}
+
+void SystemManager::cleanTrash() {
+    QProcess::startDetached("/bin/sh", QStringList() << "-c" << "rm -rf ~/.local/share/Trash/files/* ~/.local/share/Trash/info/*");
+    refreshDiskStats();
+}
+
 }

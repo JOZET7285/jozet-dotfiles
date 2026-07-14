@@ -20,7 +20,13 @@ namespace jozet {
 
         Q_PROPERTY(int ramUsage READ ramUsage NOTIFY ramUsageChanged)
         Q_PROPERTY(int cpuUsage READ cpuUsage NOTIFY cpuUsageChanged)
+
         Q_PROPERTY(double diskUsage READ diskUsage NOTIFY diskUsageChanged)
+        Q_PROPERTY(QVariantList homeFoldersUsage READ homeFoldersUsage NOTIFY diskUsageChanged)
+        Q_PROPERTY(QVariantList partitionsStatus READ partitionsStatus NOTIFY diskUsageChanged)
+        Q_PROPERTY(QVariantMap diskHealthAndIO READ diskHealthAndIO NOTIFY diskUsageChanged)
+        Q_PROPERTY(QVariantMap maintenanceInfo READ maintenanceInfo NOTIFY diskUsageChanged)
+
         Q_PROPERTY(int cpuTemp READ cpuTemp NOTIFY cpuTempChanged)
 
         Q_PROPERTY(QString weather READ weather NOTIFY weatherChanged)
@@ -42,6 +48,7 @@ namespace jozet {
         Q_PROPERTY(int brightness READ brightness NOTIFY brightnessChanged)
 
         Q_PROPERTY(QString powerProfile READ powerProfile NOTIFY powerProfileChanged)
+
         
         int batteryCapacity() const { return m_batteryCapacity; }
         QString batteryStatus() const { return m_batteryStatus; }
@@ -52,12 +59,24 @@ namespace jozet {
 
         int ramUsage() const;
         int cpuUsage() const;
+
         double diskUsage() const;
+        QVariantList homeFoldersUsage() const { return m_homeFoldersUsage; }
+        QVariantList partitionsStatus() const { return m_partitionsStatus; }
+        QVariantMap diskHealthAndIO() const { return m_diskHealthAndIO; }
+        QVariantMap maintenanceInfo() const { return m_maintenanceInfo; }
+        Q_INVOKABLE void cleanCache();
+        Q_INVOKABLE void cleanTrash();
+
         int cpuTemp() const;
+
         QString weather() const;
+        
         QVariantMap ethernetInfo() const { return m_networkReader.ethernetInfo(); }
         QVariantMap wifiInfo() const { return m_networkReader.wifiInfo(); }
+        
         QVariantList availableBluetoothDevices() const { return m_bluetoothReader.availableDevices(); }
+        
         Q_INVOKABLE QVariantMap playbackDeviceInfo() const;
         Q_INVOKABLE QVariantMap inputDeviceInfo() const;
         Q_INVOKABLE QVariantList playingApplications() const { return m_volumeReader.playingApplications(); }
@@ -83,6 +102,8 @@ namespace jozet {
         Q_INVOKABLE void setDefaultPlaybackDevice(uint32_t index) { m_volumeReader.setDefaultPlaybackDevice(index); }
         Q_INVOKABLE void setDefaultInputDevice(uint32_t index) { m_volumeReader.setDefaultInputDevice(index); }
         Q_INVOKABLE void setBrightness(int percentage);
+        
+        Q_INVOKABLE void refreshDiskStats();
 
         Q_INVOKABLE void powerOff();
         Q_INVOKABLE void reboot();
@@ -117,7 +138,13 @@ namespace jozet {
 
         CpuReader m_cpuReader;
         RamReader m_ramReader;
+    
         DiskReader m_diskReader;
+        QVariantList m_homeFoldersUsage;
+        QVariantList m_partitionsStatus;
+        QVariantMap m_diskHealthAndIO;
+        QVariantMap m_maintenanceInfo;
+
         TempReader m_tempReader;
         NetworkReader m_networkReader;
         BluetoothReader m_bluetoothReader;

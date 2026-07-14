@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
-import "../../Components"
+import "../../Components/"
 
 Rectangle {
     Layout.fillWidth: true
@@ -38,7 +38,7 @@ Rectangle {
                         anchors.margins: 10
                         spacing: 10
 
-                        BasePill {
+                        BasePillSimple {
                             text: modelData.icon
                             onClicked: sysManager.setApplicationMuted(modelData.pid, !modelData.isMuted)
                         }

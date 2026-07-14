@@ -1,5 +1,4 @@
 module Components
-CarbonButton 1.0 CarbonButton.qml
 Workspaces 1.0 Workspaces.qml
-BasePill 1.0 Pills/BasePill.qml
+BasePillSimple 1.0 Pills/BasePillSimple.qml
 singleton Theme 1.0 Theme.qml

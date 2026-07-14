@@ -18,6 +18,15 @@ PanelWindow {
     property string playerState: "Pause"
     property bool playing: (mainProcesses.currentSongTitle === "Sin reproducción")
 
+    property bool centerPopups: [leftLandMonitor.popups]
+    property var centerActivePopup: {
+        for (var i = 0; i < centerPopups.length; i++) {
+            var p = centerPopups[i]
+            if (p && (p.open || p.animating)) return p
+        }
+        return null
+    }
+
     property var modelData 
     screen: modelData
     
@@ -37,6 +46,12 @@ PanelWindow {
         Region { item: centerLand }
         Region { item: rightLand }
         Region { item: rightLandMonitor }
+        Region {
+            item: (diskPopup.open || diskPopup.animating) ? diskPopup : null
+        }
+        Region {
+            item: (wallpaperSelector.open || wallpaperSelector.animating) ? wallpaperSelector : null
+        }
     }
     color: "transparent"
     focusable: false
@@ -96,6 +111,20 @@ PanelWindow {
         }
         RightMonitorIsland {
             id: rightLandMonitor
+        }
+        DiskPopup {
+            id: diskPopup
+            anchors {
+                top: centerLand.bottom
+                horizontalCenter: parent.horizontalCenter
+                topMargin: 20
+            }
+        }
+        WallpaperSelector {
+            id: wallpaperSelector
+            anchors {
+                centerIn: parent
+            }
         }
     }
 }

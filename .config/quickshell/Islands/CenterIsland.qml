@@ -10,6 +10,7 @@ import "../Process"
 import Jozet.System 1.0
 
 Rectangle {
+    property var centerActivePopup: null
     y: 5
     anchors {
         horizontalCenter: parent.horizontalCenter

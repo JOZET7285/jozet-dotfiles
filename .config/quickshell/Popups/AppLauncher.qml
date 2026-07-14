@@ -8,6 +8,7 @@ import "../Components"
 Item {
     id: appLauncher
 
+    property string screenName: ""
     property string searchQuery: ""
     property bool open: false
     property bool animating: false
@@ -37,16 +38,9 @@ Item {
     }
     IpcHandler {
         target: "appLauncher"
-
-        function toggle(): void {
-            appLauncher.open = !appLauncher.open
-        }
-        function show(): void {
-            appLauncher.open = true
-        }
-        function hide(): void {
-            appLauncher.open = false
-        }
+        function toggle(): void { appLauncher.open = !appLauncher.open }
+        function show(): void { appLauncher.open = true }
+        function hide(): void { appLauncher.open = false }
     }
     Loader {
         id: contentLoader
