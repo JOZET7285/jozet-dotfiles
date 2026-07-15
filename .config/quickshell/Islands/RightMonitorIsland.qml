@@ -30,11 +30,24 @@ Rectangle {
         BasePillSimple {
             icon: "\uf2db"
             text: sysManager.cpuUsage + "%"
+            onClicked: cpuPopup.open = !cpuPopup.open
+            color_text: {
+                if (sysManager.cpuUsage < 25) return Theme.color_b
+                if (sysManager.cpuUsage < 50) return Theme.color_y
+                if (sysManager.cpuUsage < 75) return Theme.color_o
+                return Theme.color_r
+            }
         }
         // temp
         BasePillSimple {
             icon: "\uf2c9"
-            text: sysManager.cpuTemp + "°C"
+            text: sysManager.maxTemp + "°C"
+            color_text: {
+                if (sysManager.maxTemp < 75) return Theme.color_b
+                if (sysManager.maxTemp < 95) return Theme.color_o
+                return Theme.color_r
+            }
+            onClicked: tempPopup.open = !tempPopup.open
         }
     }
 }

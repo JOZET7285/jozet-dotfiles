@@ -25,7 +25,7 @@ Item {
                 spacing: 5
                 
                 Text {
-                    text: "Caché"
+                    text: "Cache"
                     color: Theme.text_color
                     font.pixelSize: 12
                     opacity: 0.7
@@ -68,7 +68,7 @@ Item {
                 spacing: 5
 
                 Text {
-                    text: "Papelera"
+                    text: "Trash"
                     color: Theme.text_color
                     font.pixelSize: 12
                     opacity: 0.7

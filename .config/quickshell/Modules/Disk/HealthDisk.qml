@@ -24,7 +24,7 @@ Item {
                 spacing: 5
 
                 Text {
-                    text: "Lectura"
+                    text: "Reading"
                     color: Theme.text_color
                     font.pixelSize: 12
                     opacity: 0.7
@@ -60,7 +60,7 @@ Item {
                 spacing: 5
 
                 Text {
-                    text: "Escritura"
+                    text: "Writing"
                     color: Theme.text_color
                     font.pixelSize: 12
                     opacity: 0.7
@@ -95,7 +95,7 @@ Item {
                 spacing: 5
 
                 Text {
-                    text: "Salud"
+                    text: "Health"
                     color: Theme.text_color
                     font.pixelSize: 12
                     opacity: 0.7

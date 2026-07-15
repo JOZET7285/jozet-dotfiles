@@ -72,7 +72,7 @@ Rectangle {
                         
                         selectByMouse: true
                         selectedTextColor: "#FFFFFF"
-                        selectionColor: Theme.bg_3
+                        selectionColor: Theme.color_3
 
                         background: Rectangle {
                             implicitWidth: 280 * scaleFactor

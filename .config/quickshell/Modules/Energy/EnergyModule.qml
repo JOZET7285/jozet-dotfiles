@@ -99,7 +99,7 @@ RowLayout {
                 Text {
                     text: "Battery"
                     color: Theme.text_color
-                    font.pixelSize: 12
+                    font.pixelSize: 13
                     font.bold: true
                     Layout.fillWidth: true
                 }
@@ -115,21 +115,21 @@ RowLayout {
                             return Theme.color_r
                         }
                     }
-                    font.pixelSize: 11
+                    font.pixelSize: 10
                     Layout.fillWidth: true
                     font.bold: true
                 }
                 Text {
-                    text: "Tiempo restante"
+                    text: "Time remaining"
                     color: Theme.text_color
-                    font.pixelSize: 12
+                    font.pixelSize: 13
                     font.bold: true
                     Layout.fillWidth: true
                 }
                 Text {
                     text: "1h 30m"
                     color: Theme.color_g
-                    font.pixelSize: 11
+                    font.pixelSize: 10
                     Layout.fillWidth: true
                     font.bold: true
                 }

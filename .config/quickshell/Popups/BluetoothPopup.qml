@@ -109,7 +109,7 @@ Item {
                         clip: true
 
                         Label {
-                            text: "Conectados"
+                            text: "Connected"
                             color: Theme.text_color
                             font.bold: true
                             font.pointSize: 11
@@ -128,7 +128,7 @@ Item {
 
                             Text {
                                 visible: connectedRow.count === 0
-                                text: "Sin conexión"
+                                text: "No connected devices"
                                 color: Theme.light_4
                                 font.italic: true
                                 Layout.fillWidth: true
@@ -160,7 +160,7 @@ Item {
                                         Column {
                                             Layout.fillWidth: true
                                             Text {
-                                                text: modelData.name || "Dispositivo"
+                                                text: modelData.name || "Device"
                                                 color: Theme.text_color
                                                 font.bold: true
                                                 font.pixelSize: 11
@@ -203,7 +203,7 @@ Item {
                         }
 
                         Label {
-                            text: "Disponibles"
+                            text: "Availables"
                             color: Theme.text_color
                             font.bold: true
                             font.pointSize: 11
@@ -241,7 +241,7 @@ Item {
                                         spacing: 4
 
                                         Text {
-                                            text: isConnecting ? "Conectando..." : (device.name || "Desconocido")
+                                            text: isConnecting ? "Connecting..." : (device.name || "Unknown")
                                             color: Theme.text_color
                                             horizontalAlignment: Text.AlignHCenter
                                             verticalAlignment: Text.AlignVCenter
@@ -282,7 +282,7 @@ Item {
 
                             Text {
                                 visible: gridContainer.count === 0
-                                text: "No hay dispositivos disponibles"
+                                text: "No devices availables"
                                 color: Theme.light_4
                                 font.italic: true
                                 Layout.columnSpan: 3

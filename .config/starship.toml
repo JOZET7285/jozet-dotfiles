@@ -1,0 +1,53 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = true
+
+format = """
+$username\
+   $directory\
+   $git_branch$git_status\
+$nodejs$python\
+\n$character"""
+
+[username]
+show_always = true
+style_user = "bg:#1a1a1a fg:#ffffff"
+style_root = "bg:#1a1a1a fg:#ff4d4d"
+format = "[ $user ]($style)"
+disabled = false
+
+[directory]
+style = "bg:#2b2b2b fg:#ffffff"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+
+[git_branch]
+symbol = ""
+style = "bg:#3c3c3c fg:#bb87ff"
+format = "[ $symbol $branch ]($style)"
+
+[git_status]
+style = "bg:#3c3c3c fg:#ff4d4d"
+format = "[$all_status$ahead_behind ]($style)"
+
+[nodejs]
+symbol = ""
+style = "bg:#1a1a1a fg:#afff92"
+format = "[ $symbol ($version) ]($style)"
+
+[python]
+symbol = ""
+style = "bg:#2b2b2b fg:#f4ff92"
+format = "[ $symbol ($version) ]($style)"
+
+[character]
+success_symbol = "[❯](#f4ff92)"
+error_symbol = "[❯](#ff4d4d)"
+vimcmd_symbol = "[❮](#87edff)"

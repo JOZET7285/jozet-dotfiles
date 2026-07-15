@@ -80,7 +80,7 @@ Item{
                         anchors.left: parent.left
                         anchors.right: parent.right
                         anchors.top: parent.top
-                        height: 190
+                        height: 240
                         
                         ColumnLayout {
                             anchors {
@@ -94,11 +94,11 @@ Item{
 
                             Repeater {
                                 model: [
-                                    { label: "Apagar", icon: "\uf011", executable: "/usr/bin/systemctl", args: ["poweroff"], color: "#fca5a5" },
-                                    { label: "Reiniciar", icon: "\uf021", executable: "/usr/bin/systemctl", args: ["reboot"], color: "#fde68a" },
-                                    { label: "Suspender", icon: "\uf186", executable: "/usr/bin/systemctl", args: ["suspend"], color: "#93c5fd" },
-                                    { label: "Bloquear", icon: "\uf023", executable: "/usr/bin/hyprlock", args: [], color: "#a7f3d0"
-                                    }
+                                    { label: "Power Off", icon: "\uf011", executable: "/usr/bin/systemctl", args: ["poweroff"], color: "#fca5a5" },
+                                    { label: "Reboot", icon: "\uf021", executable: "/usr/bin/systemctl", args: ["reboot"], color: "#fde68a" },
+                                    { label: "Suspend", icon: "\uf186", executable: "/usr/bin/systemctl", args: ["suspend"], color: "#93c5fd" },
+                                    { label: "Lock", icon: "\uf023", executable: "/usr/bin/hyprlock", args: [], color: "#a7f3d0" },
+                                    { label: "Log Out", icon: "\uf2f5", executable: "/usr/bin/hyprctl", args: ["dispatch", "hl.dsp.exit()"], color: "#c4b5fd" }
                                 ]
 
                                 Rectangle {
@@ -162,7 +162,7 @@ Item{
                                     }
 
                                     RowLayout {
-                                        anchors.fill: parent
+                                        anchors.centerIn: parent
                                         anchors.leftMargin: 15
                                         spacing: 10
 
@@ -170,12 +170,18 @@ Item{
                                             text: modelData.icon
                                             font.family: Theme.iconFont
                                             color: mouseArea.pressed ? Theme.color_1_solid : "#ccc" 
+                                            Layout.alignment: Qt.AlignVCenter 
+                                            
                                             Behavior on color{ColorAnimation{duration: 1500; easing.type: Easing.InOutQuad}}
                                         }
+
                                         Text {
                                             text: modelData.label
                                             font.pixelSize: 13
                                             color: mouseArea.pressed ? Theme.color_1_solid : "#ccc"
+                                            
+                                            Layout.alignment: Qt.AlignVCenter 
+                                            
                                             Behavior on color{ColorAnimation{duration: 1500; easing.type: Easing.InOutQuad}}
                                         }
                                     }

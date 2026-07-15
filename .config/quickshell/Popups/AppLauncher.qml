@@ -97,14 +97,14 @@ Item {
                             height: 22
 
                             Text {
-                                text: "Aplicaciones"
+                                text: "Applications"
                                 color: Theme.text_color
                                 font.pixelSize: 15
                                 font.bold: true
                             }
                             Item { Layout.fillWidth: true }
                             Text {
-                                text: appListModel.values.length + " resultado" + (appListModel.values.length === 1 ? "" : "s")
+                                text: appListModel.values.length + " result" + (appListModel.values.length === 1 ? "" : "s")
                                 color: Theme.light_3
                                 font.pixelSize: 12
                             }
@@ -119,10 +119,8 @@ Item {
                             height: 32
                             radius: 10
                             color: Theme.color_1
-                            border.color: searchAppField.activeFocus ? Theme.color_b : Theme.light_2
+                            border.color: Theme.light_2
                             border.width: 1
-
-                            Behavior on border.color { ColorAnimation { duration: 120 } }
 
                             Text {
                                 id: searchIcon
@@ -130,21 +128,19 @@ Item {
                                 anchors.leftMargin: 12
                                 anchors.verticalCenter: parent.verticalCenter
                                 text: "\uf002"
-                                font.family: Theme.iconFont
                                 font.pixelSize: 14
                                 color: Theme.light_3
                             }
 
                             TextField {
                                 id: searchAppField
-                                placeholderText: "Buscar aplicación..."
                                 anchors.left: searchIcon.right
                                 anchors.leftMargin: 10
                                 anchors.right: clearIcon.visible ? clearIcon.left : parent.right
                                 anchors.rightMargin: 8
                                 anchors.verticalCenter: parent.verticalCenter
                                 height: parent.height
-                                color: Theme.text_color
+                                color: Theme.light_2
                                 background: Item {}
                                 leftPadding: 0
                                 focus: true
@@ -300,7 +296,7 @@ Item {
                             }
                             Text {
                                 Layout.alignment: Qt.AlignHCenter
-                                text: "No se encontraron aplicaciones"
+                                text: "No applications were found"
                                 color: Theme.light_3
                                 font.pixelSize: 13
                             }
