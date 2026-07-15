@@ -27,7 +27,8 @@ PACMAN_PKGS=(
     playerctl brightnessctl power-profiles-daemon
     bluez bluez-utils
     kitty neovim zsh
-    ttf-jetbrains-mono-nerd
+    ttf-jetbrains-mono-nerd ttf-firacode-nerd
+    starship fastfetch
 )
 
 # mapa "config en el repo" -> "destino en $HOME"
@@ -35,7 +36,9 @@ declare -A LINK_MAP=(
     [".config/hypr"]="$HOME/.config/hypr"
     [".config/quickshell"]="$HOME/.config/quickshell"
     [".config/kitty"]="$HOME/.config/kitty"
+    [".config/fastfetch"]="$HOME/.config/fastfetch"
     [".config/nvim"]="$HOME/.config/nvim"
+    [".config/starship.toml"]="$HOME/.config/starship.toml"
     ["home/.zshrc"]="$HOME/.zshrc"
 )
 
