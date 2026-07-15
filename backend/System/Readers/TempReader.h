@@ -1,8 +1,10 @@
 #pragma once
+#include <QVariantList>
 
 namespace jozet {
     class TempReader {
     public:
-        int readCpuTemperature();
+        int readMaxTemperature();
+        QVariantList readAllSensors();
     };
 }

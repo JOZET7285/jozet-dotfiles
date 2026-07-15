@@ -11,7 +11,7 @@ import Jozet.System 1.0
 
 Rectangle {
     readonly property var marginScaled: 10 * scaleFactor
-    property var popups: [diskPopup]//, ramPopup]
+    property var popups: [diskPopup, ramPopup]
     property var activePopup: {
         for (var i = 0; i < popups.length; i++) {
             var p = popups[i]
@@ -49,12 +49,25 @@ Rectangle {
         BasePillSimple {
             id: ramUsagePill
             icon: "\uf233"
-            text: sysManager.ramUsage + "%"
+            text: (sysManager.ramInfo.usagePercent || 0) + "%"
+            color_text: {
+                if (sysManager.ramInfo.usagePercent < 25) return Theme.color_b
+                if (sysManager.ramInfo.usagePercent < 50) return Theme.color_y
+                if (sysManager.ramInfo.usagePercent < 75) return Theme.color_o
+                return Theme.color_r
+            }
+            onClicked: ramPopup.open = !ramPopup.open
         }
         BasePillSimple {
             id: diskUsagePill
             icon: "\uf0a0" 
             text: sysManager.diskUsage + "%"
+            color_text: {
+                if (sysManager.diskUsage < 25) return Theme.color_b
+                if (sysManager.diskUsage < 50) return Theme.color_y
+                if (sysManager.diskUsage < 75) return Theme.color_o
+                return Theme.color_r
+            }
             onClicked: diskPopup.open = !diskPopup.open
         }
     }

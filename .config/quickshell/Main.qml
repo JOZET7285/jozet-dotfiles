@@ -18,15 +18,6 @@ PanelWindow {
     property string playerState: "Pause"
     property bool playing: (mainProcesses.currentSongTitle === "Sin reproducción")
 
-    property bool centerPopups: [leftLandMonitor.popups]
-    property var centerActivePopup: {
-        for (var i = 0; i < centerPopups.length; i++) {
-            var p = centerPopups[i]
-            if (p && (p.open || p.animating)) return p
-        }
-        return null
-    }
-
     property var modelData 
     screen: modelData
     
@@ -51,6 +42,15 @@ PanelWindow {
         }
         Region {
             item: (wallpaperSelector.open || wallpaperSelector.animating) ? wallpaperSelector : null
+        }
+        Region {
+            item: (ramPopup.open || ramPopup.animating) ? ramPopup : null
+        }
+        Region {
+            item: (cpuPopup.open || cpuPopup.animating) ? cpuPopup : null
+        }
+        Region {
+            item: (tempPopup.open || tempPopup.animating) ? tempPopup : null
         }
     }
     color: "transparent"
@@ -119,11 +119,64 @@ PanelWindow {
                 horizontalCenter: parent.horizontalCenter
                 topMargin: 20
             }
+            onOpenChanged: if (open) {
+                ramPopup.open = false
+                wallpaperSelector.open = false
+                cpuPopup.open = false
+                tempPopup.open = false
+            }
         }
         WallpaperSelector {
             id: wallpaperSelector
             anchors {
                 centerIn: parent
+            }onOpenChanged: if (open) {
+                ramPopup.open = false
+                diskPopup.open = false
+                cpuPopup.open = false
+                tempPopup.open = false
+            }
+        }
+        RamPopup {
+            id: ramPopup
+            anchors {
+                top: centerLand.bottom
+                horizontalCenter: parent.horizontalCenter
+                topMargin: 20
+            }
+            onOpenChanged: if (open) {
+                diskPopup.open = false
+                wallpaperSelector.open = false
+                cpuPopup.open = false
+                tempPopup.open = false
+            }
+        }
+        CpuPopup {
+            id: cpuPopup
+            anchors {
+                top: centerLand.bottom
+                horizontalCenter: parent.horizontalCenter
+                topMargin: 20
+            }
+            onOpenChanged: if (open) {
+                diskPopup.open = false
+                wallpaperSelector.open = false
+                ramPopup.open = false
+                tempPopup.open = false
+            }
+        }
+        TempPopup {
+            id: tempPopup
+            anchors {
+                top: centerLand.bottom
+                horizontalCenter: parent.horizontalCenter
+                topMargin: 20
+            }
+            onOpenChanged: if (open) {
+                diskPopup.open = false
+                wallpaperSelector.open = false
+                ramPopup.open = false
+                cpuPopup.open = false
             }
         }
     }

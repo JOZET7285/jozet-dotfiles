@@ -77,7 +77,7 @@ Item {
                 Item {
                     id: content
                     width: parent.width
-                    height: 390
+                    height: 430
                     
                     Behavior on height { 
                         NumberAnimation { duration: 180; easing.type: Easing.InOutQuad } 
@@ -89,12 +89,12 @@ Item {
                         spacing: 10
 
                         Text {
-                            text: "Volumen"
+                            text: "Volume"
                             color: Theme.text_color
                             font.pixelSize: 15
                             font.bold: true
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 22
+                            Layout.preferredHeight: 15
                         }
 
                         ColumnLayout {
@@ -115,7 +115,7 @@ Item {
                         }
 
                         Text {
-                            text: "Aplicaciones"
+                            text: "Applications"
                             color: Theme.text_color
                             font.pixelSize: 12
                             font.bold: true
@@ -129,7 +129,7 @@ Item {
                             Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
                         }
                         Text {
-                            text: "No hay aplicaciones reproduciendo audio"
+                            text: "No applications playing audio"
                             color: Theme.light_4
                             font.pixelSize: 11
                             font.italic: true

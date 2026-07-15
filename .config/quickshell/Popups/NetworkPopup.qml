@@ -101,7 +101,7 @@ Item {
                         spacing: 10
 
                         Text {
-                            text: "Conexiones"
+                            text: "Network Connections"
                             color: Theme.text_color
                             font.pixelSize: 15
                             font.bold: true
