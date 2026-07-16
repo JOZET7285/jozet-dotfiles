@@ -22,6 +22,8 @@ Rectangle {
         ? sysManager.ethernetInfo
         : sysManager.wifiInfo
 
+    property bool networkPopupOpen: networkPopup.open
+
     property var activePopup: {
         for (var i = 0; i < popups.length; i++) {
             var p = popups[i]
@@ -58,7 +60,7 @@ Rectangle {
             leftMargin: marginScaled
             rightMargin: marginScaled
         }
-        height: Theme.height * scaleFactor
+        height: 38 * scaleFactor
         spacing: 8 * scaleFactor
 
         NetworkPanelBtn {

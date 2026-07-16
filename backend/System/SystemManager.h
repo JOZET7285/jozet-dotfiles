@@ -15,6 +15,9 @@
 #include "Readers/RamReader.h"
 #include "Readers/TempReader.h"
 #include "Readers/VolumeReader.h"
+#include "Readers/AgendaReader.h"
+#include "Readers/StatsReader.h"
+#include "Readers/EventsReader.h"
 
 namespace jozet {
 
@@ -28,44 +31,49 @@ class SystemManager : public QObject
     Q_PROPERTY(QVariantMap ramInfo READ ramInfo NOTIFY ramInfoChanged)
     Q_PROPERTY(QVariantList topRamProcesses READ topRamProcesses NOTIFY topRamProcessesChanged)
 
-    // CPU -----------------------------------------------
+    // CPU -------------------------------------------------------------------------------------
     Q_PROPERTY(int cpuUsage READ cpuUsage NOTIFY cpuUsageChanged)
     Q_PROPERTY(QVariantList topCpuProcesses READ topCpuProcesses NOTIFY topCpuProcessesChanged)
     Q_PROPERTY(int cpuFrequency READ cpuFrequency NOTIFY cpuFrequencyChanged)
 
-    // TEMP ----------------------------------------------------------------
+    // TEMP ------------------------------------------------------------------------------------
     Q_PROPERTY(int maxTemp READ maxTemp NOTIFY maxTempChanged)
     Q_PROPERTY(QVariantList sensorTemperatures READ sensorTemperatures NOTIFY sensorTemperaturesChanged)
 
-    // DISK -----------------------------------------------
+    // DISK ---------------------------------------------------------------------------------------------
     Q_PROPERTY(double diskUsage READ diskUsage NOTIFY diskUsageChanged)
     Q_PROPERTY(QVariantList homeFoldersUsage READ homeFoldersUsage NOTIFY diskUsageChanged)
     Q_PROPERTY(QVariantList partitionsStatus READ partitionsStatus NOTIFY diskUsageChanged)
     Q_PROPERTY(QVariantMap diskHealthAndIO READ diskHealthAndIO NOTIFY diskUsageChanged)
     Q_PROPERTY(QVariantMap maintenanceInfo READ maintenanceInfo NOTIFY diskUsageChanged)
 
-    // NETWORK -----------------------------------------------
+    // NETWORK ----------------------------------------------------------------------------
     Q_PROPERTY(QVariantList availableNetworks READ availableNetworks NOTIFY networkChanged)
     Q_PROPERTY(QVariantMap ethernetInfo READ ethernetInfo NOTIFY networkChanged)
     Q_PROPERTY(QVariantMap wifiInfo READ wifiInfo NOTIFY networkChanged)
 
-    // BLUETOOTH -----------------------------------------------
+    // BLUETOOTH ----------------------------------------------------------------------------
     Q_PROPERTY(QVariantList availableBluetoothDevices READ availableBluetoothDevices NOTIFY bluetoothChanged)
  
-    // AUDIO -----------------------------------------------
+    // AUDIO -------------------------------------------------------------------------------------------------
     Q_PROPERTY(QVariantMap playbackDeviceInfo READ playbackDeviceInfo NOTIFY volumeChanged)
     Q_PROPERTY(QVariantMap inputDeviceInfo READ inputDeviceInfo NOTIFY volumeChanged)
     Q_PROPERTY(QVariantList playingApplications READ playingApplications NOTIFY volumeChanged)
     Q_PROPERTY(bool isVolumeReady READ isVolumeReady NOTIFY volumeChanged)
 
-    // POWER -----------------------------------------------
+    // POWER ---------------------------------------------------------------------------------
     Q_PROPERTY(int batteryCapacity READ batteryCapacity NOTIFY batteryCapacityChanged)
     Q_PROPERTY(QString batteryStatus READ batteryStatus NOTIFY batteryStatusChanged)
     Q_PROPERTY(int brightness READ brightness NOTIFY brightnessChanged)
     Q_PROPERTY(QString powerProfile READ powerProfile NOTIFY powerProfileChanged)
 
-    // WEATHER -----------------------------------------------
+    // WEATHER -----------------------------------------------------------------------
     Q_PROPERTY(QString weather READ weather NOTIFY weatherChanged)
+
+    // TODAY -----------------------------------------------------
+    Q_PROPERTY(QVariantMap userStats READ userStats NOTIFY todayDataChanged)
+    Q_PROPERTY(QVariantList events READ events NOTIFY todayDataChanged)
+    Q_PROPERTY(QVariantList agenda READ agenda NOTIFY todayDataChanged)
 
 public:
     explicit SystemManager(QObject *parent = nullptr);
@@ -142,6 +150,16 @@ public:
     // WEATHER -----------------------------------------------
     QString weather() const;
 
+    // TODAY -----------------------
+    QVariantList agenda() const { return m_agenda; }
+    QVariantList events() const { return m_events; }
+    QVariantMap userStats() const { return m_userStats; }
+    
+    Q_INVOKABLE void refreshTodayData();
+    Q_INVOKABLE void toggleAgendaTask(int index);
+    Q_INVOKABLE void addEvent(const QString &date, const QString &title);
+    Q_INVOKABLE void addAgendaTask(const QString &task);
+
 signals:
     void ramInfoChanged();
     void topRamProcessesChanged();
@@ -159,6 +177,7 @@ signals:
     void brightnessChanged();
     void powerProfileChanged();
     void weatherChanged();
+    void todayDataChanged();
 
 private slots:
     void update();
@@ -205,6 +224,14 @@ private:
     // WEATHER ------------------------------------
     QString m_weather;
     QNetworkAccessManager *m_networkManager = nullptr;
+
+    // TODAY ------------------------------------------
+    AgendaReader m_agendaReader;
+    StatsReader m_statsReader;
+    QVariantList m_agenda;
+    QVariantMap m_userStats;
+    EventsReader m_eventsReader;
+    QVariantList m_events;
 
     // HELPERS --------------------------------------------
     void updateCpu();

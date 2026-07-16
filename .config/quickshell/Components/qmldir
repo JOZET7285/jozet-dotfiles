@@ -1,4 +1,6 @@
 module Components
 Workspaces 1.0 Workspaces.qml
 BasePillSimple 1.0 Pills/BasePillSimple.qml
+BasePopup 1.0 BasePopup.qml
+BasePopupBottom 1.0 BasePopupBottom.qml
 singleton Theme 1.0 Theme.qml
