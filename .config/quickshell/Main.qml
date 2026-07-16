@@ -135,7 +135,6 @@ PanelWindow {
             }
             TodayPopup {
                 id: todayPopup
-                sysManager: rootUISys.sysManager
                 anchors.horizontalCenter: parent.horizontalCenter
                 onOpenChanged: rootUISys.closeOtherPopups(this)
             }
