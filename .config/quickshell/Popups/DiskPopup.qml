@@ -9,9 +9,15 @@ import "../Modules/Disk"
 
 BasePopup {
     id: diskPopup
-    property var sysManager
     customWidth: 800
     ipcTarget: "diskPopup"
+    
+    onOpenChanged: {
+        if (open && sysManager) {
+            sysManager.refreshDiskStats()
+        }
+    }
+
     popupContent: Component {
         ColumnLayout {
             id: mainLayout
@@ -24,7 +30,6 @@ BasePopup {
 
                 FoldersUsage {
                     id: foldersUsageArea
-                    sysManager: diskPopup.sysManager
                 }
                 Rectangle {
                     Layout.fillHeight: true
@@ -33,7 +38,6 @@ BasePopup {
                 }
                 PartitionsUsage {
                     id: partitionsUsageArea
-                    sysManager: diskPopup.sysManager
                 }
             }
             Rectangle {
@@ -47,7 +51,6 @@ BasePopup {
                 spacing: 10
                 HealthDisk {
                     id: healthDiskArea
-                    sysManager: diskPopup.sysManager
                 }
                 Rectangle {
                     Layout.fillHeight: true
@@ -56,7 +59,6 @@ BasePopup {
                 }
                 MaintenanceInfo {
                     id: maintenanceInfoArea
-                    sysManager: diskPopup.sysManager
                 }
             }
         }
