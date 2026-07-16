@@ -9,7 +9,6 @@ import "../Modules/Today"
 
 BasePopup {
     id: todayPopup
-    property var sysManager
     customWidth: 725
     ipcTarget: "todayPopup"
 

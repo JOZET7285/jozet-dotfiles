@@ -11,12 +11,12 @@ Rectangle {
     color: Theme.color_2
     radius: 15
     ColumnLayout {
-        Layout.fillWidth: true
-        Layout.preferredHeight: 40 
+        anchors.fill: parent
+        anchors.margins: 10
         spacing: 10
         RowLayout {
             Layout.fillWidth: true
-            Layout.margins: 10
+            Layout.preferredHeight: 30
             spacing: 10
             Text {
                 Layout.fillWidth: true
@@ -26,8 +26,8 @@ Rectangle {
                 color: Theme.light_1
             }
             Rectangle { 
-                Layout.fillHeight: true
-                Layout.preferredWidth: height
+                Layout.preferredHeight: 25
+                Layout.preferredWidth: 25
                 radius: 5
                 color: addAgendaMa.containsMouse ? Theme.color_2 : Theme.color_1
                 Behavior on color { ColorAnimation { duration: 200; easing.type: Easing.InOutQuad}}
@@ -50,8 +50,7 @@ Rectangle {
         ListView {
             id: agendaList
             Layout.fillWidth: true
-            Layout.fillHeight: true
-            spacing: 10
+            Layout.fillHeight: true 
             clip: true
             model: sysManager.agenda
 
@@ -76,6 +75,7 @@ Rectangle {
                 }
                 
                 Text {
+                    Layout.margins: 10
                     text: modelData.task
                     color: modelData.done ? Theme.light_3 : Theme.text_color
                     font.strikeout: modelData.done
