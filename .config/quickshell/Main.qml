@@ -116,8 +116,7 @@ PanelWindow {
             DiskPopup { 
                 id: diskPopup
                 anchors.horizontalCenter: parent.horizontalCenter
-                onOpenChanged: rootUISys.closeOtherPopups(this) 
-                sysManager: sysManager
+                onOpenChanged: rootUISys.closeOtherPopups(this)
             }
             RamPopup { 
                 id: ramPopup
