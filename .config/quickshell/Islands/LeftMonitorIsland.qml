@@ -10,29 +10,23 @@ import "../Process"
 import Jozet.System 1.0
 
 Rectangle {
-    readonly property var marginScaled: 10 * scaleFactor
-    property var popups: [diskPopup, ramPopup]
-    property var activePopup: {
-        for (var i = 0; i < popups.length; i++) {
-            var p = popups[i]
-            if (p && (p.open || p.animating)) return p
-        } 
-        return null
-    }
     y: 5
+    
+    readonly property var marginScaled: 10 * scaleFactor
+    
     width: leftRowLayoutMonitor.implicitWidth + 20
     height: 38 * scaleFactor
-    
-    Behavior on width {NumberAnimation {duration: 750; easing.type: Easing.OutCubic }}
-    Behavior on height { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
+    color: Theme.color_1
+    radius: Theme.radius
+    clip: true
     
     anchors {
         right: centerLand.left
         rightMargin: marginScaled
     }
-    color: Theme.color_1
-    radius: Theme.radius
-    clip: true
+
+    Behavior on width {NumberAnimation {duration: 750; easing.type: Easing.OutCubic }}
+    Behavior on height { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
     
     RowLayout {
         id: leftRowLayoutMonitor

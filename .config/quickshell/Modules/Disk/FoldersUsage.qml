@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Io
 import "../../Components"
 Item { 
+    property var sysManager
     Layout.fillWidth: true  
     Layout.fillHeight: true  
     Text {

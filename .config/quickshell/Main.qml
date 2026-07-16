@@ -11,8 +11,6 @@ import Jozet.System 1.0
 
 PanelWindow {
     id: rootUISys
-    property bool popupOpen: leftLand.appLauncherOpen
-                        || rightLand.activePopup
     property string currentTime: "00:00"
     property string currentDate: ""
     property string playerState: "Pause"
@@ -22,13 +20,27 @@ PanelWindow {
     screen: modelData
     
     property real baseWidth: 1920
-    property real scaleFactor: modelData ? (modelData.width / baseWidth) : 1.0
+    property real scalePreFactor: modelData ? (modelData.width / baseWidth) : 1.0
+    property real scaleFactor: scalePreFactor > 1.0 ? 1.0 : scalePreFactor
+
+    property var popupList: [diskPopup, ramPopup, cpuPopup, tempPopup, todayPopup] 
+    property var popupBottomList: [agendPopup, wallpaperSelector]
+    
+    function closeOtherPopups(openedPopup) {
+        if (openedPopup.open) {
+            for (let i = 0; i < popupList.length; i++) {
+                if (popupList[i] !== openedPopup && popupList[i].open) {
+                    popupList[i].open = false;
+                }
+            }
+        }
+    }
     
     anchors {
         top: true
     }
     implicitWidth: modelData ? modelData.width : 1920
-    implicitHeight: (50 * scaleFactor) + 570
+    implicitHeight: modelData ? modelData.height : 1080
     exclusiveZone: Theme.height * scaleFactor
     mask: Region {
         Region { item: leftLandMonitor }
@@ -37,25 +49,17 @@ PanelWindow {
         Region { item: centerLand }
         Region { item: rightLand }
         Region { item: rightLandMonitor }
-        Region {
-            item: (diskPopup.open || diskPopup.animating) ? diskPopup : null
-        }
-        Region {
-            item: (wallpaperSelector.open || wallpaperSelector.animating) ? wallpaperSelector : null
-        }
-        Region {
-            item: (ramPopup.open || ramPopup.animating) ? ramPopup : null
-        }
-        Region {
-            item: (cpuPopup.open || cpuPopup.animating) ? cpuPopup : null
-        }
-        Region {
-            item: (tempPopup.open || tempPopup.animating) ? tempPopup : null
-        }
+        Region { item: (diskPopup.open || diskPopup.animating) ? diskPopup : null }
+        Region { item: (wallpaperSelector.open || wallpaperSelector.animating) ? wallpaperSelector : null }
+        Region { item: (ramPopup.open || ramPopup.animating) ? ramPopup : null }
+        Region { item: (cpuPopup.open || cpuPopup.animating) ? cpuPopup : null }
+        Region { item: (tempPopup.open || tempPopup.animating) ? tempPopup : null }
+        Region { item: (todayPopup.open || todayPopup.animating) ? todayPopup : null }
+        Region { item: (agendPopup.open || agendPopup.animating) ? agendPopup : null }
     }
     color: "transparent"
     focusable: false
-    WlrLayershell.keyboardFocus: popupOpen ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+    WlrLayershell.keyboardFocus: leftLand.appLauncherOpen || rightLand.networkPopupOpen || agendPopup.open ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
     
     HoverHandler { id: hoverPanelWindow } 
 
@@ -94,91 +98,66 @@ PanelWindow {
 
     Item {
         anchors.fill: parent
-        LeftMonitorIsland {
-            id: leftLandMonitor
-        }
-        LeftIsland {
-            id: leftLand
-        }
-        MultimediaIsland {
-            id: multimediaLand
-        }
-        CenterIsland {
-            id: centerLand
-        }
-        RightIsland {
-            id: rightLand    
-        }
-        RightMonitorIsland {
-            id: rightLandMonitor
-        }
-        DiskPopup {
-            id: diskPopup
+
+        LeftMonitorIsland { id: leftLandMonitor }
+        LeftIsland { id: leftLand }
+        MultimediaIsland { id: multimediaLand }
+        CenterIsland { id: centerLand }
+        RightIsland { id: rightLand }
+        RightMonitorIsland { id: rightLandMonitor }
+
+        Item {
+            id: centerPopupsContainer
             anchors {
                 top: centerLand.bottom
                 horizontalCenter: parent.horizontalCenter
                 topMargin: 20
             }
-            onOpenChanged: if (open) {
-                ramPopup.open = false
-                wallpaperSelector.open = false
-                cpuPopup.open = false
-                tempPopup.open = false
+            DiskPopup { 
+                id: diskPopup
+                anchors.horizontalCenter: parent.horizontalCenter
+                onOpenChanged: rootUISys.closeOtherPopups(this) 
+                sysManager: sysManager
+            }
+            RamPopup { 
+                id: ramPopup
+                anchors.horizontalCenter: parent.horizontalCenter
+                onOpenChanged: rootUISys.closeOtherPopups(this) 
+            }
+            CpuPopup { 
+                id: cpuPopup
+                anchors.horizontalCenter: parent.horizontalCenter
+                onOpenChanged: rootUISys.closeOtherPopups(this) 
+            }
+            TempPopup { 
+                id: tempPopup
+                anchors.horizontalCenter: parent.horizontalCenter
+                onOpenChanged: rootUISys.closeOtherPopups(this) 
+            }
+            TodayPopup {
+                id: todayPopup
+                sysManager: rootUISys.sysManager
+                anchors.horizontalCenter: parent.horizontalCenter
+                onOpenChanged: rootUISys.closeOtherPopups(this)
             }
         }
-        WallpaperSelector {
-            id: wallpaperSelector
+        Item {
+            id: centerBottomPopupsContainer
             anchors {
-                centerIn: parent
-            }onOpenChanged: if (open) {
-                ramPopup.open = false
-                diskPopup.open = false
-                cpuPopup.open = false
-                tempPopup.open = false
-            }
-        }
-        RamPopup {
-            id: ramPopup
-            anchors {
-                top: centerLand.bottom
+                bottom: parent.bottom
                 horizontalCenter: parent.horizontalCenter
-                topMargin: 20
+                bottomMargin: 10
             }
-            onOpenChanged: if (open) {
-                diskPopup.open = false
-                wallpaperSelector.open = false
-                cpuPopup.open = false
-                tempPopup.open = false
+            AgendPopup {
+                id: agendPopup
+                anchors.horizontalCenter: parent.horizontalCenter
             }
-        }
-        CpuPopup {
-            id: cpuPopup
-            anchors {
-                top: centerLand.bottom
-                horizontalCenter: parent.horizontalCenter
-                topMargin: 20
-            }
-            onOpenChanged: if (open) {
-                diskPopup.open = false
-                wallpaperSelector.open = false
-                ramPopup.open = false
-                tempPopup.open = false
+            WallpaperSelector {
+                id: wallpaperSelector
+                anchors.horizontalCenter: parent.horizontalCenter
             }
         }
-        TempPopup {
-            id: tempPopup
-            anchors {
-                top: centerLand.bottom
-                horizontalCenter: parent.horizontalCenter
-                topMargin: 20
-            }
-            onOpenChanged: if (open) {
-                diskPopup.open = false
-                wallpaperSelector.open = false
-                ramPopup.open = false
-                cpuPopup.open = false
-            }
-        }
+        
     }
 }
 

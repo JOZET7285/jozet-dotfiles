@@ -1,2 +1,4 @@
 .config/quickshell/wallpapers/
 backend/build/
+.config/quickshell/Assets/Agenda.json
+.config/quickshell/Assets/Events.json

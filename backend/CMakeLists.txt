@@ -31,6 +31,12 @@ qt6_add_qml_module(JozetPlugin
         System/Readers/VolumeReader.h
         System/Readers/ProcessReader.cpp
         System/Readers/ProcessReader.h
+        System/Readers/AgendaReader.cpp
+        System/Readers/AgendaReader.h
+        System/Readers/EventsReader.cpp
+        System/Readers/EventsReader.h
+        System/Readers/StatsReader.cpp
+        System/Readers/StatsReader.h
 )
 target_include_directories(JozetPlugin PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}

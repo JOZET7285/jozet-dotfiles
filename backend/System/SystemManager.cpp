@@ -54,6 +54,8 @@ SystemManager::SystemManager(QObject *parent)
     m_volumeReader.updateVolumeStatus();
 
     fetchWeather();
+
+    refreshTodayData();
 }
 
 // RAM
@@ -463,6 +465,86 @@ void SystemManager::powerOff()
 QString SystemManager::weather() const
 {
     return m_weather;
+}
+
+// TODAY
+//---------------------------------------------------------
+void SystemManager::refreshTodayData()
+{
+    QVariantList newEvents = m_eventsReader.readEvents();
+    QVariantList newAgenda = m_agendaReader.readAgenda();
+    QVariantMap newStats = m_statsReader.readStats();
+
+    bool changed = false;
+
+    if (m_agenda != newAgenda) {
+        m_agenda = newAgenda;
+        changed = true;
+    }
+
+    if (m_events != newEvents) {
+        m_events = newEvents;
+        changed = true;
+    }
+
+    if (m_userStats != newStats) {
+        m_userStats = newStats;
+        changed = true;
+    }
+
+    if (changed) {
+        emit todayDataChanged();
+    }
+
+    m_agenda = m_agendaReader.readAgenda();
+    emit todayDataChanged();
+}
+
+void SystemManager::toggleAgendaTask(int index) {
+    if (index >= 0 && index < m_agenda.size()) {
+        QVariantMap task = m_agenda[index].toMap();
+        
+        task["done"] = !task["done"].toBool(); 
+        
+        m_agenda[index] = task; 
+
+        m_agendaReader.writeAgenda(m_agenda); 
+        
+        emit todayDataChanged(); 
+    }
+}
+void SystemManager::addEvent(const QString &date, const QString &title) {
+    if (date.isEmpty() || title.isEmpty()) {
+        return;
+    }
+
+    QVariantMap newEvent;
+    newEvent["date"] = date;
+    newEvent["title"] = title;
+
+    m_events.append(newEvent);
+
+    m_eventsReader.writeEvents(m_events);
+
+    emit todayDataChanged();
+}
+
+void SystemManager::addAgendaTask(const QString &task) {
+    if (task.trimmed().isEmpty()) {
+        return;
+    }
+
+    QVariantMap newTask;
+    newTask["task"] = task.trimmed();
+    newTask["done"] = false;
+
+    QVariantList tempList = m_agenda;
+    tempList.append(newTask);
+
+    m_agenda = tempList;
+
+    m_agendaReader.writeAgenda(m_agenda);
+    refreshTodayData();
 }
 
 // Update
