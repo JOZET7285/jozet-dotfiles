@@ -18,7 +18,7 @@ namespace jozet {
         return events;
     }
     void EventsReader::writeEvents(const QVariantList &events) {
-        QFile file(QDir::homePath() + "/.config/jozet/eventos.json");
+        QFile file(QDir::homePath() + "/.config/quickshell/Assets/Events.json");
         
         if (file.open(QIODevice::WriteOnly)) {
             QJsonArray array = QJsonArray::fromVariantList(events);

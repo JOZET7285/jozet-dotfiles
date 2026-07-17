@@ -11,12 +11,10 @@ Rectangle {
     id: bluetoothBtn
     implicitWidth: bluetoothPopup.open ? parent.width : contentbtRow.implicitWidth+20
     implicitHeight: (Theme.height - 5) * scaleFactor
-    color: (bluetoothBtn.selected ? Theme.color_3 : (area.containsMouse ? Theme.color_1 : "transparent"))
-    radius: 8
+    color: "transparent"
     
     property int currentDeviceIndex: 0
 
-    Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
     Behavior on implicitWidth { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
     
     MouseArea {

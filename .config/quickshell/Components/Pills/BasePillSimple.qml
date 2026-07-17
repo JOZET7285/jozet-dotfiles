@@ -16,9 +16,7 @@ Rectangle {
 
     Layout.preferredHeight: parent.height - 5
     Layout.preferredWidth: btnAppLauncherContent.implicitWidth + 25 
-    color: maAppLauncherBtn.containsMouse ? Theme.color_1 : "transparent"
-    radius: 10 * scaleFactor
-    Behavior on color { ColorAnimation { duration: 200; easing.type: Easing.InOutQuad }}
+    color: "transparent"
     RowLayout {
         id: btnAppLauncherContent
         anchors.fill: parent
@@ -57,5 +55,6 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         onClicked: root.clicked()
+        cursorShape: Qt.PointingHandCursor
     }
 }

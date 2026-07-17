@@ -121,6 +121,7 @@ Item {
                             font.bold: true
                             Layout.fillWidth: true
                             Layout.preferredHeight: 22
+                            Layout.leftMargin: 15
                         }
 
                         PlayingApps { 
@@ -135,6 +136,7 @@ Item {
                             font.italic: true
                             Layout.fillWidth: true
                             Layout.preferredHeight: 22
+                            Layout.leftMargin: 15
                             visible: sysManager.playingApplications.length == 0
                         }
                     }

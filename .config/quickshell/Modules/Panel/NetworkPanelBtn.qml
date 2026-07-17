@@ -12,9 +12,7 @@ Rectangle {
     id: networkBtn
     implicitWidth: networkPopup.open ? parent.width : contentRow.implicitWidth+20
     implicitHeight: (Theme.height - 5)* scaleFactor
-    color: (networkBtn.selected ? Theme.color_3 : (area.containsMouse ? Theme.color_1 : "transparent"))
-    radius: networkBtn.selected ? Theme.radius : 8 
-    Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
+    color: "transparent"
     Behavior on implicitWidth { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
     MouseArea {
         id: area

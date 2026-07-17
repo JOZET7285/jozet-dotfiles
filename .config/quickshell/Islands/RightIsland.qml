@@ -13,7 +13,6 @@ import Jozet.System 1.0
 
 Rectangle {
     id: rightIsland
-    y: 5
 
     property int marginScaled: 15 * scaleFactor
     property var popups: [networkPopup, bluetoothPopup, energyPopup, volumePopup, powerPopup]
@@ -46,11 +45,11 @@ Rectangle {
 
     anchors { 
         right: parent.right 
-        rightMargin: marginScaled
     }
-    color: Theme.color_1
-    radius: Theme.radius
+    color: Theme.color_1_solid
+    bottomLeftRadius: 38
     clip: true
+
     RowLayout {
         id: rightRowLayoutId
         anchors {
@@ -73,7 +72,7 @@ Rectangle {
             id: volumeBtn
             implicitWidth: volumePopup.open ? parent.width : contentvolRow.implicitWidth+20
             implicitHeight: (Theme.height - 5) * scaleFactor
-            color: (volumePopup.selected ? Theme.color_3 : (volumeBtnArea.containsMouse ? Theme.color_1 : "transparent"))
+            color: "transparent"
             radius: 8
             visible: activePopup == null || activePopup == volumePopup
             Behavior on color { ColorAnimation { duration: 350; easing.type: Easing.InOutQuad } }
@@ -114,11 +113,9 @@ Rectangle {
             id: batteryBtn
             implicitWidth: energyPopup.open ? parent.width : contentbatRow.implicitWidth+20
             implicitHeight: (Theme.height - 6) * scaleFactor
-            color: energyPopup.selected ? Theme.color_3 : (batteryBtnArea.containsMouse ? Theme.color_1 : "transparent")
-            radius: energyPopup.selected ? Theme.radius : 8
+            color: "transparent"
             visible: activePopup == null || activePopup == energyPopup
             
-            Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
             Behavior on implicitWidth { NumberAnimation { duration: 150; easing.type: Easing.InOutQuad } }
             Row {
                 id: contentbatRow
@@ -181,8 +178,7 @@ Rectangle {
             id: powerBtn
             implicitWidth: powerPopup.open ? parent.width : contentpowerRow.implicitWidth+20
             implicitHeight: (Theme.height - 5) * scaleFactor
-            color: (powerPopup.selected ? Theme.color_3 : (powerBtnArea.containsMouse ? Theme.color_1 : "transparent"))
-            radius: 8
+            color: "transparent"
             visible: activePopup == null || activePopup == powerPopup
             Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
             Behavior on implicitWidth { NumberAnimation { duration: 150; easing.type: Easing.InOutQuad } }

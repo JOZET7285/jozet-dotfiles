@@ -6,7 +6,7 @@ import Quickshell.Io
 import "../../Components"
 ColumnLayout {
     Layout.fillWidth: true
-    Layout.preferredHeight: 80
+    Layout.preferredHeight: 65
     spacing: 10
     
     RowLayout {
@@ -37,6 +37,7 @@ ColumnLayout {
                 id: addEventsMa
                 hoverEnabled: true
                 anchors.fill: parent
+                onClicked: eventPopup.open = !eventPopup.open
             }
         }
     }
@@ -44,13 +45,13 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.preferredHeight: 50
         orientation: ListView.Horizontal
-        spacing: 15
+        spacing: 5
         clip: true
         model: sysManager.events ? sysManager.events : []
         
         delegate: Rectangle {
             width: 150
-            height: 40
+            height: 50
             color: Theme.color_1
             radius: 8
             
@@ -58,7 +59,7 @@ ColumnLayout {
                 anchors.centerIn: parent
                 Text { 
                     text: modelData.date 
-                    color: Theme.color_a 
+                    color: Theme.color_b 
                     font.bold: true 
                 }
                 Text { 

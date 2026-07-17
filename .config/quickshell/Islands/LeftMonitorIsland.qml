@@ -16,7 +16,7 @@ Rectangle {
     
     width: leftRowLayoutMonitor.implicitWidth + 20
     height: 38 * scaleFactor
-    color: Theme.color_1
+    color: Theme.color_1_solid
     radius: Theme.radius
     clip: true
     
