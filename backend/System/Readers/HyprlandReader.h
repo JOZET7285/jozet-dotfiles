@@ -8,8 +8,8 @@ namespace jozet {
 
 class HyprlandReader {
 public:
-    QVariantList readWorkspaces();
-    void moveWindowToWorkspace(const QString &windowAddress, int workspaceId);
+
+    void readWorkspacesAsync(std::function<void(QVariantList)> callback);
 };
 
 }

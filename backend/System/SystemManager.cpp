@@ -552,20 +552,13 @@ void SystemManager::addAgendaTask(const QString &task) {
 // Workspaces
 // ------------------------------------------------------------
 
-void SystemManager::refreshWorkspaces()
-{
-    QVariantList newWorkspaces = m_hyprlandReader.readWorkspaces();
-    
-    if (m_workspaces != newWorkspaces) {
-        m_workspaces = newWorkspaces;
-        emit workspacesChanged();
-    }
-}
-
-void SystemManager::moveWindowToWorkspace(const QString &windowAddress, int workspaceId)
-{
-    m_hyprlandReader.moveWindowToWorkspace(windowAddress, workspaceId);
-    refreshWorkspaces();
+void SystemManager::refreshWorkspaces() {
+    m_hyprlandReader.readWorkspacesAsync([this](QVariantList newWorkspaces) {
+        if (m_workspaces != newWorkspaces) {
+            m_workspaces = newWorkspaces;
+            emit workspacesChanged();
+        }
+    });
 }
 
 // Update

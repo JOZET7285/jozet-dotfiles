@@ -168,7 +168,6 @@ public:
     QVariantList workspaces() const { return m_workspaces; }
     
     Q_INVOKABLE void refreshWorkspaces();
-    Q_INVOKABLE void moveWindowToWorkspace(const QString &windowAddress, int workspaceId);
 
 signals:
     void ramInfoChanged();
