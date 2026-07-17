@@ -37,6 +37,8 @@ qt6_add_qml_module(JozetPlugin
         System/Readers/EventsReader.h
         System/Readers/StatsReader.cpp
         System/Readers/StatsReader.h
+        System/Readers/HyprlandReader.cpp
+        System/Readers/HyprlandReader.h
 )
 target_include_directories(JozetPlugin PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}

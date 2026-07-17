@@ -320,6 +320,7 @@ Item {
                 onStopped: {
                     appLauncher.animating = false
                     contentLoader.active = false
+                    appLauncher.forceActiveFocus() 
                     gc()
                 }
             }

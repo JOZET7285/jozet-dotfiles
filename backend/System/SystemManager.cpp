@@ -56,6 +56,7 @@ SystemManager::SystemManager(QObject *parent)
     fetchWeather();
 
     refreshTodayData();
+    refreshWorkspaces();
 }
 
 // RAM
@@ -547,6 +548,26 @@ void SystemManager::addAgendaTask(const QString &task) {
     refreshTodayData();
 }
 
+
+// Workspaces
+// ------------------------------------------------------------
+
+void SystemManager::refreshWorkspaces()
+{
+    QVariantList newWorkspaces = m_hyprlandReader.readWorkspaces();
+    
+    if (m_workspaces != newWorkspaces) {
+        m_workspaces = newWorkspaces;
+        emit workspacesChanged();
+    }
+}
+
+void SystemManager::moveWindowToWorkspace(const QString &windowAddress, int workspaceId)
+{
+    m_hyprlandReader.moveWindowToWorkspace(windowAddress, workspaceId);
+    refreshWorkspaces();
+}
+
 // Update
 // ------------------------------------------------------------
 
@@ -569,6 +590,7 @@ void SystemManager::update()
     updateBrightness();
     updatePowerProfile();
     updateRam();
+    refreshWorkspaces();
 }
 
 // Helpers

@@ -1,6 +1,6 @@
 import QtQuick
 import Quickshell.Hyprland
-import "."
+import "../../Components"
 
 Row {
     id: root
@@ -35,7 +35,6 @@ Row {
                 anchors.fill: parent
                 anchors.margins: -4
                 cursorShape: Qt.PointingHandCursor
-                onClicked: Hyprland.dispatch("workspace " + wsDot.wsId)
             }
         }
     }

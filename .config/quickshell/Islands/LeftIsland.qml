@@ -6,16 +6,26 @@ import Quickshell.Wayland
 import "../Components"
 import "../Popups"
 import "../Process"
+import "../Modules/Panel"
 import Jozet.System 1.0
 
 Rectangle {
     property int marginScaled: 15 * scaleFactor
-    width: ((appLauncher.open || appLauncher.animating)
-        ? Math.max(leftRowLayoutId.implicitWidth + 80, appLauncher.width) 
-        : leftRowLayoutId.implicitWidth + 30)
-    height: ((appLauncher.open || appLauncher.animating)
-            ? 38 + appLauncher.height
-            : 38) * scaleFactor
+    property var popups: [appLauncher, workspacesPopup]
+    property var activePopup: {
+        for (var i = 0; i < popups.length; i++){
+            var p = popups[i]
+            if (p && (p.open || p.animating)) return p
+        }
+        return null
+    }
+
+    width: (activePopup && (activePopup.open || activePopup.animating))
+        ? Math.max(leftRowLayoutId.implicitWidth + 80, activePopup.width)
+        : leftRowLayoutId.implicitWidth + 30
+    height: ((activePopup && (activePopup.open || activePopup.animating))
+        ? 38 + activePopup.height
+        : 38) * scaleFactor
     anchors {
         left: parent.left
     }
@@ -77,17 +87,38 @@ Rectangle {
                 id: maAppLauncherBtn
                 anchors.fill: parent
                 hoverEnabled: true
-                onClicked: appLauncher.open = !appLauncher.open
-                cursorShape: Qt.PointingHandCursor
+                onClicked: {
+                    workspacesPopup.open = false
+                    appLauncher.open = !appLauncher.open
+                }
+                cursorShape: Qt.pointingHandCursor
             }
         }
-        Workspaces {
-            Layout.fillWidth: true
-            Layout.leftMargin: marginScaled
-            Layout.alignment: Qt.AlignVCenter
+        Rectangle {
+            Layout.fillHeight: true
+            Layout.preferredWidth: workspacesBtnPopup.implicitWidth + 25
+            color: "transparent"
+            Workspaces {
+                id: workspacesBtnPopup
+                anchors.centerIn: parent
+            }
+            MouseArea {
+                id: maWorkspacesPopup
+                anchors.fill: parent
+                hoverEnabled: true
+                onClicked: {
+                    appLauncher.open = false
+                    workspacesPopup.open = !workspacesPopup.open    
+                }
+                cursorShape: Qt.poitingHandCursor
+            }
         }
     }
-
+    WorkspacesPopup {
+        id: workspacesPopup
+        anchors.top: leftRowLayoutId.bottom
+        anchors.left: parent.left
+    }
     AppLauncher {
         id: appLauncher
         anchors.top: leftRowLayoutId.bottom
