@@ -13,8 +13,6 @@ namespace jozet {
 
 DiskReader::DiskReader() {
     m_lastTimeMs = QDateTime::currentMSecsSinceEpoch();
-    m_lastReadSectors = 0;
-    m_lastWriteSectors = 0;
 }
 
 double DiskReader::readUsagePercent(const QString &path) {
@@ -23,75 +21,45 @@ double DiskReader::readUsagePercent(const QString &path) {
         return 0.0;
 
     qint64 total = storage.bytesTotal();
-    if (total == 0) return 0.0;
-
     qint64 available = storage.bytesAvailable();
-    qint64 used = total - available; 
-
-    double percent = (double)used / total * 100.0;
-    return std::round(percent * 10.0) / 10.0; 
+    return total > 0 ? std::round((double)(total - available) / total * 1000.0) / 10.0 : 0.0;
 }
 
-void DiskReader::runCommandAsync(const QString& command, const QStringList& args, std::function<void(QString)> callback) {
-    QProcess *process = new QProcess();
-    
-    QObject::connect(process, &QProcess::finished, [process, callback](int exitCode, QProcess::ExitStatus exitStatus) {
-        QString output = process->readAllStandardOutput().trimmed();
-        
-        if (callback) {
-            callback(output);
-        }
-        
-        process->deleteLater();
-    });
+qint64 DiskReader::calculateDirSize(const QString &path) {
+    if (!QDir(path).exists()) return 0;
 
-    process->start(command, args);
+    QProcess process;
+    process.start("du", {"-s", "--block-size=1M", path});
+    process.waitForFinished(1500); // 1.5 segundos máximo
+
+    if (process.exitCode() == 0) {
+        QString output = process.readAllStandardOutput().trimmed();
+        return output.section('\t', 0, 0).toLongLong() * 1024LL * 1024LL;
+    }
+    return 0;
 }
 
-void DiskReader::getHomeFoldersUsageAsync(std::function<void(QVariantList)> onFinished) {
-    QDir homeDir(QDir::homePath());
-    homeDir.setFilter(QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks);
-    
-    QStringList args;
-    args << "-sk"; // Tamaño total, en kilobytes
-    
-    for (const QFileInfo &fileInfo : homeDir.entryInfoList()) {
-        if (!fileInfo.fileName().startsWith(".")) {
-            args << fileInfo.absoluteFilePath();
-        }
+QVariantList DiskReader::getHomeFoldersUsage() {
+    QVariantList list;
+    QString home = QDir::homePath();
+    QStringList dirs {"Downloads", "Documents", "Pictures", "Videos", "Music", ".config", ".local"};
+
+    for (const QString &d : dirs) {
+        QString path = home + "/" + d;
+        if (!QDir(path).exists()) continue;
+
+        qint64 bytes = calculateDirSize(path);
+        QVariantMap item;
+        item["name"] = d;
+        item["sizeMb"] = std::round(bytes / (1024.0 * 1024.0) * 10.0) / 10.0;
+        list.append(item);
     }
 
-    if (args.size() == 1) {
-        if (onFinished) onFinished({});
-        return;
-    }
-
-    runCommandAsync("du", args, [onFinished](const QString& out) {
-        QVariantList foldersList;
-        QStringList lines = out.split('\n', Qt::SkipEmptyParts);
-        
-        for (const QString& line : lines) {
-            QStringList parts = line.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
-            if (parts.size() >= 2) {
-                long long kb = parts[0].toLongLong();
-                double sizeMb = kb / 1024.0;
-                
-                QString folderPath = parts[1];
-                QString folderName = folderPath.mid(folderPath.lastIndexOf('/') + 1);
-
-                QVariantMap folderData;
-                folderData["name"] = folderName;
-                folderData["sizeMb"] = std::round(sizeMb * 10.0) / 10.0;
-                foldersList.append(folderData);
-            }
-        }
-
-        std::sort(foldersList.begin(), foldersList.end(), [](const QVariant &a, const QVariant &b) {
-            return a.toMap()["sizeMb"].toDouble() > b.toMap()["sizeMb"].toDouble();
-        });
-
-        if (onFinished) onFinished(foldersList);
+    std::sort(list.begin(), list.end(), [](const QVariant &a, const QVariant &b){
+        return a.toMap()["sizeMb"].toDouble() > b.toMap()["sizeMb"].toDouble();
     });
+
+    return list;
 }
 
 QVariantList DiskReader::getPartitionsStatus() {
@@ -158,34 +126,15 @@ QVariantMap DiskReader::getDiskHealthAndIO() {
     return ioData;
 }
 
-void DiskReader::getMaintenanceInfoAsync(std::function<void(QVariantMap)> onFinished) {
-    QString cachePath = QDir::homePath() + "/.cache";
-    QString trashPath = QDir::homePath() + "/.local/share/Trash";
-    QString logsPath = "/var/log";
+QVariantMap DiskReader::getMaintenanceInfo() {
+    QVariantMap mainData;
+    QString home = QDir::homePath();
 
-    QStringList args = {"-sk", cachePath, trashPath, logsPath};
-    
-    runCommandAsync("du", args, [cachePath, trashPath, logsPath, onFinished](const QString& out) {
-        QVariantMap mainData;
-        mainData["cacheMb"] = 0.0;
-        mainData["trashMb"] = 0.0;
-        mainData["logsMb"]  = 0.0;
+    mainData["cacheMb"] = std::round(calculateDirSize(home + "/.cache") / 1048576.0 * 10.0) / 10.0;
+    mainData["trashMb"] = std::round(calculateDirSize(home + "/.local/share/Trash") / 1048576.0 * 10.0) / 10.0;
+    mainData["logsMb"] = 0.0;
 
-        QStringList lines = out.split('\n', Qt::SkipEmptyParts);
-        for (const QString& line : lines) {
-            QStringList parts = line.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
-            if (parts.size() >= 2) {
-                long long kb = parts[0].toLongLong();
-                double mb = std::round((kb / 1024.0) * 10.0) / 10.0;
-                
-                if (parts[1] == cachePath) mainData["cacheMb"] = mb;
-                else if (parts[1] == trashPath) mainData["trashMb"] = mb;
-                else if (parts[1] == logsPath) mainData["logsMb"] = mb;
-            }
-        }
-        
-        if (onFinished) onFinished(mainData);
-    });
+    return mainData;
 }
 
 } // namespace jozet

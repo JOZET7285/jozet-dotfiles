@@ -1,6 +1,7 @@
 #include "Readers/RamReader.h"
 #include <QFile>
 #include <QTextStream>
+#include <QDebug>
 
 namespace jozet {
 
@@ -8,8 +9,10 @@ RamData RamReader::readData() {
     RamData data;
     QFile file("/proc/meminfo");
     
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Error: No se pudo abrir /proc/meminfo";
         return data;
+    }
 
     QTextStream in(&file);
     long memTotal = 0, memAvailable = 0;
@@ -17,7 +20,7 @@ RamData RamReader::readData() {
 
     QString line;
     while (!in.atEnd()) {
-        line = in.readLine();
+        line = in.readLine().trimmed();
 
         if (line.startsWith("MemTotal:")) {
             memTotal = line.section(' ', 1, 1).toLong();
@@ -31,10 +34,6 @@ RamData RamReader::readData() {
         else if (line.startsWith("SwapFree:")) {
             swapFree = line.section(' ', 1, 1).toLong();
         }
-
-        if (memTotal && memAvailable && swapTotal && swapFree) {
-            break;
-        }
     }
 
     file.close();
@@ -44,8 +43,10 @@ RamData RamReader::readData() {
         long used = memTotal - memAvailable;
         data.usedMB = used / 1024;
         data.usagePercent = qRound((static_cast<double>(used) / memTotal) * 100.0);
+    } else {
+        qDebug() << "Warning: MemTotal no encontrado en /proc/meminfo";
     }
-    
+
     if (swapTotal > 0) {
         data.swapTotalMB = swapTotal / 1024;
         long swapUsed = swapTotal - swapFree;
