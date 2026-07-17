@@ -1,10 +1,11 @@
 cmake_minimum_required(VERSION 3.21)
-
 project(JozetBackend LANGUAGES CXX)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -mtune=native -flto -ffast-math")
 
 find_package(Qt6 REQUIRED COMPONENTS Core Qml Network DBus)
 
@@ -45,3 +46,5 @@ target_include_directories(JozetPlugin PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/System
 )
 target_link_libraries(JozetPlugin PRIVATE Qt6::Core Qt6::Qml Qt6::Network Qt6::DBus)
+
+set_target_properties(JozetPlugin PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)

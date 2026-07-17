@@ -20,8 +20,9 @@ SystemManager::SystemManager(QObject *parent)
     m_networkManager = new QNetworkAccessManager(this);
 
     auto *timer = new QTimer(this);
+    timer->setInterval(1500);
     connect(timer, &QTimer::timeout, this, &SystemManager::update);
-    timer->start(3000);
+    timer->start();
 
     auto *weatherTimer = new QTimer(this);
     connect(weatherTimer, &QTimer::timeout, this, &SystemManager::fetchWeather);
@@ -154,25 +155,36 @@ double SystemManager::diskUsage() const
     return m_diskUsage;
 }
 
+QVariantList SystemManager::homeFoldersUsage() const {
+    return m_homeFoldersUsage;
+}
+
+QVariantMap SystemManager::maintenanceInfo() const {
+    return m_maintenanceInfo;
+}
+
 void SystemManager::refreshDiskStats()
 {
-    auto *workerThread = QThread::create([this]() {
+    m_diskReader.getHomeFoldersUsageAsync([this](const QVariantList& tempFolders) {
+        m_homeFoldersUsage = tempFolders;
+        emit homeFoldersUsageChanged();
+    });
 
-        QVariantList tempFolders = m_diskReader.getHomeFoldersUsage();
+    m_diskReader.getMaintenanceInfoAsync([this](const QVariantMap& tempMaint) {
+        m_maintenanceInfo = tempMaint;
+        emit maintenanceInfoChanged();
+    });
+
+    auto *workerThread = QThread::create([this]() {
         QVariantList tempPartitions = m_diskReader.getPartitionsStatus();
         QVariantMap tempIO = m_diskReader.getDiskHealthAndIO();
-        QVariantMap tempMaint = m_diskReader.getMaintenanceInfo();
 
         QMetaObject::invokeMethod(this,
-            [this, tempFolders, tempPartitions, tempIO, tempMaint]() {
-
-                m_homeFoldersUsage = tempFolders;
+            [this, tempPartitions, tempIO]() {
                 m_partitionsStatus = tempPartitions;
                 m_diskHealthAndIO = tempIO;
-                m_maintenanceInfo = tempMaint;
 
                 emit diskUsageChanged();
-
             },
             Qt::QueuedConnection);
     });
@@ -564,26 +576,24 @@ void SystemManager::refreshWorkspaces() {
 // Update
 // ------------------------------------------------------------
 
-void SystemManager::update()
-{
-    m_diskUsage = m_diskReader.readUsagePercent("/home");
-    emit diskUsageChanged();
-
-    m_networkReader.updateNetworkStatus();
-    emit networkChanged();
-
-    m_bluetoothReader.updateDevices();
-    emit bluetoothChanged();
-
-    m_volumeReader.updateVolumeStatus();
-    emit volumeChanged();
+void SystemManager::update() {
+    static int counter = 0;
+    counter++;
 
     updateCpu();
-    updateBattery();
-    updateBrightness();
-    updatePowerProfile();
     updateRam();
-    refreshWorkspaces();
+
+    if (counter % 2 == 0) {
+        updateBattery();
+        updateBrightness();
+        updatePowerProfile();
+        m_volumeReader.updateVolumeStatus();
+    }
+
+    if (counter % 4 == 0) {
+        refreshDiskStats();
+        refreshTodayData();
+    }
 }
 
 // Helpers
