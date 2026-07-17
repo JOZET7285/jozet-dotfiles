@@ -54,7 +54,7 @@ Item {
                         rightMargin: 15
                         verticalCenter: parent.verticalCenter
                     }
-                    text: (modelData.sizeMb ? modelData.sizeMb : "0") + " MB" 
+                    text: (modelData.sizeMb ? modelData.sizeMb.toFixed(1) : "0") + " MB" 
                     color: Theme.text_color
                     font.bold: true
                     font.pixelSize: 12

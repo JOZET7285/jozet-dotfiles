@@ -99,10 +99,10 @@ public:
     // DISK -----------------------------------------------
     double diskUsage() const;
 
-    QVariantList homeFoldersUsage() const { return m_homeFoldersUsage; }
+    QVariantList homeFoldersUsage() const;
     QVariantList partitionsStatus() const { return m_partitionsStatus; }
     QVariantMap diskHealthAndIO() const { return m_diskHealthAndIO; }
-    QVariantMap maintenanceInfo() const { return m_maintenanceInfo; }
+    QVariantMap maintenanceInfo() const;
 
     Q_INVOKABLE void refreshDiskStats();
     Q_INVOKABLE void cleanCache();
@@ -178,6 +178,8 @@ signals:
     void topCpuProcessesChanged();
     void cpuFrequencyChanged();
     void diskUsageChanged();
+    void homeFoldersUsageChanged();
+    void maintenanceInfoChanged();
     void networkChanged();
     void bluetoothChanged();
     void volumeChanged();

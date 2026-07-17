@@ -45,7 +45,7 @@ Item {
                     rightMargin: 15
                     verticalCenter: parent.verticalCenter
                 }
-                text: modelData.percent + "%"
+                text: modelData.percent.toFixed(1) + "%"
                 color: Theme.text_color
                 font.bold: true
                 font.pixelSize: 12
