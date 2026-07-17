@@ -69,10 +69,12 @@ PanelWindow {
     }
     color: "transparent"
     focusable: false
+
     WlrLayershell.keyboardFocus: leftLand.appLauncherOpen || 
     rightLand.networkPopupOpen || 
     agendPopup.open || 
-    eventPopup.open ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+    eventPopup.open ||
+    leftLand.workspacesPopup.open ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
     
     HoverHandler { id: hoverPanelWindow } 
 

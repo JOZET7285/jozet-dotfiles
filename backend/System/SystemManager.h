@@ -18,6 +18,7 @@
 #include "Readers/AgendaReader.h"
 #include "Readers/StatsReader.h"
 #include "Readers/EventsReader.h"
+#include "Readers/HyprlandReader.h"
 
 namespace jozet {
 
@@ -74,6 +75,9 @@ class SystemManager : public QObject
     Q_PROPERTY(QVariantMap userStats READ userStats NOTIFY todayDataChanged)
     Q_PROPERTY(QVariantList events READ events NOTIFY todayDataChanged)
     Q_PROPERTY(QVariantList agenda READ agenda NOTIFY todayDataChanged)
+
+    // WORKSPACES ------------------------------------------------
+    Q_PROPERTY(QVariantList workspaces READ workspaces NOTIFY workspacesChanged)
 
 public:
     explicit SystemManager(QObject *parent = nullptr);
@@ -160,6 +164,12 @@ public:
     Q_INVOKABLE void addEvent(const QString &date, const QString &title);
     Q_INVOKABLE void addAgendaTask(const QString &task);
 
+    // WORKSPACES ------------------------------------------------
+    QVariantList workspaces() const { return m_workspaces; }
+    
+    Q_INVOKABLE void refreshWorkspaces();
+    Q_INVOKABLE void moveWindowToWorkspace(const QString &windowAddress, int workspaceId);
+
 signals:
     void ramInfoChanged();
     void topRamProcessesChanged();
@@ -178,6 +188,7 @@ signals:
     void powerProfileChanged();
     void weatherChanged();
     void todayDataChanged();
+    void workspacesChanged();
 
 private slots:
     void update();
@@ -194,6 +205,8 @@ private:
     NetworkReader m_networkReader;
     BluetoothReader m_bluetoothReader;
     VolumeReader m_volumeReader;
+    HyprlandReader m_hyprlandReader;
+    QVariantList m_workspaces;
 
     // RAM ------------------------------------------------
     QVariantMap m_ramInfo;
