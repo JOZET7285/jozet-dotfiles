@@ -68,13 +68,15 @@ PanelWindow {
         Region { item: (eventPopup.open || eventPopup.animating) ? eventPopup : null }
     }
     color: "transparent"
-    focusable: false
 
-    WlrLayershell.keyboardFocus: leftLand.appLauncherOpen || 
-    rightLand.networkPopupOpen || 
-    agendPopup.open || 
-    eventPopup.open ||
-    leftLand.workspacesPopup.open ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+    readonly property bool needsKeyboardFocus: leftLand.appLauncherOpen || 
+        rightLand.networkPopupOpen || 
+        agendPopup.open || 
+        eventPopup.open ||
+        leftLand.workspacesPopup.open
+
+    focusable: needsKeyboardFocus
+    WlrLayershell.keyboardFocus: needsKeyboardFocus ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
     
     HoverHandler { id: hoverPanelWindow } 
 
