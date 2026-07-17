@@ -22,7 +22,7 @@ BasePopup {
                     
                     RowLayout {
                         Text {
-                            text: "Global Usage"
+                            text: "Global CPU Usage"
                             color: Theme.text_color
                             font.bold: true
                             Layout.fillWidth: true

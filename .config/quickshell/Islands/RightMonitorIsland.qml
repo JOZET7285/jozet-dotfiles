@@ -18,7 +18,7 @@ Rectangle {
     width: rightRowLayoutMonitor.implicitWidth + 20
     height: 38 * scaleFactor
     radius: Theme.radius
-    color: Theme.color_1
+    color: Theme.color_1_solid
     clip: true
     
     anchors {

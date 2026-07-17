@@ -75,8 +75,8 @@ BasePopup {
                     radius: 15
                     ColumnLayout {
                         anchors.fill: parent
-                        anchors.margins: 20
                         spacing: 20
+                            anchors.margins: 15
 
                         ColumnLayout {
                             Layout.fillWidth: true
@@ -106,8 +106,9 @@ BasePopup {
                             }
                             RowLayout {
                                 anchors.fill: parent
+                                spacing: 0
                                 Repeater {
-                                    model: ["L", "M", "M", "J", "V", "S", "D"]
+                                    model: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
                                     Text {
                                         Layout.fillWidth: true
                                         text: modelData
@@ -125,16 +126,16 @@ BasePopup {
                             Layout.preferredHeight: 120
                             columns: 7
                             rowSpacing: 10
+                            columnSpacing: 0
 
                             Repeater {
                                 model: calendarModel
                                 
                                 Rectangle {
                                     Layout.fillWidth: true
-                                    Layout.preferredHeight: width / 2.2
+                                    Layout.preferredHeight: 20
                                     color: model.isToday ? Theme.color_b : "transparent"
                                     radius: 5
-                                    
                                     Text {
                                         anchors.centerIn: parent
                                         text: model.dayText

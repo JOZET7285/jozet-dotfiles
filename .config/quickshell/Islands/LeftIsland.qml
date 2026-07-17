@@ -10,7 +10,6 @@ import Jozet.System 1.0
 
 Rectangle {
     property int marginScaled: 15 * scaleFactor
-    y: 5
     width: ((appLauncher.open || appLauncher.animating)
         ? Math.max(leftRowLayoutId.implicitWidth + 80, appLauncher.width) 
         : leftRowLayoutId.implicitWidth + 30)
@@ -19,10 +18,9 @@ Rectangle {
             : 38) * scaleFactor
     anchors {
         left: parent.left
-        leftMargin: marginScaled
     }
-    color: Theme.color_1
-    radius: Theme.radius
+    color: Theme.color_1_solid
+    bottomRightRadius: 38
     clip: true
     property alias appLauncherOpen: appLauncher.open
     
@@ -43,10 +41,9 @@ Rectangle {
 
         Rectangle {
             Layout.preferredHeight: parent.height - 5
-            Layout.preferredWidth: btnAppLauncherContent.implicitWidth + 25 
-            color: maAppLauncherBtn.containsMouse ? Theme.color_1 : "transparent"
+            Layout.preferredWidth: btnAppLauncherContent.implicitWidth + 25
+            color: "transparent"
             radius: 10 * scaleFactor
-            Behavior on color { ColorAnimation { duration: 200; easing.type: Easing.InOutQuad }}
             RowLayout {
                 id: btnAppLauncherContent
                 anchors.fill: parent
@@ -81,6 +78,7 @@ Rectangle {
                 anchors.fill: parent
                 hoverEnabled: true
                 onClicked: appLauncher.open = !appLauncher.open
+                cursorShape: Qt.PointingHandCursor
             }
         }
         Workspaces {

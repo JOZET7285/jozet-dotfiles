@@ -20,7 +20,7 @@ Rectangle {
             spacing: 10
             Text {
                 Layout.fillWidth: true
-                text: "Agenda"
+                text: "Tasks"
                 font.pixelSize: 14
                 font.bold: true
                 color: Theme.light_1

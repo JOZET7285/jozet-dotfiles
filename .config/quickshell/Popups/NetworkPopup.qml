@@ -89,8 +89,8 @@ Item {
                 Item {
                     id: content
                     width: parent.width
-                    height: networkPopup.connection.type === "wifi" ? networkPopup.connection.status === "up" ? 550 : 210 : 210
-                    
+                    height: networkPopup.connection.type === "wifi" ? networkPopup.connection.status === "up" ? 550 : 220 : 220
+
                     Behavior on height { 
                         NumberAnimation { duration: 180; easing.type: Easing.InOutQuad } 
                     }

@@ -24,7 +24,7 @@ PanelWindow {
     property real scaleFactor: scalePreFactor > 1.0 ? 1.0 : scalePreFactor
 
     property var popupList: [diskPopup, ramPopup, cpuPopup, tempPopup, todayPopup] 
-    property var popupBottomList: [agendPopup, wallpaperSelector]
+    property var popupBottomList: [agendPopup, wallpaperSelector, eventPopup]
     
     function closeOtherPopups(openedPopup) {
         if (openedPopup.open) {
@@ -35,13 +35,22 @@ PanelWindow {
             }
         }
     }
+    function closeOtherBottomPopups (openedPopup) {
+        if (openedPopup.open) {
+            for (let i = 0; i < popupList.length; i++) {
+                if (popupBottomList[i] !== openedPopup && popupBottomList[i].open) {
+                    popupBottomList[i].open = false;
+                }
+            }
+        }   
+    }
     
     anchors {
         top: true
     }
     implicitWidth: modelData ? modelData.width : 1920
     implicitHeight: modelData ? modelData.height : 1080
-    exclusiveZone: Theme.height * scaleFactor
+    exclusiveZone: 40 * scaleFactor
     mask: Region {
         Region { item: leftLandMonitor }
         Region { item: leftLand }
@@ -56,10 +65,14 @@ PanelWindow {
         Region { item: (tempPopup.open || tempPopup.animating) ? tempPopup : null }
         Region { item: (todayPopup.open || todayPopup.animating) ? todayPopup : null }
         Region { item: (agendPopup.open || agendPopup.animating) ? agendPopup : null }
+        Region { item: (eventPopup.open || eventPopup.animating) ? eventPopup : null }
     }
     color: "transparent"
     focusable: false
-    WlrLayershell.keyboardFocus: leftLand.appLauncherOpen || rightLand.networkPopupOpen || agendPopup.open ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+    WlrLayershell.keyboardFocus: leftLand.appLauncherOpen || 
+    rightLand.networkPopupOpen || 
+    agendPopup.open || 
+    eventPopup.open ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
     
     HoverHandler { id: hoverPanelWindow } 
 
@@ -149,10 +162,17 @@ PanelWindow {
             AgendPopup {
                 id: agendPopup
                 anchors.horizontalCenter: parent.horizontalCenter
+                onOpenChanged: rootUISys.closeOtherBottomPopups(this)
             }
             WallpaperSelector {
                 id: wallpaperSelector
                 anchors.horizontalCenter: parent.horizontalCenter
+                onOpenChanged: rootUISys.closeOtherBottomPopups(this)
+            }
+            EventPopup {
+                id: eventPopup
+                anchors.horizontalCenter: parent.horizontalCenter
+                onOpenChanged: rootUISys.closeOtherBottomPopups(this)
             }
         }
         

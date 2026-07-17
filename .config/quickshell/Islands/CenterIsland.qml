@@ -11,14 +11,15 @@ import Jozet.System 1.0
 
 Rectangle {
     property var centerActivePopup: null
-    y: 5
     anchors {
         horizontalCenter: parent.horizontalCenter
     }
     width: centerRowLayoutId.implicitWidth + 20
     height: 38 * scaleFactor
-    color: Theme.color_1
-    radius: Theme.radius
+    color: Theme.color_1_solid
+    bottomLeftRadius: 38
+    bottomRightRadius: 38
+    
 
     RowLayout {
         id: centerRowLayoutId
@@ -29,10 +30,11 @@ Rectangle {
             rightMargin: 15 * scaleFactor
         }
         Rectangle {
-            Layout.preferredWidth: 170 * scaleFactor 
+            Layout.preferredWidth: pillTodayMa.containsMouse ? (190 * scaleFactor) : (170 * scaleFactor) 
             Layout.preferredHeight: 29 * scaleFactor
             color: pillTodayMa.containsMouse ? Theme.color_1 : "transparent"
             radius: 8 * scaleFactor
+            Behavior on Layout.preferredWidth { NumberAnimation { duration: 300; easing.type: Easing.InOutQuad}}
             RowLayout {
                 anchors.fill: parent
                 anchors.leftMargin: 15
@@ -75,6 +77,7 @@ Rectangle {
                 anchors.fill: parent
                 hoverEnabled: true
                 onClicked: todayPopup.open = !todayPopup.open
+                cursorShape: Qt.PointingHandCursor
             }
         }
         BasePillSimple { 
