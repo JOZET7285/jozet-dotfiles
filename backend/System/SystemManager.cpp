@@ -14,19 +14,18 @@ namespace jozet {
 // Constructor
 // ------------------------------------------------------------
 
-SystemManager::SystemManager(QObject *parent)
-    : QObject(parent)
+SystemManager::SystemManager(QObject *parent) : QObject(parent)
 {
     m_networkManager = new QNetworkAccessManager(this);
 
     auto *timer = new QTimer(this);
-    timer->setInterval(1500);
+    timer->setInterval(1400);
     connect(timer, &QTimer::timeout, this, &SystemManager::update);
     timer->start();
 
     auto *weatherTimer = new QTimer(this);
     connect(weatherTimer, &QTimer::timeout, this, &SystemManager::fetchWeather);
-    weatherTimer->start(600000);
+    weatherTimer->start(900000);
 
     auto *appsTimer = new QTimer(this);
     connect(appsTimer, &QTimer::timeout, this, [this]() {
@@ -34,28 +33,15 @@ SystemManager::SystemManager(QObject *parent)
     });
     appsTimer->start(8000);
 
-    connect(m_networkManager,
-            &QNetworkAccessManager::finished,
-            this,
-            &SystemManager::handleNetworkReply);
-
-    connect(&m_bluetoothReader,
-            &BluetoothReader::devicesChanged,
-            this,
-            [this]() { emit bluetoothChanged(); });
-
-    connect(&m_volumeReader,
-            &VolumeReader::dataUpdated,
-            this,
-            [this]() { emit volumeChanged(); });
+    connect(m_networkManager, &QNetworkAccessManager::finished, this, &SystemManager::handleNetworkReply);
+    connect(&m_bluetoothReader, &BluetoothReader::devicesChanged, this, [this]() { emit bluetoothChanged(); });
+    connect(&m_volumeReader, &VolumeReader::dataUpdated, this, [this]() { emit volumeChanged(); });
 
     m_volumeReader.startEventListener([](){});
-
     m_bluetoothReader.updateDevices();
     m_volumeReader.updateVolumeStatus();
 
     fetchWeather();
-
     refreshTodayData();
     refreshWorkspaces();
 }
@@ -78,7 +64,6 @@ void SystemManager::updateRam()
     RamData data = m_ramReader.readData();
 
     QVariantMap newRamInfo;
-
     newRamInfo["totalMB"] = QVariant::fromValue(data.totalMB);
     newRamInfo["usedMB"] = QVariant::fromValue(data.usedMB);
     newRamInfo["usagePercent"] = data.usagePercent;
@@ -93,7 +78,6 @@ void SystemManager::updateRam()
     }
 
     QVariantList newProcessList = m_processReader.readTopRamProcesses(5);
-
     if (m_topRamProcesses != newProcessList) {
         m_topRamProcesses = newProcessList;
         emit topRamProcessesChanged();
@@ -165,35 +149,32 @@ QVariantMap SystemManager::maintenanceInfo() const {
 
 void SystemManager::refreshDiskStats()
 {
-    m_diskReader.getHomeFoldersUsageAsync([this](const QVariantList& tempFolders) {
-        m_homeFoldersUsage = tempFolders;
-        emit homeFoldersUsageChanged();
-    });
-
-    m_diskReader.getMaintenanceInfoAsync([this](const QVariantMap& tempMaint) {
-        m_maintenanceInfo = tempMaint;
-        emit maintenanceInfoChanged();
-    });
-
     auto *workerThread = QThread::create([this]() {
+
+        QVariantList tempFolders = m_diskReader.getHomeFoldersUsage();
         QVariantList tempPartitions = m_diskReader.getPartitionsStatus();
         QVariantMap tempIO = m_diskReader.getDiskHealthAndIO();
+        QVariantMap tempMaint = m_diskReader.getMaintenanceInfo();
 
         QMetaObject::invokeMethod(this,
-            [this, tempPartitions, tempIO]() {
+            [this, tempFolders, tempPartitions, tempIO, tempMaint]() {
+
+                m_homeFoldersUsage = tempFolders;
                 m_partitionsStatus = tempPartitions;
                 m_diskHealthAndIO = tempIO;
+                m_maintenanceInfo = tempMaint;
+
+                if (!tempPartitions.isEmpty()) {
+                    m_diskUsage = tempPartitions[0].toMap()["percent"].toDouble();
+                }
 
                 emit diskUsageChanged();
+
             },
             Qt::QueuedConnection);
     });
 
-    connect(workerThread,
-            &QThread::finished,
-            workerThread,
-            &QObject::deleteLater);
-
+    connect(workerThread, &QThread::finished, workerThread, &QObject::deleteLater);
     workerThread->start();
 }
 
@@ -587,7 +568,6 @@ void SystemManager::update() {
         updateBattery();
         updateBrightness();
         updatePowerProfile();
-        m_volumeReader.updateVolumeStatus();
     }
 
     if (counter % 4 == 0) {
