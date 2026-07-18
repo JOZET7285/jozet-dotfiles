@@ -612,4 +612,22 @@ bool SystemManager::authenticateUser(const QString &username, const QString &pas
     return m_pamAuth.authenticate(username, password);
 }
 
+void SystemManager::setLocked(bool locked)
+{
+    if (m_locked != locked) {
+        m_locked = locked;
+        emit lockedChanged();
+    }
+}
+
+void SystemManager::lockSession()
+{
+    setLocked(true);
+}
+
+void SystemManager::unlockSession()
+{
+    setLocked(false);
+}
+
 } // namespace jozet
