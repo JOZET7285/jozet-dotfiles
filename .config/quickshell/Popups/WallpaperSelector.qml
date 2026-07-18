@@ -45,8 +45,6 @@ BasePopupBottom {
                 cellHeight: 100
                 model: wallpaperModel
                 clip: true
-
-                    onActiveFocusChanged: console.log("GridView tiene foco real:", activeFocus)
                 
                 delegate: Rectangle {
                     width: grid.cellWidth - 12
@@ -70,7 +68,7 @@ BasePopupBottom {
                         anchors.fill: parent
                         onClicked: {
                             console.log("cambio de wallpaper " + model.filePath);  
-                            setWallpaper.command = ["swww", "img", model.filePath, "--transition-type", "wipe", "--transition-duration", "1"]
+                            setWallpaper.command = ["awww", "img", model.filePath, "--transition-type", "wipe", "--transition-duration", "1"] 
                             setWallpaper.running = true
                             
                             wallpaperSelector.open = false 

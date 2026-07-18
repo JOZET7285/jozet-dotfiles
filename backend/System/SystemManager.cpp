@@ -217,8 +217,6 @@ void SystemManager::handleNetworkReply(QNetworkReply *reply)
     if (reply->error() == QNetworkReply::NoError) {
         m_weather = reply->readAll().trimmed();
         emit weatherChanged();
-    } else {
-        qDebug() << "Error en red:" << reply->errorString();
     }
 
     reply->deleteLater();
@@ -226,7 +224,9 @@ void SystemManager::handleNetworkReply(QNetworkReply *reply)
 
 void SystemManager::scanNetworks()
 {
-    m_networkReader.scanAvailableNetworks();
+    m_networkReader.scanAvailableNetworks([this](QVariantList) {
+        emit networkChanged();
+    });
 }
 
 void SystemManager::connectToNetwork(const QString &ssid, const QString &password)
@@ -569,6 +569,9 @@ void SystemManager::update() {
         updateBattery();
         updateBrightness();
         updatePowerProfile();
+        m_networkReader.updateNetworkStatus([this]() {
+            emit networkChanged();
+        });
     }
 
     if (counter % 4 == 0) {
@@ -603,6 +606,10 @@ void SystemManager::runCommandAsync(
         });
 
     process->start(program, args);
+}
+
+bool SystemManager::authenticateUser(const QString &username, const QString &password) {
+    return m_pamAuth.authenticate(username, password);
 }
 
 } // namespace jozet

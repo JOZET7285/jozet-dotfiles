@@ -9,4 +9,8 @@ ShellRoot {
         Main {
         }
     }
+    Variants {
+        model: Quickshell.screens
+        LockScreen{}
+    }
 }

@@ -165,16 +165,19 @@ PanelWindow {
             AgendPopup {
                 id: agendPopup
                 anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.bottom
                 onOpenChanged: rootUISys.closeOtherBottomPopups(this)
             }
             WallpaperSelector {
                 id: wallpaperSelector
                 anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.bottom
                 onOpenChanged: rootUISys.closeOtherBottomPopups(this)
             }
             EventPopup {
                 id: eventPopup
                 anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.bottom
                 onOpenChanged: rootUISys.closeOtherBottomPopups(this)
             }
         }

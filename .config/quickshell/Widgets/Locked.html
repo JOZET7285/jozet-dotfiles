@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style >
+        body {
+            /* background: fondo de pantalla con efecto de blur*/             
+            height: 100%;
+            width: 100%;
+        }
+        .centralDiv {
+            display: flex;
+            position: absolute;
+            justify-content: center;
+            align-items: top;
+            text-align: center;
+            background-color: #1a1a1a;
+            height: 70%;
+            width: 70%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 100px;
+        }
+        .leftDiv {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            justify-content: center;
+            align-items: center;
+            background-color: #2b2b2b;
+            color: white;
+            height: 35%;
+            width: 25%;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%) translateX(-30%);
+            border-radius: 100px;
+        }
+        .rightDiv {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            justify-content: center;
+            align-items: center;
+            background-color: #2b2b2b;
+            color: white;
+            height: 35%;
+            width: 25%;
+            top: 50%;
+            left: 100%;
+            transform: translateY(-50%) translateX(-70%);
+            border-radius: 100px;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="centralDiv">
+        <div class="leftDiv">
+            <p>Network</p>
+            <p>Bluetooth</p>
+            <p>Volume</p>
+        </div>
+        <div class="rightDiv">
+            <p>RAM</p>
+            <p>CPU</p>
+            <p>Max Temp</p>
+        </div>
+        <div style="color: white;">
+            <h1 style="font-size: 65px; margin-top: 20px; margin-bottom: 0px;">09:04 hrs</h1>
+            <h4 style="margin-top: 0px; color: #6f6f6f;">saturday, 18 July</h3>
+            <div style="display: flex; flex-direction: column; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                <h2>username</h2>
+                <textarea name="" id=""></textarea>
+                <button style="margin-top: 10px;background-color: #2b2b2b; color: white; border: 0; border-radius: 10px;">Login</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
