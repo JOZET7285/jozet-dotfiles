@@ -29,6 +29,8 @@ class SystemManager : public QObject
     QML_ELEMENT
     QML_ADDED_IN_MINOR_VERSION(0)
 
+    Q_PROPERTY(bool locked READ locked WRITE setLocked NOTIFY lockedChanged)
+
     // RAM -----------------------------------------------
     Q_PROPERTY(QVariantMap ramInfo READ ramInfo NOTIFY ramInfoChanged)
     Q_PROPERTY(QVariantList topRamProcesses READ topRamProcesses NOTIFY topRamProcessesChanged)
@@ -83,6 +85,10 @@ class SystemManager : public QObject
 public:
     explicit SystemManager(QObject *parent = nullptr);
     Q_INVOKABLE bool authenticateUser(const QString &username, const QString &password);
+    bool locked() const { return m_locked; }
+    void setLocked(bool locked);
+    Q_INVOKABLE void lockSession();
+    Q_INVOKABLE void unlockSession();
 
     // RAM -----------------------------------------------
     QVariantMap ramInfo() const;
@@ -192,6 +198,7 @@ signals:
     void weatherChanged();
     void todayDataChanged();
     void workspacesChanged();
+    void lockedChanged();
 
 private slots:
     void update();
@@ -210,6 +217,7 @@ private:
     VolumeReader m_volumeReader;
     HyprlandReader m_hyprlandReader;
     QVariantList m_workspaces;
+    bool m_locked = false;
 
     // RAM ------------------------------------------------
     QVariantMap m_ramInfo;
