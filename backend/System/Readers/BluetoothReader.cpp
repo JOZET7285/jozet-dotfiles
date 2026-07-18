@@ -66,57 +66,44 @@ void BluetoothReader::forgetDevice(const QString &address) {
 }
 
 void BluetoothReader::updateDevices() {
-    QProcess *processAll = new QProcess(this);
+    QProcess *process = new QProcess(this);
     
-    connect(processAll, &QProcess::finished, this, [this, processAll](int exitCode, QProcess::ExitStatus status) {
+    connect(process, &QProcess::finished, this, [this, process](int exitCode, QProcess::ExitStatus status) {
         if (status == QProcess::NormalExit && exitCode == 0) {
-            QString outputAll = processAll->readAllStandardOutput();
+            QString output = QString::fromUtf8(process->readAllStandardOutput());
             
-            QProcess *processConnected = new QProcess(this);
-            
-            connect(processConnected, &QProcess::finished, this, [this, outputAll, processConnected](int cExitCode, QProcess::ExitStatus cStatus) {
-                if (cStatus == QProcess::NormalExit && cExitCode == 0) {
-                    QString outputConnected = processConnected->readAllStandardOutput();
-                    
-                    QSet<QString> connectedAddresses;
-                    QStringList cLines = outputConnected.split('\n');
-                    for (const QString& line : cLines) {
-                        if (line.contains("Device ")) {
-                            QStringList tokens = line.split(' ', Qt::SkipEmptyParts);
-                            if (tokens.size() >= 2) {
-                                connectedAddresses.insert(tokens[1]);
-                            }
-                        }
+            QStringList sections = output.split("---SPLIT---");
+            if (sections.size() == 2) {
+                QString connectedOut = sections[0];
+                QString allOut = sections[1];
+                
+                QSet<QString> connectedAddresses;
+                const QStringList cLines = connectedOut.split('\n', Qt::SkipEmptyParts);
+                for (const QString& line : cLines) {
+                    if (line.startsWith("Device ")) {
+                        connectedAddresses.insert(line.section(' ', 1, 1));
                     }
-                    m_devices.clear();
-                    QStringList linesAll = outputAll.split('\n');
-                    for (const QString& line : linesAll) {
-                        if (line.contains("Device ")) {
-                            QStringList tokens = line.split(' ', Qt::SkipEmptyParts);
-                            if (tokens.size() >= 3) {
-                                BtDevice device;
-                                device.address = tokens[1];
-                                device.name = tokens.mid(2).join(" ");
-                                
-                                device.connected = connectedAddresses.contains(device.address);
-                                device.rssi = 0;
-                                
-                                m_devices.push_back(device);
-                            }
-                        }
-                    }
-                    
-                    emit devicesChanged();
                 }
-                processConnected->deleteLater();
-            });
-            
-            processConnected->start("bluetoothctl", {"devices", "Connected"});
+                
+                m_devices.clear();
+                const QStringList allLines = allOut.split('\n', Qt::SkipEmptyParts);
+                for (const QString& line : allLines) {
+                    if (line.startsWith("Device ")) {
+                        BtDevice device;
+                        device.address = line.section(' ', 1, 1);
+                        device.name = line.section(' ', 2);
+                        device.connected = connectedAddresses.contains(device.address);
+                        device.rssi = 0;
+                        m_devices.push_back(device);
+                    }
+                }
+                emit devicesChanged();
+            }
         }
-        processAll->deleteLater();
+        process->deleteLater();
     });
 
-    processAll->start("bluetoothctl", {"devices"});
+    process->start("/bin/sh", {"-c", "bluetoothctl devices Connected && echo '---SPLIT---' && bluetoothctl devices"});
 }
 
 

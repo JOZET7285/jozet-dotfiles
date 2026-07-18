@@ -31,6 +31,8 @@ Rectangle {
         return null
     }
 
+    property bool popupOpened: activePopup ? true : false
+
     width: activePopup ? Math.max(
         activePopup === networkPopup ? 400 :
         activePopup === powerPopup ? 200  :

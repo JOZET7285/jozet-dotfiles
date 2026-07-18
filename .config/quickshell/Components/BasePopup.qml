@@ -94,7 +94,7 @@ Item {
                     duration: 220
                     easing.type: Easing.OutCubic
                 }
-                onStopped: { basePopupRoot.animating = false; }
+                onStopped: { basePopupRoot.animating = false;}
             }
 
             ParallelAnimation {

@@ -3,8 +3,11 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QDir>
+#include <QThread>
+#include <QObject>
 
 namespace jozet {
+
     QVariantList AgendaReader::readAgenda() {
         QVariantList agenda;
         QFile file(QDir::homePath() + "/.config/quickshell/Assets/Agenda.json");
@@ -19,12 +22,18 @@ namespace jozet {
     }
 
     void AgendaReader::writeAgenda(const QVariantList &agenda) {
-        QFile file(QDir::homePath() + "/.config/quickshell/Assets/Agenda.json");
-        
-        if (file.open(QIODevice::WriteOnly)) {
-            QJsonArray array = QJsonArray::fromVariantList(agenda);
-            QJsonDocument doc(array);
-            file.write(doc.toJson());
-        }
+        QThread *workerThread = QThread::create([agenda]() {
+            QFile file(QDir::homePath() + "/.config/quickshell/Assets/Agenda.json");
+            
+            if (file.open(QIODevice::WriteOnly)) {
+                QJsonArray array = QJsonArray::fromVariantList(agenda);
+                QJsonDocument doc(array);
+                file.write(doc.toJson());
+            }
+        });
+
+        QObject::connect(workerThread, &QThread::finished, workerThread, &QObject::deleteLater);
+        workerThread->start();
     }
+
 }

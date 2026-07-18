@@ -14,6 +14,8 @@
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QVariantList>
+#include <QThread>
+#include <QCoreApplication> // Añadido para invocar métodos en el hilo principal
 
 namespace jozet {
 
@@ -61,7 +63,6 @@ QVariantList NetworkReader::scanAvailableNetworks()
             if (ssid.isEmpty()) continue;
 
             int freq = apProps.call("Get", "org.freedesktop.NetworkManager.AccessPoint", "Frequency").arguments().at(0).value<QDBusVariant>().variant().toInt();
-
             int strength = apProps.call("Get", "org.freedesktop.NetworkManager.AccessPoint", "Strength").arguments().at(0).value<QDBusVariant>().variant().toInt();
 
             bool exists = false;
@@ -84,40 +85,40 @@ QVariantList NetworkReader::scanAvailableNetworks()
 }
 
 void NetworkReader::connectToWifi(const QString &ssid, const QString &password) {
-    QProcess process;
+    QProcess *process = new QProcess(); // Se remueve 'this'
     QStringList args = {"device", "wifi", "connect", ssid, "password", password};
-    process.start("nmcli", args);
-    runProcess(process, 15000); 
+    
+    // Se usa QObject::connect de forma explícita
+    QObject::connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), 
+            [process](int, QProcess::ExitStatus) {
+        process->deleteLater();
+    });
+    
+    process->start("nmcli", args);
 }
 
 QVariantList NetworkReader::availableNetworks() const
 {
     QVariantList list;
-
     for (const auto &network : m_networks) {
         QVariantMap map;
-
         map["ssid"] = network.ssid;
         map["signal"] = network.signal;
         map["connected"] = network.connected;
         map["security"] = network.security;
         map["frequency"] = network.frequency;
-
         list.append(map);
     }
-
     return list;
 }
 
 QString NetworkReader::getAddress(const QString &iface)
 {
     QNetworkInterface net = QNetworkInterface::interfaceFromName(iface);
-
     for (const auto &entry : net.addressEntries()) {
         if (entry.ip().protocol() == QAbstractSocket::IPv4Protocol)
             return entry.ip().toString();
     }
-
     return "";
 }
 
@@ -127,7 +128,7 @@ QString NetworkReader::getWifiFreq(const QString &iface) {
     
     if (runProcess(process, 800)) {
         QString output = process.readAllStandardOutput();
-        QRegularExpression re("channel \\d+ \\((\\d+ MHz)\\)");
+        static const QRegularExpression re("channel \\d+ \\((\\d+ MHz)\\)");
         QRegularExpressionMatch match = re.match(output);
         if (match.hasMatch()) {
             return match.captured(1);
@@ -146,16 +147,21 @@ bool NetworkReader::runProcess(QProcess &process, int timeoutMs) {
 }
 
 int NetworkReader::getWifiQuality(const QString &iface) {
-    QProcess process;
-    process.start("nmcli", {"-t", "-f", "IN-USE,BARS,SIGNAL", "dev", "wifi", "list", "--rescan", "no"});
-    
-    if (runProcess(process, 800)) {
-        QStringList lines = QString(process.readAllStandardOutput()).split('\n');
+    QFile file("/proc/net/wireless");
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QString content = QString::fromUtf8(file.readAll());
+        file.close();
+        
+        QStringList lines = content.split('\n', Qt::SkipEmptyParts);
         for (const QString &line : lines) {
-            if (line.startsWith("*")) {
-                QStringList parts = line.split(':');
-                if (parts.size() >= 3) {
-                    return parts.last().toInt();
+            if (line.contains(iface + ":")) {
+                QStringList parts = line.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
+                for (int i = 0; i < parts.size(); ++i) {
+                    if (parts[i].contains(".")) {
+                        QString qualStr = parts[i];
+                        qualStr.remove('.');
+                        return qualStr.toInt();
+                    }
                 }
             }
         }
@@ -171,6 +177,7 @@ QString NetworkReader::readSysFile(const QString &iface, const QString &file) {
     }
     return "N/A";
 }
+
 QString NetworkReader::getSpeed(const QString &iface, InterfaceType type) {
     if (iface.isEmpty()) return "N/A";
 
@@ -181,13 +188,12 @@ QString NetworkReader::getSpeed(const QString &iface, InterfaceType type) {
             if (speed != "-1") return speed + " Mbps";
         }
     } 
-    
     else if (type == InterfaceType::wifi) {
         QProcess process;
         process.start("/usr/bin/iw", {"dev", iface, "link"});
         if (runProcess(process, 800)) {
             QString output = process.readAllStandardOutput();
-            QRegularExpression re("tx bitrate: ([0-9.]+)");
+            static const QRegularExpression re("tx bitrate: ([0-9.]+)");
             QRegularExpressionMatch match = re.match(output);
             if (match.hasMatch()) {
                 return match.captured(1) + " Mbps";
@@ -201,26 +207,18 @@ QString NetworkReader::getSpeed(const QString &iface, InterfaceType type) {
 QString NetworkReader::getWifiSsid(const QString &iface)
 {
     QProcess process;
-
-    process.start("nmcli", {
-        "-t",
-        "-g",
-        "GENERAL.CONNECTION",
-        "device",
-        "show",
-        iface
-    });
+    process.start("nmcli", {"-t", "-g", "GENERAL.CONNECTION", "device", "show", iface});
 
     if (!runProcess(process, 1000))
         return "No conectado";
 
     QString ssid = process.readAllStandardOutput().trimmed();
-
     if (ssid.isEmpty() || ssid == "--")
         return "No conectado";
 
     return ssid;
 }
+
 void NetworkReader::detectInterfaces() {
     QDir netDir("/sys/class/net");
     QStringList interfaces = netDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
@@ -232,41 +230,57 @@ void NetworkReader::detectInterfaces() {
 }
 
 void NetworkReader::updateNetworkStatus() {
-    auto updateInfo = [&](NetInfo &info, const QString &iface) {
-        if (iface.isEmpty()) return;
-        
-        info.name = iface;
-        info.status = readSysFile(iface, "operstate");
-        
-        if (iface.startsWith("wl")) { 
-            QString ssid = getWifiSsid(iface);
-            info.name = ssid.isEmpty() ? "WiFi (Desconectado)" : ssid;
-            info.type = InterfaceType::wifi;
-            info.speed = getSpeed(iface, InterfaceType::wifi);
-            info.freq = getWifiFreq(iface);
-            info.qual = getWifiQuality(iface);
-        } else if (iface.startsWith("en") || iface.startsWith("eth")) {
-            info.name = "Ethernet";
-            info.type = InterfaceType::ethernet;
-            info.speed = getSpeed(iface, InterfaceType::ethernet);
-        } 
-        info.address = getAddress(iface);
-    };
+    if (m_ethInterface.isEmpty() && m_wifiInterface.isEmpty()) return;
 
-    updateInfo(m_eth, m_ethInterface);
-    updateInfo(m_wifi, m_wifiInterface);
+    QThread *workerThread = QThread::create([this]() {
+        NetInfo tempEth = m_eth;
+        NetInfo tempWifi = m_wifi;
+
+        auto updateInfo = [&](NetInfo &info, const QString &iface) {
+            if (iface.isEmpty()) return;
+            
+            info.name = iface;
+            info.status = readSysFile(iface, "operstate");
+            
+            if (iface.startsWith("wl")) { 
+                QString ssid = getWifiSsid(iface);
+                info.name = ssid.isEmpty() ? "WiFi (Desconectado)" : ssid;
+                info.type = InterfaceType::wifi;
+                info.speed = getSpeed(iface, InterfaceType::wifi);
+                info.freq = getWifiFreq(iface);
+                info.qual = getWifiQuality(iface);
+            } else if (iface.startsWith("en") || iface.startsWith("eth")) {
+                info.name = "Ethernet";
+                info.type = InterfaceType::ethernet;
+                info.speed = getSpeed(iface, InterfaceType::ethernet);
+            } 
+            info.address = getAddress(iface);
+        };
+
+        updateInfo(tempEth, m_ethInterface);
+        updateInfo(tempWifi, m_wifiInterface);
+
+        // Se usa QCoreApplication::instance() como objetivo del invokeMethod
+        QMetaObject::invokeMethod(QCoreApplication::instance(), [this, tempEth, tempWifi]() {
+            m_eth = tempEth;
+            m_wifi = tempWifi;
+        }, Qt::QueuedConnection);
+    });
+
+    // Se usa QObject::connect de forma explícita
+    QObject::connect(workerThread, &QThread::finished, workerThread, &QObject::deleteLater);
+    workerThread->start();
 }
+
 static QString interfaceTypeToString(InterfaceType type)
 {
     switch (type) {
-    case InterfaceType::ethernet:
-        return "ethernet";
-    case InterfaceType::wifi:
-        return "wifi";
-    default:
-        return "unknown";
+    case InterfaceType::ethernet: return "ethernet";
+    case InterfaceType::wifi: return "wifi";
+    default: return "unknown";
     }
 }
+
 QVariantMap NetworkReader::ethernetInfo() const {
     return QVariantMap{
         {"name", m_eth.name},

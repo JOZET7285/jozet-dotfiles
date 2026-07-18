@@ -1,8 +1,7 @@
 #include "Readers/CpuReader.h"
 #include <QFile>
-#include <QTextStream>
-#include <QStringList>
 #include <QRegularExpression>
+#include <QStringList>
 
 namespace jozet {
 
@@ -13,14 +12,15 @@ int CpuReader::readUsagePercent() {
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return 0;
 
-    QTextStream in(&file);
-    QString line = in.readLine();
+    QString content = QString::fromUtf8(file.readAll());
     file.close();
 
-    if (!line.startsWith("cpu "))
+    if (!content.startsWith("cpu "))
         return 0;
 
-    QStringList parts = line.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
+    static const QRegularExpression spaceRegex("\\s+");
+    QStringList parts = content.section('\n', 0, 0).split(spaceRegex, Qt::SkipEmptyParts);
+    
     if (parts.size() < 8)
         return 0;
 
@@ -56,8 +56,7 @@ int CpuReader::readCurrentFrequency() {
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return 0;
 
-    QTextStream in(&file);
-    QString freqStr = in.readLine();
+    QString freqStr = QString::fromUtf8(file.readAll()).trimmed();
     file.close();
 
     return freqStr.toInt() / 1000;
