@@ -17,7 +17,7 @@ Rectangle {
     property int marginScaled: 15 * scaleFactor
     property var popups: [networkPopup, bluetoothPopup, energyPopup, volumePopup, powerPopup]
     property var connection:
-    sysManager.ethernetInfo.status !== "down"
+    sysManager.ethernetInfo.status == "up"
         ? sysManager.ethernetInfo
         : sysManager.wifiInfo
 

@@ -15,7 +15,9 @@
 #include <QDBusMessage>
 #include <QVariantList>
 #include <QThread>
-#include <QCoreApplication> // Añadido para invocar métodos en el hilo principal
+#include <QCoreApplication>
+#include <QDebug>
+#include <functional>
 
 namespace jozet {
 
@@ -23,72 +25,82 @@ NetworkReader::NetworkReader() {
     detectInterfaces();
 }
 
-QVariantList NetworkReader::scanAvailableNetworks()
-{
-    m_networks.clear();
+void NetworkReader::scanAvailableNetworks(std::function<void(QVariantList)> callback){
+    QThread *workerThread = QThread::create([this, callback]() {
+        m_networks.clear();
 
-    QDBusInterface nm("org.freedesktop.NetworkManager",
-                      "/org/freedesktop/NetworkManager",
-                      "org.freedesktop.NetworkManager",
-                      QDBusConnection::systemBus());
+        QDBusInterface nm("org.freedesktop.NetworkManager",
+                          "/org/freedesktop/NetworkManager",
+                          "org.freedesktop.NetworkManager",
+                          QDBusConnection::systemBus());
 
-    QDBusReply<QDBusObjectPath> activeConnPath = nm.call("GetProperty", "PrimaryConnection");
-    QString activeSsid = "";
-    if (activeConnPath.isValid()) {
-        QDBusInterface activeConn( "org.freedesktop.NetworkManager", activeConnPath.value().path(), 
-                                   "org.freedesktop.DBus.Properties", QDBusConnection::systemBus());
-        QVariant ssidVar = activeConn.call("Get", "org.freedesktop.NetworkManager.Connection.Active", "Id").arguments().at(0).value<QDBusVariant>().variant();
-        activeSsid = ssidVar.toString();
-    }
-
-    QDBusReply<QList<QDBusObjectPath>> devices = nm.call("GetDevices");
-    if (!devices.isValid()) return availableNetworks();
-
-    for (const QDBusObjectPath &devicePath : devices.value()) {
-        QDBusInterface props("org.freedesktop.NetworkManager", devicePath.path(), "org.freedesktop.DBus.Properties", QDBusConnection::systemBus());
-        
-        if (props.call("Get", "org.freedesktop.NetworkManager.Device", "DeviceType").arguments().at(0).value<QDBusVariant>().variant().toUInt() != 2)
-            continue;
-
-        QDBusInterface wifi("org.freedesktop.NetworkManager", devicePath.path(), "org.freedesktop.NetworkManager.Device.Wireless", QDBusConnection::systemBus());
-        QDBusReply<QList<QDBusObjectPath>> aps = wifi.call("GetAllAccessPoints");
-
-        if (!aps.isValid()) continue;
-
-        for (const QDBusObjectPath &apPath : aps.value()) {
-            QDBusInterface apProps("org.freedesktop.NetworkManager", apPath.path(), "org.freedesktop.DBus.Properties", QDBusConnection::systemBus());
-            
-            QString ssid = QString::fromUtf8(apProps.call("Get", "org.freedesktop.NetworkManager.AccessPoint", "Ssid").arguments().at(0).value<QDBusVariant>().variant().toByteArray());            
-            
-            if (ssid.isEmpty()) continue;
-
-            int freq = apProps.call("Get", "org.freedesktop.NetworkManager.AccessPoint", "Frequency").arguments().at(0).value<QDBusVariant>().variant().toInt();
-            int strength = apProps.call("Get", "org.freedesktop.NetworkManager.AccessPoint", "Strength").arguments().at(0).value<QDBusVariant>().variant().toInt();
-
-            bool exists = false;
-            for(const auto &n : m_networks) { if(n.ssid == ssid) exists = true; }
-            if(exists) continue;
-            
-            WifiNetwork network;
-            network.ssid = ssid;
-            network.signal = strength;
-            network.frequency = freq;
-            network.connected = (ssid == activeSsid);
-            network.security = "WPA2";
-
-            m_networks.push_back(network);
+        QDBusReply<QDBusObjectPath> activeConnPath = nm.call("GetProperty", "PrimaryConnection");
+        QString activeSsid = "";
+        if (activeConnPath.isValid()) {
+            QDBusInterface activeConn("org.freedesktop.NetworkManager", activeConnPath.value().path(),
+                                       "org.freedesktop.DBus.Properties", QDBusConnection::systemBus());
+            QVariant ssidVar = activeConn.call("Get", "org.freedesktop.NetworkManager.Connection.Active", "Id").arguments().at(0).value<QDBusVariant>().variant();
+            activeSsid = ssidVar.toString();
         }
-        break;
-    }
 
-    return availableNetworks();
+        QDBusReply<QList<QDBusObjectPath>> devices = nm.call("GetDevices");
+        if (devices.isValid()) {
+            for (const QDBusObjectPath &devicePath : devices.value()) {
+                QDBusInterface props("org.freedesktop.NetworkManager", devicePath.path(), "org.freedesktop.DBus.Properties", QDBusConnection::systemBus());
+
+                if (props.call("Get", "org.freedesktop.NetworkManager.Device", "DeviceType").arguments().at(0).value<QDBusVariant>().variant().toUInt() != 2)
+                    continue;
+
+                QDBusInterface wifi("org.freedesktop.NetworkManager", devicePath.path(),
+                                    "org.freedesktop.NetworkManager.Device.Wireless", QDBusConnection::systemBus());
+
+                wifi.call("RequestScan", QVariantMap());
+                QThread::msleep(2500);
+
+                QDBusReply<QList<QDBusObjectPath>> aps = wifi.call("GetAllAccessPoints");
+                if (!aps.isValid()) continue;
+
+                for (const QDBusObjectPath &apPath : aps.value()) {
+                    QDBusInterface apProps("org.freedesktop.NetworkManager", apPath.path(), "org.freedesktop.DBus.Properties", QDBusConnection::systemBus());
+
+                    QString ssid = QString::fromUtf8(apProps.call("Get", "org.freedesktop.NetworkManager.AccessPoint", "Ssid").arguments().at(0).value<QDBusVariant>().variant().toByteArray());
+                    if (ssid.isEmpty()) continue;
+
+                    int freq = apProps.call("Get", "org.freedesktop.NetworkManager.AccessPoint", "Frequency").arguments().at(0).value<QDBusVariant>().variant().toInt();
+                    int strength = apProps.call("Get", "org.freedesktop.NetworkManager.AccessPoint", "Strength").arguments().at(0).value<QDBusVariant>().variant().toInt();
+
+                    bool exists = false;
+                    for (const auto &n : m_networks) { if (n.ssid == ssid) exists = true; }
+                    if (exists) continue;
+
+                    WifiNetwork network;
+                    network.ssid = ssid;
+                    network.signal = strength;
+                    network.frequency = freq;
+                    network.connected = (ssid == activeSsid);
+                    network.security = "WPA2";
+
+                    m_networks.push_back(network);
+                }
+                break;
+            }
+        }
+
+        QVariantList result = availableNetworks();
+
+        QMetaObject::invokeMethod(QCoreApplication::instance(), [callback, result]() {
+            if (callback) callback(result);
+        }, Qt::QueuedConnection);
+    });
+
+    QObject::connect(workerThread, &QThread::finished, workerThread, &QObject::deleteLater);
+    workerThread->start();
 }
 
 void NetworkReader::connectToWifi(const QString &ssid, const QString &password) {
     QProcess *process = new QProcess(); // Se remueve 'this'
     QStringList args = {"device", "wifi", "connect", ssid, "password", password};
     
-    // Se usa QObject::connect de forma explícita
     QObject::connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), 
             [process](int, QProcess::ExitStatus) {
         process->deleteLater();
@@ -229,10 +241,10 @@ void NetworkReader::detectInterfaces() {
     }
 }
 
-void NetworkReader::updateNetworkStatus() {
+void NetworkReader::updateNetworkStatus(std::function<void()> callback) {
     if (m_ethInterface.isEmpty() && m_wifiInterface.isEmpty()) return;
 
-    QThread *workerThread = QThread::create([this]() {
+    QThread *workerThread = QThread::create([this, callback]() {
         NetInfo tempEth = m_eth;
         NetInfo tempWifi = m_wifi;
 
@@ -260,14 +272,13 @@ void NetworkReader::updateNetworkStatus() {
         updateInfo(tempEth, m_ethInterface);
         updateInfo(tempWifi, m_wifiInterface);
 
-        // Se usa QCoreApplication::instance() como objetivo del invokeMethod
-        QMetaObject::invokeMethod(QCoreApplication::instance(), [this, tempEth, tempWifi]() {
+        QMetaObject::invokeMethod(QCoreApplication::instance(), [this, tempEth, tempWifi, callback]() {
             m_eth = tempEth;
             m_wifi = tempWifi;
+            if(callback) callback();
         }, Qt::QueuedConnection);
     });
 
-    // Se usa QObject::connect de forma explícita
     QObject::connect(workerThread, &QThread::finished, workerThread, &QObject::deleteLater);
     workerThread->start();
 }

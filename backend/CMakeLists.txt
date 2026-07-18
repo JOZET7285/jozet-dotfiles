@@ -40,11 +40,13 @@ qt6_add_qml_module(JozetPlugin
         System/Readers/StatsReader.h
         System/Readers/HyprlandReader.cpp
         System/Readers/HyprlandReader.h
+        System/Readers/PamAuthenticator.cpp
+        System/Readers/PamAuthenticator.h
 )
 target_include_directories(JozetPlugin PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/System
 )
-target_link_libraries(JozetPlugin PRIVATE Qt6::Core Qt6::Qml Qt6::Network Qt6::DBus)
+target_link_libraries(JozetPlugin PRIVATE Qt6::Core Qt6::DBus Qt6::Qml Qt6::Network pam)
 
 set_target_properties(JozetPlugin PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)

@@ -34,11 +34,11 @@ namespace jozet {
     class NetworkReader {
     public:
         NetworkReader();
-        void updateNetworkStatus();
+        void updateNetworkStatus(std::function<void()> callback = nullptr);
         QVariantMap ethernetInfo() const;
         QVariantMap wifiInfo() const;
         Q_INVOKABLE QVariantList availableNetworks() const;
-        Q_INVOKABLE QVariantList scanAvailableNetworks();
+        void scanAvailableNetworks(std::function<void(QVariantList)> callback);
         void connectToWifi(const QString &ssid, const QString &password);
 
     private:

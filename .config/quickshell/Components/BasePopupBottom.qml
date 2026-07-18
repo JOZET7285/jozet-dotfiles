@@ -108,7 +108,7 @@ FocusScope {
                 PropertyAnimation {
                     target: container
                     property: "y"
-                    to: - internalRoot.popupHeight
+                    to: 0
                     duration: 220
                     easing.type: Easing.OutCubic
                 }

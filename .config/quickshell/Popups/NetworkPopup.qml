@@ -10,17 +10,16 @@ Item {
     id: networkPopup
 
     property string selectedConnectionType: "auto"
-    property var connection: sysManager.ethernetInfo.status !== "down" ? sysManager.ethernetInfo : sysManager.wifiInfo
+    property var connection: sysManager.ethernetInfo.status == "up" ? sysManager.ethernetInfo : sysManager.wifiInfo
 
     onSelectedConnectionTypeChanged: {
-        console.log("selectedConnectionType changed to:", selectedConnectionType);
         if (selectedConnectionType === "ethernet") {
             connection = sysManager.ethernetInfo;
         } else if (selectedConnectionType === "wifi") {
             connection = sysManager.wifiInfo;
             sysManager.scanNetworks();
         } else {
-            connection = sysManager.ethernetInfo.status !== "down" ? sysManager.ethernetInfo : sysManager.wifiInfo;
+            connection = sysManager.ethernetInfo.status == "up" ? sysManager.ethernetInfo : sysManager.wifiInfo;
         }
     }
 
@@ -148,7 +147,6 @@ Item {
                             Layout.preferredHeight: 45
                             connection: networkPopup.connection
                             onConnectionTypeChanged: function(type) {
-                                console.log("Switching to connection type:", type);
                                 networkPopup.selectedConnectionType = type;
                             }
                         }

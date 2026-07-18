@@ -19,6 +19,7 @@
 #include "Readers/StatsReader.h"
 #include "Readers/EventsReader.h"
 #include "Readers/HyprlandReader.h"
+#include "Readers/PamAuthenticator.h"
 
 namespace jozet {
 
@@ -81,6 +82,7 @@ class SystemManager : public QObject
 
 public:
     explicit SystemManager(QObject *parent = nullptr);
+    Q_INVOKABLE bool authenticateUser(const QString &username, const QString &password);
 
     // RAM -----------------------------------------------
     QVariantMap ramInfo() const;
@@ -252,6 +254,7 @@ private:
     void updateBattery();
     void updateBrightness();
     void updatePowerProfile();
+    PamAuthenticator m_pamAuth;
 
     void runCommandAsync(
         const QString &program,
