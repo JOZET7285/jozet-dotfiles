@@ -6,7 +6,7 @@ import Quickshell.Io
 import Quickshell.Wayland
 import "../Components/"
 
-Item {
+FocusScope {
     id: basePopupRoot
 
     property bool open: false
@@ -85,6 +85,21 @@ Item {
                     anchors.fill: parent
                     anchors.margins: 10
                     sourceComponent: basePopupRoot.popupContent
+
+                    Timer {
+                        id: focusDelayTimer
+                        interval: 50 
+                        running: false
+                        onTriggered: {
+                            if (loaderForContent.item) {
+                                loaderForContent.item.forceActiveFocus();
+                            }
+                        }
+                    }
+
+                    onLoaded: {
+                        focusDelayTimer.start();
+                    }
                 }
             }
 

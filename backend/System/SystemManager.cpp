@@ -6,6 +6,7 @@
 #include <QThread>
 #include <QTimer>
 #include <QUrl>
+#include <QDir>
 
 #include <algorithm>
 
@@ -66,11 +67,13 @@ void SystemManager::updateRam()
     QVariantMap newRamInfo;
     newRamInfo["totalMB"] = QVariant::fromValue(data.totalMB);
     newRamInfo["usedMB"] = QVariant::fromValue(data.usedMB);
-    newRamInfo["usagePercent"] = data.usagePercent;
+    
+    newRamInfo["usagePercent"] = QVariant::fromValue(data.usagePercent);
 
     newRamInfo["swapTotalMB"] = QVariant::fromValue(data.swapTotalMB);
     newRamInfo["swapUsedMB"] = QVariant::fromValue(data.swapUsedMB);
-    newRamInfo["swapUsagePercent"] = data.swapUsagePercent;
+    
+    newRamInfo["swapUsagePercent"] = QVariant::fromValue(data.swapUsagePercent);
 
     if (m_ramInfo != newRamInfo) {
         m_ramInfo = newRamInfo;
@@ -178,15 +181,12 @@ void SystemManager::refreshDiskStats()
     workerThread->start();
 }
 
-void SystemManager::cleanCache()
-{
-    QProcess::startDetached(
-        "/bin/sh",
-        QStringList() << "-c" << "rm -rf ~/.cache/* 2>/dev/null");
-
+void SystemManager::cleanCache() {
+    QDir cacheDir(QDir::homePath() + "/.cache");
+    cacheDir.removeRecursively(); 
+    cacheDir.mkpath(".");
     refreshDiskStats();
 }
-
 void SystemManager::cleanTrash()
 {
     QProcess::startDetached(
@@ -490,8 +490,9 @@ void SystemManager::refreshTodayData()
         emit todayDataChanged();
     }
 
-    m_agenda = m_agendaReader.readAgenda();
-    emit todayDataChanged();
+    if (changed) {
+        emit todayDataChanged();
+    }
 }
 
 void SystemManager::toggleAgendaTask(int index) {

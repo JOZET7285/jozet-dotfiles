@@ -1,58 +1,75 @@
 #include "HyprlandReader.h"
-#include <QProcess>
+#include <QLocalSocket>
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QJsonObject>
-#include <QDebug>
+#include <QVariantMap>
 
 namespace jozet {
 
 void HyprlandReader::readWorkspacesAsync(std::function<void(QVariantList)> callback) {
-    auto *process = new QProcess();
+    QString signature = qEnvironmentVariable("HYPRLAND_INSTANCE_SIGNATURE");
+    if (signature.isEmpty()) {
+        callback(QVariantList());
+        return;
+    }
 
-    QObject::connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
-        [process, callback](int, QProcess::ExitStatus) {
-            QByteArray output = process->readAllStandardOutput();
-            process->deleteLater();
+    QString socketPath = "/tmp/hypr/" + signature + "/.socket.sock";
+    QLocalSocket *socket = new QLocalSocket();
 
-            QVariantList workspacesData;
-            QJsonDocument doc = QJsonDocument::fromJson(output);
+    QObject::connect(socket, &QLocalSocket::connected, [socket]() {
+        socket->write("j/clients");
+        socket->flush();
+    });
 
-            if (!doc.isArray()) {
-                callback(workspacesData);
-                return;
-            }
+    QObject::connect(socket, &QLocalSocket::readyRead, [socket, callback]() {
+        QByteArray output = socket->readAll();
+        socket->disconnectFromServer();
+        socket->deleteLater();
 
-            QJsonArray clients = doc.array();
-            QMap<int, QVariantList> workspaceApps;
+        QVariantList workspacesData;
+        QJsonDocument doc = QJsonDocument::fromJson(output);
 
-            for (const QJsonValue &value : clients) {
-                QJsonObject client = value.toObject();
-                int workspaceId = client["workspace"].toObject()["id"].toInt();
-
-                QVariantMap appData;
-                appData["address"] = client["address"].toString();
-                appData["class"] = client["class"].toString();
-                appData["title"] = client["title"].toString();
-                appData["x"] = client["at"].toArray()[0].toInt();
-                appData["y"] = client["at"].toArray()[1].toInt();
-                appData["w"] = client["size"].toArray()[0].toInt();
-                appData["h"] = client["size"].toArray()[1].toInt();
-
-                workspaceApps[workspaceId].append(appData);
-            }
-
-            for (auto it = workspaceApps.constBegin(); it != workspaceApps.constEnd(); ++it) {
-                QVariantMap wsData;
-                wsData["id"] = it.key();
-                wsData["apps"] = it.value();
-                workspacesData.append(wsData);
-            }
-
+        if (!doc.isArray()) {
             callback(workspacesData);
-        });
+            return;
+        }
 
-    process->start("hyprctl", {"clients", "-j"});
+        QJsonArray clients = doc.array();
+        QMap<int, QVariantList> workspaceApps;
+
+        for (const QJsonValue &value : clients) {
+            QJsonObject client = value.toObject();
+            int workspaceId = client["workspace"].toObject()["id"].toInt();
+
+            QVariantMap appData;
+            appData["address"] = client["address"].toString();
+            appData["class"] = client["class"].toString();
+            appData["title"] = client["title"].toString();
+            appData["x"] = client["at"].toArray()[0].toInt();
+            appData["y"] = client["at"].toArray()[1].toInt();
+            appData["w"] = client["size"].toArray()[0].toInt();
+            appData["h"] = client["size"].toArray()[1].toInt();
+
+            workspaceApps[workspaceId].append(appData);
+        }
+
+        for (auto it = workspaceApps.constBegin(); it != workspaceApps.constEnd(); ++it) {
+            QVariantMap wsData;
+            wsData["id"] = it.key();
+            wsData["apps"] = it.value();
+            workspacesData.append(wsData);
+        }
+
+        callback(workspacesData);
+    });
+
+    QObject::connect(socket, &QLocalSocket::errorOccurred, [socket, callback](QLocalSocket::LocalSocketError) {
+        socket->deleteLater();
+        callback(QVariantList());
+    });
+
+    socket->connectToServer(socketPath);
 }
 
 }

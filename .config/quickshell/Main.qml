@@ -25,6 +25,9 @@ PanelWindow {
 
     property var popupList: [diskPopup, ramPopup, cpuPopup, tempPopup, todayPopup] 
     property var popupBottomList: [agendPopup, wallpaperSelector, eventPopup]
+    property bool bottomPopupsOpened: (agendPopup.open || agendPopup.animating || 
+                                       wallpaperSelector.open || wallpaperSelector.animating || 
+                                       eventPopup.open || eventPopup.animating)
     
     function closeOtherPopups(openedPopup) {
         if (openedPopup.open) {
@@ -35,9 +38,9 @@ PanelWindow {
             }
         }
     }
-    function closeOtherBottomPopups (openedPopup) {
+    function closeOtherBottomPopups(openedPopup) {
         if (openedPopup.open) {
-            for (let i = 0; i < popupList.length; i++) {
+            for (let i = 0; i < popupBottomList.length; i++) {
                 if (popupBottomList[i] !== openedPopup && popupBottomList[i].open) {
                     popupBottomList[i].open = false;
                 }
@@ -69,14 +72,10 @@ PanelWindow {
     }
     color: "transparent"
 
-    readonly property bool needsKeyboardFocus: leftLand.appLauncherOpen || 
-        rightLand.networkPopupOpen || 
-        agendPopup.open || 
-        eventPopup.open ||
-        leftLand.workspacesPopup.open
+    readonly property bool needsKeyboardFocus: rightLand.popupOpened || leftLand.popupOpened || bottomPopupsOpened
 
     focusable: needsKeyboardFocus
-    WlrLayershell.keyboardFocus: needsKeyboardFocus ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
+    WlrLayershell.keyboardFocus: needsKeyboardFocus ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
     
     HoverHandler { id: hoverPanelWindow } 
 
@@ -157,7 +156,7 @@ PanelWindow {
             }
         }
         Item {
-            id: centerBottomPopupsContainer
+            id: bottomPopupsContainer
             anchors {
                 bottom: parent.bottom
                 horizontalCenter: parent.horizontalCenter
