@@ -26,6 +26,7 @@ Item {
     property bool open: false
     property bool animating: false
     readonly property int contentWidth: 320
+    property string currentMonitor: modelData.name
 
     width: parent ? parent.width : contentWidth
     height: (open || animating) && contentLoader.item ? contentLoader.item.popupHeight : 0    
@@ -43,7 +44,7 @@ Item {
     }
     
     IpcHandler {
-        target: "networkPopup"
+        target: "networkPopup-"+currentMonitor
         function toggle(): void { networkPopup.open = !networkPopup.open }
         function show(): void { networkPopup.open = true }
         function hide(): void { networkPopup.open = false }

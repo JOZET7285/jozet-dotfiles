@@ -2,12 +2,16 @@
 mainMod = "SUPER" 
 
 -- Lanzadores y sistema
-hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("qs ipc call appLauncher toggle"))
+hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("sh -c 'monitor=$(hyprctl activeworkspace -j | jq -r .monitor); qs ipc call bluetoothPopup-$monitor toggle'"))
+hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("sh -c 'monitor=$(hyprctl activeworkspace -j | jq -r .monitor); qs ipc call appLauncher-$monitor toggle'"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("dolphin"))
 hl.bind(mainMod .. " + F", hl.dsp.exec_cmd("floorp"))
 hl.bind(mainMod .. " + K", hl.dsp.exec_cmd("kitty"))
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("hyprctl dispatch exit")) 
-hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("qs ipc call wallpaperSelector toggle"))
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("sh -c 'monitor=$(hyprctl activeworkspace -j | jq -r .monitor); qs ipc call networkPopup-$monitor toggle'"))
+hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("sh -c 'monitor=$(hyprctl activeworkspace -j | jq -r .monitor); qs ipc call todayPopup-$monitor toggle'"))
+hl.bind(mainMod .. " + TAB", hl.dsp.exec_cmd("sh -c 'monitor=$(hyprctl activeworkspace -j | jq -r .monitor); qs ipc call workspacesPopup-$monitor toggle'"))
+hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("sh -c 'monitor=$(hyprctl activeworkspace -j | jq -r .monitor); qs ipc call wallpaperSelector-$monitor toggle'"))
 
 -- Ventanas
 hl.bind(mainMod .. " + C", hl.dsp.window.kill(active))

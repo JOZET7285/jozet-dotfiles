@@ -7,6 +7,8 @@
 #include <QTimer>
 #include <QUrl>
 #include <QDir>
+#include <QFileInfo>
+#include <QFileInfoList>
 
 #include <algorithm>
 
@@ -628,6 +630,41 @@ void SystemManager::lockSession()
 void SystemManager::unlockSession()
 {
     setLocked(false);
+}
+
+QString SystemManager::currentUsername() const {
+    QString envUser = qEnvironmentVariable("USER");
+    if (!envUser.isEmpty()) return envUser;
+
+    struct passwd *pw = getpwuid(getuid());
+    return pw ? QString::fromLocal8Bit(pw->pw_name) : "usuario";
+}
+
+QString SystemManager::getWallpaperCachePath(const QString &monitorName) {
+    QProcess process;
+    
+    process.start("awww", {"query"}); 
+    process.waitForFinished();
+    
+    QString output = QString::fromUtf8(process.readAllStandardOutput());
+
+    QString errorOutput = QString::fromUtf8(process.readAllStandardError());
+    
+
+    QStringList lines = output.split('\n', Qt::SkipEmptyParts);
+    
+    for (const QString &line : lines) {
+        if (line.contains(monitorName + ":")) {
+            int imgIndex = line.indexOf("image: ");
+            if (imgIndex != -1) {
+                QString realPath = line.mid(imgIndex + 7).trimmed();
+                return "file://" + realPath;
+            }
+            return ""; 
+        }
+    }
+    
+    return "";  
 }
 
 } // namespace jozet

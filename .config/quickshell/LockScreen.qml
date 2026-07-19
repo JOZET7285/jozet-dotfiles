@@ -4,13 +4,74 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
+import QtQuick.Effects
 import "Components"
 
 PanelWindow {
     id: lockWindow
 
+     anchors { 
+        top: true 
+        bottom: true 
+        left: true 
+        right: true 
+    }
+    exclusionMode: ExclusionMode.Ignore
+
+    WlrLayershell.namespace: "lockscreen"
+
     property var modelData
     screen: modelData
+
+    property var connection:
+    sysManager.ethernetInfo.status == "up"
+        ? sysManager.ethernetInfo
+        : sysManager.wifiInfo
+    property bool loginError: false
+
+
+    property string currentTime: Qt.formatDateTime(new Date(), "hh:mm")
+    property string currentDate: Qt.formatDateTime(new Date(), "ddd, dd MMM")
+    Timer {
+        interval: 1000; running: true; repeat: true
+        onTriggered: {
+            currentTime = Qt.formatDateTime(new Date(), "hh:mm")
+            currentDate = Qt.formatDateTime(new Date(), "ddd, dd MMM")
+        }
+    }
+
+    function tryLogin() {
+        if (passwordInput.text.length === 0) return
+
+        if (sysManager.authenticateUser(sysManager.currentUsername, passwordInput.text)) {
+            loginError = false
+            sysManager.unlockSession()
+        } else {
+            passwordInput.text = ""
+            loginError = true
+        }
+    }
+
+    Image {
+        id: screenshotImg
+        anchors.fill: parent
+        source: sysManager.getWallpaperCachePath(modelData.name)
+        visible: false
+        cache: false
+    }
+
+    MultiEffect {
+        anchors.fill: parent
+        source: screenshotImg
+        blurEnabled: true
+        blurMax: 100
+        blur: 1.0
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        color: Qt.rgba(0, 0, 0, 0.5)
+    }
 
     WlrLayershell.layer: WlrLayer.Overlay 
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
@@ -25,6 +86,7 @@ PanelWindow {
             anchors.centerIn: parent
             color: "#1a1a1a"
             radius: 100
+            clip: true
 
             Rectangle {
                 id: leftDiv
@@ -34,30 +96,29 @@ PanelWindow {
                 x: -width * 0.3 
                 color: "#2b2b2b"
                 radius: 100
-                z: -1
+                z: 10   
 
                 ColumnLayout {
                     anchors.centerIn: parent
                     Row {
                         id: contentRow
-                        Layout.alignment: Qt.AlignHCenter || Qt.AlignVCenter
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                         spacing: 8
                         Text{
                             text: (connection.type == "ethernet" ? "\uf0e8" : connection.type == "wifi" ? "\uf1eb" : "\uf127")
                             color: connection.type == "unknown" ? Theme.color_r : Theme.text_color
-                            font.pixelSize: 14
+                            font.pixelSize: 18
                         }
                         Text{
-                            visible: scaleFactor > 0.8 ? true : area.containsMouse
                             text: connection.name !== "" ? connection.name : (connection.type == "ethernet" ? "Ethernet" : connection.type == "wifi" ? "Wi-Fi" : "No connection")
                             color: connection.type == "unknown" ? Theme.color_r : Theme.color_b
                             font.bold: true
-                            font.pixelSize: 12
+                            font.pixelSize: 15
                             anchors.verticalCenter: parent.verticalCenter
                         }
                     }
                     Row {
-                        Layout.alignment: Qt.AlignHCenter || Qt.AlignVCenter
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                         spacing: 8
                         Text {
                             text: "\uf293"
@@ -67,10 +128,9 @@ PanelWindow {
                                 if(connectedOnly.length === 0) return Theme.text_color
                                 return Theme.color_g
                             }
-                            font.pixelSize: 14
+                            font.pixelSize: 18
                         }
                         Text {
-                            visible: scaleFactor > 0.8 ? true : area.containsMouse
                             text: {
                                 let devices = sysManager.availableBluetoothDevices;
                                 let connectedOnly = devices.filter(device => device.connected === true);
@@ -80,7 +140,7 @@ PanelWindow {
                                 return connectedOnly[Math.min(bluetoothBtn.currentDeviceIndex, connectedOnly.length - 1)].name;
                             }
                             anchors.verticalCenter: parent.verticalCenter
-                            font.pixelSize: 12
+                            font.pixelSize: 15
                             color: {   
                                 let devices = sysManager.availableBluetoothDevices;
                                 let connectedOnly = devices.filter(device => device.connected === true);
@@ -91,7 +151,7 @@ PanelWindow {
                         }
                     }
                     Row {
-                        Layout.alignment: Qt.AlignHCenter || Qt.AlignVCenter
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                         spacing: 8
                         Text {
                             anchors.verticalCenter: parent.verticalCenter
@@ -105,7 +165,7 @@ PanelWindow {
                                     return Theme.color_r
                                 }
                             }
-                            font.pixelSize: 14
+                            font.pixelSize: 18
                             text: {
                                 if (sysManager.batteryStatus === "Charging") return "\uf0e7"
                                 else if (sysManager.batteryStatus === "Full") return "\uf240"
@@ -120,7 +180,6 @@ PanelWindow {
                             Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
                         }   
                         Text {
-                            visible: scaleFactor > 0.8 ? true : batteryBtnArea.containsMouse
                             color: {
                                 if(sysManager.batteryStatus === "Charging") return Theme.color_g
                                 else if (sysManager.batteryStatus === "Full") return Theme.color_b
@@ -132,7 +191,7 @@ PanelWindow {
                                 }
                             }
                             text: sysManager.batteryCapacity + "%"
-                            font.pixelSize: 12
+                            font.pixelSize: 15
                             anchors.verticalCenter: parent.verticalCenter
                             font.bold: true
                             Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
@@ -149,15 +208,17 @@ PanelWindow {
                 x: parent.width - (width * 0.7)
                 color: "#2b2b2b"
                 radius: 100
-                z: -1 
+                z: 10 
 
                 ColumnLayout {
                     anchors.centerIn: parent
                     Row {
-                        Layout.alignment: Qt.AlignHCenter || Qt.AlignVCenter
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                         spacing: 8
                         Text {
                             text: "\uf233" 
+                            color: Theme.text_color
+                            font.pixelSize: 18
                         }
                         Text { 
                             text: (sysManager.ramInfo.usagePercent || 0) + "%"
@@ -167,11 +228,17 @@ PanelWindow {
                                 if (sysManager.ramInfo.usagePercent < 75) return Theme.color_o
                                 return Theme.color_r
                             } 
+                            font.bold: true
+                            font.pixelSize: 15
                         }
                     }
                     Row {
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        spacing: 8
                         Text {
                             text: "\uf2db"
+                            color: Theme.text_color
+                            font.pixelSize: 18
                         }
                         Text { 
                             text: sysManager.cpuUsage + "%"
@@ -181,11 +248,17 @@ PanelWindow {
                                 if (sysManager.cpuUsage < 75) return Theme.color_o
                                 return Theme.color_r
                             } 
+                            font.bold: true
+                            font.pixelSize: 15
                         }
                     }
                     Row {
+                        Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                        spacing: 8
                         Text {
                             text: "\uf2c9"
+                            color: Theme.text_color
+                            font.pixelSize: 18
                         }
                         Text {
                             text: sysManager.maxTemp + "°C"
@@ -194,6 +267,8 @@ PanelWindow {
                                 if (sysManager.maxTemp < 95) return Theme.color_o
                                 return Theme.color_r
                             }
+                            font.pixelSize: 15
+                            font.bold: true
                         }
                     }
                 }
@@ -225,7 +300,7 @@ PanelWindow {
                 spacing: 15
 
                 Text {
-                    text: "username"
+                    text: sysManager.currentUsername
                     color: "white"
                     font.pixelSize: 30
                     font.bold: true
@@ -244,6 +319,14 @@ PanelWindow {
                         color: "#2b2b2b"
                         radius: 10
                     }
+                    onAccepted: tryLogin()
+                }
+                Text {
+                    text: "Contraseña incorrecta"
+                    color: Theme.color_r
+                    font.pixelSize: 12
+                    visible: loginError
+                    Layout.alignment: Qt.AlignHCenter
                 }
 
                 Button {
@@ -259,6 +342,7 @@ PanelWindow {
                         color: "#2b2b2b"
                         radius: 10
                     }
+                    onClicked: tryLogin()
                 }
             }
         }

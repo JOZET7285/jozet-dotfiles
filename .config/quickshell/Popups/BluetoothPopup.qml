@@ -12,6 +12,7 @@ Item {
     property bool animating: false
     property string connectingAddress: ""
     readonly property int contentWidth: 320
+    property string currentMonitor: modelData.name
 
     width: parent ? parent.width : contentWidth
     height: (open || animating) && contentLoader.item ? contentLoader.item.popupHeight : 0    
@@ -29,7 +30,7 @@ Item {
     }
 
     IpcHandler {
-        target: "bluetoothPopup"
+        target: "bluetoothPopup-"+currentMonitor
         function toggle(): void { bluetoothPopup.open = !bluetoothPopup.open }
         function show(): void { bluetoothPopup.open = true }
         function hide(): void { bluetoothPopup.open = false }

@@ -10,7 +10,6 @@ import "../Modules/Disk"
 BasePopup {
     id: diskPopup
     customWidth: 800
-    ipcTarget: "diskPopup"
     
     onOpenChanged: {
         if (open && sysManager) {

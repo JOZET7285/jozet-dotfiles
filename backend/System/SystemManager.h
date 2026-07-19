@@ -4,8 +4,11 @@
 #include <QtQml/qqml.h>
 
 #include <QNetworkAccessManager>
+#include <QString>
 #include <QNetworkReply>
 #include <QVariantMap>
+#include <pwd.h>
+#include <unistd.h>
 
 #include "Readers/BluetoothReader.h"
 #include "Readers/CpuReader.h"
@@ -30,6 +33,8 @@ class SystemManager : public QObject
     QML_ADDED_IN_MINOR_VERSION(0)
 
     Q_PROPERTY(bool locked READ locked WRITE setLocked NOTIFY lockedChanged)
+    Q_PROPERTY(QString currentUsername READ currentUsername CONSTANT)
+    QString currentUsername() const;
 
     // RAM -----------------------------------------------
     Q_PROPERTY(QVariantMap ramInfo READ ramInfo NOTIFY ramInfoChanged)
@@ -89,6 +94,7 @@ public:
     void setLocked(bool locked);
     Q_INVOKABLE void lockSession();
     Q_INVOKABLE void unlockSession();
+    Q_INVOKABLE QString getWallpaperCachePath(const QString &monitorName);
 
     // RAM -----------------------------------------------
     QVariantMap ramInfo() const;

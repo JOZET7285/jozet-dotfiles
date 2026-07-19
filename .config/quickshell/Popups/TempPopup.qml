@@ -9,7 +9,6 @@ import "../Components/"
 BasePopup {
     id: tempPopup
     customWidth: 300
-    ipcTarget: "tempPopup"
 
     popupContent: Component {
         ColumnLayout {

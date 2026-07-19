@@ -12,6 +12,7 @@ Item{
     property bool animating: false
 
     readonly property int contentWidth: 320
+    property string currentMonitor: modelData.name
 
     width: parent.width
     height: (open || animating) && contentLoader.item ? contentLoader.item.popupHeight : 0    
@@ -30,7 +31,7 @@ Item{
     }
     
     IpcHandler {
-        target: "powerPopup"
+        target: "powerPopup-"+currentMonitor
         function toggle(): void { powerPopup.open = !powerPopup.open }
         function show(): void { powerPopup.open = true }
         function hide(): void { powerPopup.open = false }
@@ -97,7 +98,7 @@ Item{
                                     { label: "Power Off", icon: "\uf011", executable: "/usr/bin/systemctl", args: ["poweroff"], color: "#fca5a5" },
                                     { label: "Reboot", icon: "\uf021", executable: "/usr/bin/systemctl", args: ["reboot"], color: "#fde68a" },
                                     { label: "Suspend", icon: "\uf186", executable: "/usr/bin/systemctl", args: ["suspend"], color: "#93c5fd" },
-                                    { label: "Lock", icon: "\uf023", executable: "/usr/bin/hyprlock", args: [], color: "#a7f3d0" },
+                                    { label: "Lock", icon: "\uf023", executable: "", args: [], color: "#a7f3d0" },
                                     { label: "Log Out", icon: "\uf2f5", executable: "/usr/bin/hyprctl", args: ["dispatch", "hl.dsp.exit()"], color: "#c4b5fd" }
                                 ]
 
@@ -138,13 +139,20 @@ Item{
                                     Timer {
                                         id: holdTimer
                                         interval: 1500
-                                        onTriggered: {
-                                            console.log("Triggered", modelData.label)
+                                         onTriggered: {
                                             if (mouseArea.pressed) {
-                                                Quickshell.execDetached([
-                                                    modelData.executable,
-                                                    ...modelData.args
-                                                ])
+                                                if (modelData.label === "Lock") {
+                                                    sysManager.lockSession()
+                                                } else if (modelData.label === "Suspend") {
+                                                    sysManager.lockSession()
+                                                    Quickshell.execDetached([modelData.executable, ...modelData.args])
+                                                } else {
+                                                    Quickshell.execDetached([
+                                                        modelData.executable,
+                                                        ...modelData.args
+                                                    ])
+                                                }
+                                                powerPopup.open = false
                                             }
                                         }
                                     }

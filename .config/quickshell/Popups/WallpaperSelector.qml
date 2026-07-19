@@ -17,9 +17,11 @@ BasePopupBottom {
         let configHome = Quickshell.env("XDG_CONFIG_HOME") || (Quickshell.env("HOME") + "/.config");
         return "file://" + configHome + "/quickshell/wallpapers";
     }
+    property string currentMonitor: modelData.name
+
     customWidth: 650
     customHeight: 400
-    ipcTarget: "wallpaperSelector"
+    ipcTarget: "wallpaperSelector-" + currentMonitor
 
     Process {
         id: setWallpaper
@@ -67,8 +69,12 @@ BasePopupBottom {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            console.log("cambio de wallpaper " + model.filePath);  
-                            setWallpaper.command = ["awww", "img", model.filePath, "--transition-type", "wipe", "--transition-duration", "1"] 
+                            setWallpaper.command = [
+                                "awww", "img", model.filePath, 
+                                "-o", currentMonitor,
+                                "--transition-type", "wipe", 
+                                "--transition-duration", "1"
+                            ]
                             setWallpaper.running = true
                             
                             wallpaperSelector.open = false 

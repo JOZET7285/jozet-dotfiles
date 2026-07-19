@@ -10,7 +10,8 @@ import "../Modules/Today"
 BasePopup {
     id: todayPopup
     customWidth: 725
-    ipcTarget: "todayPopup"
+    property string currentMonitor: modelData.name
+    ipcTarget: "todayPopup-"+currentMonitor
 
     popupContent: Component {
 

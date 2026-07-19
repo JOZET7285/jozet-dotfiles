@@ -37,7 +37,7 @@ Item {
         appLauncher.open = false
     }
     IpcHandler {
-        target: "appLauncher"
+        target: "appLauncher-"+currentMonitor
         function toggle(): void { appLauncher.open = !appLauncher.open }
         function show(): void { appLauncher.open = true }
         function hide(): void { appLauncher.open = false }
