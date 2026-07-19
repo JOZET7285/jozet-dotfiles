@@ -5,7 +5,6 @@ import Quickshell.Io
 import Quickshell.Wayland
 import "../../Components"
 import "../../Popups"
-import "../Process"
 
 Rectangle {
     id: bluetoothBtn

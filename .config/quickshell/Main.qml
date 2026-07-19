@@ -47,6 +47,7 @@ PanelWindow {
             }
         }   
     }
+
     
     anchors {
         top: true
@@ -80,13 +81,6 @@ PanelWindow {
     HoverHandler { id: hoverPanelWindow } 
 
     MainProcess{ id: mainProcesses }
-
-    SystemManager{ 
-        id: sysManager 
-        Component.onCompleted: {
-            sysManager.scanBluetooth(true)
-        }    
-    }
 
     Timer {
         interval: 2000

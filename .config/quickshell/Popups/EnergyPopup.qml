@@ -12,6 +12,7 @@ Item {
     property bool open: false
     property bool animating: false
     readonly property int contentWidth: 420
+    property string currentMonitor: modelData.name
 
     width: parent ? parent.width : contentWidth
     height: (open || animating) && contentLoader.item ? contentLoader.item.popupHeight : 0    
@@ -29,7 +30,7 @@ Item {
     }
     
     IpcHandler {
-        target: "energyPopup"
+        target: "energyPopup-"+currentMonitor
         function toggle(): void { energyPopup.open = !energyPopup.open }
         function show(): void { energyPopup.open = true }
         function hide(): void { energyPopup.open = false }

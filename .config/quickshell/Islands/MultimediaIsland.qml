@@ -5,7 +5,6 @@ import Quickshell.Io
 import Quickshell.Wayland
 import "../Components"
 import "../Components/Pills"
-import "../Components/Buttons"
 import "../Popups"
 import Jozet.System 1.0
 

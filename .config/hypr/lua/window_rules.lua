@@ -6,3 +6,9 @@ hl.window_rule({
     rounding = 6,
     animation = "popin",
 })
+
+hl.layer_rule({
+    match = "lockscreen",
+    blur = true,
+    ignore_alpha = 0.1,
+})

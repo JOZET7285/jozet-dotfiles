@@ -8,11 +8,11 @@ import "../Components"
 Item {
     id: workspacesPopup
 
-    property string screenName: ""
     property string searchQuery: ""
     property bool open: false
     property bool animating: false
     property string selectedWindowAddress: ""
+    property string screenName: ""
 
     function selectWindow(address) {
         selectedWindowAddress = (selectedWindowAddress === address) ? "" : address
@@ -79,7 +79,7 @@ Item {
         workspacesPopup.open = false
     }
     IpcHandler {
-        target: "workspacesPopup"
+        target: "workspacesPopup-"+currentMonitor
         function toggle(): void { workspacesPopup.open = !workspacesPopup.open }
         function show(): void { workspacesPopup.open = true }
         function hide(): void { workspacesPopup.open = false }

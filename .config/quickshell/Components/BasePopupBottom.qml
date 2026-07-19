@@ -34,6 +34,7 @@ FocusScope {
 
     IpcHandler {
         target: basePopupRoot.ipcTarget
+        enabled: target !== undefined && target !== ""
         function toggle(): void { basePopupRoot.open = !basePopupRoot.open }
         function show(): void { basePopupRoot.open = true }
         function hide(): void { basePopupRoot.open = false }

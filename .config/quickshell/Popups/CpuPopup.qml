@@ -6,7 +6,6 @@ import "../Components/"
 BasePopup {
     id: cpuPopup
     customWidth: 500
-    ipcTarget: "cpuPopup"
 
     popupContent: Component {
         ColumnLayout {

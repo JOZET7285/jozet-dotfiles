@@ -12,6 +12,7 @@ Item {
     property bool open: false
     property bool animating: false
     readonly property int contentWidth: 420
+    property string currentMonitor: modelData.name
 
     property var playbackDevice: sysManager.playbackDeviceInfo
     property var inputDevice: sysManager.inputDeviceInfo
@@ -33,7 +34,7 @@ Item {
     }
     
     IpcHandler {
-        target: "volumePopup"
+        target: "volumePopup-"+currentMonitor
         function toggle(): void { volumePopup.open = !volumePopup.open }
         function show(): void { volumePopup.open = true }
         function hide(): void { volumePopup.open = false }

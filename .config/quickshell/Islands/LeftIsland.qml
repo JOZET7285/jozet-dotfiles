@@ -20,6 +20,7 @@ Rectangle {
         return null
     }
     property var popupOpened: activePopup ? true : false
+    property string currentMonitor: modelData.name
 
     width: (activePopup && (activePopup.open || activePopup.animating))
         ? Math.max(leftRowLayoutId.implicitWidth + 80, activePopup.width)

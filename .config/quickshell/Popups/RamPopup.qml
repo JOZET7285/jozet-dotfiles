@@ -9,7 +9,6 @@ import "../Components/"
 BasePopup {
     id: ramPopup
     customWidth: 500
-    ipcTarget: "ramPopup"
     popupContent: Component {
         ColumnLayout {
             id: mainLayout
