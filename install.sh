@@ -18,7 +18,7 @@ ASSUME_YES=false
 if [[ "${1:-}" == "--yes" ]]; then 
     ASSUME_YES=true
 fi
-# paquetes oficiales (repo), todos disponibles vía pacman/yay
+
 PACMAN_PKGS=(
     hyprland qt6-base qt6-declarative quickshell awww capitaine-cursors
     cmake base-devel git
@@ -29,21 +29,24 @@ PACMAN_PKGS=(
     kitty neovim zsh
     ttf-jetbrains-mono-nerd ttf-firacode-nerd
     starship fastfetch
+    sh-autosuggestions
+    zsh-syntax-highlighting
 )
 
-# mapa "config en el repo" -> "destino en $HOME"
 declare -A LINK_MAP=(
     [".config/hypr"]="$HOME/.config/hypr"
     [".config/quickshell"]="$HOME/.config/quickshell"
     [".config/kitty"]="$HOME/.config/kitty"
     [".config/fastfetch"]="$HOME/.config/fastfetch"
     [".config/nvim"]="$HOME/.config/nvim"
+    [".config/gtk-3.0"]="$HOME/.config/gtk-3.0"
+    [".config/gtk-4.0"]="$HOME/.config/gtk-4.0"
     [".config/starship.toml"]="$HOME/.config/starship.toml"
     ["home/.zshrc"]="$HOME/.zshrc"
 )
 
 # ---------------------------------------------------------------------------
-# Utilidades de salida
+# Output U.
 # ---------------------------------------------------------------------------
 c_info="\033[1;34m"; c_ok="\033[1;32m"; c_warn="\033[1;33m"; c_err="\033[1;31m"; c_off="\033[0m"
 info()  { echo -e "${c_info}==>${c_off} $*"; }
@@ -62,15 +65,15 @@ confirm() {
 }
 
 # ---------------------------------------------------------------------------
-# Checks previos
+# Checks prev.
 # ---------------------------------------------------------------------------
 check_arch() {
-    command -v pacman >/dev/null 2>&1 || die "Esto es para Arch Linux (o derivada) — no se encontró pacman."
+    command -v pacman >/dev/null 2>&1 || die "This rice is only for Arch Linux or distributions based on it."
 }
 
 check_not_root() {
     if [[ "$EUID" -eq 0 ]]; then 
-        die "No corras este script como root. Usa tu usuario normal (pedirá sudo cuando lo necesite)."
+        die "Do not run this script as the root user. Use your normal user account."
     fi
 }
 
@@ -79,60 +82,58 @@ ensure_yay() {
         ok "yay ya está instalado"
         return
     fi
-    info "yay no está instalado, lo instalo desde AUR..."
+    info "yay is not installed; it will be installed automatically."
     sudo pacman -S --needed --noconfirm base-devel git
     local tmp
     tmp="$(mktemp -d)"
     git clone --depth 1 https://aur.archlinux.org/yay.git "$tmp/yay"
     (cd "$tmp/yay" && makepkg -si --noconfirm)
     rm -rf "$tmp"
-    ok "yay instalado"
+    ok "yay installed"
 }
 
 # ---------------------------------------------------------------------------
-# Instalación de paquetes
+# Packages installation
 # ---------------------------------------------------------------------------
 install_packages() {
-    info "Instalando paquetes oficiales..."
+    info "Installing official packages..."
     yay -S --needed --noconfirm "${PACMAN_PKGS[@]}" \
-        || die "Falló la instalación de paquetes oficiales"
-    ok "Paquetes oficiales instalados"
+        || die "falla la instalacion de paquetes oficiales"
+    ok "Official packages installed."
 
-    info "Instalando paquetes de AUR..."
+    info "installing packages from the AUR..."
     yay -S --needed --noconfirm "${AUR_PKGS[@]}" \
-        || die "Falló la instalación de paquetes AUR"
-    ok "Paquetes AUR instalados"
+        || die "AUR package installation failed."
+    ok "AUR packages installed."
 }
 
 # ---------------------------------------------------------------------------
-# Symlinks con backup
+# Symlinks with backup
 # ---------------------------------------------------------------------------
 link_configs() {
-    info "Enlazando configuraciones..."
+    info "Linking configurations..."
     mkdir -p "$HOME/.config"
 
     for src_rel in "${!LINK_MAP[@]}"; do
         local src="$REPO_DIR/$src_rel"
         local dst="${LINK_MAP[$src_rel]}"
 
-        [[ -e "$src" ]] || { warn "No existe $src, se salta"; continue; }
+        [[ -e "$src" ]] || { warn "$src does not exist, skipping..."; continue; }
 
-        # ya enlazado correctamente -> nada que hacer
         if [[ -L "$dst" && "$(readlink -f "$dst")" == "$(readlink -f "$src")" ]]; then
-            ok "$dst ya apunta a $src"
+            ok "$dst points to $src"
             continue
         fi
 
-        # si existe algo (archivo, carpeta o symlink viejo) lo respaldamos
         if [[ -e "$dst" || -L "$dst" ]]; then
             mkdir -p "$(dirname "$BACKUP_DIR/$src_rel")"
             mv "$dst" "$BACKUP_DIR/$src_rel"
-            warn "Backup de $dst -> $BACKUP_DIR/$src_rel"
+            warn "Backup: $dst -> $BACKUP_DIR/$src_rel"
         fi
 
         mkdir -p "$(dirname "$dst")"
         ln -s "$src" "$dst"
-        ok "Enlazado $dst -> $src"
+        ok "Linking $dst -> $src"
     done
 }
 
@@ -140,45 +141,42 @@ link_configs() {
 # Backend Qt (JozetPlugin)
 # ---------------------------------------------------------------------------
 build_backend() {
-    info "Compilando el plugin de Qt (backend)..."
+    info "Compiling plugin of Qt (backend)..."
     cmake -S "$REPO_DIR/backend" -B "$REPO_DIR/backend/build" -DCMAKE_BUILD_TYPE=Release \
-        || die "cmake falló al configurar el backend"
+        || die "CMake failed to configure the backend."
     cmake --build "$REPO_DIR/backend/build" -j"$(nproc)" \
-        || die "Falló la compilación del backend"
-    ok "Backend compilado en $REPO_DIR/backend/build"
+        || die "The backend compilation failed."
+    ok "Backend compiled in $REPO_DIR/backend/build"
 }
 
-# ---------------------------------------------------------------------------
-# Corrige la ruta hardcodeada de QML2_IMPORT_PATH en inicializar.lua
-# ---------------------------------------------------------------------------
 fix_import_path() {
     local target="$HOME/.config/hypr/lua/inicializar.lua"
     local build_path="$REPO_DIR/backend/build"
 
-    [[ -f "$target" ]] || { warn "No encontré $target, se salta el ajuste de ruta"; return; }
+    [[ -f "$target" ]] || { warn "$target not found, skipping route fix..."; return; }
 
     if grep -q "QML2_IMPORT_PATH=$build_path" "$target"; then
-        ok "inicializar.lua ya apunta a la ruta correcta"
+        ok "The initializer already points to the correct dir."
         return
     fi
 
-    info "Ajustando QML2_IMPORT_PATH en inicializar.lua a tu ruta real..."
+    info "Adjusting QML2_IMPORT_PATH in inicializar.lua..."
     sed -i -E "s#QML2_IMPORT_PATH=[^ ]+#QML2_IMPORT_PATH=${build_path}#" "$target"
     ok "QML2_IMPORT_PATH -> $build_path"
 }
 
 # ---------------------------------------------------------------------------
-# Servicios del sistema
+# System Services
 # ---------------------------------------------------------------------------
 setup_services() {
-    info "Habilitando servicios..."
+    info "Enabling services..."
     systemctl --user enable --now pipewire pipewire-pulse wireplumber 2>/dev/null \
-        || warn "No se pudieron habilitar los servicios de pipewire (¿ya están activos?)"
+        || warn "The PipeWire services could not be enabled. (Are they already active?)"
     sudo systemctl enable --now NetworkManager \
-        || warn "No se pudo habilitar NetworkManager"
+        || warn "NetworkManager could not be enabled."
     sudo systemctl enable --now bluetooth \
-        || warn "No se pudo habilitar bluetooth"
-    ok "Servicios configurados"
+        || warn "Bluetooth could not be enabled."
+    ok "configured services"
 }
 
 # ---------------------------------------------------------------------------
@@ -189,12 +187,12 @@ main() {
     check_not_root
 
     echo "=================================================="
-    echo " jozet-dotfiles — instalador"
+    echo " jozet-dotfiles — installer"
     echo " Repo:    $REPO_DIR"
-    echo " Backups: $BACKUP_DIR (solo si hace falta)"
+    echo " Backups: $BACKUP_DIR "
     echo "=================================================="
 
-    confirm "¿Continuar con la instalación?" || die "Cancelado por el usuario."
+    confirm "Continue with the installation?" || die "cancelled by the user."
 
     ensure_yay
     install_packages
@@ -204,8 +202,8 @@ main() {
     setup_services
 
     echo
-    ok "¡Listo! Cierra sesión y entra a Hyprland desde tu display manager."
-    warn "Si algo se veía distinto antes, tus configs viejas quedaron en: $BACKUP_DIR"
+    ok "Your rice is ready! Log out and enter Hyprland from your display manager to enjoy it.."
+    warn "Your settings were not deleted; they were saved in: $BACKUP_DIR"
 }
 
 main "$@"
