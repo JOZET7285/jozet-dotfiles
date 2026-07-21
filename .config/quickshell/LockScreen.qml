@@ -78,24 +78,27 @@ PanelWindow {
 
     color: Qt.rgba(0, 0, 0, 0.5)
     Item {
+        id: mainLockContent
         anchors.fill: parent
+        opacity: 0
         Rectangle {
             id: centralDiv
             width: parent.width * 0.7
             height: parent.height * 0.7
             anchors.centerIn: parent
             color: "#1a1a1a"
-            radius: 100
+            radius: 75
             clip: true
 
             Rectangle {
                 id: leftDiv
-                width: parent.width * 0.25
+                width: parent.width * 0.2
                 height: parent.height * 0.35
                 anchors.verticalCenter: parent.verticalCenter
-                x: -width * 0.3 
+                anchors.left: parent.left
                 color: "#2b2b2b"
-                radius: 100
+                bottomRightRadius: 50
+                topRightRadius: 50
                 z: 10   
 
                 ColumnLayout {
@@ -202,12 +205,13 @@ PanelWindow {
 
             Rectangle {
                 id: rightDiv
-                width: parent.width * 0.25
+                width: parent.width * 0.2
                 height: parent.height * 0.35
                 anchors.verticalCenter: parent.verticalCenter
-                x: parent.width - (width * 0.7)
+                anchors.right: parent.right
                 color: "#2b2b2b"
-                radius: 100
+                topLeftRadius: 50
+                bottomLeftRadius: 50
                 z: 10 
 
                 ColumnLayout {
@@ -315,6 +319,7 @@ PanelWindow {
                     color: "white"
                     Layout.preferredWidth: 250
                     Layout.alignment: Qt.AlignHCenter
+                    focus: true
                     background: Rectangle {
                         color: "#2b2b2b"
                         radius: 10
@@ -346,5 +351,70 @@ PanelWindow {
                 }
             }
         }
+    }
+
+    Item {
+        id: animationOverlay
+        anchors.fill: parent
+        z: 999
+
+        Rectangle {
+            id: leftDoor
+            width: parent.width / 2
+            height: parent.height
+            color: "#1a1a1a"
+            x: -width
+        }
+
+        Rectangle {
+            id: rightDoor
+            width: parent.width / 2
+            height: parent.height
+            color: "#1a1a1a"
+            x: parent.width
+        }
+    }
+
+    SequentialAnimation {
+        running: true
+        
+        ParallelAnimation {
+            NumberAnimation {
+                target: leftDoor
+                property: "x"
+                to: 0
+                duration: 350
+                easing.type: Easing.OutQuint
+            }
+            NumberAnimation {
+                target: rightDoor
+                property: "x"
+                to: lockWindow.width / 2
+                duration: 350
+                easing.type: Easing.OutQuint
+            }
+        }
+        PropertyAction { target: mainLockContent; property: "opacity"; value: 1 }
+        
+        PauseAnimation { duration: 200 }
+
+        ParallelAnimation {
+            NumberAnimation {
+                target: leftDoor
+                property: "x"
+                to: -lockWindow.width / 2
+                duration: 450
+                easing.type: Easing.InOutCubic
+            }
+            NumberAnimation {
+                target: rightDoor
+                property: "x"
+                to: lockWindow.width
+                duration: 450
+                easing.type: Easing.InOutCubic
+            }
+        }
+        
+        PropertyAction { target: animationOverlay; property: "visible"; value: false }
     }
 }

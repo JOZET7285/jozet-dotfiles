@@ -42,6 +42,12 @@ qt6_add_qml_module(JozetPlugin
         System/Readers/HyprlandReader.h
         System/Readers/PamAuthenticator.cpp
         System/Readers/PamAuthenticator.h
+        System/Readers/UdisksReader.cpp
+        System/Readers/UdisksReader.h
+        System/Readers/SettingsReader.cpp
+        System/Readers/SettingsReader.h
+        System/Readers/FastfetchReader.cpp
+        System/Readers/FastfetchReader.h
 )
 target_include_directories(JozetPlugin PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}

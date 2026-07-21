@@ -7,6 +7,7 @@ import "Components"
 import "Popups"
 import "Process"
 import "Islands"
+import "Settings"
 import Jozet.System 1.0
 
 PanelWindow {
@@ -70,6 +71,7 @@ PanelWindow {
         Region { item: (todayPopup.open || todayPopup.animating) ? todayPopup : null }
         Region { item: (agendPopup.open || agendPopup.animating) ? agendPopup : null }
         Region { item: (eventPopup.open || eventPopup.animating) ? eventPopup : null }
+        Region { item: (settingsPopup.open || settingsPopup.animating) ? settingsPopup : null }
     }
     color: "transparent"
 
@@ -81,6 +83,29 @@ PanelWindow {
     HoverHandler { id: hoverPanelWindow } 
 
     MainProcess{ id: mainProcesses }
+
+    Process {
+        id: applyWallpaper
+    }
+    Timer {
+        id: wallpaperTimer
+        interval: 3000
+        running: true
+        repeat: false
+        onTriggered: {
+            var path = sysManager.getSetting("theme.wallpaper_path");
+            if (path && path !== "") {
+                var monitor = modelData.name || "eDP-1";
+                applyWallpaper.command = [
+                    "awww", "img", path,
+                    "-o", monitor,
+                    "--transition-type", "wipe",
+                    "--transition-duration", "1"
+                ];
+                applyWallpaper.running = true;
+            }
+        }
+    }
 
     Timer {
         interval: 2000
@@ -145,6 +170,11 @@ PanelWindow {
             }
             TodayPopup {
                 id: todayPopup
+                anchors.horizontalCenter: parent.horizontalCenter
+                onOpenChanged: rootUISys.closeOtherPopups(this)
+            }
+            SettingsPopup {
+                id: settingsPopup
                 anchors.horizontalCenter: parent.horizontalCenter
                 onOpenChanged: rootUISys.closeOtherPopups(this)
             }

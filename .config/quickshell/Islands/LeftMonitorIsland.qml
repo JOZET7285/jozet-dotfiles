@@ -43,7 +43,7 @@ Rectangle {
         BasePillSimple {
             id: ramUsagePill
             icon: "\uf233"
-            text: (sysManager.ramInfo.usagePercent || 0) + "%"
+            text: (sysManager.ramInfo.usagePercent.toFixed(1) || 0) + "%"
             color_text: {
                 if (sysManager.ramInfo.usagePercent < 25) return Theme.color_b
                 if (sysManager.ramInfo.usagePercent < 50) return Theme.color_y
@@ -55,7 +55,7 @@ Rectangle {
         BasePillSimple {
             id: diskUsagePill
             icon: "\uf0a0" 
-            text: sysManager.diskUsage + "%"
+            text: sysManager.diskUsage.toFixed(1) + "%"
             color_text: {
                 if (sysManager.diskUsage < 25) return Theme.color_b
                 if (sysManager.diskUsage < 50) return Theme.color_y
