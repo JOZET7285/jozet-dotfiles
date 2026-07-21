@@ -56,7 +56,7 @@ Item {
 
     readonly property int contentWidth: 370
     width: contentWidth
-    height: 700
+    height: sysManager.workspaces.length < 2 ? 300 : sysManager.workspaces.length < 3 ? 530 : 760
     anchors.top: leftLand.bottom
     anchors.left: leftLand.left
     anchors.leftMargin: 1
@@ -65,9 +65,8 @@ Item {
 
     onOpenChanged: { 
         if (open) {
-            searchQuery = "";
             selectedWindowAddress = "";
-            contentLoader.active = true;
+            contentLoader.active = true; 
         } else {
             if(contentLoader.item){
                 contentLoader.item.startCloseAnimation();
@@ -118,7 +117,11 @@ Item {
                 Rectangle {
                     id: container
                     width: parent.width
-                    height: 690
+                    height: {
+                        if(sysManager.workspaces.length < 2) return 225
+                        if(sysManager.workspaces.length < 3) return 460
+                        else return 695
+                    }
                     topLeftRadius: 0
                     topRightRadius: 0
                     bottomLeftRadius: Theme.radius
@@ -132,11 +135,16 @@ Item {
                         anchors.margins: 10
                         ColumnLayout {
                             anchors.fill: parent
-                            spacing: 15
+                            spacing: 10
 
                             ScrollView {
-                                Layout.fillWidth: true
-                                Layout.preferredHeight: 600
+                                Layout.fillWidth: false
+                                Layout.preferredWidth: 350
+                                Layout.preferredHeight: {
+                                    if(sysManager.workspaces.length < 2) return 220
+                                    if(sysManager.workspaces.length < 3) return 455
+                                    else return 690
+                                }
                                 clip: true
 
                                 ListView {
@@ -227,8 +235,8 @@ Item {
                                     model: 9 
                                     
                                     delegate: Item {
-                                        width: 50
-                                        height: 50
+                                        width: 40
+                                        height: 40
 
                                         visible: !(workspacesPopup.workspaceAppCounts[index + 1] > 0)
 

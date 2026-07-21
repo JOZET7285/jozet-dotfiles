@@ -23,6 +23,9 @@
 #include "Readers/EventsReader.h"
 #include "Readers/HyprlandReader.h"
 #include "Readers/PamAuthenticator.h"
+#include "Readers/UdisksReader.h"
+#include "Readers/SettingsReader.h"
+#include "Readers/FastfetchReader.h"
 
 namespace jozet {
 
@@ -86,6 +89,15 @@ class SystemManager : public QObject
 
     // WORKSPACES ------------------------------------------------
     Q_PROPERTY(QVariantList workspaces READ workspaces NOTIFY workspacesChanged)
+
+    // USB -------------------------------------------------------
+    Q_PROPERTY(QVariantList usbDevices READ usbDevices NOTIFY usbDevicesChanged)
+
+    // SETTINGS --------------------------------------------------
+    Q_PROPERTY(QVariantMap riceSettings READ riceSettings NOTIFY riceSettingsChanged)
+
+    // SYSTEM INFO -----------------------------------------------
+    Q_PROPERTY(QVariantMap systemInfo READ systemInfo NOTIFY systemInfoChanged)
 
 public:
     explicit SystemManager(QObject *parent = nullptr);
@@ -183,6 +195,24 @@ public:
     
     Q_INVOKABLE void refreshWorkspaces();
 
+    // USB -------------------------------------------------------
+    QVariantList usbDevices() const { return m_udisksReader.devices(); }
+
+    Q_INVOKABLE void refreshUsbDevices();
+    Q_INVOKABLE void mountUsbDevice(const QString &path);
+    Q_INVOKABLE void unmountUsbDevice(const QString &path);
+
+    // SETTINGS --------------------------------------------------
+    QVariantMap riceSettings() const { return m_settingsReader.settings(); }
+
+    Q_INVOKABLE QVariant getSetting(const QString &key) const;
+    Q_INVOKABLE void setSetting(const QString &key, const QVariant &value);
+    Q_INVOKABLE void resetSettings();
+
+    // SYSTEM INFO -----------------------------------------------
+    QVariantMap systemInfo() const { return m_fastfetchReader.systemInfo(); }
+    Q_INVOKABLE void refreshSystemInfo();
+
 signals:
     void ramInfoChanged();
     void topRamProcessesChanged();
@@ -205,6 +235,9 @@ signals:
     void todayDataChanged();
     void workspacesChanged();
     void lockedChanged();
+    void usbDevicesChanged();
+    void riceSettingsChanged();
+    void systemInfoChanged();
 
 private slots:
     void update();
@@ -222,6 +255,9 @@ private:
     BluetoothReader m_bluetoothReader;
     VolumeReader m_volumeReader;
     HyprlandReader m_hyprlandReader;
+    UdisksReader m_udisksReader;
+    SettingsReader m_settingsReader;
+    FastfetchReader m_fastfetchReader;
     QVariantList m_workspaces;
     bool m_locked = false;
 

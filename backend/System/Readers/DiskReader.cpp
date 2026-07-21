@@ -8,6 +8,7 @@
 #include <QRegularExpression>
 #include <algorithm>
 #include <QProcess>
+#include <QDebug>
 
 namespace jozet {
 
@@ -30,7 +31,7 @@ qint64 DiskReader::calculateDirSize(const QString &path) {
 
     QProcess process;
     process.start("du", {"-s", "--block-size=1M", path});
-    process.waitForFinished(1500); // 1.5 segundos máximo
+    process.waitForFinished(1500);
 
     if (process.exitCode() == 0) {
         QString output = process.readAllStandardOutput().trimmed();
@@ -41,16 +42,18 @@ qint64 DiskReader::calculateDirSize(const QString &path) {
 
 QVariantList DiskReader::getHomeFoldersUsage() {
     QVariantList list;
-    QString home = QDir::homePath();
-    QStringList dirs {"Downloads", "Documents", "Pictures", "Videos", "Music", ".config", ".local"};
+    QDir home(QDir::homePath());
+    const QFileInfoList dirs = home.entryInfoList(QDir::Dirs | QDir::Hidden | QDir::NoDotAndDotDot);
 
-    for (const QString &d : dirs) {
-        QString path = home + "/" + d;
-        if (!QDir(path).exists()) continue;
+    for (const QFileInfo &fi : dirs) {
+        if (fi.fileName().startsWith('.') &&
+            fi.fileName() != ".config" &&
+            fi.fileName() != ".local")
+            continue;
 
-        qint64 bytes = calculateDirSize(path);
+        qint64 bytes = calculateDirSize(fi.absoluteFilePath());
         QVariantMap item;
-        item["name"] = d;
+        item["name"] = fi.fileName();
         item["sizeMb"] = std::round(bytes / (1024.0 * 1024.0) * 10.0) / 10.0;
         list.append(item);
     }
@@ -67,7 +70,7 @@ QVariantList DiskReader::getPartitionsStatus() {
     for (const QStorageInfo &storage : QStorageInfo::mountedVolumes()) {
         if (storage.isValid() && storage.isReady()) {
             QString path = storage.rootPath();
-            if (path == "/" || path == "/home" || path.startsWith("/run/media")) {
+            if (path == "/" || path == "/home") {
                 qint64 total = storage.bytesTotal();
                 qint64 available = storage.bytesAvailable();
                 

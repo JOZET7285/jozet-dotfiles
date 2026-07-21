@@ -21,6 +21,7 @@ Item {
         id: folderListView
         anchors.fill: parent
         anchors.topMargin: 20
+        anchors.rightMargin: 8
         model: sysManager.homeFoldersUsage
         clip: true
 
@@ -59,6 +60,24 @@ Item {
                     font.bold: true
                     font.pixelSize: 12
                 }
+            }
+        }
+
+        ScrollBar.vertical: ScrollBar {
+            policy: folderListView.contentHeight > folderListView.height
+                    ? ScrollBar.AsNeeded
+                    : ScrollBar.AlwaysOff
+            width: 6
+            contentItem: Rectangle {
+                implicitWidth: 6
+                implicitHeight: 10
+                radius: 3
+                color: parent.pressed ? Theme.color_3 : Theme.text_color
+                opacity: folderListView.contentHeight > folderListView.height ? 0.5 : 0
+            }
+            background: Rectangle {
+                color: Theme.color_1
+                radius: 3
             }
         }
     }
