@@ -1,0 +1,70 @@
+{
+  "system": {
+    "keyboard_layout": "latam",
+    "timezone": "America/Mexico_City",
+    "clock_24h": true
+  },
+  "connections": {
+    "network": {
+      "network": {
+        "enabled": true,
+        "wifi": "",
+        "ethernet": "",
+        "airplane_mode": false
+      },
+      "access_point": {
+        "enabled": false,
+        "interface": "",
+        "network_name": "",
+        "password": "",
+        "security": true
+      }
+    },
+    "bluetooth": {
+      "enabled": true,
+      "discoverable": false
+    }
+  },
+  "energy": {
+    "active_profile": "balanced",
+    "profiles": {
+      "saver": {
+        "brightness": 60,
+        "screen_timeout_min": 4,
+        "suspend_timeout_min": 10
+      },
+      "balanced": {
+        "brightness": 80,
+        "screen_timeout_min": 5,
+        "suspend_timeout_min": 15
+      },
+      "perform": {
+        "brightness": 100,
+        "screen_timeout_min": 8,
+        "suspend_timeout_min": 20
+      }
+    }
+  },
+  "display": {
+    "lockscreen": {
+      "blur": true,
+      "timeout_min": 5,
+      "notifications": false
+    },
+    "notifications": {
+      "do_not_disturb": false
+    }
+  },
+  "theme": {
+    "mode": "dark",
+    "accent_color": "#89b4fa",
+    "wallpaper_path": "~/Pictures/wallpaper.png",
+    "font": "JetBrains Mono",
+    "hyprland": {
+      "gaps_in": 5,
+      "gaps_out": 10,
+      "border_radius": 8,
+      "border_size": 2
+    }
+  }
+}

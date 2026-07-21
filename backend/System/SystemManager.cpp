@@ -39,6 +39,18 @@ SystemManager::SystemManager(QObject *parent) : QObject(parent)
     connect(m_networkManager, &QNetworkAccessManager::finished, this, &SystemManager::handleNetworkReply);
     connect(&m_bluetoothReader, &BluetoothReader::devicesChanged, this, [this]() { emit bluetoothChanged(); });
     connect(&m_volumeReader, &VolumeReader::dataUpdated, this, [this]() { emit volumeChanged(); });
+    connect(&m_hyprlandReader, &HyprlandReader::workspacesShouldRefresh, this, [this]() {
+        refreshWorkspaces();
+    });
+    connect(&m_udisksReader, &UdisksReader::devicesChanged, this, [this]() {
+        emit usbDevicesChanged();
+    });
+    connect(&m_settingsReader, &SettingsReader::settingsChanged, this, [this]() {
+        emit riceSettingsChanged();
+    });
+    connect(&m_fastfetchReader, &FastfetchReader::systemInfoChanged, this, [this]() {
+        emit systemInfoChanged();
+    });
 
     m_volumeReader.startEventListener([](){});
     m_bluetoothReader.updateDevices();
@@ -169,8 +181,12 @@ void SystemManager::refreshDiskStats()
                 m_diskHealthAndIO = tempIO;
                 m_maintenanceInfo = tempMaint;
 
-                if (!tempPartitions.isEmpty()) {
-                    m_diskUsage = tempPartitions[0].toMap()["percent"].toDouble();
+                for (const QVariant &p : std::as_const(tempPartitions)) {
+                    QVariantMap map = p.toMap();
+                    if (map["path"].toString() == "/home") {
+                        m_diskUsage = map["percent"].toDouble();
+                        break;
+                    }
                 }
 
                 emit diskUsageChanged();
@@ -555,6 +571,40 @@ void SystemManager::refreshWorkspaces() {
             emit workspacesChanged();
         }
     });
+}
+
+// USB
+// ------------------------------------------------------------
+void SystemManager::refreshUsbDevices() {
+    m_udisksReader.refreshDevices();
+}
+
+void SystemManager::mountUsbDevice(const QString &path) {
+    m_udisksReader.mountDevice(path);
+}
+
+void SystemManager::unmountUsbDevice(const QString &path) {
+    m_udisksReader.unmountDevice(path);
+}
+
+// Settings
+// ------------------------------------------------------------
+QVariant SystemManager::getSetting(const QString &key) const {
+    return m_settingsReader.get(key);
+}
+
+void SystemManager::setSetting(const QString &key, const QVariant &value) {
+    m_settingsReader.set(key, value);
+}
+
+void SystemManager::resetSettings() {
+    m_settingsReader.reset();
+}
+
+// System Info
+// ------------------------------------------------------------
+void SystemManager::refreshSystemInfo() {
+    m_fastfetchReader.refresh();
 }
 
 // Update

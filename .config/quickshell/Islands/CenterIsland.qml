@@ -30,7 +30,7 @@ Rectangle {
             rightMargin: 15 * scaleFactor
         }
         Rectangle {
-            Layout.preferredWidth: pillTodayMa.containsMouse ? (190 * scaleFactor) : (170 * scaleFactor) 
+            Layout.preferredWidth: pillTodayMa.containsMouse ? 175 : 150 
             Layout.preferredHeight: 29 * scaleFactor
             color: pillTodayMa.containsMouse ? Theme.color_1 : "transparent"
             radius: 8 * scaleFactor

@@ -76,6 +76,8 @@ BasePopupBottom {
                                 "--transition-duration", "1"
                             ]
                             setWallpaper.running = true
+
+                            sysManager.setSetting("theme.wallpaper_path", model.filePath)
                             
                             wallpaperSelector.open = false 
                         }

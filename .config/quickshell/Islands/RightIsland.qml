@@ -47,10 +47,16 @@ Rectangle {
 
     anchors { 
         right: parent.right 
+        rightMargin: -2
     }
+    y: -2
     color: Theme.color_1_solid
-    bottomLeftRadius: 38
+    bottomLeftRadius: popupOpened ? 10 : 38
+    border.color: popupOpened ? Theme.color_2 : Theme.color_1
+    border.width: 2
     clip: true
+
+    Behavior on border.color { ColorAnimation { duration: 250; easing.type: Easing.OutCubic } }
 
     RowLayout {
         id: rightRowLayoutId

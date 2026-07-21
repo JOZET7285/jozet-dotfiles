@@ -7,6 +7,7 @@ import "../Components"
 import "../Popups"
 import "../Process"
 import "../Modules/Panel"
+import "../Settings"
 import Jozet.System 1.0
 
 Rectangle {
@@ -30,9 +31,13 @@ Rectangle {
         : 38) * scaleFactor
     anchors {
         left: parent.left
+        leftMargin: -2
     }
+    y: -2
     color: Theme.color_1_solid
-    bottomRightRadius: 38
+    bottomRightRadius: popupOpened ? 10 : 38
+    border.color: popupOpened ? Theme.color_2 : Theme.color_1
+    border.width: 2
     clip: true
     property alias appLauncherOpen: appLauncher.open
     
@@ -110,6 +115,7 @@ Rectangle {
                 hoverEnabled: true
                 onClicked: {
                     appLauncher.open = false
+                    settingsPopup.open = false
                     workspacesPopup.open = !workspacesPopup.open    
                 }
                 cursorShape: Qt.poitingHandCursor
