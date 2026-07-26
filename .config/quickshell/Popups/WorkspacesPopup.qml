@@ -155,7 +155,7 @@ Item {
                                     
                                     delegate: Item {
                                         width: ListView.view.width
-                                        height: 220
+                                        height: workspaceRepresent.height + 50
 
                                         MouseArea {
                                             anchors.fill: parent
@@ -175,17 +175,23 @@ Item {
                                                 spacing: 8
 
                                                 Text { 
-                                                    text: "Workspace " + modelData.id
+                                                    text: "Workspace " + modelData.id 
                                                     color: Theme.text_color
                                                     font.bold: true
                                                     font.pixelSize: 14 
                                                 }
 
                                                 Rectangle {
-                                                    width: 300
-                                                    height: 169
+                                                    id: workspaceRepresent
+                                                    width: 300        
+                                                    height: 300 * (modelData.monitor.height / modelData.monitor.width)
                                                     anchors.horizontalCenter: parent.horizontalCenter
                                                     color: Theme.color_3
+                                                    clip: true
+
+                                                    readonly property real wsScaleFactor: 300 / modelData.monitor.width
+                                                    readonly property int wsMonitorX: modelData.monitor.x
+                                                    readonly property int wsMonitorY: modelData.monitor.y
 
                                                     Repeater {
                                                         model: modelData.apps
@@ -194,10 +200,11 @@ Item {
                                                             radius: 8
                                                             z: isSelected ? 100 : 0
 
-                                                            x: (modelData.x * 300) / 1920
-                                                            y: (modelData.y * 169) / 1080
-                                                            width: (modelData.w * 300) / 1920
-                                                            height: (modelData.h * 169) / 1080
+                                                            x: (modelData.x - workspaceRepresent.wsMonitorX) * workspaceRepresent.wsScaleFactor
+                                                            y: (modelData.y - workspaceRepresent.wsMonitorY) * workspaceRepresent.wsScaleFactor
+                                                            
+                                                            width: modelData.w * workspaceRepresent.wsScaleFactor
+                                                            height: modelData.h * workspaceRepresent.wsScaleFactor
 
                                                             property string windowAddress: modelData.address
                                                             property bool isSelected: workspacesPopup.selectedWindowAddress === windowAddress
