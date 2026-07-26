@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -32,6 +33,10 @@ BasePopupBottom {
                 background: Rectangle {
                     color: Theme.color_1
                     radius: 5
+                    border {
+                        color: Theme.text_color
+                        width: 1
+                    }
                 }
                 
                 onAccepted: {
@@ -59,13 +64,13 @@ BasePopupBottom {
                     Layout.preferredHeight: 30
                     color: "transparent"
                     radius: 5
-                    border.color: Theme.light_3
+                    border.color: Theme.text_color
                     border.width: 1
                     
                     Text {
                         anchors.centerIn: parent
-                        text: "Cancelar"
-                        color: Theme.light_3
+                        text: "Cancel"
+                        color: Theme.text_color
                         font.pixelSize: 13
                     }
                     
@@ -86,8 +91,8 @@ BasePopupBottom {
                     
                     Text {
                         anchors.centerIn: parent
-                        text: "Guardar"
-                        color: Theme.color_2
+                        text: "Save"
+                        color: Theme.dark_1_solid
                         font.pixelSize: 13
                         font.bold: true
                     }
@@ -105,7 +110,7 @@ BasePopupBottom {
     }
     function saveTask(taskText) {
         if (taskText !== "") {
-            sysManager.addAgendaTask(taskText);
+            SystemManager.addAgendaTask(taskText);
             agendPopup.open = false;
         }
     }

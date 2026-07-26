@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -15,7 +16,7 @@ BasePopup {
             id: mainLayout
             spacing: 15
             Repeater {
-                model: (sysManager.sensorTemperatures || []).slice(0, 5)
+                model: (SystemManager.sensorTemperatures || []).slice(0, 5)
 
                 RowLayout {
                     Layout.fillWidth: true

@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -44,7 +45,7 @@ Rectangle {
             from: 0
             to: 100
             value: inputDevice ? inputDevice.volume : 0
-            onMoved: sysManager.setPlaybackVolume(Math.round(value))
+            onMoved: SystemManager.setPlaybackVolume(Math.round(value))
 
             background: Rectangle {
                 implicitWidth: 200
@@ -57,7 +58,7 @@ Rectangle {
                 Rectangle {
                     width: volumeSlider.visualPosition * parent.width
                     height: parent.height
-                    color: Theme.color_y
+                    color: Theme.color_y_text
                     radius: 8
                 }
             }

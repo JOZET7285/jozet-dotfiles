@@ -92,7 +92,7 @@ BasePopup {
                             Text {
                                 text: rootUISys.currentDate
                                 font.pixelSize: 12
-                                color: Theme.light_2
+                                color: Theme.text_color_secondary
                             }
                         }
                         Rectangle {
@@ -115,7 +115,7 @@ BasePopup {
                                         text: modelData
                                         horizontalAlignment: Text.AlignHCenter
                                         font.bold: true
-                                        color: Theme.light_2
+                                        color: Theme.text_color
                                     }
                                 }
                             }
@@ -135,7 +135,7 @@ BasePopup {
                                 Rectangle {
                                     Layout.fillWidth: true
                                     Layout.preferredHeight: 20
-                                    color: model.isToday ? Theme.color_b : "transparent"
+                                    color: model.isToday ? Theme.color_a_text : "transparent"
                                     radius: 5
                                     Text {
                                         anchors.centerIn: parent

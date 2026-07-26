@@ -209,6 +209,36 @@ QVariantList VolumeReader::playingApplications() const {
     return list;
 }
 
+QVariantList VolumeReader::allPlaybackDevices() const {
+    QVariantList list;
+    for (const auto &d : m_playbackDevices) {
+        list.append(QVariantMap{
+            {"name", d.name},
+            {"description", d.description},
+            {"volume", d.volume},
+            {"isMuted", d.isMuted},
+            {"isDefault", d.isDefault},
+            {"index", (int)d.index}
+        });
+    }
+    return list;
+}
+
+QVariantList VolumeReader::allInputDevices() const {
+    QVariantList list;
+    for (const auto &d : m_inputDevices) {
+        list.append(QVariantMap{
+            {"name", d.name},
+            {"description", d.description},
+            {"volume", d.volume},
+            {"isMuted", d.isMuted},
+            {"isDefault", d.isDefault},
+            {"index", (int)d.index}
+        });
+    }
+    return list;
+}
+
 void VolumeReader::setPlaybackVolume(int volume) {
     volume = std::clamp(volume, 0, 150);
     QProcess::startDetached("pactl", {"set-sink-volume", "@DEFAULT_SINK@", QString::number(volume) + "%"});
@@ -220,6 +250,20 @@ void VolumeReader::setInputVolume(int volume) {
 void VolumeReader::setApplicationVolume(uint32_t pid, int volume) {
     volume = std::clamp(volume, 0, 150);
     QProcess::startDetached("pactl", {"set-sink-input-volume", QString::number(pid), QString::number(volume) + "%"});
+}
+void VolumeReader::setDeviceVolume(uint32_t index, int volume) {
+    volume = std::clamp(volume, 0, 150);
+    QProcess::startDetached("pactl", {"set-sink-volume", QString::number(index), QString::number(volume) + "%"});
+}
+void VolumeReader::setDeviceMuted(uint32_t index, bool muted) {
+    QProcess::startDetached("pactl", {"set-sink-mute", QString::number(index), muted ? "1" : "0"});
+}
+void VolumeReader::setSourceDeviceVolume(uint32_t index, int volume) {
+    volume = std::clamp(volume, 0, 100);
+    QProcess::startDetached("pactl", {"set-source-volume", QString::number(index), QString::number(volume) + "%"});
+}
+void VolumeReader::setSourceDeviceMuted(uint32_t index, bool muted) {
+    QProcess::startDetached("pactl", {"set-source-mute", QString::number(index), muted ? "1" : "0"});
 }
 void VolumeReader::setPlaybackMuted(bool muted) {
     QProcess::startDetached("pactl", {"set-sink-mute", "@DEFAULT_SINK@", muted ? "1" : "0"});

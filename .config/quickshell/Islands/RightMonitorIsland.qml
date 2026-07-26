@@ -26,8 +26,9 @@ Rectangle {
         leftMargin: marginScaled
     }
 
-    Behavior on width {NumberAnimation {duration: 750; easing.type: Easing.OutCubic }}
-    Behavior on height { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
+    Behavior on width {NumberAnimation {duration: 750; easing.type: Easing.OutCubic}}
+    Behavior on height {NumberAnimation {duration: 250; easing.type: Easing.OutCubic}}
+    Behavior on color {ColorAnimation {duration: 250}}
 
     RowLayout {
         id: rightRowLayoutMonitor
@@ -43,22 +44,22 @@ Rectangle {
 
         BasePillSimple {
             icon: "\uf2db"
-            text: sysManager.cpuUsage + "%"
+            text: SystemManager.cpuUsage + "%"
             onClicked: cpuPopup.open = !cpuPopup.open
             color_text: {
-                if (sysManager.cpuUsage < 25) return Theme.color_b
-                if (sysManager.cpuUsage < 50) return Theme.color_y
-                if (sysManager.cpuUsage < 75) return Theme.color_o
-                return Theme.color_r
+                if (SystemManager.cpuUsage < 25) return Theme.color_a_text
+                if (SystemManager.cpuUsage < 50) return Theme.color_y_text
+                if (SystemManager.cpuUsage < 75) return Theme.color_o_text
+                return Theme.color_r_text
             }
         }
         BasePillSimple {
             icon: "\uf2c9"
-            text: sysManager.maxTemp + "°C"
+            text: SystemManager.maxTemp + "°C"
             color_text: {
-                if (sysManager.maxTemp < 75) return Theme.color_b
-                if (sysManager.maxTemp < 95) return Theme.color_o
-                return Theme.color_r
+                if (SystemManager.maxTemp < 75) return Theme.color_a_text
+                if (SystemManager.maxTemp < 95) return Theme.color_o_text
+                return Theme.color_r_text
             }
             onClicked: tempPopup.open = !tempPopup.open
         }

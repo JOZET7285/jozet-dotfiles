@@ -47,10 +47,16 @@ namespace jozet {
         
         QVariantMap playbackDeviceInfo() const;
         QVariantMap inputDeviceInfo() const;
+        Q_INVOKABLE QVariantList allPlaybackDevices() const;
+        Q_INVOKABLE QVariantList allInputDevices() const;
         Q_INVOKABLE QVariantList playingApplications() const;
         
         Q_INVOKABLE void setPlaybackVolume(int volume);
         Q_INVOKABLE void setInputVolume(int volume);
+        Q_INVOKABLE void setDeviceVolume(uint32_t index, int volume);
+        Q_INVOKABLE void setDeviceMuted(uint32_t index, bool muted);
+        Q_INVOKABLE void setSourceDeviceVolume(uint32_t index, int volume);
+        Q_INVOKABLE void setSourceDeviceMuted(uint32_t index, bool muted);
         Q_INVOKABLE void setApplicationVolume(uint32_t pid, int volume);
         Q_INVOKABLE void setPlaybackMuted(bool muted);
         Q_INVOKABLE void setInputMuted(bool muted);

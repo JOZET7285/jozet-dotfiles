@@ -31,8 +31,8 @@ Rectangle {
                 color: isExpanded
                         ? Theme.color_3 : "transparent"
 
-                Behavior on Layout.preferredHeight { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
-                Behavior on color { ColorAnimation { duration: 150 } }
+                Behavior on Layout.preferredHeight { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
+                Behavior on color { ColorAnimation { duration: 250 } }
 
                 ColumnLayout {
                     anchors.fill: parent
@@ -51,13 +51,13 @@ Rectangle {
                             Text {
                                 text: modelData.icon
                                 font.pixelSize: 14
-                                color: configItem.isExpanded ? Theme.color_b : Theme.text_color
+                                color: configItem.isExpanded ? Theme.color_a_text : Theme.text_color
                             }
                             Text {
                                 text: modelData.config
                                 font.pixelSize: 12
                                 font.bold: configItem.isExpanded
-                                color: configItem.isExpanded ? Theme.color_b : Theme.text_color
+                                color: configItem.isExpanded ? Theme.color_a_text : Theme.text_color
                                 Layout.fillWidth: true
                             }
                         }
@@ -80,13 +80,13 @@ Rectangle {
 
                             Layout.fillWidth: true
                             Layout.leftMargin: 8
+                            Layout.rightMargin: 8
                             Layout.preferredHeight: 30
                             radius: 6
                             visible: settingsPopup.configIndex === configItem.configIdx
-                            color: isActive
-                                    ? Theme.color_2_solid : (sectionMa.containsMouse ? Theme.color_2 : "transparent")
+                            color: isActive ? Theme.color_1 : (sectionMa.containsMouse ? Theme.color_2_solid : "transparent")
 
-                            Behavior on color { ColorAnimation { duration: 150 } }
+                            Behavior on color { ColorAnimation { duration: 250 } }
 
                             RowLayout {
                                 anchors.fill: parent
@@ -97,13 +97,13 @@ Rectangle {
                                 Text {
                                     text: modelData.icon
                                     font.pixelSize: 12
-                                    color: isActive ? Theme.color_b : Theme.text_color
+                                    color: isActive ? Theme.color_a_text : Theme.text_color
                                 }
                                 Text {
                                     text: modelData.name
                                     font.pixelSize: 11
                                     font.bold: isActive
-                                    color: isActive ? Theme.color_b : Theme.text_color
+                                    color: isActive ? Theme.color_a_text : Theme.text_color
                                     Layout.fillWidth: true
                                 }
                             }

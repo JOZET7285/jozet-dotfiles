@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -12,8 +13,8 @@ BasePopup {
     customWidth: 800
     
     onOpenChanged: {
-        if (open && sysManager) {
-            sysManager.refreshDiskStats()
+        if (open && SystemManager) {
+            SystemManager.refreshDiskStats()
         }
     }
 

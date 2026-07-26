@@ -1,70 +1,76 @@
 {
-  "system": {
-    "keyboard_layout": "latam",
-    "timezone": "America/Mexico_City",
-    "clock_24h": true
-  },
-  "connections": {
-    "network": {
-      "network": {
-        "enabled": true,
-        "wifi": "",
-        "ethernet": "",
-        "airplane_mode": false
-      },
-      "access_point": {
-        "enabled": false,
-        "interface": "",
-        "network_name": "",
-        "password": "",
-        "security": true
-      }
+    "connections": {
+        "bluetooth": {
+            "discoverable": false,
+            "enabled": true
+        },
+        "network": {
+            "access_point": {
+                "enabled": false,
+                "interface": "",
+                "network_name": "",
+                "password": "",
+                "security": true
+            },
+            "airplane_mode": false,
+            "network": {
+                "airplane_mode": false,
+                "enabled": true,
+                "ethernet": "",
+                "wifi": ""
+            },
+            "wifi_enabled": true
+        },
+        "usb": {
+            "auto_mount": true,
+            "notify_on_connect": true
+        }
     },
-    "bluetooth": {
-      "enabled": true,
-      "discoverable": false
-    }
-  },
-  "energy": {
-    "active_profile": "balanced",
-    "profiles": {
-      "saver": {
-        "brightness": 60,
-        "screen_timeout_min": 4,
-        "suspend_timeout_min": 10
-      },
-      "balanced": {
-        "brightness": 80,
-        "screen_timeout_min": 5,
-        "suspend_timeout_min": 15
-      },
-      "perform": {
-        "brightness": 100,
-        "screen_timeout_min": 8,
-        "suspend_timeout_min": 20
-      }
-    }
-  },
-  "display": {
-    "lockscreen": {
-      "blur": true,
-      "timeout_min": 5,
-      "notifications": false
+    "display": {
+        "lockscreen": {
+            "blur": true,
+            "notifications": false,
+            "timeout_min": 5
+        },
+        "notifications": {
+            "do_not_disturb": false
+        }
     },
-    "notifications": {
-      "do_not_disturb": false
+    "energy": {
+        "active_profile": "balanced",
+        "profiles": {
+            "balanced": {
+                "brightness": 80,
+                "screen_timeout_min": 5,
+                "suspend_timeout_min": 15
+            },
+            "perform": {
+                "brightness": 100,
+                "screen_timeout_min": 8,
+                "suspend_timeout_min": 20
+            },
+            "saver": {
+                "brightness": 60,
+                "screen_timeout_min": 4,
+                "suspend_timeout_min": 10
+            }
+        }
+    },
+    "system": {
+        "clock_24h": true,
+        "keyboard_layout": "latam",
+        "timezone": "America/Mexico_City"
+    },
+    "theme": {
+        "accent_color": "p",
+        "font": "JetBrains Mono",
+        "hyprland": {
+            "border_radius": 8,
+            "border_size": 2,
+            "gaps_in": 5,
+            "gaps_out": 10
+        },
+        "mode": "dark",
+        "wallpaper_path": "/home/pruebas/.config/quickshell/wallpapers/1920x1080-px-8-bit-pixel-art-retro-games-wallpaper-preview.jpg"
     }
-  },
-  "theme": {
-    "mode": "dark",
-    "accent_color": "#89b4fa",
-    "wallpaper_path": "~/Pictures/wallpaper.png",
-    "font": "JetBrains Mono",
-    "hyprland": {
-      "gaps_in": 5,
-      "gaps_out": 10,
-      "border_radius": 8,
-      "border_size": 2
-    }
-  }
 }

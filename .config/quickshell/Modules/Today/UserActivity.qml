@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -18,7 +19,7 @@ Rectangle {
             Layout.preferredWidth: 700/6
             Layout.fillHeight: true
             Layout.margins: 10
-            color: Theme.light_2
+            color: Theme.color_4
             radius: 5
             
             ColumnLayout {
@@ -27,19 +28,19 @@ Rectangle {
                     text: "Uptime"
                     font.pixelSize: 15
                     font.bold: true
-                    color: Theme.color_1
+                    color: Theme.text_color
                 }
                 Text {
-                    text: (sysManager.userStats && sysManager.userStats.uptime) ? sysManager.userStats.uptime : "0h 0m"
+                    text: (SystemManager.userStats && SystemManager.userStats.uptime) ? SystemManager.userStats.uptime : "0h 0m"
                     font.pixelSize: 13
                     font.bold: true
-                    color: Theme.color_3
+                    color: Theme.text_color_secondary
                 }
             }
         }
         
         Repeater {
-            model: (sysManager.userStats && sysManager.userStats.mostUsedApps) ? sysManager.userStats.mostUsedApps : []
+            model: (SystemManager.userStats && SystemManager.userStats.mostUsedApps) ? SystemManager.userStats.mostUsedApps : []
             
             Rectangle {
                 Layout.preferredWidth: 700/5.7
@@ -64,7 +65,7 @@ Rectangle {
                         text: modelData.time
                         font.pixelSize: 11
                         font.bold: true
-                        color: Theme.light_2
+                        color: Theme.text_color_secondary
                     }
                 }
             }

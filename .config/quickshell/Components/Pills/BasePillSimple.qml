@@ -36,7 +36,6 @@ Rectangle {
             verticalAlignment: Text.AlignVCenter
             Behavior on color { ColorAnimation { duration: 200; easing: Easing.InOutQuad }}
         }
-
         Text {
             Layout.alignment: Qt.AlignVCenter
             visible: root.text.length > 0

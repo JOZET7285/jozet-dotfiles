@@ -105,7 +105,7 @@ Item {
                             Item { Layout.fillWidth: true }
                             Text {
                                 text: appListModel.values.length + " result" + (appListModel.values.length === 1 ? "" : "s")
-                                color: Theme.light_3
+                                color: Theme.text_color_secondary
                                 font.pixelSize: 12
                             }
                         }
@@ -119,7 +119,7 @@ Item {
                             height: 32
                             radius: 10
                             color: Theme.color_1
-                            border.color: Theme.light_2
+                            border.color: Theme.color_4
                             border.width: 1
 
                             Text {
@@ -129,7 +129,7 @@ Item {
                                 anchors.verticalCenter: parent.verticalCenter
                                 text: "\uf002"
                                 font.pixelSize: 14
-                                color: Theme.light_3
+                                color: Theme.text_color
                             }
 
                             TextField {
@@ -140,7 +140,7 @@ Item {
                                 anchors.rightMargin: 8
                                 anchors.verticalCenter: parent.verticalCenter
                                 height: parent.height
-                                color: Theme.light_2
+                                color: Theme.text_color
                                 background: Item {}
                                 leftPadding: 0
                                 focus: true
@@ -163,7 +163,7 @@ Item {
                                 text: "\uf00d"
                                 font.family: Theme.iconFont
                                 font.pixelSize: 13
-                                color: Theme.light_3
+                                color: Theme.text_color
 
                                 MouseArea {
                                     anchors.fill: parent
@@ -265,7 +265,7 @@ Item {
                                             text: "\uf108"
                                             font.family: Theme.iconFont
                                             font.pixelSize: 25
-                                            color: Theme.light_3
+                                            color: Theme.color_3
                                         }
                                     }
 
@@ -297,7 +297,7 @@ Item {
                             Text {
                                 Layout.alignment: Qt.AlignHCenter
                                 text: "No applications were found"
-                                color: Theme.light_3
+                                color: Theme.text_color_secondary
                                 font.pixelSize: 13
                             }
                         }

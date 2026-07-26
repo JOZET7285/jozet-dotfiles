@@ -1,9 +1,11 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
 import "../../Components"
+
 Item { 
     Layout.fillWidth: true  
     Layout.fillHeight: true  
@@ -22,7 +24,7 @@ Item {
         anchors.fill: parent
         anchors.topMargin: 20
         anchors.rightMargin: 8
-        model: sysManager.homeFoldersUsage
+        model: SystemManager.homeFoldersUsage
         clip: true
 
         delegate: Item {

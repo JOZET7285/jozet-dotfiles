@@ -60,8 +60,8 @@ static const QVariantMap DEFAULTS = {
     }},
     {"theme", QVariantMap{
         {"mode", "dark"},
-        {"accent_color", "#89b4fa"},
-        {"wallpaper_path", "~/Pictures/wallpaper.png"},
+        {"accent_color", "b"},
+        {"wallpaper_path", "~/.config/quickshell/wallpapers/"},
         {"font", "JetBrains Mono"},
         {"hyprland", QVariantMap{
             {"gaps_in", 5},
@@ -73,7 +73,7 @@ static const QVariantMap DEFAULTS = {
 };
 
 SettingsReader::SettingsReader(QObject *parent) : QObject(parent) {
-    m_filePath = QDir::homePath() + "/.config/jozet/rice-settings.json";
+    m_filePath = QDir::homePath() + "/.config/quickshell/Assets/RiceSettings.json";
     load();
 }
 
@@ -108,7 +108,6 @@ void SettingsReader::load() {
 
     m_settings = doc.object().toVariantMap();
 
-    // Rellenar keys faltantes con defaults (recursivo)
     mergeDefaults(m_settings, DEFAULTS);
 }
 

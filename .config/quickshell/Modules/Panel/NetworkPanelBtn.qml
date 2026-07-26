@@ -32,7 +32,7 @@ Rectangle {
         Text{
             visible: scaleFactor > 0.8 ? true : area.containsMouse
             text: connection.name !== "" ? connection.name : (connection.type == "ethernet" ? "Ethernet" : connection.type == "wifi" ? "Wi-Fi" : "No connection")
-            color: connection.type == "unknown" ? Theme.color_r : Theme.color_b
+            color: connection.type == "unknown" ? Theme.color_r : Theme.color_a_text
             font.bold: true
             font.pixelSize: 12
             anchors.verticalCenter: parent.verticalCenter

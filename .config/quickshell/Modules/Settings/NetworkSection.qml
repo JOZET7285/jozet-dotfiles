@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -25,12 +26,12 @@ Component {
                 Layout.fillWidth: true
                 spacing: 10
                 visible: {
-                    var v = sysManager.ethernetInfo[key] || "";
+                    var v = SystemManager.ethernetInfo[key] || "";
                     return v !== "";
                 }
-                Text { text: label + ":"; font.pixelSize: 12; color: Theme.color_b; Layout.preferredWidth: 90 }
+                Text { text: label + ":"; font.pixelSize: 12; color: Theme.color_a_text; Layout.preferredWidth: 90 }
                 Text {
-                    text: sysManager.ethernetInfo[key] || ""
+                    text: SystemManager.ethernetInfo[key] || ""
                     font.pixelSize: 12
                     color: key === "status" ? Theme.color_g : Theme.text_color
                     Layout.fillWidth: true
@@ -57,13 +58,13 @@ Component {
                 Layout.fillWidth: true
                 spacing: 10
                 visible: {
-                    var v = sysManager.wifiInfo[key];
+                    var v = SystemManager.wifiInfo[key];
                     return v !== undefined && v !== "";
                 }
-                Text { text: label + ":"; font.pixelSize: 12; color: Theme.color_b; Layout.preferredWidth: 90 }
+                Text { text: label + ":"; font.pixelSize: 12; color: Theme.color_a_text; Layout.preferredWidth: 90 }
                 Text {
                     text: {
-                        var v = sysManager.wifiInfo[key];
+                        var v = SystemManager.wifiInfo[key];
                         if (v === undefined) return "";
                         if (key === "qual") return v + "%";
                         return v;
@@ -83,7 +84,7 @@ Component {
         ColumnLayout {
             spacing: 2
             Repeater {
-                model: sysManager.availableNetworks
+                model: SystemManager.availableNetworks
                 delegate: Rectangle {
                     Layout.fillWidth: true
                     height: 28

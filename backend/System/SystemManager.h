@@ -26,12 +26,14 @@
 #include "Readers/UdisksReader.h"
 #include "Readers/SettingsReader.h"
 #include "Readers/FastfetchReader.h"
+#include "Readers/MatugenReader.h"
 
 namespace jozet {
 
 class SystemManager : public QObject
 {
     Q_OBJECT
+    QML_SINGLETON 
     QML_ELEMENT
     QML_ADDED_IN_MINOR_VERSION(0)
 
@@ -70,6 +72,8 @@ class SystemManager : public QObject
     // AUDIO -------------------------------------------------------------------------------------------------
     Q_PROPERTY(QVariantMap playbackDeviceInfo READ playbackDeviceInfo NOTIFY volumeChanged)
     Q_PROPERTY(QVariantMap inputDeviceInfo READ inputDeviceInfo NOTIFY volumeChanged)
+    Q_PROPERTY(QVariantList allPlaybackDevices READ allPlaybackDevices NOTIFY volumeChanged)
+    Q_PROPERTY(QVariantList allInputDevices READ allInputDevices NOTIFY volumeChanged)
     Q_PROPERTY(QVariantList playingApplications READ playingApplications NOTIFY volumeChanged)
     Q_PROPERTY(bool isVolumeReady READ isVolumeReady NOTIFY volumeChanged)
 
@@ -95,6 +99,7 @@ class SystemManager : public QObject
 
     // SETTINGS --------------------------------------------------
     Q_PROPERTY(QVariantMap riceSettings READ riceSettings NOTIFY riceSettingsChanged)
+    Q_PROPERTY(QVariantMap matugenColors READ matugenColors NOTIFY matugenColorsChanged)
 
     // SYSTEM INFO -----------------------------------------------
     Q_PROPERTY(QVariantMap systemInfo READ systemInfo NOTIFY systemInfoChanged)
@@ -107,6 +112,7 @@ public:
     Q_INVOKABLE void lockSession();
     Q_INVOKABLE void unlockSession();
     Q_INVOKABLE QString getWallpaperCachePath(const QString &monitorName);
+    QVariantMap matugenColors() const { return m_matugenReader.colors(); }
 
     // RAM -----------------------------------------------
     QVariantMap ramInfo() const;
@@ -153,6 +159,8 @@ public:
     // AUDIO -----------------------------------------------
     QVariantMap playbackDeviceInfo() const;
     QVariantMap inputDeviceInfo() const;
+    QVariantList allPlaybackDevices() const { return m_volumeReader.allPlaybackDevices(); }
+    QVariantList allInputDevices() const { return m_volumeReader.allInputDevices(); }
     
     QVariantList playingApplications() const { return m_volumeReader.playingApplications(); }
     bool isVolumeReady() const { return !m_volumeReader.playbackDeviceInfo().isEmpty(); }
@@ -161,6 +169,10 @@ public:
     Q_INVOKABLE void setInputVolume(int volume);
     Q_INVOKABLE void setPlaybackMuted(bool muted);
     Q_INVOKABLE void setInputMuted(bool muted);
+    Q_INVOKABLE void setDeviceVolume(uint32_t index, int volume);
+    Q_INVOKABLE void setDeviceMuted(uint32_t index, bool muted);
+    Q_INVOKABLE void setSourceDeviceVolume(uint32_t index, int volume);
+    Q_INVOKABLE void setSourceDeviceMuted(uint32_t index, bool muted);
     Q_INVOKABLE void setApplicationVolume(uint32_t pid, int volume);
     Q_INVOKABLE void setDefaultPlaybackDevice(uint32_t index);
     Q_INVOKABLE void setDefaultInputDevice(uint32_t index);
@@ -172,6 +184,7 @@ public:
     QString powerProfile() const;
 
     Q_INVOKABLE void setBrightness(int percentage);
+    Q_INVOKABLE void setBrightnessPersist(int percentage);
     Q_INVOKABLE void setPowerProfile(const QString &profile);
     Q_INVOKABLE void suspend();
     Q_INVOKABLE void reboot();
@@ -238,6 +251,7 @@ signals:
     void usbDevicesChanged();
     void riceSettingsChanged();
     void systemInfoChanged();
+    void matugenColorsChanged();
 
 private slots:
     void update();
@@ -259,6 +273,7 @@ private:
     SettingsReader m_settingsReader;
     FastfetchReader m_fastfetchReader;
     QVariantList m_workspaces;
+    MatugenReader m_matugenReader;
     bool m_locked = false;
 
     // RAM ------------------------------------------------
@@ -299,6 +314,10 @@ private:
     EventsReader m_eventsReader;
     QVariantList m_events;
 
+    // SETTINGS ---------------------
+    void applyActiveProfileBrightness();    
+    void persistBrightnessToActiveProfile(int percentage);
+    
     // HELPERS --------------------------------------------
     void updateCpu();
     void updateBattery();

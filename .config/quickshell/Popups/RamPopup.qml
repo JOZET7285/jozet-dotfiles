@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -35,18 +36,18 @@ BasePopup {
 
                         Text {
                             text: "RAM"
-                            color: Theme.light_2
+                            color: Theme.text_color_secondary
                             font.pixelSize: 12
                             Layout.alignment: Qt.AlignHCenter
                         }
 
                         Text {
-                            text: (sysManager.ramInfo.usagePercent || 0) + "%"
+                            text: (SystemManager.ramInfo.usagePercent || 0) + "%"
                             color: {
-                                if (sysManager.ramInfo.usagePercent < 25) return Theme.text_color
-                                if (sysManager.ramInfo.usagePercent < 50) return Theme.color_y
-                                if (sysManager.ramInfo.usagePercent < 75) return Theme.color_o
-                                return Theme.color_r
+                                if (SystemManager.ramInfo.usagePercent < 25) return Theme.text_color
+                                if (SystemManager.ramInfo.usagePercent < 50) return Theme.color_y_text
+                                if (SystemManager.ramInfo.usagePercent < 75) return Theme.color_o_text
+                                return Theme.color_r_text
                             }
                             font.pixelSize: 22
                             font.bold: true
@@ -62,20 +63,20 @@ BasePopup {
                             Rectangle {
                                 height: parent.height
                                 radius: 3
-                                width: parent.width * Math.min(sysManager.ramInfo.usagePercent || 0, 100) / 100
+                                width: parent.width * Math.min(SystemManager.ramInfo.usagePercent || 0, 100) / 100
                                 color: {
-                                    if (sysManager.ramInfo.usagePercent < 25) return Theme.color_b
-                                    if (sysManager.ramInfo.usagePercent < 50) return Theme.color_y
-                                    if (sysManager.ramInfo.usagePercent < 75) return Theme.color_o
-                                    return Theme.color_r
+                                    if (SystemManager.ramInfo.usagePercent < 25) return Theme.color_b_text
+                                    if (SystemManager.ramInfo.usagePercent < 50) return Theme.color_y_text
+                                    if (SystemManager.ramInfo.usagePercent < 75) return Theme.color_o_text
+                                    return Theme.color_r_text
                                 }
                                 Behavior on width { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
                             }
                         }
 
                         Text {
-                            text: (sysManager.ramInfo.usedMB || 0) + " MB / " + (sysManager.ramInfo.totalMB || 0) + " MB"
-                            color: Theme.light_3
+                            text: (SystemManager.ramInfo.usedMB || 0) + " MB / " + (SystemManager.ramInfo.totalMB || 0) + " MB"
+                            color: Theme.text_color_secondary
                             font.pixelSize: 10
                             Layout.alignment: Qt.AlignHCenter
                         }
@@ -102,18 +103,18 @@ BasePopup {
 
                         Text {
                             text: "Swap"
-                            color: Theme.light_2
+                            color: Theme.text_color_secondary
                             font.pixelSize: 12
                             Layout.alignment: Qt.AlignHCenter
                         }
 
                         Text {
-                            text: (sysManager.ramInfo.swapUsagePercent || 0) + "%"
+                            text: (SystemManager.ramInfo.swapUsagePercent || 0) + "%"
                             color: {
-                                if (sysManager.ramInfo.swapUsedMB < 25) return Theme.text_color
-                                if (sysManager.ramInfo.swapUsedMB < 50) return Theme.color_y
-                                if (sysManager.ramInfo.swapUsedMB < 75) return Theme.color_o
-                                return Theme.color_r
+                                if (SystemManager.ramInfo.swapUsedMB < 25) return Theme.text_color
+                                if (SystemManager.ramInfo.swapUsedMB < 50) return Theme.color_y_text
+                                if (SystemManager.ramInfo.swapUsedMB < 75) return Theme.color_o_text
+                                return Theme.color_r_text
                             }
                             font.pixelSize: 22
                             font.bold: true
@@ -129,20 +130,20 @@ BasePopup {
                             Rectangle {
                                 height: parent.height
                                 radius: 3
-                                width: parent.width * Math.min(sysManager.ramInfo.swapUsagePercent || 0, 100) / 100
+                                width: parent.width * Math.min(SystemManager.ramInfo.swapUsagePercent || 0, 100) / 100
                                 color: {
-                                    if (sysManager.ramInfo.swapUsedMB < 25) return Theme.color_b
-                                    if (sysManager.ramInfo.swapUsedMB < 50) return Theme.color_y
-                                    if (sysManager.ramInfo.swapUsedMB < 75) return Theme.color_o
-                                    return Theme.color_r
+                                    if (SystemManager.ramInfo.swapUsedMB < 25) return Theme.color_b_text
+                                    if (SystemManager.ramInfo.swapUsedMB < 50) return Theme.color_y_text
+                                    if (SystemManager.ramInfo.swapUsedMB < 75) return Theme.color_o_text
+                                    return Theme.color_r_text
                                 }
                                 Behavior on width { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
                             }
                         }
 
                         Text {
-                            text: (sysManager.ramInfo.swapUsedMB || 0) + " MB / " + (sysManager.ramInfo.swapTotalMB || 0) + " MB"
-                            color: Theme.light_2
+                            text: (SystemManager.ramInfo.swapUsedMB || 0) + " MB / " + (SystemManager.ramInfo.swapTotalMB || 0) + " MB"
+                            color: Theme.text_color_secondary
                             font.pixelSize: 10
                             Layout.alignment: Qt.AlignHCenter
                         }
@@ -162,35 +163,38 @@ BasePopup {
                 font.bold: true
                 font.pixelSize: 13
             }
-
-            ColumnLayout {
+            Rectangle {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 5 * 30
-                spacing: 4
+                color: "transparent"
+                    ColumnLayout {
+                    anchors.fill: parent
+                    spacing: 4
 
-                Repeater {
-                    model: (sysManager.topRamProcesses || []).slice(0, 5)
+                    Repeater {
+                        model: (SystemManager.topRamProcesses || []).slice(0, 5)
 
-                    RowLayout {
-                        Layout.fillWidth: true
-                        Layout.preferredHeight: 26
-
-                        Text {
-                            text: modelData.name
-                            color: Theme.text_color
-                            font.pixelSize: 12
-                            elide: Text.ElideRight
-                        }
-                        Rectangle {
+                        RowLayout {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 2
-                            color: Theme.color_3
-                        }
-                        Text {
-                            text: modelData.memoryMB + " MB"
-                            color: Theme.text_color
-                            opacity: 0.6
-                            font.pixelSize: 12
+                            Layout.preferredHeight: 26
+
+                            Text {
+                                text: modelData.name
+                                color: Theme.text_color
+                                font.pixelSize: 12
+                                elide: Text.ElideRight
+                            }
+                            Rectangle {
+                                Layout.fillWidth: true
+                                Layout.preferredHeight: 2
+                                color: Theme.color_3
+                            }
+                            Text {
+                                text: modelData.memoryMB + " MB"
+                                color: Theme.text_color
+                                opacity: 0.6
+                                font.pixelSize: 12
+                            }
                         }
                     }
                 }

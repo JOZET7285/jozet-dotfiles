@@ -43,6 +43,7 @@ Rectangle {
     
     Behavior on width { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
     Behavior on height { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
+    Behavior on color { ColorAnimation { duration: 250 } }
 
     RowLayout {
         id: leftRowLayoutId
@@ -59,6 +60,7 @@ Rectangle {
         Rectangle {
             Layout.preferredHeight: parent.height - 5
             Layout.preferredWidth: btnAppLauncherContent.implicitWidth + 25
+            
             color: "transparent"
             radius: 10 * scaleFactor
             RowLayout {
@@ -82,7 +84,7 @@ Rectangle {
                 Text {
                     Layout.alignment: Qt.AlignVCenter
                     text: "Apps"
-                    color: Theme.color_b
+                    color: Theme.color_a_text
                     font.pixelSize: 12
                     font.bold: true
                     horizontalAlignment: Text.AlignHCenter
@@ -98,7 +100,7 @@ Rectangle {
                     workspacesPopup.open = false
                     appLauncher.open = !appLauncher.open
                 }
-                cursorShape: Qt.pointingHandCursor
+                cursorShape: Qt.PointingHandCursor
             }
         }
         Rectangle {
@@ -118,7 +120,7 @@ Rectangle {
                     settingsPopup.open = false
                     workspacesPopup.open = !workspacesPopup.open    
                 }
-                cursorShape: Qt.poitingHandCursor
+                cursorShape: Qt.PoitingHandCursor
             }
         }
     }

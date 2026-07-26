@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -13,13 +14,13 @@ Component {
         Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 1; color: Theme.color_3 }
 
         Text {
-            visible: sysManager.usbDevices.length === 0
+            visible: SystemManager.usbDevices.length === 0
             text: "No hay dispositivos USB conectados"
-            font.pixelSize: 12; color: Theme.color_b
+            font.pixelSize: 12; color: Theme.color_a_text
         }
 
         Repeater {
-            model: sysManager.usbDevices
+            model: SystemManager.usbDevices
             delegate: Rectangle {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 50
@@ -36,7 +37,7 @@ Component {
                         Layout.fillWidth: true
                         spacing: 2
                         Text { text: modelData.name || modelData.devicePath.split('/').pop(); font.pixelSize: 12; font.bold: true; color: Theme.text_color }
-                        Text { text: modelData.size + (modelData.mounted ? " — " + modelData.mountPoint : " — No montado"); font.pixelSize: 11; color: Theme.color_b }
+                        Text { text: modelData.size + (modelData.mounted ? " — " + modelData.mountPoint : " — No montado"); font.pixelSize: 11; color: Theme.color_a_text }
                     }
 
                     Rectangle {
@@ -48,8 +49,8 @@ Component {
                             anchors.fill: parent
                             cursorShape: Qt.PointingHandCursor
                             onClicked: {
-                                if (modelData.mounted) sysManager.unmountUsbDevice(modelData.devicePath)
-                                else sysManager.mountUsbDevice(modelData.devicePath)
+                                if (modelData.mounted) SystemManager.unmountUsbDevice(modelData.devicePath)
+                                else SystemManager.mountUsbDevice(modelData.devicePath)
                             }
                         }
                         Text { anchors.centerIn: parent; text: modelData.mounted ? "Desmontar" : "Montar"; font.pixelSize: 11; font.bold: true; color: "white" }

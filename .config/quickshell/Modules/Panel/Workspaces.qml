@@ -22,15 +22,15 @@ Row {
             width: isActive ? 20 : 8
             height: 8
             radius: 4
-            color: isActive ? Theme.color_b : (hasWindows ? Theme.light_1 : "transparent")
+            color: isActive ? Theme.color_a_text : (hasWindows ? Theme.light_4 : "transparent")
             border {
                 width: hasWindows ? 0 : 1
-                color: Theme.light_1
+                color: Theme.light_4
             }
 
             Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.OutQuad } }
             Behavior on color { ColorAnimation { duration: 250 } } 
-
+            
             MouseArea {
                 anchors.fill: parent
                 anchors.margins: -4
