@@ -167,7 +167,7 @@ Item {
                                             color: Theme.color_2
                                             radius: 12
                                             border.width: workspacesPopup.selectedWindowAddress !== "" ? 2 : 0
-                                            border.color: Theme.color_1
+                                            border.color: Theme.color_3
 
                                             Column {
                                                 anchors.fill: parent
@@ -210,9 +210,10 @@ Item {
                                                             property bool isSelected: workspacesPopup.selectedWindowAddress === windowAddress
 
                                                             border.width: isSelected ? 2 : 0
-                                                            border.color: Theme.color_3
-                                                            scale: isSelected ? 1.05 : 1.0
-                                                            Behavior on scale { NumberAnimation { duration: 120 } }
+                                                            border.color: isSelected ? Theme.color_a_text : Theme.color_3
+                                                            
+                                                            Behavior on border.color { ColorAnimation { duration: 150 } }
+                                                            Behavior on border.width { NumberAnimation { duration: 150 } }
 
                                                             Text {
                                                                 id: titleApp
