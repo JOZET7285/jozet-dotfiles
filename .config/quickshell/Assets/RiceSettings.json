@@ -62,7 +62,7 @@
         "timezone": "America/Mexico_City"
     },
     "theme": {
-        "accent_color": "p",
+        "accent_color": "m",
         "font": "JetBrains Mono",
         "hyprland": {
             "border_radius": 8,
@@ -71,6 +71,6 @@
             "gaps_out": 10
         },
         "mode": "dark",
-        "wallpaper_path": "/home/pruebas/.config/quickshell/wallpapers/1920x1080-px-8-bit-pixel-art-retro-games-wallpaper-preview.jpg"
+        "wallpaper_path": "/home/pruebas/.config/quickshell/wallpapers/8-bit-xkgev2tzaemj20m0.jpg"
     }
 }
