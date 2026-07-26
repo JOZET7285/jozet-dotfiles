@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -142,9 +143,9 @@ Item{
                                          onTriggered: {
                                             if (mouseArea.pressed) {
                                                 if (modelData.label === "Lock") {
-                                                    sysManager.lockSession()
+                                                    SystemManager.lockSession()
                                                 } else if (modelData.label === "Suspend") {
-                                                    sysManager.lockSession()
+                                                    SystemManager.lockSession()
                                                     Quickshell.execDetached([modelData.executable, ...modelData.args])
                                                 } else {
                                                     Quickshell.execDetached([
@@ -177,7 +178,7 @@ Item{
                                         Text {
                                             text: modelData.icon
                                             font.family: Theme.iconFont
-                                            color: mouseArea.pressed ? Theme.color_1_solid : "#ccc" 
+                                            color: mouseArea.pressed ? Theme.dark_1_solid : Theme.text_color
                                             Layout.alignment: Qt.AlignVCenter 
                                             
                                             Behavior on color{ColorAnimation{duration: 1500; easing.type: Easing.InOutQuad}}
@@ -186,7 +187,7 @@ Item{
                                         Text {
                                             text: modelData.label
                                             font.pixelSize: 13
-                                            color: mouseArea.pressed ? Theme.color_1_solid : "#ccc"
+                                            color: mouseArea.pressed ? Theme.dark_1_solid : Theme.text_color
                                             
                                             Layout.alignment: Qt.AlignVCenter 
                                             

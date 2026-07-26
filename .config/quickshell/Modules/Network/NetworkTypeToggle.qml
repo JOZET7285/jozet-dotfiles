@@ -36,7 +36,7 @@ Rectangle {
                 readonly property bool isActive: toggleRoot.connection.type === modelData.name
 
                 color: isActive ? Theme.color_2 : Theme.color_2_solid
-                border.color: isActive ? Theme.color_g : mouseArea.containsMouse ? Theme.light_4: Theme.color_2
+                border.color: isActive ? Theme.color_g_text : mouseArea.containsMouse ? Theme.light_4: Theme.color_2
 
                 Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
                 Behavior on border.color { ColorAnimation { duration: 200; easing.type: Easing.InOutQuad } }
@@ -46,7 +46,7 @@ Rectangle {
                     anchors.centerIn: parent
                     font.pixelSize: 14
                     font.bold: true
-                    color: buttonDelegate.isActive ? Theme.color_g : Theme.text_color
+                    color: buttonDelegate.isActive ? Theme.color_g_text : Theme.text_color
                     
                     Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
                 }

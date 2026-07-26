@@ -1,0 +1,6 @@
+{
+  "accent": "{{colors.primary.default.hex}}",
+  "color_b": "{{colors.tertiary.default.hex}}",
+  "color_g": "{{colors.secondary.default.hex}}",
+  "surface": "{{colors.surface.default.hex}}"
+}

@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -8,11 +9,11 @@ import "../../Components/"
 Rectangle {
     Layout.fillWidth: true
     Layout.fillHeight: false
-    Layout.preferredHeight: sysManager.playingApplications.length > 0 ? Math.min(appsLayout.implicitHeight + 12, 300) : 0
+    Layout.preferredHeight: SystemManager.playingApplications.length > 0 ? Math.min(appsLayout.implicitHeight + 12, 300) : 0
     color: Theme.color_2
     radius: 15
     clip: true
-    visible: sysManager.playingApplications.length > 0
+    visible: SystemManager.playingApplications.length > 0
     ScrollView {
         anchors.fill: parent
         anchors.margins: 1
@@ -26,7 +27,7 @@ Rectangle {
             spacing: 8
 
             Repeater {
-                model: sysManager.playingApplications
+                model: SystemManager.playingApplications
                 delegate: Rectangle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 55
@@ -40,7 +41,7 @@ Rectangle {
 
                         BasePillSimple {
                             text: modelData.icon
-                            onClicked: sysManager.setApplicationMuted(modelData.pid, !modelData.isMuted)
+                            onClicked: SystemManager.setApplicationMuted(modelData.pid, !modelData.isMuted)
                         }
 
                         ColumnLayout {
@@ -61,7 +62,7 @@ Rectangle {
                                 from: 0
                                 to: 100
                                 value: modelData ? modelData.volume : 0
-                                onMoved: sysManager.setApplicationVolume(modelData.pid, Math.round(value))
+                                onMoved: SystemManager.setApplicationVolume(modelData.pid, Math.round(value))
 
                                 background: Rectangle {
                                     implicitWidth: 200
@@ -73,7 +74,7 @@ Rectangle {
                                     Rectangle {
                                         width: volumeSlider.visualPosition * parent.width
                                         height: parent.height
-                                        color: Theme.color_p
+                                        color: Theme.color_p_text
                                         radius: 8
                                     }
                                 }

@@ -15,7 +15,7 @@ Rectangle {
 
     readonly property bool isUp: connection.status === "up"
 
-    color: isUp ? Theme.color_b : Theme.color_2
+    color: isUp ? Theme.color_a_text : Theme.color_2
     radius: connection.type === "ethernet" ? 30 : 50
     
     border {
@@ -29,7 +29,7 @@ Rectangle {
 
     Text {
         text: connection.type === "unknown" ? "\uf127" : connection.type === "ethernet" ? "\uf0e8" : "\uf1eb"
-        color: indicatorRoot.isUp ? Theme.color_2 : Theme.light_1
+        color: indicatorRoot.isUp ? Theme.color_2 : Theme.text_color
         font.pixelSize: 55 * scaleFactor
         anchors.centerIn: parent
         opacity: indicatorRoot.isToggling ? 0.5 : 1.0

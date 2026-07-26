@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
@@ -25,7 +26,7 @@ Rectangle {
     }
     
     Connections {
-        target: sysManager
+        target: SystemManager
         function onBluetoothChanged() {
             bluetoothBtn.currentDeviceIndex = 0
             deviceRotationTimer.restart()
@@ -38,7 +39,7 @@ Rectangle {
         repeat: true
         running: true
         onTriggered: {
-            let connectedDevices = sysManager.availableBluetoothDevices.filter(d => d.connected);
+            let connectedDevices = SystemManager.availableBluetoothDevices.filter(d => d.connected);
             if (connectedDevices.length > 1) {
                 bluetoothBtn.currentDeviceIndex = (bluetoothBtn.currentDeviceIndex + 1) % connectedDevices.length;
             }
@@ -51,17 +52,17 @@ Rectangle {
         Text {
             text: "\uf293"
             color: {   
-                let devices = sysManager.availableBluetoothDevices;
+                let devices = SystemManager.availableBluetoothDevices;
                 let connectedOnly = devices.filter(device => device.connected === true);
                 if(connectedOnly.length === 0) return Theme.text_color
-                return Theme.color_g
+                return Theme.color_g_text
             }
             font.pixelSize: 14
         }
         Text {
             visible: scaleFactor > 0.8 ? true : area.containsMouse
             text: {
-                let devices = sysManager.availableBluetoothDevices;
+                let devices = SystemManager.availableBluetoothDevices;
                 let connectedOnly = devices.filter(device => device.connected === true);
                 if (connectedOnly.length === 0) {
                     return "Disconnected";
@@ -71,10 +72,10 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             font.pixelSize: 12
             color: {   
-                let devices = sysManager.availableBluetoothDevices;
+                let devices = SystemManager.availableBluetoothDevices;
                 let connectedOnly = devices.filter(device => device.connected === true);
-                if(connectedOnly.length === 0) return Theme.color_b
-                return Theme.color_g
+                if(connectedOnly.length === 0) return Theme.color_a_text
+                return Theme.color_g_text
             }
             font.bold: true
         }

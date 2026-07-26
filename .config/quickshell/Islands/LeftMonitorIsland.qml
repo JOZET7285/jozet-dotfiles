@@ -27,6 +27,7 @@ Rectangle {
 
     Behavior on width {NumberAnimation {duration: 750; easing.type: Easing.OutCubic }}
     Behavior on height { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
+    Behavior on color { ColorAnimation { duration: 250 } }
     
     RowLayout {
         id: leftRowLayoutMonitor
@@ -43,24 +44,24 @@ Rectangle {
         BasePillSimple {
             id: ramUsagePill
             icon: "\uf233"
-            text: (sysManager.ramInfo.usagePercent.toFixed(1) || 0) + "%"
+            text: (SystemManager.ramInfo.usagePercent.toFixed(1) || 0) + "%"
             color_text: {
-                if (sysManager.ramInfo.usagePercent < 25) return Theme.color_b
-                if (sysManager.ramInfo.usagePercent < 50) return Theme.color_y
-                if (sysManager.ramInfo.usagePercent < 75) return Theme.color_o
-                return Theme.color_r
+                if (SystemManager.ramInfo.usagePercent < 25) return Theme.color_a_text
+                if (SystemManager.ramInfo.usagePercent < 50) return Theme.color_y_text
+                if (SystemManager.ramInfo.usagePercent < 75) return Theme.color_o_text
+                return Theme.color_r_text
             }
             onClicked: ramPopup.open = !ramPopup.open
         }
         BasePillSimple {
             id: diskUsagePill
             icon: "\uf0a0" 
-            text: sysManager.diskUsage.toFixed(1) + "%"
+            text: SystemManager.diskUsage.toFixed(1) + "%"
             color_text: {
-                if (sysManager.diskUsage < 25) return Theme.color_b
-                if (sysManager.diskUsage < 50) return Theme.color_y
-                if (sysManager.diskUsage < 75) return Theme.color_o
-                return Theme.color_r
+                if (SystemManager.diskUsage < 25) return Theme.color_a_text
+                if (SystemManager.diskUsage < 50) return Theme.color_y_text
+                if (SystemManager.diskUsage < 75) return Theme.color_o_text
+                return Theme.color_r_text
             }
             onClicked: diskPopup.open = !diskPopup.open
         }

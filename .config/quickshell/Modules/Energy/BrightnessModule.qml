@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -19,9 +20,9 @@ Rectangle {
             id: brightnessSlider
             from: 0
             to: 100
-            value: sysManager.brightness
+            value: SystemManager.brightness
             onMoved: {
-                sysManager.setBrightness(Math.round(brightnessSlider.value))
+                SystemManager.setBrightness(Math.round(brightnessSlider.value))
             }
             background: Rectangle {
                 x: brightnessSlider.leftPadding
@@ -34,7 +35,7 @@ Rectangle {
                 Rectangle {
                     width: brightnessSlider.visualPosition * parent.width
                     height: parent.height
-                    color: Theme.color_y
+                    color: Theme.color_y_text
                     radius: 3
                 }
             }
@@ -44,7 +45,7 @@ Rectangle {
                 implicitWidth: 12
                 implicitHeight: 12
                 radius: 6
-                color: brightnessSlider.pressed ? Theme.color_y_solid : Theme.color_y
+                color: brightnessSlider.pressed ? Theme.color_y_solid : Theme.color_y_text
 
                 Behavior on color { ColorAnimation { duration: 100 } }
             }
@@ -52,7 +53,7 @@ Rectangle {
 
         Text {
             Layout.alignment: Qt.AlignHCenter 
-            text: "Brightness: " + sysManager.brightness + "%"
+            text: "Brightness: " + SystemManager.brightness + "%"
             color: Theme.text_color
             font.bold: true
             font.pixelSize: 10

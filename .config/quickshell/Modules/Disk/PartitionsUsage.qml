@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -22,7 +23,7 @@ Item {
         anchors.topMargin: 20
         model: {
             var combined = [];
-            var parts = sysManager.partitionsStatus;
+            var parts = SystemManager.partitionsStatus;
             for (var i = 0; i < parts.length; i++) {
                 combined.push({
                     label: parts[i].path,
@@ -34,7 +35,7 @@ Item {
                     usbPath: ""
                 });
             }
-            var usb = sysManager.usbDevices;
+            var usb = SystemManager.usbDevices;
             for (var j = 0; j < usb.length; j++) {
                 combined.push({
                     label: usb[j].name || usb[j].path.split('/').pop(),
@@ -99,7 +100,7 @@ Item {
                         bottom: parent.bottom
                     }
                     width: modelData.totalGb > 0 ? (parent.width / modelData.totalGb) * modelData.usedGb : 0
-                    color: modelData.isUsb ? Theme.color_g : Theme.color_b
+                    color: modelData.isUsb ? Theme.color_g : Theme.color_a_text
                     radius: 10
                 }
             }
@@ -119,7 +120,7 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
-                    onClicked: sysManager.mountUsbDevice(modelData.usbPath)
+                    onClicked: SystemManager.mountUsbDevice(modelData.usbPath)
                 }
                 Text {
                     anchors.centerIn: parent

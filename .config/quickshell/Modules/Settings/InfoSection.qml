@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -24,10 +25,10 @@ Component {
             clip: true
             spacing: 4
             model: {
-                var info = sysManager.systemInfo;
+                var info = SystemManager.systemInfo;
                 var items = [];
                 var add = function(label, value, color) {
-                    if (value) items.push({ label: label, value: value, accent: color || Theme.color_b });
+                    if (value) items.push({ label: label, value: value });
                 };
 
                 // General
@@ -49,14 +50,14 @@ Component {
                 add("GPU Type", info.gpuType);
 
                 // Memory
-                add("RAM", sysManager.ramInfo.usedMB + "MB / " + info.ramTotal + "  (" + sysManager.ramInfo.usagePercent + ")", Theme.color_g);
+                add("RAM", SystemManager.ramInfo.usedMB + "MB / " + info.ramTotal + "  (" + SystemManager.ramInfo.usagePercent + ")");
 
                 // Disk
-                if (info.diskRootTotal) add("Root (/)", info.diskRootUsed + " / " + info.diskRootTotal + "  [" + info.diskRootFs + "]", Theme.color_b);
-                if (info.diskHomeTotal) add("Home (/home)", info.diskHomeUsed + " / " + info.diskHomeTotal + "  [" + info.diskHomeFs + "]", Theme.color_b);
+                if (info.diskRootTotal) add("Root (/)", info.diskRootUsed + " / " + info.diskRootTotal + "  [" + info.diskRootFs + "]");
+                if (info.diskHomeTotal) add("Home (/home)", info.diskHomeUsed + " / " + info.diskHomeTotal + "  [" + info.diskHomeFs + "]");
 
                 // Battery
-                if (info.batteryCapacity) add("Battery", info.batteryCapacity + "% — " + info.batteryStatus, Theme.color_y);
+                if (info.batteryCapacity) add("Battery", info.batteryCapacity + "% — " + info.batteryStatus);
                 if (info.batteryModel) add("Battery Model", info.batteryModel);
 
                 return items;
@@ -75,18 +76,20 @@ Component {
                     spacing: 10
 
                     Text {
+                        Layout.leftMargin: 20
                         text: modelData.label
                         font.pixelSize: 12
+                        font.bold: true
                         color: Theme.text_color
-                        Layout.preferredWidth: 120
                         opacity: 0.7
                     }
+                    Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 2; color: Theme.color_3}
                     Text {
+                        Layout.rightMargin: 20
                         text: modelData.value
                         font.pixelSize: 12
                         font.bold: true
-                        color: modelData.accent
-                        Layout.fillWidth: true
+                        color: Theme.color_a_text
                         elide: Text.ElideRight
                     }
                 }

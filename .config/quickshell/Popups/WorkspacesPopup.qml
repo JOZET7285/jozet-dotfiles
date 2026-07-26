@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -45,9 +46,9 @@ Item {
 
     property var workspaceAppCounts: {
         var counts = {}
-        if (sysManager && sysManager.workspaces) {
-            for (var i = 0; i < sysManager.workspaces.length; i++) {
-                var ws = sysManager.workspaces[i]
+        if (SystemManager && SystemManager.workspaces) {
+            for (var i = 0; i < SystemManager.workspaces.length; i++) {
+                var ws = SystemManager.workspaces[i]
                 if (ws) counts[ws.id] = ws.apps ? ws.apps.length : 0
             }
         }
@@ -56,7 +57,7 @@ Item {
 
     readonly property int contentWidth: 370
     width: contentWidth
-    height: sysManager.workspaces.length < 2 ? 300 : sysManager.workspaces.length < 3 ? 530 : 760
+    height: SystemManager.workspaces.length < 2 ? 300 : SystemManager.workspaces.length < 3 ? 530 : 760
     anchors.top: leftLand.bottom
     anchors.left: leftLand.left
     anchors.leftMargin: 1
@@ -118,8 +119,8 @@ Item {
                     id: container
                     width: parent.width
                     height: {
-                        if(sysManager.workspaces.length < 2) return 225
-                        if(sysManager.workspaces.length < 3) return 460
+                        if(SystemManager.workspaces.length < 2) return 225
+                        if(SystemManager.workspaces.length < 3) return 460
                         else return 695
                     }
                     topLeftRadius: 0
@@ -141,15 +142,15 @@ Item {
                                 Layout.fillWidth: false
                                 Layout.preferredWidth: 350
                                 Layout.preferredHeight: {
-                                    if(sysManager.workspaces.length < 2) return 220
-                                    if(sysManager.workspaces.length < 3) return 455
+                                    if(SystemManager.workspaces.length < 2) return 220
+                                    if(SystemManager.workspaces.length < 3) return 455
                                     else return 690
                                 }
                                 clip: true
 
                                 ListView {
                                     width: parent.width
-                                    model: sysManager.workspaces
+                                    model: SystemManager.workspaces
                                     spacing: 12
                                     
                                     delegate: Item {

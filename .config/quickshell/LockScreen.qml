@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -24,9 +25,9 @@ PanelWindow {
     screen: modelData
 
     property var connection:
-    sysManager.ethernetInfo.status == "up"
-        ? sysManager.ethernetInfo
-        : sysManager.wifiInfo
+    SystemManager.ethernetInfo.status == "up"
+        ? SystemManager.ethernetInfo
+        : SystemManager.wifiInfo
     property bool loginError: false
 
 
@@ -43,9 +44,9 @@ PanelWindow {
     function tryLogin() {
         if (passwordInput.text.length === 0) return
 
-        if (sysManager.authenticateUser(sysManager.currentUsername, passwordInput.text)) {
+        if (SystemManager.authenticateUser(SystemManager.currentUsername, passwordInput.text)) {
             loginError = false
-            sysManager.unlockSession()
+            SystemManager.unlockSession()
         } else {
             passwordInput.text = ""
             loginError = true
@@ -55,7 +56,7 @@ PanelWindow {
     Image {
         id: screenshotImg
         anchors.fill: parent
-        source: sysManager.getWallpaperCachePath(modelData.name)
+        source: SystemManager.getWallpaperCachePath(modelData.name)
         visible: false
         cache: false
     }
@@ -126,7 +127,7 @@ PanelWindow {
                         Text {
                             text: "\uf293"
                             color: {   
-                                let devices = sysManager.availableBluetoothDevices;
+                                let devices = SystemManager.availableBluetoothDevices;
                                 let connectedOnly = devices.filter(device => device.connected === true);
                                 if(connectedOnly.length === 0) return Theme.text_color
                                 return Theme.color_g
@@ -135,7 +136,7 @@ PanelWindow {
                         }
                         Text {
                             text: {
-                                let devices = sysManager.availableBluetoothDevices;
+                                let devices = SystemManager.availableBluetoothDevices;
                                 let connectedOnly = devices.filter(device => device.connected === true);
                                 if (connectedOnly.length === 0) {
                                     return "Disconnected";
@@ -145,7 +146,7 @@ PanelWindow {
                             anchors.verticalCenter: parent.verticalCenter
                             font.pixelSize: 15
                             color: {   
-                                let devices = sysManager.availableBluetoothDevices;
+                                let devices = SystemManager.availableBluetoothDevices;
                                 let connectedOnly = devices.filter(device => device.connected === true);
                                 if(connectedOnly.length === 0) return Theme.color_b
                                 return Theme.color_g
@@ -159,24 +160,24 @@ PanelWindow {
                         Text {
                             anchors.verticalCenter: parent.verticalCenter
                             color: {
-                                if(sysManager.batteryStatus === "Charging") return Theme.color_g
-                                else if (sysManager.batteryStatus === "Full") return Theme.text_color
+                                if(SystemManager.batteryStatus === "Charging") return Theme.color_g
+                                else if (SystemManager.batteryStatus === "Full") return Theme.text_color
                                 else{
-                                    if (sysManager.batteryCapacity > 90) return Theme.text_color
-                                    if (sysManager.batteryCapacity > 60) return Theme.color_y
-                                    if (sysManager.batteryCapacity > 30) return Theme.color_o
+                                    if (SystemManager.batteryCapacity > 90) return Theme.text_color
+                                    if (SystemManager.batteryCapacity > 60) return Theme.color_y
+                                    if (SystemManager.batteryCapacity > 30) return Theme.color_o
                                     return Theme.color_r
                                 }
                             }
                             font.pixelSize: 18
                             text: {
-                                if (sysManager.batteryStatus === "Charging") return "\uf0e7"
-                                else if (sysManager.batteryStatus === "Full") return "\uf240"
+                                if (SystemManager.batteryStatus === "Charging") return "\uf0e7"
+                                else if (SystemManager.batteryStatus === "Full") return "\uf240"
                                 else {
-                                    if (sysManager.batteryCapacity > 80) return "\uf240"
-                                    if (sysManager.batteryCapacity > 60) return "\uf241"
-                                    if (sysManager.batteryCapacity > 40) return "\uf242"
-                                    if (sysManager.batteryCapacity > 20) return "\uf243"
+                                    if (SystemManager.batteryCapacity > 80) return "\uf240"
+                                    if (SystemManager.batteryCapacity > 60) return "\uf241"
+                                    if (SystemManager.batteryCapacity > 40) return "\uf242"
+                                    if (SystemManager.batteryCapacity > 20) return "\uf243"
                                     return "\uf244"
                                 }
                             }
@@ -184,16 +185,16 @@ PanelWindow {
                         }   
                         Text {
                             color: {
-                                if(sysManager.batteryStatus === "Charging") return Theme.color_g
-                                else if (sysManager.batteryStatus === "Full") return Theme.color_b
+                                if(SystemManager.batteryStatus === "Charging") return Theme.color_g
+                                else if (SystemManager.batteryStatus === "Full") return Theme.color_b
                                 else{
-                                    if (sysManager.batteryCapacity > 90) return Theme.color_b
-                                    if (sysManager.batteryCapacity > 60) return Theme.color_y
-                                    if (sysManager.batteryCapacity > 30) return Theme.color_o
+                                    if (SystemManager.batteryCapacity > 90) return Theme.color_b
+                                    if (SystemManager.batteryCapacity > 60) return Theme.color_y
+                                    if (SystemManager.batteryCapacity > 30) return Theme.color_o
                                     return Theme.color_r
                                 }
                             }
-                            text: sysManager.batteryCapacity + "%"
+                            text: SystemManager.batteryCapacity + "%"
                             font.pixelSize: 15
                             anchors.verticalCenter: parent.verticalCenter
                             font.bold: true
@@ -225,11 +226,11 @@ PanelWindow {
                             font.pixelSize: 18
                         }
                         Text { 
-                            text: (sysManager.ramInfo.usagePercent || 0) + "%"
+                            text: (SystemManager.ramInfo.usagePercent || 0) + "%"
                             color: {
-                                if (sysManager.ramInfo.usagePercent < 25) return Theme.color_b
-                                if (sysManager.ramInfo.usagePercent < 50) return Theme.color_y
-                                if (sysManager.ramInfo.usagePercent < 75) return Theme.color_o
+                                if (SystemManager.ramInfo.usagePercent < 25) return Theme.color_b
+                                if (SystemManager.ramInfo.usagePercent < 50) return Theme.color_y
+                                if (SystemManager.ramInfo.usagePercent < 75) return Theme.color_o
                                 return Theme.color_r
                             } 
                             font.bold: true
@@ -245,11 +246,11 @@ PanelWindow {
                             font.pixelSize: 18
                         }
                         Text { 
-                            text: sysManager.cpuUsage + "%"
+                            text: SystemManager.cpuUsage + "%"
                             color: {
-                                if (sysManager.cpuUsage < 25) return Theme.color_b
-                                if (sysManager.cpuUsage < 50) return Theme.color_y
-                                if (sysManager.cpuUsage < 75) return Theme.color_o
+                                if (SystemManager.cpuUsage < 25) return Theme.color_b
+                                if (SystemManager.cpuUsage < 50) return Theme.color_y
+                                if (SystemManager.cpuUsage < 75) return Theme.color_o
                                 return Theme.color_r
                             } 
                             font.bold: true
@@ -265,10 +266,10 @@ PanelWindow {
                             font.pixelSize: 18
                         }
                         Text {
-                            text: sysManager.maxTemp + "°C"
+                            text: SystemManager.maxTemp + "°C"
                             color: {
-                                if (sysManager.maxTemp < 75) return Theme.color_b
-                                if (sysManager.maxTemp < 95) return Theme.color_o
+                                if (SystemManager.maxTemp < 75) return Theme.color_b
+                                if (SystemManager.maxTemp < 95) return Theme.color_o
                                 return Theme.color_r
                             }
                             font.pixelSize: 15
@@ -304,7 +305,7 @@ PanelWindow {
                 spacing: 15
 
                 Text {
-                    text: sysManager.currentUsername
+                    text: SystemManager.currentUsername
                     color: "white"
                     font.pixelSize: 30
                     font.bold: true

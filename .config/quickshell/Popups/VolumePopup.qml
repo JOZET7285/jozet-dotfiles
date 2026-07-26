@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -14,8 +15,8 @@ Item {
     readonly property int contentWidth: 420
     property string currentMonitor: modelData.name
 
-    property var playbackDevice: sysManager.playbackDeviceInfo
-    property var inputDevice: sysManager.inputDeviceInfo
+    property var playbackDevice: SystemManager.playbackDeviceInfo
+    property var inputDevice: SystemManager.inputDeviceInfo
 
     width: parent ? parent.width : contentWidth
     height: (open || animating) && contentLoader.item ? contentLoader.item.popupHeight : 0    
@@ -126,19 +127,19 @@ Item {
                         }
 
                         PlayingApps { 
-                            opacity: sysManager.playingApplications.length > 0 ? 1 : 0
+                            opacity: SystemManager.playingApplications.length > 0 ? 1 : 0
                             visible: opacity > 0.5 ? true : false
                             Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
                         }
                         Text {
                             text: "No applications playing audio"
-                            color: Theme.light_4
+                            color: Theme.text_color_secondary
                             font.pixelSize: 11
                             font.italic: true
                             Layout.fillWidth: true
                             Layout.preferredHeight: 22
                             Layout.leftMargin: 15
-                            visible: sysManager.playingApplications.length == 0
+                            visible: SystemManager.playingApplications.length == 0
                         }
                     }
                 }

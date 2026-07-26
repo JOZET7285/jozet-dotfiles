@@ -17,9 +17,9 @@ Rectangle {
     property int marginScaled: 15 * scaleFactor
     property var popups: [networkPopup, bluetoothPopup, energyPopup, volumePopup, powerPopup]
     property var connection:
-    sysManager.ethernetInfo.status == "up"
-        ? sysManager.ethernetInfo
-        : sysManager.wifiInfo
+    SystemManager.ethernetInfo.status == "up"
+        ? SystemManager.ethernetInfo
+        : SystemManager.wifiInfo
 
     property bool networkPopupOpen: networkPopup.open
 
@@ -44,6 +44,7 @@ Rectangle {
 
     Behavior on width { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
     Behavior on height { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
+    Behavior on color { ColorAnimation { duration: 250 } }
 
     anchors { 
         right: parent.right 
@@ -110,7 +111,7 @@ Rectangle {
                 Text {
                     visible: scaleFactor > 0.8 ? true : volumeBtnArea.containsMouse 
                     text: volumePopup.playbackDevice ? volumePopup.playbackDevice.volume + "%" : "0%"
-                    color: Theme.color_b
+                    color: Theme.color_a_text
                     font.pixelSize: 12
                     font.bold: true
                     anchors.verticalCenter: parent.verticalCenter
@@ -132,24 +133,24 @@ Rectangle {
                 Text {
                     anchors.verticalCenter: parent.verticalCenter
                     color: {
-                        if(sysManager.batteryStatus === "Charging") return Theme.color_g
-                        else if (sysManager.batteryStatus === "Full") return Theme.text_color
+                        if(SystemManager.batteryStatus === "Charging") return Theme.color_g_text
+                        else if (SystemManager.batteryStatus === "Full") return Theme.text_color
                         else{
-                            if (sysManager.batteryCapacity > 90) return Theme.text_color
-                            if (sysManager.batteryCapacity > 60) return Theme.color_y
-                            if (sysManager.batteryCapacity > 30) return Theme.color_o
-                            return Theme.color_r
+                            if (SystemManager.batteryCapacity > 90) return Theme.text_color
+                            if (SystemManager.batteryCapacity > 60) return Theme.color_y_text
+                            if (SystemManager.batteryCapacity > 30) return Theme.color_o_text
+                            return Theme.color_r_text
                         }
                     }
                     font.pixelSize: 14
                     text: {
-                        if (sysManager.batteryStatus === "Charging") return "\uf0e7"
-                        else if (sysManager.batteryStatus === "Full") return "\uf240"
+                        if (SystemManager.batteryStatus === "Charging") return "\uf0e7"
+                        else if (SystemManager.batteryStatus === "Full") return "\uf240"
                         else {
-                            if (sysManager.batteryCapacity > 80) return "\uf240"
-                            if (sysManager.batteryCapacity > 60) return "\uf241"
-                            if (sysManager.batteryCapacity > 40) return "\uf242"
-                            if (sysManager.batteryCapacity > 20) return "\uf243"
+                            if (SystemManager.batteryCapacity > 80) return "\uf240"
+                            if (SystemManager.batteryCapacity > 60) return "\uf241"
+                            if (SystemManager.batteryCapacity > 40) return "\uf242"
+                            if (SystemManager.batteryCapacity > 20) return "\uf243"
                             return "\uf244"
                         }
                     }
@@ -158,16 +159,16 @@ Rectangle {
                 Text {
                     visible: scaleFactor > 0.8 ? true : batteryBtnArea.containsMouse
                     color: {
-                        if(sysManager.batteryStatus === "Charging") return Theme.color_g
-                        else if (sysManager.batteryStatus === "Full") return Theme.color_b
+                        if(SystemManager.batteryStatus === "Charging") return Theme.color_g_text
+                        else if (SystemManager.batteryStatus === "Full") return Theme.color_a_text
                         else{
-                            if (sysManager.batteryCapacity > 90) return Theme.color_b
-                            if (sysManager.batteryCapacity > 60) return Theme.color_y
-                            if (sysManager.batteryCapacity > 30) return Theme.color_o
-                            return Theme.color_r
+                            if (SystemManager.batteryCapacity > 90) return Theme.color_a_text
+                            if (SystemManager.batteryCapacity > 60) return Theme.color_y_text
+                            if (SystemManager.batteryCapacity > 30) return Theme.color_o_text
+                            return Theme.color_r_text
                         }
                     }
-                    text: sysManager.batteryCapacity + "%"
+                    text: SystemManager.batteryCapacity + "%"
                     font.pixelSize: 12
                     anchors.verticalCenter: parent.verticalCenter
                     font.bold: true
@@ -204,7 +205,7 @@ Rectangle {
                 spacing: 6
                 Text {
                     text: "\uf011"
-                    color: Theme.color_o
+                    color: Theme.color_o_text
                     font.pixelSize: 13
                 }
             }

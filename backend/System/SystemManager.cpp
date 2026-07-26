@@ -47,9 +47,14 @@ SystemManager::SystemManager(QObject *parent) : QObject(parent)
     });
     connect(&m_settingsReader, &SettingsReader::settingsChanged, this, [this]() {
         emit riceSettingsChanged();
+        applyActiveProfileBrightness();
     });
     connect(&m_fastfetchReader, &FastfetchReader::systemInfoChanged, this, [this]() {
         emit systemInfoChanged();
+    });
+
+    connect(&m_matugenReader, &MatugenReader::colorsChanged, this, [this]() {
+        emit matugenColorsChanged();
     });
 
     m_volumeReader.startEventListener([](){});
@@ -331,6 +336,26 @@ void SystemManager::setInputMuted(bool muted)
     m_volumeReader.setInputMuted(muted);
 }
 
+void SystemManager::setDeviceVolume(uint32_t index, int volume)
+{
+    m_volumeReader.setDeviceVolume(index, volume);
+}
+
+void SystemManager::setDeviceMuted(uint32_t index, bool muted)
+{
+    m_volumeReader.setDeviceMuted(index, muted);
+}
+
+void SystemManager::setSourceDeviceVolume(uint32_t index, int volume)
+{
+    m_volumeReader.setSourceDeviceVolume(index, volume);
+}
+
+void SystemManager::setSourceDeviceMuted(uint32_t index, bool muted)
+{
+    m_volumeReader.setSourceDeviceMuted(index, muted);
+}
+
 void SystemManager::setApplicationVolume(uint32_t pid, int volume)
 {
     m_volumeReader.setApplicationVolume(pid, volume);
@@ -366,6 +391,21 @@ void SystemManager::setPowerProfile(const QString &profile)
 
         m_powerProfile = profile;
         emit powerProfileChanged();
+
+        QString settingsKey;
+        if (profile == "power-saver") settingsKey = "saver";
+        else if (profile == "performance") settingsKey = "perform";
+        else settingsKey = "balanced";
+
+        const QVariantMap energy = m_settingsReader.settings().value("energy").toMap();
+        const QVariantMap profiles = energy.value("profiles").toMap();
+        const QVariantMap p = profiles.value(settingsKey).toMap();
+
+        if (p.contains("brightness")) {
+            const int target = p.value("brightness").toInt();
+            if (target != m_brightness)
+                setBrightness(target);
+        }
     }
 }
 
@@ -382,6 +422,12 @@ void SystemManager::setBrightness(int percentage)
 
     m_brightness = percentage;
     emit brightnessChanged();
+}
+
+void SystemManager::setBrightnessPersist(int percentage)
+{
+    setBrightness(percentage);
+    persistBrightnessToActiveProfile(percentage);
 }
 
 void SystemManager::updateBattery()
@@ -599,6 +645,55 @@ void SystemManager::setSetting(const QString &key, const QVariant &value) {
 
 void SystemManager::resetSettings() {
     m_settingsReader.reset();
+}
+
+void SystemManager::applyActiveProfileBrightness()
+{
+    const QVariantMap settings = m_settingsReader.settings();
+    const QVariantMap energy = settings.value("energy").toMap();
+    const QString activeProfile = energy.value("active_profile").toString();
+
+    if (activeProfile.isEmpty())
+        return;
+
+    const QVariantMap profile = energy.value("profiles").toMap()
+                                       .value(activeProfile).toMap();
+
+    QString systemProfile;
+    if (activeProfile == "saver") systemProfile = "power-saver";
+    else if (activeProfile == "perform") systemProfile = "performance";
+    else systemProfile = "balanced";
+
+    if (m_powerProfile != systemProfile) {
+        QProcess::startDetached(
+            "powerprofilesctl",
+            QStringList() << "set" << systemProfile);
+        m_powerProfile = systemProfile;
+        emit powerProfileChanged();
+    }
+
+    if (!profile.contains("brightness"))
+        return;
+
+    const int target = profile.value("brightness").toInt();
+
+    if (target != m_brightness) {
+        setBrightness(target);
+    }
+}
+
+void SystemManager::persistBrightnessToActiveProfile(int percentage)
+{
+    const QVariantMap settings = m_settingsReader.settings();
+    const QString activeProfile = settings.value("energy").toMap()
+                                           .value("active_profile").toString();
+
+    if (activeProfile.isEmpty())
+        return;
+
+    m_settingsReader.set(
+        QString("energy.profiles.%1.brightness").arg(activeProfile),
+        percentage);
 }
 
 // System Info

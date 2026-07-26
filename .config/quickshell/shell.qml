@@ -5,24 +5,20 @@ import "Islands"
 import Jozet.System 1.0
 
 ShellRoot {
-    SystemManager {
-        id: sysManager
-        Component.onCompleted: {
-            sysManager.scanBluetooth(true)
-        }
-    }
+    Component.onCompleted: SystemManager.scanBluetooth(true)
+
     IpcHandler {
         target: "session"
         function lock(): void {
-            sysManager.lockSession()
+            SystemManager.lockSession()
         }
     }
     Variants {
         model: Quickshell.screens
-        Main { visible: !sysManager.locked }
+        Main { visible: !SystemManager.locked }
     }
     Loader {
-        active: sysManager.locked
+        active: SystemManager.locked
         sourceComponent: Component {
             Variants{ 
                 model: Quickshell.screens

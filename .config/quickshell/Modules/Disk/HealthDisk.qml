@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -32,7 +33,7 @@ Item {
                 }
 
                 Text {
-                    text: (sysManager.diskHealthAndIO.readSpeedMb || 0).toFixed(1)
+                    text: (SystemManager.diskHealthAndIO.readSpeedMb || 0).toFixed(1)
                     color: Theme.text_color
                     font.pixelSize: 22
                     font.bold: true
@@ -68,7 +69,7 @@ Item {
                 }
 
                 Text {
-                    text: (sysManager.diskHealthAndIO.writeSpeedMb || 0).toFixed(1)
+                    text: (SystemManager.diskHealthAndIO.writeSpeedMb || 0).toFixed(1)
                     color: Theme.text_color
                     font.pixelSize: 22
                     font.bold: true
@@ -103,7 +104,7 @@ Item {
                 }
 
                 Text {
-                    text: sysManager.diskHealthAndIO.health || "N/A"
+                    text: SystemManager.diskHealthAndIO.health || "N/A"
                     color: Theme.text_color
                     font.pixelSize: 20
                     font.bold: true

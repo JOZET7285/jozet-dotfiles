@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -82,7 +83,7 @@ Item {
                         h += 10; // spacing
                         
                         // dispositivos conectados
-                        let connectedCount = sysManager.availableBluetoothDevices.filter(d => d.connected).length;
+                        let connectedCount = SystemManager.availableBluetoothDevices.filter(d => d.connected).length;
                         h += connectedCount > 0 ? (connectedCount * 50 + (connectedCount - 1) * 8) : 25;
                         
                         h += 10; // spacing
@@ -92,7 +93,7 @@ Item {
                         h += 10; // spacing
                         
                         // grid disponibles
-                        let availableCount = Math.min(sysManager.availableBluetoothDevices.filter(d => !d.connected).length, 9);
+                        let availableCount = Math.min(SystemManager.availableBluetoothDevices.filter(d => !d.connected).length, 9);
                         let gridRows = Math.ceil(availableCount / 3);
                         h += gridRows > 0 ? (gridRows * 50 + (gridRows - 1) * 10) : 0;
                         
@@ -123,14 +124,14 @@ Item {
                             spacing: 8
                             clip: true
 
-                            readonly property var connectedList: sysManager.availableBluetoothDevices.filter(d => d.connected)
+                            readonly property var connectedList: SystemManager.availableBluetoothDevices.filter(d => d.connected)
                             readonly property int count: connectedList.length
                             property real contentHeight: count > 0 ? (count * 50 + (count - 1) * 8) : 25
 
                             Text {
                                 visible: connectedRow.count === 0
                                 text: "No connected devices"
-                                color: Theme.light_4
+                                color: Theme.text_color_secondary
                                 font.italic: true
                                 Layout.fillWidth: true
                             }
@@ -142,7 +143,7 @@ Item {
                                 delegate: Rectangle {
                                     Layout.fillWidth: true
                                     Layout.fillHeight: true
-                                    color: Theme.color_3
+                                    color: Theme.color_2
                                     radius: 8
                                     clip: true
 
@@ -155,7 +156,7 @@ Item {
                                             width: 10
                                             height: 10
                                             radius: 5
-                                            color: Theme.color_b
+                                            color: Theme.color_b_text
                                         }
 
                                         Column {
@@ -168,7 +169,7 @@ Item {
                                             }
                                             Text {
                                                 text: modelData.address
-                                                color: Theme.light_4
+                                                color: Theme.text_color_secondary
                                                 font.pixelSize: 9
                                             }
                                         }
@@ -189,7 +190,7 @@ Item {
                                                 Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.InOutQuad } }
                                             }
                                             onClicked: {
-                                                sysManager.disconnectBluetooth(modelData.address)
+                                                SystemManager.disconnectBluetooth(modelData.address)
                                             }
                                         }
                                     }
@@ -221,7 +222,7 @@ Item {
                             rowSpacing: 10
                             clip: true
 
-                            readonly property var availableList: sysManager.availableBluetoothDevices.filter(d => !d.connected)
+                            readonly property var availableList: SystemManager.availableBluetoothDevices.filter(d => !d.connected)
                             readonly property int count: Math.min(availableList.length, 9)
                             readonly property int gridRows: Math.ceil(count / 3)
 
@@ -274,7 +275,7 @@ Item {
                                     onClicked: {
                                         if (!isConnecting) {
                                             bluetoothPopup.connectingAddress = device.address
-                                            sysManager.connectBluetooth(device.address)
+                                            SystemManager.connectBluetooth(device.address)
                                             connectionTimeout.start()
                                         }
                                     }
@@ -295,7 +296,7 @@ Item {
             }
 
             Connections {
-                target: sysManager
+                target: SystemManager
                 function onBluetoothChanged() {
                     connectionTimeout.stop()
                     bluetoothPopup.connectingAddress = ""

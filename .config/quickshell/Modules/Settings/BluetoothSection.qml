@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -22,7 +23,7 @@ Component {
                 MouseArea {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
-                    onClicked: sysManager.scanBluetooth(true)
+                    onClicked: SystemManager.scanBluetooth(true)
                 }
                 Text { anchors.centerIn: parent; text: "Escanear"; font.pixelSize: 11; font.bold: true; color: "white" }
             }
@@ -32,7 +33,7 @@ Component {
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
-            model: sysManager.availableBluetoothDevices
+            model: SystemManager.availableBluetoothDevices
             delegate: Rectangle {
                 width: ListView.view.width
                 height: 36
@@ -49,7 +50,7 @@ Component {
                     Text {
                         text: modelData.connected ? "Conectado" : "Desconectado"
                         font.pixelSize: 11
-                        color: modelData.connected ? Theme.color_g : Theme.color_b
+                        color: modelData.connected ? Theme.color_g : Theme.color_a_text
                     }
                 }
             }

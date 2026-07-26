@@ -19,7 +19,7 @@ Rectangle {
     color: Theme.color_1_solid
     bottomLeftRadius: 38
     bottomRightRadius: 38
-    
+    Behavior on color { ColorAnimation { duration: 250 } }
 
     RowLayout {
         id: centerRowLayoutId
@@ -30,9 +30,9 @@ Rectangle {
             rightMargin: 15 * scaleFactor
         }
         Rectangle {
-            Layout.preferredWidth: pillTodayMa.containsMouse ? 175 : 150 
+            Layout.preferredWidth: pillTodayMa.containsMouse ? 180 : 170 
             Layout.preferredHeight: 29 * scaleFactor
-            color: pillTodayMa.containsMouse ? Theme.color_1 : "transparent"
+            color: "transparent"
             radius: 8 * scaleFactor
             Behavior on Layout.preferredWidth { NumberAnimation { duration: 300; easing.type: Easing.InOutQuad}}
             RowLayout {
@@ -48,7 +48,7 @@ Rectangle {
                 }
                 Text {
                     text: currentTime
-                    color: Theme.color_b
+                    color: Theme.color_a_text
                     font {
                         bold: true
                         pixelSize: 12
@@ -65,7 +65,7 @@ Rectangle {
                 }
                 Text {
                     text: currentDate
-                    color: Theme.color_b
+                    color: Theme.color_a_text
                     font {
                         bold: true
                         pixelSize: 12
@@ -82,21 +82,21 @@ Rectangle {
         }
         BasePillSimple { 
             icon: "\uf0c2"
-            text: sysManager.weather
+            text: SystemManager.weather
             color_text: {
                 let patron = /\+?(\d+)°/;
-                let weather = (sysManager.weather).match(patron);
+                let weather = (SystemManager.weather).match(patron);
                 if (weather && weather[1]) {
                     let temperatura = parseInt(weather[1], 10);
                     
                     if (temperatura < 15) {
-                        return Theme.color_b;
+                        return Theme.color_a_text
                     } if ( temperatura < 23) {
-                        return Theme.color_g
+                        return Theme.color_g_text
                     } if (temperatura < 30) {
-                        return Theme.color_y
+                        return Theme.color_y_text
                     } if (temperatura < 35) {
-                        return Theme.color_o
+                        return Theme.color_o_text
                     }
                     else {
                         return "red";
@@ -104,6 +104,7 @@ Rectangle {
                 }
                 return Theme.text_color;
             }
+
         }
     }
 }

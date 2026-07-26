@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -18,20 +19,20 @@ ColumnLayout {
             text: "Upcoming Events"
             font.pixelSize: 14
             font.bold: true
-            color: Theme.light_1
+            color: Theme.text_color
         }
         Rectangle { 
             Layout.fillHeight: true
             Layout.preferredWidth: height
             radius: 5
-            color: addEventsMa.containsMouse ? Theme.color_2 : Theme.color_1
+            color: addEventsMa.containsMouse ? Theme.color_3 : Theme.color_1
             Behavior on color { ColorAnimation { duration: 200; easing.type: Easing.InOutQuad}}
             Text {
                 anchors.centerIn: parent
                 text: "+"
                 font.pixelSize: 15
                 font.bold: true
-                color: Theme.light_1
+                color: Theme.text_color
             }
             MouseArea {
                 id: addEventsMa
@@ -47,7 +48,7 @@ ColumnLayout {
         orientation: ListView.Horizontal
         spacing: 5
         clip: true
-        model: sysManager.events ? sysManager.events : []
+        model: SystemManager.events ? SystemManager.events : []
         
         delegate: Rectangle {
             width: 150
@@ -59,12 +60,12 @@ ColumnLayout {
                 anchors.centerIn: parent
                 Text { 
                     text: modelData.date 
-                    color: Theme.color_b 
+                    color: Theme.color_a_text
                     font.bold: true 
                 }
                 Text { 
                     text: modelData.title 
-                    color: Theme.text_color 
+                    color: Theme.text_color
                     elide: Text.ElideRight 
                     Layout.maximumWidth: 130
                 }

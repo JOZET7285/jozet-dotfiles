@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -19,8 +20,8 @@ RowLayout {
         Layout.fillHeight: false
         Layout.fillWidth: false
 
-        property int capacity: sysManager.batteryCapacity
-        property string status: sysManager.batteryStatus
+        property int capacity: SystemManager.batteryCapacity
+        property string status: SystemManager.batteryStatus
 
         property color fillColor: {
             if (status === "Charging") return Theme.color_g;
@@ -104,15 +105,15 @@ RowLayout {
                     Layout.fillWidth: true
                 }
                 Text {
-                    text: sysManager.batteryCapacity + "% - " + sysManager.batteryStatus
+                    text: SystemManager.batteryCapacity + "% - " + SystemManager.batteryStatus
                     color: {
-                        if(sysManager.batteryStatus === "Charging") return Theme.color_g
-                        else if (sysManager.batteryStatus === "Full") return Theme.color_b
+                        if(SystemManager.batteryStatus === "Charging") return Theme.color_g_text
+                        else if (SystemManager.batteryStatus === "Full") return Theme.color_a_text
                         else{
-                            if (sysManager.batteryCapacity > 90) return Theme.text_color
-                            if (sysManager.batteryCapacity > 60) return Theme.color_y
-                            if (sysManager.batteryCapacity > 30) return Theme.color_o
-                            return Theme.color_r
+                            if (SystemManager.batteryCapacity > 90) return Theme.text_color
+                            if (SystemManager.batteryCapacity > 60) return Theme.color_y_text
+                            if (SystemManager.batteryCapacity > 30) return Theme.color_o_text
+                            return Theme.color_r_text
                         }
                     }
                     font.pixelSize: 10
@@ -128,7 +129,7 @@ RowLayout {
                 }
                 Text {
                     text: "1h 30m"
-                    color: Theme.color_g
+                    color: Theme.color_g_text
                     font.pixelSize: 10
                     Layout.fillWidth: true
                     font.bold: true
@@ -139,9 +140,9 @@ RowLayout {
                 Layout.preferredWidth: 100
                 Layout.fillHeight: true
                 color: {
-                    if(sysManager.powerProfile === "performance"){
+                    if(SystemManager.powerProfile === "performance"){
                         return changePowerProfileMa.containsMouse ? Theme.color_o : Theme.color_o_solid
-                    }else if (sysManager.powerProfile === "balanced"){
+                    }else if (SystemManager.powerProfile === "balanced"){
                         return changePowerProfileMa.containsMouse ? Theme.color_y : Theme.color_y_solid
                     }
                     return changePowerProfileMa.containsMouse ? Theme.color_g : Theme.color_g_solid
@@ -153,7 +154,7 @@ RowLayout {
                     spacing: 1
                     Text {
                         anchors.horizontalCenter: parent.horizontalCenter
-                        text: sysManager.powerProfile
+                        text: SystemManager.powerProfile
                         font.capitalization: Font.AllUppercase
                         font.bold: true
                         font.pixelSize: 15 * scaleFactor
@@ -162,7 +163,7 @@ RowLayout {
                         anchors.horizontalCenter: parent.horizontalCenter
                         text: "click to change"
                         font.pixelSize: 10 
-                        color: Theme.color_3
+                        color: Theme.text_color_secondary
                     }
                 }
                 MouseArea {
@@ -171,12 +172,12 @@ RowLayout {
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     onClicked: {
-                        if(sysManager.powerProfile === "performance") {
-                            sysManager.setPowerProfile("balanced");
-                        } else if (sysManager.powerProfile === "balanced") {
-                            sysManager.setPowerProfile("power-saver");
+                        if(SystemManager.powerProfile === "performance") {
+                            SystemManager.setPowerProfile("balanced");
+                        } else if (SystemManager.powerProfile === "balanced") {
+                            SystemManager.setPowerProfile("power-saver");
                         } else {
-                            sysManager.setPowerProfile("performance");
+                            SystemManager.setPowerProfile("performance");
                         }
                     }
                 }

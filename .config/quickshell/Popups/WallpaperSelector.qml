@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -19,12 +20,15 @@ BasePopupBottom {
     }
     property string currentMonitor: modelData.name
 
-    customWidth: 650
+    customWidth: 684
     customHeight: 400
     ipcTarget: "wallpaperSelector-" + currentMonitor
 
     Process {
         id: setWallpaper
+    }
+    Process {
+        id: runMatugen
     }
 
     popupContent: Component {
@@ -52,7 +56,7 @@ BasePopupBottom {
                     width: grid.cellWidth - 12
                     height: grid.cellHeight - 12
                     color: "transparent"
-                    border.color: Theme.color_b
+                    border.color: Theme.color_b_text
                     border.width: 1
                     clip: true
 
@@ -77,9 +81,16 @@ BasePopupBottom {
                             ]
                             setWallpaper.running = true
 
-                            sysManager.setSetting("theme.wallpaper_path", model.filePath)
+                            SystemManager.setSetting("theme.wallpaper_path", model.filePath)
                             
                             wallpaperSelector.open = false 
+
+                            var mode = SystemManager.riceSettings.theme.mode
+                            runMatugen.command = ["sh", "-c",
+                                "matugen image '" + model.filePath + "' -m " + mode + " -j hex --prefer darkness 2>/dev/null | " +
+                                "python3 -c \"import json,sys; d=json.load(sys.stdin); print(json.dumps({'accent': d['colors']['primary']['" + mode + "']['color']}))\" > ~/.config/jozet/matugen-colors.json"]
+                            
+                            runMatugen.running = true
                         }
                     }
                 }

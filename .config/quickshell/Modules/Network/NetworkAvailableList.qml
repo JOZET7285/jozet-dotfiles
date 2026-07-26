@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -22,7 +23,7 @@ Rectangle {
     ListView {
         anchors.fill: parent
         anchors.margins: 10
-        model: sysManager.availableNetworks.filter(net => !net.connected)
+        model: SystemManager.availableNetworks.filter(net => !net.connected)
         spacing: 8
 
         delegate: Item {
@@ -45,7 +46,7 @@ Rectangle {
                     anchors.topMargin: 10 
                     anchors.horizontalCenter: parent.horizontalCenter
                     text: modelData.ssid + " - " + modelData.signal + "%"
-                    color: Theme.color_b
+                    color: Theme.color_b_text
                     font.bold: true
                     font.pixelSize: 13
                 }
@@ -60,19 +61,16 @@ Rectangle {
 
                     TextField {
                         id: passwordField
-                        color: Theme.light_3
+                        color: Theme.text_color_secondary
                         Layout.fillWidth: false
                         Layout.preferredWidth: 250 * scaleFactor
                         Layout.fillHeight: true
                         echoMode: TextInput.Password
-                        placeholderText: "Contraseña..."
-                        placeholderTextColor: "#88889D"
+                        placeholderText: "password..."
+                        placeholderTextColor: Theme.text_color
                         font.pixelSize: 12
-                        font.family: "Segoe UI", "Roboto", "Helvetica"
                         
                         selectByMouse: true
-                        selectedTextColor: "#FFFFFF"
-                        selectionColor: Theme.color_3
 
                         background: Rectangle {
                             implicitWidth: 280 * scaleFactor
@@ -98,18 +96,18 @@ Rectangle {
                         color: maConnectNetBtn.containsMouse ? Theme.color_3 : Theme.color_2
                         radius: 15
                         Text {
-                            text: "Conectar"
+                            text: "Connect"
                             font.pixelSize: 12
                             font.bold: true
                             anchors.centerIn: parent
-                            color: Theme.color_g
+                            color: Theme.color_g_text
                         }
                         MouseArea {
                             id: maConnectNetBtn
                             anchors.fill: parent
                             hoverEnabled: true
                             onClicked: {
-                                sysManager.connectToNetwork(modelData.ssid, passwordField.text)
+                                SystemManager.connectToNetwork(modelData.ssid, passwordField.text)
                                 verifyConnect.visible = false
                             }
                         }

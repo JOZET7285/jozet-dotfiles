@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -10,16 +11,16 @@ Item {
     id: networkPopup
 
     property string selectedConnectionType: "auto"
-    property var connection: sysManager.ethernetInfo.status == "up" ? sysManager.ethernetInfo : sysManager.wifiInfo
+    property var connection: SystemManager.ethernetInfo.status == "up" ? SystemManager.ethernetInfo : SystemManager.wifiInfo
 
     onSelectedConnectionTypeChanged: {
         if (selectedConnectionType === "ethernet") {
-            connection = sysManager.ethernetInfo;
+            connection = SystemManager.ethernetInfo;
         } else if (selectedConnectionType === "wifi") {
-            connection = sysManager.wifiInfo;
-            sysManager.scanNetworks();
+            connection = SystemManager.wifiInfo;
+            SystemManager.scanNetworks();
         } else {
-            connection = sysManager.ethernetInfo.status == "up" ? sysManager.ethernetInfo : sysManager.wifiInfo;
+            connection = SystemManager.ethernetInfo.status == "up" ? SystemManager.ethernetInfo : SystemManager.wifiInfo;
         }
     }
 

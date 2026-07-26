@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -74,12 +75,12 @@ BasePopupBottom {
                     Layout.preferredHeight: 30
                     color: "transparent"
                     radius: 5
-                    border.color: Theme.light_3
+                    border.color: Theme.text_color
                     border.width: 1
                     Text {
                         anchors.centerIn: parent
                         text: "Cancel"
-                        color: Theme.light_3
+                        color: Theme.text_color
                         font.pixelSize: 13
                     }
                     MouseArea {
@@ -99,8 +100,8 @@ BasePopupBottom {
                     radius: 5
                     Text {
                         anchors.centerIn: parent
-                        text: "Guardar"
-                        color: Theme.color_2
+                        text: "Save"
+                        color: Theme.dark_1_solid
                         font.pixelSize: 13
                         font.bold: true
                     }
@@ -119,7 +120,7 @@ BasePopupBottom {
 
     function saveEvent(date, title) {
         if (date.trim() !== "" && title.trim() !== "") {
-            sysManager.addEvent(date, title);
+            SystemManager.addEvent(date, title);
             eventPopup.open = false;
         }
     }

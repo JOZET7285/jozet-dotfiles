@@ -1,0 +1,6 @@
+[config]
+reload_apps = false
+
+[templates.jzt]
+input_path = "~/.config/matugen/templates/jzt-rice-colors.json"
+output_path = "~/.config/jzt-rice/matugen-colors.json"

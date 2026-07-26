@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -8,63 +9,101 @@ import "../../Components/"
 Component {
     id: energySection
     ColumnLayout {
+        id: root
         spacing: 8
+        readonly property var rs: SystemManager.riceSettings
+        property string activeKey: SystemManager.getSetting("energy.active_profile") || "balanced"
 
-        // force re-evaluation of all bindings when riceSettings changes
-        property var _settings: sysManager.riceSettings
-        property string activeKey: sysManager.getSetting("energy.active_profile") || "balanced"
+        Connections {
+            target: SystemManager
+            function onRiceSettingsChanged() {
+                root.activeKey = SystemManager.getSetting("energy.active_profile") || "balanced"
+            }
+        }
 
-        Text { text: "Energía"; font.pixelSize: 16; font.bold: true; color: Theme.text_color }
+        function get(key) {
+            var parts = key.split(".")
+            var v = rs
+            for (var i = 0; i < parts.length; i++) {
+                if (v === undefined || v === null) return undefined
+                v = v[parts[i]]
+            }
+            return v
+        }
+
+        Text { 
+            text: "Energy"
+            font.pixelSize: 16 
+            font.bold: true
+            color: Theme.text_color
+        }
         Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 1; color: Theme.color_3 }
 
-        // Battery info
         RowLayout {
             Layout.fillWidth: true
             spacing: 10
-            Text { text: "Batería:"; font.pixelSize: 12; color: Theme.color_b; Layout.preferredWidth: 120 }
-            Text { text: sysManager.batteryCapacity + "% (" + sysManager.batteryStatus + ")"; font.pixelSize: 12; color: Theme.text_color }
+            Text {
+                Layout.leftMargin: 20
+                text: "Battery:"
+                font.pixelSize: 12
+                color: Theme.text_color
+                font.bold: true
+            }
+            Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 1; color: Theme.color_3 }
+            Text {
+                Layout.rightMargin: 20
+                text: SystemManager.batteryCapacity + "% (" + SystemManager.batteryStatus + ")"
+                font.pixelSize: 12
+                color: Theme.text_color
+            }
         }
 
         Item { Layout.preferredHeight: 8 }
 
-        // Active profile selector
-        Text { text: "Perfil activo"; font.pixelSize: 14; font.bold: true; color: Theme.text_color }
+        Text { 
+            text: "Active Profile" 
+            font.pixelSize: 14 
+            font.bold: true 
+            color: Theme.text_color 
+        }
         Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 1; color: Theme.color_3 }
 
         Repeater {
             model: [
-                { key: "saver",    label: "Ahorro",    icon: "\uf0e7" },
-                { key: "balanced", label: "Balanceado", icon: "\uf0e7" },
-                { key: "perform",  label: "Rendimiento", icon: "\uf0e7" }
+                { key: "saver",    label: "Saver",     icon: "\uf06c",  sysProfile: "power-saver" },
+                { key: "balanced", label: "Balanced",  icon: "\uf24e",  sysProfile: "balanced" },
+                { key: "perform",  label: "Perform", icon: "\uf0e7",  sysProfile: "performance" }
             ]
             delegate: Rectangle {
                 Layout.fillWidth: true
+                Layout.leftMargin: 20
+                Layout.rightMargin: 20
                 height: 32
                 radius: 6
-                color: parent.parent.activeKey === modelData.key ? Theme.color_3 : "transparent"
-                border.color: parent.parent.activeKey === modelData.key ? Theme.color_b : Theme.color_3
+                color: root.activeKey === modelData.key ? Theme.color_3 : "transparent"
+                border.color: root.activeKey === modelData.key ? Theme.color_a_text : Theme.color_3
                 border.width: 1
 
                 RowLayout {
                     anchors.fill: parent
-                    anchors.leftMargin: 10
-                    anchors.rightMargin: 10
+                    anchors.leftMargin: 20
+                    anchors.rightMargin: 20
                     spacing: 8
 
                     Text {
                         text: modelData.icon
                         font.pixelSize: 12
-                        color: parent.parent.parent.activeKey === modelData.key ? Theme.color_b : Theme.text_color
+                        color: root.activeKey === modelData.key ? Theme.color_a_text : Theme.text_color
                     }
                     Text {
                         text: modelData.label
                         font.pixelSize: 12
-                        font.bold: parent.parent.parent.activeKey === modelData.key
-                        color: parent.parent.parent.activeKey === modelData.key ? Theme.color_b : Theme.text_color
+                        font.bold: root.activeKey === modelData.key
+                        color: root.activeKey === modelData.key ? Theme.color_a_text : Theme.text_color
                         Layout.fillWidth: true
                     }
                     Text {
-                        text: sysManager.getSetting("energy.profiles." + modelData.key + ".brightness") + "%"
+                        text: "Brightness: " + (root.get("energy.profiles." + modelData.key + ".brightness") || 0) + "%"
                         font.pixelSize: 11
                         color: Theme.text_color
                         opacity: 0.6
@@ -74,28 +113,51 @@ Component {
                 MouseArea {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
-                    onClicked: sysManager.setSetting("energy.active_profile", modelData.key)
+                    onClicked: {
+                        SystemManager.setSetting("energy.active_profile", modelData.key)
+                        SystemManager.setPowerProfile(modelData.sysProfile)
+                    }
                 }
             }
         }
 
         Item { Layout.preferredHeight: 8 }
 
-        // Profile settings for active profile
-        Text { text: "Ajustes del perfil"; font.pixelSize: 14; font.bold: true; color: Theme.text_color }
+        Text { 
+            text: "Profile Settings" 
+            font.pixelSize: 14
+            font.bold: true 
+            color: Theme.text_color 
+        }
         Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 1; color: Theme.color_3 }
 
-        // Brightness
         RowLayout {
             Layout.fillWidth: true
+            Layout.leftMargin: 30
+            Layout.rightMargin: 30
             spacing: 10
-            Text { text: "Brillo:"; font.pixelSize: 12; color: Theme.color_b; Layout.preferredWidth: 120 }
+            Text { 
+                text: "Brightness:" 
+                font.pixelSize: 12 
+                color: Theme.text_color 
+                Layout.preferredWidth: 120 
+            }
             Slider {
                 Layout.fillWidth: true
                 id: brightnessSlider
                 from: 5; to: 100; stepSize: 1
-                value: sysManager.getSetting("energy.profiles." + activeKey + ".brightness") || 80
-                onMoved: sysManager.setSetting("energy.profiles." + activeKey + ".brightness", Math.round(value))
+
+                function sync() {
+                    value = root.get("energy.profiles." + root.activeKey + ".brightness") || 80
+                }
+                Connections {
+                    target: root
+                    function onActiveKeyChanged() { brightnessSlider.sync() }
+                    function onRsChanged() { brightnessSlider.sync() }
+                }
+                Component.onCompleted: sync()
+                value: root.get("energy.profiles." + root.activeKey + ".brightness") || 80
+                onMoved: SystemManager.setBrightnessPersist(Math.round(value))
                 background: Rectangle {
                     x: brightnessSlider.leftPadding
                     y: brightnessSlider.topPadding + brightnessSlider.availableHeight / 2 - height / 2
@@ -113,61 +175,87 @@ Component {
                     color: brightnessSlider.pressed ? Theme.color_y_solid : Theme.color_y
                 }
             }
-            Text { text: (sysManager.getSetting("energy.profiles." + activeKey + ".brightness") || 80) + "%"; font.pixelSize: 12; color: Theme.text_color; Layout.preferredWidth: 35 }
+            Text { 
+                text: brightnessSlider.value.toFixed(0) + "%" 
+                font.pixelSize: 12
+                color: Theme.text_color
+                Layout.preferredWidth: 35
+            }
         }
 
-        // Screen timeout
         RowLayout {
             Layout.fillWidth: true
+            Layout.leftMargin: 30
+            Layout.rightMargin: 30
             spacing: 10
-            Text { text: "Pantalla:"; font.pixelSize: 12; color: Theme.color_b; Layout.preferredWidth: 120 }
+            Text { 
+                text: "Display:"
+                font.pixelSize: 12
+                color: Theme.text_color 
+                Layout.preferredWidth: 120 
+            }
             Rectangle {
-                Layout.preferredWidth: 28; Layout.preferredHeight: 28; radius: 6; color: Theme.color_3
+                Layout.preferredWidth: 28 
+                Layout.preferredHeight: 28 
+                radius: 6 
+                color: Theme.color_3
                 MouseArea {
                     anchors.fill: parent; cursorShape: Qt.PointingHandCursor
                     onClicked: {
-                        var v = sysManager.getSetting("energy.profiles." + activeKey + ".screen_timeout_min") || 5
-                        if (v > 1) sysManager.setSetting("energy.profiles." + activeKey + ".screen_timeout_min", v - 1)
+                        var v = SystemManager.getSetting("energy.profiles." + root.activeKey + ".screen_timeout_min") || 5
+                        if (v > 1) SystemManager.setSetting("energy.profiles." + root.activeKey + ".screen_timeout_min", v - 1)
                     }
                 }
-                Text { anchors.centerIn: parent; text: "-"; color: Theme.text_color; font.pixelSize: 14 }
+                Text { 
+                    anchors.centerIn: parent 
+                    text: "-"
+                    color: Theme.text_color 
+                    font.pixelSize: 14 
+                }
             }
             Text {
-                text: (sysManager.getSetting("energy.profiles." + activeKey + ".screen_timeout_min") || 5) + " min"
-                font.pixelSize: 12; color: Theme.text_color; font.bold: true
-                Layout.preferredWidth: 50; horizontalAlignment: Text.AlignHCenter
+                text: (SystemManager.getSetting("energy.profiles." + root.activeKey + ".screen_timeout_min") || 5) + " min"
+                font.pixelSize: 12 
+                color: Theme.text_color 
+                font.bold: true
+                Layout.preferredWidth: 50 
+                horizontalAlignment: Text.AlignHCenter
             }
             Rectangle {
                 Layout.preferredWidth: 28; Layout.preferredHeight: 28; radius: 6; color: Theme.color_3
                 MouseArea {
                     anchors.fill: parent; cursorShape: Qt.PointingHandCursor
                     onClicked: {
-                        var v = sysManager.getSetting("energy.profiles." + activeKey + ".screen_timeout_min") || 5
-                        sysManager.setSetting("energy.profiles." + activeKey + ".screen_timeout_min", v + 1)
+                        var v = SystemManager.getSetting("energy.profiles." + root.activeKey + ".screen_timeout_min") || 5
+                        SystemManager.setSetting("energy.profiles." + root.activeKey + ".screen_timeout_min", v + 1)
                     }
                 }
                 Text { anchors.centerIn: parent; text: "+"; color: Theme.text_color; font.pixelSize: 14 }
             }
         }
 
-        // Suspend timeout
         RowLayout {
             Layout.fillWidth: true
+            Layout.leftMargin: 30
+            Layout.rightMargin: 30
             spacing: 10
-            Text { text: "Suspensión:"; font.pixelSize: 12; color: Theme.color_b; Layout.preferredWidth: 120 }
+            Text { text: "Suspend:"; font.pixelSize: 12; color: Theme.text_color; Layout.preferredWidth: 120 }
             Rectangle {
-                Layout.preferredWidth: 28; Layout.preferredHeight: 28; radius: 6; color: Theme.color_3
+                Layout.preferredWidth: 28 
+                Layout.preferredHeight: 28 
+                radius: 6 
+                color: Theme.color_3
                 MouseArea {
                     anchors.fill: parent; cursorShape: Qt.PointingHandCursor
                     onClicked: {
-                        var v = sysManager.getSetting("energy.profiles." + activeKey + ".suspend_timeout_min") || 15
-                        if (v > 1) sysManager.setSetting("energy.profiles." + activeKey + ".suspend_timeout_min", v - 1)
+                        var v = SystemManager.getSetting("energy.profiles." + root.activeKey + ".suspend_timeout_min") || 15
+                        if (v > 1) SystemManager.setSetting("energy.profiles." + root.activeKey + ".suspend_timeout_min", v - 1)
                     }
                 }
                 Text { anchors.centerIn: parent; text: "-"; color: Theme.text_color; font.pixelSize: 14 }
             }
             Text {
-                text: (sysManager.getSetting("energy.profiles." + activeKey + ".suspend_timeout_min") || 15) + " min"
+                text: (SystemManager.getSetting("energy.profiles." + root.activeKey + ".suspend_timeout_min") || 15) + " min"
                 font.pixelSize: 12; color: Theme.text_color; font.bold: true
                 Layout.preferredWidth: 50; horizontalAlignment: Text.AlignHCenter
             }
@@ -176,8 +264,8 @@ Component {
                 MouseArea {
                     anchors.fill: parent; cursorShape: Qt.PointingHandCursor
                     onClicked: {
-                        var v = sysManager.getSetting("energy.profiles." + activeKey + ".suspend_timeout_min") || 15
-                        sysManager.setSetting("energy.profiles." + activeKey + ".suspend_timeout_min", v + 1)
+                        var v = SystemManager.getSetting("energy.profiles." + root.activeKey + ".suspend_timeout_min") || 15
+                        SystemManager.setSetting("energy.profiles." + root.activeKey + ".suspend_timeout_min", v + 1)
                     }
                 }
                 Text { anchors.centerIn: parent; text: "+"; color: Theme.text_color; font.pixelSize: 14 }

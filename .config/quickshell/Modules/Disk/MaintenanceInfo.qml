@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -33,7 +34,7 @@ Item {
                 }
 
                 Text {
-                    text: (sysManager.maintenanceInfo.cacheMb || 0).toFixed(1)
+                    text: (SystemManager.maintenanceInfo.cacheMb || 0).toFixed(1)
                     color: Theme.text_color
                     font.pixelSize: 22
                     font.bold: true
@@ -52,7 +53,7 @@ Item {
                 id: cacheMouseArea
                 anchors.fill: parent
                 hoverEnabled: true
-                onClicked: { sysManager.cleanCache() }
+                onClicked: { SystemManager.cleanCache() }
             }
         }
 
@@ -76,7 +77,7 @@ Item {
                 }
 
                 Text {
-                    text: (sysManager.maintenanceInfo.trashMb || 0).toFixed(1)
+                    text: (SystemManager.maintenanceInfo.trashMb || 0).toFixed(1)
                     color: Theme.text_color
                     font.pixelSize: 22
                     font.bold: true
@@ -95,7 +96,7 @@ Item {
                 id: trashMouseArea
                 anchors.fill: parent
                 hoverEnabled: true
-                onClicked: { sysManager.cleanTrash() }
+                onClicked: { SystemManager.cleanTrash() }
             }
         }
 
@@ -119,7 +120,7 @@ Item {
                 }
 
                 Text {
-                    text: (sysManager.maintenanceInfo.logsMb || 0).toFixed(1)
+                    text: (SystemManager.maintenanceInfo.logsMb || 0).toFixed(1)
                     color: Theme.text_color
                     font.pixelSize: 22
                     font.bold: true

@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -67,11 +68,11 @@ BasePopup {
             implicitHeight: 460
 
             property var sectionComponents: ({
-                0: [systemSection, energySection, audioSection],
+                0: [infoSection, energySection, audioSection],
                 1: [networkSection, accessPointSection, bluetoothSection],
                 2: [usbSection],
                 3: [lockSection, notifSection],
-                4: [appearanceSection, hyprlandSection, cursorSection]
+                4: [generalThemeSection, hyprlandSection, cursorSection]
             })
 
             function currentSection() {
@@ -108,7 +109,7 @@ BasePopup {
             }
 
             // --- System ---
-            SystemSection { id: systemSection }
+            InfoSection { id: infoSection }
             EnergySection { id: energySection }
             AudioSection { id: audioSection }
 
@@ -132,19 +133,19 @@ BasePopup {
                         Text { text: "Blur:"; font.pixelSize: 12; color: Theme.color_b; Layout.preferredWidth: 100 }
                         Rectangle {
                             Layout.preferredWidth: 40; Layout.preferredHeight: 22; radius: 11
-                            color: sysManager.getSetting("display.lockscreen.blur") ? Theme.color_g : Theme.color_3
+                            color: SystemManager.getSetting("display.lockscreen.blur") ? Theme.color_g : Theme.color_3
                             MouseArea {
                                 anchors.fill: parent
                                 cursorShape: Qt.PointingHandCursor
                                 onClicked: {
-                                    var current = sysManager.getSetting("display.lockscreen.blur")
-                                    sysManager.setSetting("display.lockscreen.blur", !current)
+                                    var current = SystemManager.getSetting("display.lockscreen.blur")
+                                    SystemManager.setSetting("display.lockscreen.blur", !current)
                                 }
                             }
                             Rectangle {
                                 width: 18; height: 18; radius: 9
                                 color: "white"
-                                x: sysManager.getSetting("display.lockscreen.blur") ? 20 : 2
+                                x: SystemManager.getSetting("display.lockscreen.blur") ? 20 : 2
                                 anchors.verticalCenter: parent.verticalCenter
                                 Behavior on x { NumberAnimation { duration: 150 } }
                             }
@@ -165,19 +166,19 @@ BasePopup {
                         Text { text: "No molestar:"; font.pixelSize: 12; color: Theme.color_b; Layout.preferredWidth: 100 }
                         Rectangle {
                             Layout.preferredWidth: 40; Layout.preferredHeight: 22; radius: 11
-                            color: sysManager.getSetting("display.notifications.do_not_disturb") ? Theme.color_g : Theme.color_3
+                            color: SystemManager.getSetting("display.notifications.do_not_disturb") ? Theme.color_g : Theme.color_3
                             MouseArea {
                                 anchors.fill: parent
                                 cursorShape: Qt.PointingHandCursor
                                 onClicked: {
-                                    var current = sysManager.getSetting("display.notifications.do_not_disturb")
-                                    sysManager.setSetting("display.notifications.do_not_disturb", !current)
+                                    var current = SystemManager.getSetting("display.notifications.do_not_disturb")
+                                    SystemManager.setSetting("display.notifications.do_not_disturb", !current)
                                 }
                             }
                             Rectangle {
                                 width: 18; height: 18; radius: 9
                                 color: "white"
-                                x: sysManager.getSetting("display.notifications.do_not_disturb") ? 20 : 2
+                                x: SystemManager.getSetting("display.notifications.do_not_disturb") ? 20 : 2
                                 anchors.verticalCenter: parent.verticalCenter
                                 Behavior on x { NumberAnimation { duration: 150 } }
                             }
@@ -188,7 +189,7 @@ BasePopup {
             }
 
             // --- Theme ---
-            AppearanceSection { id: appearanceSection }
+            GeneralThemeSection { id: generalThemeSection }
 
             Component {
                 id: hyprlandSection
@@ -214,14 +215,14 @@ BasePopup {
                                     anchors.fill: parent
                                     cursorShape: Qt.PointingHandCursor
                                     onClicked: {
-                                        var val = sysManager.getSetting(modelData.key)
-                                        if (val > 0) sysManager.setSetting(modelData.key, val - 1)
+                                        var val = SystemManager.getSetting(modelData.key)
+                                        if (val > 0) SystemManager.setSetting(modelData.key, val - 1)
                                     }
                                 }
                                 Text { anchors.centerIn: parent; text: "-"; color: Theme.text_color; font.pixelSize: 14 }
                             }
                             Text {
-                                text: sysManager.getSetting(modelData.key)
+                                text: SystemManager.getSetting(modelData.key)
                                 font.pixelSize: 13; color: Theme.text_color; font.bold: true
                                 Layout.preferredWidth: 30; horizontalAlignment: Text.AlignHCenter
                             }
@@ -232,8 +233,8 @@ BasePopup {
                                     anchors.fill: parent
                                     cursorShape: Qt.PointingHandCursor
                                     onClicked: {
-                                        var val = sysManager.getSetting(modelData.key)
-                                        sysManager.setSetting(modelData.key, val + 1)
+                                        var val = SystemManager.getSetting(modelData.key)
+                                        SystemManager.setSetting(modelData.key, val + 1)
                                     }
                                 }
                                 Text { anchors.centerIn: parent; text: "+"; color: Theme.text_color; font.pixelSize: 14 }

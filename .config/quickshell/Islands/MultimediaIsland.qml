@@ -21,7 +21,7 @@ Rectangle {
     radius: Theme.radius
     visible: scaleFactor < 0.8 ? false : (open || animating)
 
-    property bool open: sysManager.playingApplications.length > 0
+    property bool open: SystemManager.playingApplications.length > 0
     property bool animating: false
 
     Behavior on y {
@@ -38,6 +38,8 @@ Rectangle {
             duration: 120
         }
     }
+
+    Behavior on color { ColorAnimation { duration: 250 } }
 
     RowLayout {
         id: mediaRowLayout

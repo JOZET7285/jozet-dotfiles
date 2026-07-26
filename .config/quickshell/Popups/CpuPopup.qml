@@ -1,3 +1,4 @@
+import Jozet.System 1.0
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
@@ -27,7 +28,7 @@ BasePopup {
                             Layout.fillWidth: true
                         }
                         Text {
-                            text: sysManager.cpuUsage + "%"
+                            text: SystemManager.cpuUsage + "%"
                             color: Theme.text_color
                         }
                     }
@@ -39,9 +40,9 @@ BasePopup {
                         radius: 3
                         
                         Rectangle {
-                            width: parent.width * (sysManager.cpuUsage / 100)
+                            width: parent.width * (SystemManager.cpuUsage / 100)
                             height: parent.height
-                            color: Theme.color_b
+                            color: Theme.color_a_text
                             radius: 3
                         }
                     }
@@ -51,8 +52,8 @@ BasePopup {
                     Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
                     spacing: 5
                     Text {
-                        text: sysManager.cpuFrequency + " MHz"
-                        color: Theme.light_3
+                        text: SystemManager.cpuFrequency + " MHz"
+                        color: Theme.text_color_secondary
                         font.pixelSize: 13
                     }
                 }
@@ -64,7 +65,7 @@ BasePopup {
             }
             Text {
                 text: "Top Processes"
-                color: Theme.light_1
+                color: Theme.text_color_secondary
                 font.pixelSize: 13
                 font.bold: true
             }
@@ -74,7 +75,7 @@ BasePopup {
                 spacing: 4
 
                 Repeater {
-                    model: (sysManager.topCpuProcesses || []).slice(0, 5)
+                    model: (SystemManager.topCpuProcesses || []).slice(0, 5)
 
                     RowLayout {
                         Layout.fillWidth: true
@@ -89,7 +90,7 @@ BasePopup {
                         Rectangle {
                             Layout.fillWidth: true
                             Layout.preferredHeight: 2
-                            color: Theme.color_3
+                            color: Theme.color_4
                         }
                         Text {
                             text: modelData.usagePercent + "%"

@@ -24,7 +24,7 @@ PanelWindow {
     property real scalePreFactor: modelData ? (modelData.width / baseWidth) : 1.0
     property real scaleFactor: scalePreFactor > 1.0 ? 1.0 : scalePreFactor
 
-    property var popupList: [diskPopup, ramPopup, cpuPopup, tempPopup, todayPopup] 
+    property var popupList: [diskPopup, ramPopup, cpuPopup, tempPopup, todayPopup, settingsPopup] 
     property var popupBottomList: [agendPopup, wallpaperSelector, eventPopup]
     property bool bottomPopupsOpened: (agendPopup.open || agendPopup.animating || 
                                        wallpaperSelector.open || wallpaperSelector.animating || 
@@ -86,14 +86,19 @@ PanelWindow {
 
     Process {
         id: applyWallpaper
+        onRunningChanged: {
+            if (!running && wallpaperRetry.attempts < 2) {
+                wallpaperRetry.running = true;
+            }
+        }
     }
     Timer {
         id: wallpaperTimer
-        interval: 3000
+        interval: 4000
         running: true
         repeat: false
         onTriggered: {
-            var path = sysManager.getSetting("theme.wallpaper_path");
+            var path = SystemManager.getSetting("theme.wallpaper_path");
             if (path && path !== "") {
                 var monitor = modelData.name || "eDP-1";
                 applyWallpaper.command = [
@@ -103,6 +108,27 @@ PanelWindow {
                     "--transition-duration", "1"
                 ];
                 applyWallpaper.running = true;
+            }
+        }
+    }
+    Timer {
+        id: wallpaperRetry
+        interval: 3000
+        running: false
+        repeat: false
+        property int attempts: 0
+        onTriggered: {
+            var path = SystemManager.getSetting("theme.wallpaper_path");
+            if (path && path !== "" && attempts < 2) {
+                var monitor = modelData.name || "eDP-1";
+                applyWallpaper.command = [
+                    "awww", "img", path,
+                    "-o", monitor,
+                    "--transition-type", "wipe",
+                    "--transition-duration", "1"
+                ];
+                applyWallpaper.running = true;
+                attempts++;
             }
         }
     }
