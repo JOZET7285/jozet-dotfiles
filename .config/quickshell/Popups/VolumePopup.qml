@@ -7,172 +7,80 @@ import Quickshell.Io
 import "../Components"
 import "../Modules/Volume"
 
-Item {
+BasePrincipalPopup {
     id: volumePopup
-
-    property bool open: false
-    property bool animating: false
-    readonly property int contentWidth: 420
-    property string currentMonitor: modelData.name
+    popupName: "volume"
 
     property var playbackDevice: SystemManager.playbackDeviceInfo
     property var inputDevice: SystemManager.inputDeviceInfo
 
-    width: parent ? parent.width : contentWidth
-    height: (open || animating) && contentLoader.item ? contentLoader.item.popupHeight : 0    
-    clip: true
-    visible: open || animating
-    onOpenChanged: {
-        if (open) {
-            Qt.callLater(function() {
-                contentLoader.active = true;
-            })
-        } else {
-            Qt.callLater(function () {
-                contentLoader.item.startCloseAnimation();
-            })
-        }
-    }
-    
-    IpcHandler {
-        target: "volumePopup-"+currentMonitor
-        function toggle(): void { volumePopup.open = !volumePopup.open }
-        function show(): void { volumePopup.open = true }
-        function hide(): void { volumePopup.open = false }
-    }
-
-    Loader {
-        id: contentLoader
-        anchors.fill: parent
-        active: false
-        sourceComponent: volumeContent
-    }
-    function launch(app) {
-        if (app && app.command && app.command.length > 0) {
-            Quickshell.execDetached(app.command);
-            volumePopup.closeLauncher();
-        }
-    }
-    Component {
-        id: volumeContent
+    popupContent: Component {
         Item {
-            id: internalRoot
-            anchors.fill: parent
-
-            readonly property int popupHeight: content.height
-
-            Component.onCompleted: {
-                container.y = -content.height;
-                volumePopup.animating = true;
-                openAnim.start();
+            id: content
+            width: parent.width
+            height: 430
+            
+            Behavior on height { 
+                NumberAnimation { duration: 180; easing.type: Easing.InOutQuad } 
             }
-            function startCloseAnimation() {
-                volumePopup.animating = true;
-                closeAnim.start();
-            }
-            Rectangle {
-                id: container
-                width: parent.width
-                height: content.height
-                color: "transparent"
 
-                Item {
-                    id: content
-                    width: parent.width
-                    height: 430
-                    
-                    Behavior on height { 
-                        NumberAnimation { duration: 180; easing.type: Easing.InOutQuad } 
-                    }
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.margins: 10
+                spacing: 10
 
-                    ColumnLayout {
-                        anchors.fill: parent
-                        anchors.margins: 10
-                        spacing: 10
-
-                        Text {
-                            text: "Volume"
-                            color: Theme.text_color
-                            font.pixelSize: 15
-                            font.bold: true
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 15
-                        }
-
-                        ColumnLayout {
-                            Layout.fillWidth: true
-                            Layout.fillHeight: false
-                            Layout.preferredHeight: 250
-                            spacing: 10
-
-                            OutputDevices { }
-
-                            InputDevices { }
-                        }
-
-                        Rectangle {
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 1
-                            color: Theme.color_3
-                        }
-
-                        Text {
-                            text: "Applications"
-                            color: Theme.text_color
-                            font.pixelSize: 12
-                            font.bold: true
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 22
-                            Layout.leftMargin: 15
-                        }
-
-                        PlayingApps { 
-                            opacity: SystemManager.playingApplications.length > 0 ? 1 : 0
-                            visible: opacity > 0.5 ? true : false
-                            Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
-                        }
-                        Text {
-                            text: "No applications playing audio"
-                            color: Theme.text_color_secondary
-                            font.pixelSize: 11
-                            font.italic: true
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 22
-                            Layout.leftMargin: 15
-                            visible: SystemManager.playingApplications.length == 0
-                        }
-                    }
+                Text {
+                    text: "Volume"
+                    color: Theme.text_color
+                    font.pixelSize: 15
+                    font.bold: true
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 15
                 }
-            }
 
-            ParallelAnimation {
-                id: openAnim
-                PropertyAnimation { 
-                    target: container
-                    property: "y"
-                    to: 0
-                    duration: 220
-                    easing.type: Easing.OutCubic 
-                }
-                onStopped: volumePopup.animating = false
-            }
+                ColumnLayout {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: false
+                    Layout.preferredHeight: 250
+                    spacing: 10
 
-            ParallelAnimation {
-                id: closeAnim
-                PropertyAnimation { 
-                    target: container
-                    property: "y"
-                    to: -content.height 
-                    duration: 220
-                    easing.type: Easing.InCubic 
+                    OutputDevices { }
+
+                    InputDevices { }
                 }
-                onStopped: {
-                    volumePopup.animating = false
-                    contentLoader.active = false
-                    gc()
+
+                Rectangle {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 1
+                    color: Theme.color_3
+                }
+
+                Text {
+                    text: "Applications"
+                    color: Theme.text_color
+                    font.pixelSize: 12
+                    font.bold: true
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 22
+                    Layout.leftMargin: 15
+                }
+
+                PlayingApps { 
+                    opacity: SystemManager.playingApplications.length > 0 ? 1 : 0
+                    visible: opacity > 0.5 ? true : false
+                    Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                }
+                Text {
+                    text: "No applications playing audio"
+                    color: Theme.text_color_secondary
+                    font.pixelSize: 11
+                    font.italic: true
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 22
+                    Layout.leftMargin: 15
+                    visible: SystemManager.playingApplications.length == 0
                 }
             }
         }
-    }
-    
+    }  
 }

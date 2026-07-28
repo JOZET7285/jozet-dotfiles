@@ -16,7 +16,7 @@ Rectangle {
     readonly property var marginScaled: 10 * scaleFactor
 
     width: rightRowLayoutMonitor.implicitWidth + 20
-    height: 38 * scaleFactor
+    height: 30 * scaleFactor
     radius: Theme.radius
     color: Theme.color_1_solid
     clip: true
@@ -39,7 +39,7 @@ Rectangle {
             leftMargin: marginScaled
             rightMargin: marginScaled
         }
-        height: 38 * scaleFactor
+        height: 30 * scaleFactor
         spacing: 5 * scaleFactor
 
         BasePillSimple {

@@ -12,7 +12,7 @@ import "../Modules/Panel"
 import Jozet.System 1.0
 
 Rectangle {
-    id: rightIsland
+    id: rightLand
 
     property int marginScaled: 15 * scaleFactor
     property var popups: [networkPopup, bluetoothPopup, energyPopup, volumePopup, powerPopup]
@@ -215,7 +215,7 @@ Rectangle {
     NetworkPopup { 
         id: networkPopup 
         anchors.top: rightRowLayoutId.bottom
-        connection: rightIsland.connection
+        connection: rightLand.connection
     }
     BluetoothPopup { 
         id: bluetoothPopup

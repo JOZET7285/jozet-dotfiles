@@ -11,6 +11,7 @@ import "../Modules/Today"
 BasePopupBottom { 
     id: eventPopup
     customWidth: 320
+    ipcTarget: "eventPopup-"+modelData.name
 
     popupContent: Component {
         ColumnLayout {

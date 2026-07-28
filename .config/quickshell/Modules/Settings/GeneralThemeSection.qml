@@ -9,6 +9,22 @@ import "../../Components/"
 Component {
     id: generalThemeSection
     ColumnLayout {
+
+        Process {
+            id: runMatugen
+        }
+
+        function regenerateMatugen(mode) {
+            var wallpaper = SystemManager.riceSettings.theme.wallpaper_path
+            if (!wallpaper) return
+
+            runMatugen.command = ["sh", "-c",
+                "matugen image '" + wallpaper + "' -m " + mode + " -j hex --prefer darkness 2>/dev/null | " +
+                "python3 -c \"import json,sys; d=json.load(sys.stdin); print(json.dumps({'accent': d['colors']['primary']['" + mode + "']['color']}))\" > ~/.config/jozet/matugen-colors.json"
+            ]
+            runMatugen.running = true
+        }
+
         spacing: 12
         Text { text: "Appearance"; font.pixelSize: 16; font.bold: true; color: Theme.text_color }
         Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 1; color: Theme.color_3 }
@@ -28,7 +44,10 @@ Component {
                     id: maDarkTheme
                     anchors.fill: parent
                     hoverEnabled: true
-                    onClicked: SystemManager.setSetting("theme.mode", "dark")
+                    onClicked: {
+                        SystemManager.setSetting("theme.mode", "dark")
+                        regenerateMatugen("dark")
+                    }
                 }
             }
             Rectangle {
@@ -43,7 +62,10 @@ Component {
                     id: maLightTheme
                     anchors.fill: parent
                     hoverEnabled: true
-                    onClicked: SystemManager.setSetting("theme.mode", "light")
+                    onClicked: {
+                        SystemManager.setSetting("theme.mode", "light")
+                        regenerateMatugen("light")
+                    }
                 }
             }
         }

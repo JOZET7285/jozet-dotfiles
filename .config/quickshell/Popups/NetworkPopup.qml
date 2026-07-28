@@ -1,189 +1,85 @@
 import Jozet.System 1.0
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
-import Quickshell
-import Quickshell.Io
-import "../Components"
+import "../Components/"
 import "../Modules/Network"
 
-Item {
+BasePrincipalPopup {
     id: networkPopup
+    popupName: "network"
 
     property string selectedConnectionType: "auto"
     property var connection: SystemManager.ethernetInfo.status == "up" ? SystemManager.ethernetInfo : SystemManager.wifiInfo
 
     onSelectedConnectionTypeChanged: {
-        if (selectedConnectionType === "ethernet") {
-            connection = SystemManager.ethernetInfo;
-        } else if (selectedConnectionType === "wifi") {
-            connection = SystemManager.wifiInfo;
-            SystemManager.scanNetworks();
-        } else {
-            connection = SystemManager.ethernetInfo.status == "up" ? SystemManager.ethernetInfo : SystemManager.wifiInfo;
-        }
+        if (selectedConnectionType === "ethernet") connection = SystemManager.ethernetInfo
+        else if (selectedConnectionType === "wifi") { connection = SystemManager.wifiInfo; SystemManager.scanNetworks() }
+        else connection = SystemManager.ethernetInfo.status == "up" ? SystemManager.ethernetInfo : SystemManager.wifiInfo
     }
 
-    property bool open: false
-    property bool animating: false
-    readonly property int contentWidth: 320
-    property string currentMonitor: modelData.name
-
-    width: parent ? parent.width : contentWidth
-    height: (open || animating) && contentLoader.item ? contentLoader.item.popupHeight : 0    
-    clip: true
-    visible: open || animating
-    
-    onOpenChanged: {
-        if (open) {
-            contentLoader.active = true;
-        } else {
-            if(contentLoader.item){
-                contentLoader.item.startCloseAnimation();
-            }
-        }
-    }
-    
-    IpcHandler {
-        target: "networkPopup-"+currentMonitor
-        function toggle(): void { networkPopup.open = !networkPopup.open }
-        function show(): void { networkPopup.open = true }
-        function hide(): void { networkPopup.open = false }
-    }
-
-    Loader {
-        id: contentLoader
-        anchors.fill: parent
-        active: false
-        sourceComponent: networkContent
-    }
-
-    function launch(app) {
-        if (app && app.command && app.command.length > 0) {
-            Quickshell.execDetached(app.command);
-            networkPopup.closeLauncher();
-        }
-    }
-    Component {
-        id: networkContent
+    popupContent: Component {
         Item {
-            id: internalRoot
-            anchors.fill: parent
+            width: networkPopup.width
+            height: networkPopup.connection.type === "wifi" ? (networkPopup.connection.status === "up" ? 550 : 220) : 220
+            Behavior on height { NumberAnimation { duration: 180; easing.type: Easing.InOutQuad } }
 
-            readonly property int popupHeight: content.height
+            ColumnLayout {
+                anchors.fill: parent
+                anchors.margins: 10
+                spacing: 10
 
-            Component.onCompleted: {
-                container.y = -content.height;
-                networkPopup.animating = true;
-                openAnim.start();
-            }
-            function startCloseAnimation() {
-                networkPopup.animating = true;
-                closeAnim.start();
-            }
-            Rectangle {
-                id: container
-                width: parent.width
-                height: content.height
-                color: "transparent"
+                Text {
+                    text: "Network Connections"
+                    color: Theme.text_color
+                    font.pixelSize: 15
+                    font.bold: true
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 22
+                }
 
-                Item {
-                    id: content
-                    width: parent.width
-                    height: networkPopup.connection.type === "wifi" ? networkPopup.connection.status === "up" ? 550 : 220 : 220
+                RowLayout {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: false
+                    Layout.preferredHeight: 110
+                    spacing: 10
 
-                    Behavior on height { 
-                        NumberAnimation { duration: 180; easing.type: Easing.InOutQuad } 
+                    NetworkActiveBtn {
+                        id: activeNetBtn
+                        connection: networkPopup.connection
                     }
 
-                    ColumnLayout {
-                        anchors.fill: parent
-                        anchors.margins: 10
-                        spacing: 10
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        Layout.preferredWidth: 7
+                        Layout.preferredHeight: 2
+                        color: Theme.color_2
+                        radius: 15
 
-                        Text {
-                            text: "Network Connections"
-                            color: Theme.text_color
-                            font.pixelSize: 15
-                            font.bold: true
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 22
-                        }
-
-                        RowLayout {
-                            Layout.fillWidth: true
-                            Layout.fillHeight: false
-                            Layout.preferredHeight: 110
-                            spacing: 10
-
-                            NetworkActiveBtn { 
-                                id: activeNetBtn
-                                connection: networkPopup.connection
-                            }
-                            
-                            Rectangle {
-                                Layout.fillWidth: true
-                                Layout.fillHeight: true
-                                Layout.preferredWidth: 7
-                                Layout.preferredHeight: 2
-                                color: Theme.color_2
-                                radius: 15
-                                
-                                NetworkDetails { 
-                                    id: infoConnection
-                                    anchors.fill: parent
-                                    anchors.margins: 10
-                                    connection: networkPopup.connection
-                                }
-                            }
-                        }
-
-                        NetworkAvailableList { 
-                            id: wifiAvailableNets
+                        NetworkDetails {
+                            id: infoConnection
+                            anchors.fill: parent
+                            anchors.margins: 10
                             connection: networkPopup.connection
-                        }
-                        
-                        NetworkTypeToggle {
-                            id: typeToggleBtn
-                            Layout.fillWidth: true
-                            Layout.preferredHeight: 45
-                            connection: networkPopup.connection
-                            onConnectionTypeChanged: function(type) {
-                                networkPopup.selectedConnectionType = type;
-                            }
                         }
                     }
                 }
-            }
-            
-            ParallelAnimation {
-                id: openAnim
-                PropertyAnimation { 
-                    target: container
-                    property: "y"
-                    to: 0
-                    duration: 220
-                    easing.type: Easing.OutCubic 
-                }
-                onStopped: networkPopup.animating = false
-            }
 
-            ParallelAnimation {
-                id: closeAnim
-                PropertyAnimation { 
-                    target: container
-                    property: "y"
-                    to: -content.height 
-                    duration: 220
-                    easing.type: Easing.InCubic 
+                NetworkAvailableList {
+                    id: wifiAvailableNets
+                    connection: networkPopup.connection
                 }
-                onStopped: {
-                    networkPopup.animating = false
-                    contentLoader.active = false
-                    gc()
+
+                NetworkTypeToggle {
+                    id: typeToggleBtn
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 45
+                    connection: networkPopup.connection
+                    onConnectionTypeChanged: function(type) {
+                        networkPopup.selectedConnectionType = type;
+                    }
                 }
             }
         }
     }
-    
 }
