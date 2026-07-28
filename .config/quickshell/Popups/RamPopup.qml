@@ -89,7 +89,6 @@ BasePopup {
                     color: Theme.color_3
                 }
 
-                // Swap card
                 Rectangle {
                     Layout.fillWidth: true
                     Layout.fillHeight: true

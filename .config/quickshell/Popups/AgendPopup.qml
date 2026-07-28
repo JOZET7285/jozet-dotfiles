@@ -11,6 +11,7 @@ import "../Modules/Today"
 BasePopupBottom { 
     id: agendPopup
     customWidth: 320
+    ipcTarget: "agendaPopup-"+modelData.name
 
     popupContent: Component {
         ColumnLayout {

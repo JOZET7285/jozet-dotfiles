@@ -3,7 +3,7 @@ mainMod = "SUPER"
 
 -- Lanzadores y sistema
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd("sh -c 'monitor=$(hyprctl activeworkspace -j | jq -r .monitor); qs ipc call bluetoothPopup-$monitor toggle'"))
-hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("sh -c 'monitor=$(hyprctl activeworkspace -j | jq -r .monitor); qs ipc call appLauncher-$monitor toggle'"))
+hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("sh -c 'monitor=$(hyprctl activeworkspace -j | jq -r .monitor); qs ipc call appLauncherPopup-$monitor toggle'"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("nautilus"))
 hl.bind(mainMod .. " + F", hl.dsp.exec_cmd("floorp"))
 hl.bind(mainMod .. " + I", hl.dsp.exec_cmd("sh -c 'monitor=$(hyprctl activeworkspace -j | jq -r .monitor); qs ipc call settings-$monitor toggle'"))

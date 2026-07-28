@@ -15,7 +15,7 @@ Rectangle {
     readonly property var marginScaled: 10 * scaleFactor
     
     width: leftRowLayoutMonitor.implicitWidth + 20
-    height: 38 * scaleFactor
+    height: 30 * scaleFactor
     color: Theme.color_1_solid
     radius: Theme.radius
     clip: true
@@ -38,13 +38,13 @@ Rectangle {
             leftMargin: marginScaled
             rightMargin: marginScaled
         }
-        height: 38 * scaleFactor
+        height: 30 * scaleFactor
         spacing: 5 * scaleFactor
 
         BasePillSimple {
             id: ramUsagePill
             icon: "\uf233"
-            text: (SystemManager.ramInfo.usagePercent.toFixed(1) || 0) + "%"
+            text: (SystemManager.ramInfo.usagePercent || 0) + "%"
             color_text: {
                 if (SystemManager.ramInfo.usagePercent < 25) return Theme.color_a_text
                 if (SystemManager.ramInfo.usagePercent < 50) return Theme.color_y_text

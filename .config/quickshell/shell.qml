@@ -17,6 +17,10 @@ ShellRoot {
         model: Quickshell.screens
         Main { visible: !SystemManager.locked }
     }
+    Variants {
+        model: Quickshell.screens
+        BottomHoverZone { visible: !SystemManager.locked }
+    }
     Loader {
         active: SystemManager.locked
         sourceComponent: Component {

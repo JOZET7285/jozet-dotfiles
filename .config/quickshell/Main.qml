@@ -24,11 +24,27 @@ PanelWindow {
     property real scalePreFactor: modelData ? (modelData.width / baseWidth) : 1.0
     property real scaleFactor: scalePreFactor > 1.0 ? 1.0 : scalePreFactor
 
+    readonly property bool needsKeyboardFocus: anyPopupOpen
+
+    focusable: needsKeyboardFocus
+    WlrLayershell.keyboardFocus: needsKeyboardFocus ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+
+    property var popupTopList: [leftLand.popups, rightLand.popups]
     property var popupList: [diskPopup, ramPopup, cpuPopup, tempPopup, todayPopup, settingsPopup] 
     property var popupBottomList: [agendPopup, wallpaperSelector, eventPopup]
     property bool bottomPopupsOpened: (agendPopup.open || agendPopup.animating || 
                                        wallpaperSelector.open || wallpaperSelector.animating || 
                                        eventPopup.open || eventPopup.animating)
+
+    property bool anyPopupOpen: {
+        for (let i = 0; i < popupList.length; i++) {
+            if (popupList[i].open || popupList[i].animating) return true
+        }
+        for (let i = 0; i < popupBottomList.length; i++) {
+            if (popupBottomList[i].open || popupBottomList[i].animating) return true
+        }
+        return rightLand.popupOpened || leftLand.popupOpened
+    }
     
     function closeOtherPopups(openedPopup) {
         if (openedPopup.open) {
@@ -37,6 +53,7 @@ PanelWindow {
                     popupList[i].open = false;
                 }
             }
+            contentRoot.forceActiveFocus()
         }
     }
     function closeOtherBottomPopups(openedPopup) {
@@ -46,9 +63,25 @@ PanelWindow {
                     popupBottomList[i].open = false;
                 }
             }
-        }   
+            contentRoot.forceActiveFocus()
+        }
     }
-
+ 
+    function closeAllPopups() {
+        for (let i = 0; i < popupList.length; i++) {
+            if (popupList[i].open) popupList[i].open = false
+        }
+        for (let i = 0; i < popupBottomList.length; i++) {
+            if (popupBottomList[i].open) popupBottomList[i].open = false
+        }
+        for (let i = 0; i < popupTopList.length; i++) {
+            const group = popupTopList[i]
+            if (!group) continue
+            for (let j = 0; j < group.length; j++) {
+                if (group[j] && group[j].open) group[j].open = false
+            }
+        }
+    }
     
     anchors {
         top: true
@@ -62,7 +95,7 @@ PanelWindow {
         Region { item: multimediaLand }
         Region { item: centerLand }
         Region { item: rightLand }
-        Region { item: rightLandMonitor }
+        Region { item: rightLandMonitor } 
         Region { item: (diskPopup.open || diskPopup.animating) ? diskPopup : null }
         Region { item: (wallpaperSelector.open || wallpaperSelector.animating) ? wallpaperSelector : null }
         Region { item: (ramPopup.open || ramPopup.animating) ? ramPopup : null }
@@ -74,11 +107,6 @@ PanelWindow {
         Region { item: (settingsPopup.open || settingsPopup.animating) ? settingsPopup : null }
     }
     color: "transparent"
-
-    readonly property bool needsKeyboardFocus: rightLand.popupOpened || leftLand.popupOpened || bottomPopupsOpened
-
-    focusable: needsKeyboardFocus
-    WlrLayershell.keyboardFocus: needsKeyboardFocus ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
     
     HoverHandler { id: hoverPanelWindow } 
 
@@ -156,9 +184,17 @@ PanelWindow {
         }
     }
 
-
     Item {
         anchors.fill: parent
+        focus: needsKeyboardFocus
+
+        Keys.onPressed: (event) => {
+        console.log("Escape presionado, key:", event.key)
+            if (event.key === Qt.Key_Escape) {
+                closeAllPopups()
+                event.accepted = true
+            }
+        }
 
         LeftMonitorIsland { id: leftLandMonitor }
         LeftIsland { id: leftLand }
@@ -210,7 +246,7 @@ PanelWindow {
             anchors {
                 bottom: parent.bottom
                 horizontalCenter: parent.horizontalCenter
-                bottomMargin: 10
+                bottomMargin: 40
             }
             AgendPopup {
                 id: agendPopup
@@ -231,7 +267,6 @@ PanelWindow {
                 onOpenChanged: rootUISys.closeOtherBottomPopups(this)
             }
         }
-        
     }
 }
 
