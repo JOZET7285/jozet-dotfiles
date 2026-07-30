@@ -20,7 +20,7 @@ if [[ "${1:-}" == "--yes" ]]; then
 fi
 
 PACMAN_PKGS=(
-    hyprland qt6-base qt6-declarative quickshell awww capitaine-cursors
+    hyprland qt5-graphicaleffects qt6-base qt6-declarative quickshell awww capitaine-cursors
     cmake base-devel git
     networkmanager network-manager-applet
     pipewire pipewire-pulse pipewire-alsa wireplumber
@@ -30,7 +30,7 @@ PACMAN_PKGS=(
     ttf-jetbrains-mono-nerd ttf-firacode-nerd
     starship fastfetch
     matugen
-    sh-autosuggestions
+    zsh-autosuggestions
     zsh-syntax-highlighting
 )
 
