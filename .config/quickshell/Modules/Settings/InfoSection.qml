@@ -19,12 +19,17 @@ Component {
         }
         Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 1; color: Theme.color_3 }
 
-        ListView {
+        Text { text: "System Info"; font.pixelSize: 14; font.bold: true; color: Theme.color_a_text; Layout.leftMargin: 20 }
+        Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            clip: true
-            spacing: 4
-            model: {
+            Layout.leftMargin: 15; Layout.rightMargin: 15
+            color: Theme.color_2; radius: 5
+            ListView {
+                anchors.fill: parent; anchors.margins: 6
+                clip: true
+                spacing: 4
+                model: {
                 var info = SystemManager.systemInfo;
                 var items = [];
                 var add = function(label, value, color) {
@@ -66,7 +71,7 @@ Component {
             delegate: Rectangle {
                 width: ListView.view.width
                 height: 28
-                color: "transparent"
+                color: Theme.color_2
                 radius: 4
 
                 RowLayout {
@@ -95,15 +100,16 @@ Component {
                 }
             }
 
-            ScrollBar.vertical: ScrollBar {
-                policy: parent.contentHeight > parent.height ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
-                width: 6
-                contentItem: Rectangle {
-                    implicitWidth: 6; implicitHeight: 10; radius: 3
-                    color: parent.pressed ? Theme.color_3 : Theme.text_color
-                    opacity: 0.5
+                ScrollBar.vertical: ScrollBar {
+                    policy: parent.contentHeight > parent.height ? ScrollBar.AsNeeded : ScrollBar.AlwaysOff
+                    width: 6
+                    contentItem: Rectangle {
+                        implicitWidth: 6; implicitHeight: 10; radius: 3
+                        color: parent.pressed ? Theme.color_3 : Theme.text_color
+                        opacity: 0.5
+                    }
+                    background: Rectangle { color: "transparent"; radius: 3 }
                 }
-                background: Rectangle { color: Theme.color_1; radius: 3 }
             }
         }
     }

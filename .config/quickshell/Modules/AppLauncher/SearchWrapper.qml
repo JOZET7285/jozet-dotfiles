@@ -14,6 +14,7 @@ Rectangle {
     anchors.topMargin: 10
     height: 32
     radius: 10
+    clip: true
     color: Theme.color_1
     border.color: Theme.color_4
     border.width: 1

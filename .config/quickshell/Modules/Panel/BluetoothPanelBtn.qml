@@ -14,6 +14,14 @@ Rectangle {
     color: "transparent"
     
     property int currentDeviceIndex: 0
+    property bool compactMode: SystemManager.getSetting("theme.panel.compact") === true
+
+    Connections {
+        target: SystemManager
+        function onRiceSettingsChanged() {
+            compactMode = SystemManager.getSetting("theme.panel.compact") === true
+        }
+    }
 
     Behavior on implicitWidth { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
     
@@ -60,7 +68,7 @@ Rectangle {
             font.pixelSize: 14
         }
         Text {
-            visible: scaleFactor > 0.8 ? true : area.containsMouse
+            visible: compactMode ? area.containsMouse : true
             text: {
                 let devices = SystemManager.availableBluetoothDevices;
                 let connectedOnly = devices.filter(device => device.connected === true);

@@ -65,6 +65,7 @@ PanelWindow {
         anchors.fill: parent
         source: screenshotImg
         blurEnabled: true
+        opacity: SystemManager.getSetting("display.lockscreen.blur")
         blurMax: 100
         blur: 1.0
     }
@@ -82,22 +83,28 @@ PanelWindow {
         id: mainLockContent
         anchors.fill: parent
         opacity: 0
-        Rectangle {
+        Item {
             id: centralDiv
             width: parent.width * 0.7
             height: parent.height * 0.7
             anchors.centerIn: parent
-            color: "#1a1a1a"
-            radius: 75
             clip: true
 
             Rectangle {
+                anchors.fill: parent
+                color: Theme.color_1_solid
+                opacity: SystemManager.getSetting("display.lockscreen.opacity")
+                radius: 75
+            }
+
+            Rectangle {
                 id: leftDiv
+                visible: SystemManager.getSetting("display.lockscreen.leftLand")
                 width: parent.width * 0.2
                 height: parent.height * 0.35
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
-                color: "#2b2b2b"
+                color: Theme.color_2
                 bottomRightRadius: 50
                 topRightRadius: 50
                 z: 10   
@@ -115,7 +122,7 @@ PanelWindow {
                         }
                         Text{
                             text: connection.name !== "" ? connection.name : (connection.type == "ethernet" ? "Ethernet" : connection.type == "wifi" ? "Wi-Fi" : "No connection")
-                            color: connection.type == "unknown" ? Theme.color_r : Theme.color_b
+                            color: connection.type == "unknown" ? Theme.color_r : Theme.color_a_text
                             font.bold: true
                             font.pixelSize: 15
                             anchors.verticalCenter: parent.verticalCenter
@@ -148,8 +155,8 @@ PanelWindow {
                             color: {   
                                 let devices = SystemManager.availableBluetoothDevices;
                                 let connectedOnly = devices.filter(device => device.connected === true);
-                                if(connectedOnly.length === 0) return Theme.color_b
-                                return Theme.color_g
+                                if(connectedOnly.length === 0) return Theme.color_a_text
+                                return Theme.color_a_text
                             }
                             font.bold: true
                         }
@@ -185,12 +192,12 @@ PanelWindow {
                         }   
                         Text {
                             color: {
-                                if(SystemManager.batteryStatus === "Charging") return Theme.color_g
-                                else if (SystemManager.batteryStatus === "Full") return Theme.color_b
+                                if(SystemManager.batteryStatus === "Charging") return Theme.color_g_text
+                                else if (SystemManager.batteryStatus === "Full") return Theme.color_a_text
                                 else{
-                                    if (SystemManager.batteryCapacity > 90) return Theme.color_b
-                                    if (SystemManager.batteryCapacity > 60) return Theme.color_y
-                                    if (SystemManager.batteryCapacity > 30) return Theme.color_o
+                                    if (SystemManager.batteryCapacity > 90) return Theme.color_a_text
+                                    if (SystemManager.batteryCapacity > 60) return Theme.color_y_text
+                                    if (SystemManager.batteryCapacity > 30) return Theme.color_o_text
                                     return Theme.color_r
                                 }
                             }
@@ -206,11 +213,12 @@ PanelWindow {
 
             Rectangle {
                 id: rightDiv
+                visible: SystemManager.getSetting("display.lockscreen.rightLand")
                 width: parent.width * 0.2
                 height: parent.height * 0.35
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
-                color: "#2b2b2b"
+                color: Theme.color_2
                 topLeftRadius: 50
                 bottomLeftRadius: 50
                 z: 10 
@@ -228,9 +236,9 @@ PanelWindow {
                         Text { 
                             text: (SystemManager.ramInfo.usagePercent || 0) + "%"
                             color: {
-                                if (SystemManager.ramInfo.usagePercent < 25) return Theme.color_b
-                                if (SystemManager.ramInfo.usagePercent < 50) return Theme.color_y
-                                if (SystemManager.ramInfo.usagePercent < 75) return Theme.color_o
+                                if (SystemManager.ramInfo.usagePercent < 25) return Theme.color_a_text
+                                if (SystemManager.ramInfo.usagePercent < 50) return Theme.color_y_text
+                                if (SystemManager.ramInfo.usagePercent < 75) return Theme.color_o_text
                                 return Theme.color_r
                             } 
                             font.bold: true
@@ -248,10 +256,10 @@ PanelWindow {
                         Text { 
                             text: SystemManager.cpuUsage + "%"
                             color: {
-                                if (SystemManager.cpuUsage < 25) return Theme.color_b
-                                if (SystemManager.cpuUsage < 50) return Theme.color_y
-                                if (SystemManager.cpuUsage < 75) return Theme.color_o
-                                return Theme.color_r
+                                if (SystemManager.cpuUsage < 25) return Theme.color_a_text
+                                if (SystemManager.cpuUsage < 50) return Theme.color_y_text
+                                if (SystemManager.cpuUsage < 75) return Theme.color_o_text
+                                return Theme.color_r_text
                             } 
                             font.bold: true
                             font.pixelSize: 15
@@ -268,9 +276,9 @@ PanelWindow {
                         Text {
                             text: SystemManager.maxTemp + "°C"
                             color: {
-                                if (SystemManager.maxTemp < 75) return Theme.color_b
-                                if (SystemManager.maxTemp < 95) return Theme.color_o
-                                return Theme.color_r
+                                if (SystemManager.maxTemp < 75) return Theme.color_a_text
+                                if (SystemManager.maxTemp < 95) return Theme.color_o_text
+                                return Theme.color_r_text
                             }
                             font.pixelSize: 15
                             font.bold: true
@@ -287,14 +295,14 @@ PanelWindow {
 
                 Text {
                     text: currentTime
-                    color: "white"
+                    color: Theme.text_color
                     font.pixelSize: 65
                     font.bold: true
                     Layout.alignment: Qt.AlignHCenter
                 }
                 Text {
                     text: currentDate
-                    color: "#6f6f6f"
+                    color: Theme.text_color_secondary
                     font.pixelSize: 20
                     Layout.alignment: Qt.AlignHCenter
                 }
@@ -306,7 +314,7 @@ PanelWindow {
 
                 Text {
                     text: SystemManager.currentUsername
-                    color: "white"
+                    color: Theme.text_color
                     font.pixelSize: 30
                     font.bold: true
                     Layout.alignment: Qt.AlignHCenter
@@ -317,19 +325,19 @@ PanelWindow {
                     placeholderText: "Contraseña"
                     echoMode: TextInput.Password
                     horizontalAlignment: TextInput.AlignHCenter
-                    color: "white"
+                    color: Theme.text_color
                     Layout.preferredWidth: 250
                     Layout.alignment: Qt.AlignHCenter
                     focus: true
                     background: Rectangle {
-                        color: "#2b2b2b"
+                        color: Theme.color_3
                         radius: 10
                     }
                     onAccepted: tryLogin()
                 }
                 Text {
                     text: "Contraseña incorrecta"
-                    color: Theme.color_r
+                    color: Theme.color_r_text
                     font.pixelSize: 12
                     visible: loginError
                     Layout.alignment: Qt.AlignHCenter
@@ -341,11 +349,11 @@ PanelWindow {
                     Layout.preferredWidth: 120
                     contentItem: Text {
                         text: parent.text
-                        color: "white"
+                        color: Theme.color_text
                         horizontalAlignment: Text.AlignHCenter
                     }
                     background: Rectangle {
-                        color: "#2b2b2b"
+                        color: Theme.color_4
                         radius: 10
                     }
                     onClicked: tryLogin()
@@ -363,7 +371,7 @@ PanelWindow {
             id: leftDoor
             width: parent.width / 2
             height: parent.height
-            color: "#1a1a1a"
+            color: Theme.color_1_solid
             x: -width
         }
 
@@ -371,7 +379,7 @@ PanelWindow {
             id: rightDoor
             width: parent.width / 2
             height: parent.height
-            color: "#1a1a1a"
+            color: Theme.color_1_solid
             x: parent.width
         }
     }

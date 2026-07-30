@@ -30,7 +30,11 @@ static const QVariantMap DEFAULTS = {
     }},
     {"display", QVariantMap{
         {"lockscreen", QVariantMap{
-            {"blur", true},
+            {"blur", 1.0},
+            {"opacity", 1.0},
+            {"rightLand", true},
+            {"leftLand", true},
+            {"scale", 1.0},
             {"timeout_min", 5},
             {"notifications", false}
         }},
@@ -61,6 +65,10 @@ static const QVariantMap DEFAULTS = {
     {"theme", QVariantMap{
         {"mode", "dark"},
         {"accent_color", "b"},
+        {"panel", QVariantMap{
+            {"scale", 1.0},
+            {"compact", false}
+        }},
         {"wallpaper_path", "~/.config/quickshell/wallpapers/"},
         {"font", "JetBrains Mono"},
         {"hyprland", QVariantMap{

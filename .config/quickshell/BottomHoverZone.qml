@@ -17,7 +17,15 @@ PanelWindow {
 
     property real baseWidth: 1920
     property real scalePreFactor: modelData ? (modelData.width / baseWidth) : 1.0
-    property real scaleFactor: scalePreFactor > 1.0 ? 1.0 : scalePreFactor
+    property real userScale: parseFloat(SystemManager.getSetting("theme.panel.size")) || 1.0
+    property real scaleFactor: (scalePreFactor > 1.0 ? 1.0 : scalePreFactor) * userScale
+
+    Connections {
+        target: SystemManager
+        function onRiceSettingsChanged() {
+            userScale = parseFloat(SystemManager.getSetting("theme.panel.size")) || 1.0
+        }
+    }
 
     anchors {
         bottom: true

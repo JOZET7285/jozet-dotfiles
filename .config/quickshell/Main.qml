@@ -22,9 +22,18 @@ PanelWindow {
     
     property real baseWidth: 1920
     property real scalePreFactor: modelData ? (modelData.width / baseWidth) : 1.0
-    property real scaleFactor: scalePreFactor > 1.0 ? 1.0 : scalePreFactor
+    property real userScale: parseFloat(SystemManager.getSetting("theme.panel.size")) || 1.0
+    property real scaleFactor: (scalePreFactor > 1.0 ? 1.0 : scalePreFactor) * userScale
+    readonly property bool suggestCompact: scaleFactor < 0.8
 
     readonly property bool needsKeyboardFocus: anyPopupOpen
+
+    Connections {
+        target: SystemManager
+        function onRiceSettingsChanged() {
+            userScale = parseFloat(SystemManager.getSetting("theme.panel.size")) || 1.0
+        }
+    }
 
     focusable: needsKeyboardFocus
     WlrLayershell.keyboardFocus: needsKeyboardFocus ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
@@ -189,7 +198,6 @@ PanelWindow {
         focus: needsKeyboardFocus
 
         Keys.onPressed: (event) => {
-        console.log("Escape presionado, key:", event.key)
             if (event.key === Qt.Key_Escape) {
                 closeAllPopups()
                 event.accepted = true

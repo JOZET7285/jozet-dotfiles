@@ -13,44 +13,36 @@ Component {
         Text { text: "Bluetooth"; font.pixelSize: 16; font.bold: true; color: Theme.text_color }
         Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 1; color: Theme.color_3 }
 
-        RowLayout {
-            spacing: 10
-            Rectangle {
-                Layout.preferredWidth: 100
-                Layout.preferredHeight: 28
-                radius: 6
-                color: Theme.color_g
-                MouseArea {
-                    anchors.fill: parent
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: SystemManager.scanBluetooth(true)
-                }
-                Text { anchors.centerIn: parent; text: "Escanear"; font.pixelSize: 11; font.bold: true; color: "white" }
-            }
-        }
-
-        ListView {
+        Text { text: "Devices"; font.pixelSize: 14; font.bold: true; color: Theme.color_a_text; Layout.leftMargin: 20 }
+        Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            clip: true
-            model: SystemManager.availableBluetoothDevices
-            delegate: Rectangle {
-                width: ListView.view.width
-                height: 36
-                color: "transparent"
-                radius: 6
-
-                RowLayout {
-                    anchors.fill: parent
-                    anchors.leftMargin: 8
-                    anchors.rightMargin: 8
-                    spacing: 10
-
-                    Text { text: modelData.name; font.pixelSize: 12; color: Theme.text_color; Layout.fillWidth: true }
-                    Text {
-                        text: modelData.connected ? "Conectado" : "Desconectado"
-                        font.pixelSize: 11
-                        color: modelData.connected ? Theme.color_g : Theme.color_a_text
+            Layout.leftMargin: 15; Layout.rightMargin: 15
+            color: Theme.color_2; radius: 5
+            ColumnLayout {
+                anchors.fill: parent; anchors.margins: 8; spacing: 8
+                Rectangle {
+                    Layout.preferredHeight: 28; Layout.preferredWidth: 100
+                    radius: 6; color: Theme.color_g
+                    MouseArea {
+                        anchors.fill: parent; cursorShape: Qt.PointingHandCursor
+                        onClicked: SystemManager.scanBluetooth(true)
+                    }
+                    Text { anchors.centerIn: parent; text: "Escanear"; font.pixelSize: 11; font.bold: true; color: "white" }
+                }
+                ListView {
+                    Layout.fillWidth: true; Layout.fillHeight: true; clip: true
+                    model: SystemManager.availableBluetoothDevices
+                    delegate: Rectangle {
+                        width: ListView.view.width; height: 36; color: "transparent"; radius: 6
+                        RowLayout {
+                            anchors.fill: parent; anchors.leftMargin: 8; anchors.rightMargin: 8; spacing: 10
+                            Text { text: modelData.name; font.pixelSize: 12; color: Theme.text_color; Layout.fillWidth: true }
+                            Text {
+                                text: modelData.connected ? "Conectado" : "Desconectado"
+                                font.pixelSize: 11; color: modelData.connected ? Theme.color_g : Theme.color_a_text
+                            }
+                        }
                     }
                 }
             }

@@ -27,6 +27,7 @@
 #include "Readers/SettingsReader.h"
 #include "Readers/FastfetchReader.h"
 #include "Readers/MatugenReader.h"
+#include "Readers/HyprlandWriter.h"
 
 namespace jozet {
 
@@ -146,7 +147,7 @@ public:
     QVariantList availableNetworks() const { return m_networkReader.availableNetworks(); }
 
     Q_INVOKABLE void scanNetworks();
-    Q_INVOKABLE void connectToNetwork(const QString &ssid, const QString &password);
+    Q_INVOKABLE void connectToNetwork(const QString &ssid, const QString &password, const bool &saved);
 
     // BLUETOOTH -----------------------------------------------
     QVariantList availableBluetoothDevices() const { return m_bluetoothReader.availableDevices(); }
@@ -226,6 +227,14 @@ public:
     QVariantMap systemInfo() const { return m_fastfetchReader.systemInfo(); }
     Q_INVOKABLE void refreshSystemInfo();
 
+    // MONITORS --------------------------------------------------
+    Q_INVOKABLE QString getMonitorsJson();
+    Q_INVOKABLE void applyMonitorConfig(const QString &name, const QString &resolution, const QString &rate, int transform, double scale);
+    Q_INVOKABLE void setMonitorEnabled(const QString &name, bool enabled);
+    Q_INVOKABLE void setMonitorLayout(const QString &primary, const QString &secondary, const QString &mode);
+    Q_INVOKABLE void setMonitorVrr(const QString &name, bool enabled);
+    Q_INVOKABLE void refreshMonitors();
+
 signals:
     void ramInfoChanged();
     void topRamProcessesChanged();
@@ -274,6 +283,7 @@ private:
     FastfetchReader m_fastfetchReader;
     QVariantList m_workspaces;
     MatugenReader m_matugenReader;
+    HyprlandWriter *m_hyprlandWriter = nullptr;
     bool m_locked = false;
 
     // RAM ------------------------------------------------

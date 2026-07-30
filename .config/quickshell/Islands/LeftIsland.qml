@@ -28,7 +28,7 @@ Rectangle {
         : leftRowLayoutId.implicitWidth + 30
     height: ((activePopup && (activePopup.open || activePopup.animating))
         ? 38 + activePopup.height
-        : 38) * scaleFactor
+        : 38 * scaleFactor)
     anchors {
         left: parent.left
         leftMargin: -2

@@ -56,7 +56,7 @@ ColumnLayout {
                     if (index === 2) return "IP Address: " + networkDetails.connection.address;
                     return "";
                 }
-                color: Theme.text_color
+                color: Theme.color_a_text
                 font.pixelSize: 13 * scaleFactor
                 font.bold: true
             }

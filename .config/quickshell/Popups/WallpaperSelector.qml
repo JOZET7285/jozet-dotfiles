@@ -38,7 +38,7 @@ BasePopupBottom {
             FolderListModel {
                 id: wallpaperModel
                 folder: wallpaperSelector.wallpaperFolder
-                nameFilters: ["*.jpg", "*.jpeg", "*.png", "*.gif"]
+                nameFilters: ["*.jpg", "*.jpeg", "*.png", "*.gif", "*.webp"]
                 showDirs: false
             }
 
@@ -56,8 +56,8 @@ BasePopupBottom {
                     width: grid.cellWidth - 12
                     height: grid.cellHeight - 12
                     color: "transparent"
-                    border.color: Theme.color_b_text
-                    border.width: 1
+                    border.color: Theme.color_a_text
+                    border.width: 2
                     clip: true
 
                     Image {
