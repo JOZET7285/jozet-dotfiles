@@ -30,7 +30,7 @@ PACMAN_PKGS=(
     ttf-jetbrains-mono-nerd ttf-firacode-nerd
     starship fastfetch
     matugen
-    sh-autosuggestions
+    zsh-autosuggestions
     zsh-syntax-highlighting
 )
 
@@ -43,7 +43,6 @@ declare -A LINK_MAP=(
     [".config/gtk-3.0"]="$HOME/.config/gtk-3.0"
     [".config/gtk-4.0"]="$HOME/.config/gtk-4.0"
     [".config/starship.toml"]="$HOME/.config/starship.toml"
-    [".config/jzt-rice"]="$HOME/.config/jzt-rice"
     [".config/matugen"]="$HOME/.config/matugen"
     ["home/.zshrc"]="$HOME/.zshrc"
 )

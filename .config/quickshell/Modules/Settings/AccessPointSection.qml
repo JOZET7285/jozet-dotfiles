@@ -306,7 +306,13 @@ Component {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 10
-                    Text { text: "Nombre:"; font.pixelSize: 12; color: Theme.color_a_text; Layout.preferredWidth: 90 }
+                    Text { 
+                        text: "Name:" 
+                        font.pixelSize: 12 
+                        font.bold: true
+                        color: Theme.color_a_text 
+                        Layout.preferredWidth: 90
+                    }
                     Rectangle {
                         Layout.fillWidth: true 
                         Layout.preferredHeight: 28 
@@ -327,7 +333,13 @@ Component {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 10
-                    Text { text: "Contraseña:"; font.pixelSize: 12; color: Theme.color_a_text; Layout.preferredWidth: 90 }
+                    Text { 
+                        text: "Password:"
+                        font.pixelSize: 12 
+                        font.bold: true
+                        color: Theme.color_a_text 
+                        Layout.preferredWidth: 90 
+                    }
                     Rectangle {
                         Layout.fillWidth: true 
                         Layout.preferredHeight: 28 
@@ -349,7 +361,7 @@ Component {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 10
-                    Text { text: "Seguridad:"; font.pixelSize: 12; color: Theme.color_a_text; Layout.preferredWidth: 90 }
+                    Text { text: "Security:"; font.pixelSize: 12; color: Theme.color_a_text; Layout.preferredWidth: 90 }
                     Item { Layout.fillWidth: true }
                     Rectangle {
                         Layout.preferredWidth: 40 
