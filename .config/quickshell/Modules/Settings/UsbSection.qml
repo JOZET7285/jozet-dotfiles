@@ -22,8 +22,10 @@ Component {
                 anchors.fill: parent; anchors.margins: 8; spacing: 6
                 Text {
                     visible: SystemManager.usbDevices.length === 0
-                    text: "No hay dispositivos USB conectados"
-                    font.pixelSize: 12; color: Theme.color_a_text
+                    text: "No USB devices are connected."
+                    font.bold: true
+                    font.pixelSize: 12
+                    color: Theme.color_a_text
                 }
                 Repeater {
                     model: SystemManager.usbDevices
@@ -48,7 +50,7 @@ Component {
                                         else SystemManager.mountUsbDevice(modelData.devicePath)
                                     }
                                 }
-                                Text { anchors.centerIn: parent; text: modelData.mounted ? "Desmontar" : "Montar"; font.pixelSize: 11; font.bold: true; color: "white" }
+                                Text { anchors.centerIn: parent; text: modelData.mounted ? "Dismount" : "Mount"; font.pixelSize: 11; font.bold: true; color: "white" }
                             }
                         }
                     }

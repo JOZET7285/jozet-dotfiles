@@ -39,7 +39,13 @@ Rectangle {
 
         RowLayout {
             Layout.fillWidth: true; spacing: 6
-            Text { text: "Resolution:"; font.pixelSize: 11; color: Theme.color_a_text; Layout.preferredWidth: 80 }
+            Text { 
+                text: "Resolution:" 
+                font.pixelSize: 11
+                font.bold: true
+                color: Theme.color_a_text
+                Layout.preferredWidth: 80 
+            }
 
             ComboBox {
                 id: resCombo
@@ -141,8 +147,13 @@ Rectangle {
 
         RowLayout {
             Layout.fillWidth: true; spacing: 6
-            Text { text: "Hertz:"; font.pixelSize: 11; color: Theme.color_a_text; Layout.preferredWidth: 80 }
-
+            Text { 
+                text: "Hertz:"
+                font.pixelSize: 11 
+                font.bold: true
+                color: Theme.color_a_text
+                Layout.preferredWidth: 80 
+            }
             ComboBox {
                 id: rateCombo
                 Layout.fillWidth: true
@@ -223,7 +234,13 @@ Rectangle {
 
         RowLayout {
             Layout.fillWidth: true; spacing: 10
-            Text { text: "Enabled:"; font.pixelSize: 11; color: Theme.color_a_text; Layout.preferredWidth: 80 }
+            Text { 
+                text: "Enabled:"
+                font.pixelSize: 11
+                font.bold: true
+                color: Theme.color_a_text
+                Layout.preferredWidth: 80 
+            }
             Rectangle {
                 Layout.preferredWidth: 40; Layout.preferredHeight: 22; radius: 11
                 color: monitorData.disabled === false ? Theme.color_g : Theme.color_3
@@ -241,7 +258,13 @@ Rectangle {
                     }
                 }
             }
-            Text { text: "VRR:"; font.pixelSize: 11; color: Theme.color_a_text; Layout.leftMargin: 20 }
+            Text { 
+                text: "VRR:"
+                font.pixelSize: 11
+                font.bold: true
+                color: Theme.color_a_text
+                Layout.leftMargin: 20 
+            }
             Rectangle {
                 Layout.preferredWidth: 40; Layout.preferredHeight: 22; radius: 11
                 color: monitorData.vrr === true ? Theme.color_g : Theme.color_3

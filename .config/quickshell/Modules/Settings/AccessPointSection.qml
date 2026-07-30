@@ -361,7 +361,12 @@ Component {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 10
-                    Text { text: "Security:"; font.pixelSize: 12; color: Theme.color_a_text; Layout.preferredWidth: 90 }
+                    Text { 
+                        text: "Security:" 
+                        font.pixelSize: 12
+                        font.bold: true
+                        color: Theme.color_a_text
+                        Layout.preferredWidth: 90 }
                     Item { Layout.fillWidth: true }
                     Rectangle {
                         Layout.preferredWidth: 40 

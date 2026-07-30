@@ -30,9 +30,9 @@ Component {
                     anchors.margins: 12; spacing: 10
                     Repeater {
                         model: ListModel {
-                            ListElement { label: "Interfaz";  key: "name" }
-                            ListElement { label: "Estado";    key: "status" }
-                            ListElement { label: "Velocidad"; key: "speed" }
+                            ListElement { label: "Interface";  key: "name" }
+                            ListElement { label: "Status";    key: "status" }
+                            ListElement { label: "Speed"; key: "speed" }
                             ListElement { label: "MAC";       key: "address" }
                         }
                         delegate: RowLayout {
@@ -75,10 +75,10 @@ Component {
                     Repeater {
                         model: ListModel {
                             ListElement { label: "SSID";       key: "ssid" }
-                            ListElement { label: "Interfaz";   key: "name" }
-                            ListElement { label: "Estado";     key: "status" }
-                            ListElement { label: "Señal";      key: "qual" }
-                            ListElement { label: "Frecuencia"; key: "freq" }
+                            ListElement { label: "Interface";   key: "name" }
+                            ListElement { label: "Status";     key: "status" }
+                            ListElement { label: "Signal";      key: "qual" }
+                            ListElement { label: "Frequency"; key: "freq" }
                             ListElement { label: "MAC";        key: "address" }
                         }
                         delegate: RowLayout {
@@ -113,7 +113,7 @@ Component {
             Item { Layout.preferredHeight: 12 }
             RowLayout {
                 Layout.fillWidth: true
-                Text { text: "Redes disponibles"; font.pixelSize: 14; font.bold: true; color: Theme.color_a_text; Layout.leftMargin: 20 }
+                Text { text: "Available Networks"; font.pixelSize: 14; font.bold: true; color: Theme.color_a_text; Layout.leftMargin: 20 }
                 Rectangle {
                     Layout.preferredWidth: 26; Layout.preferredHeight: 26; radius: 13
                     color: scanNetBtn.containsMouse ? Theme.color_3 : Theme.color_1_solid

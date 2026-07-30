@@ -28,7 +28,7 @@ Component {
                         anchors.fill: parent; cursorShape: Qt.PointingHandCursor
                         onClicked: SystemManager.scanBluetooth(true)
                     }
-                    Text { anchors.centerIn: parent; text: "Escanear"; font.pixelSize: 11; font.bold: true; color: "white" }
+                    Text { anchors.centerIn: parent; text: "Scan"; font.pixelSize: 11; font.bold: true; color: "white" }
                 }
                 ListView {
                     Layout.fillWidth: true; Layout.fillHeight: true; clip: true
@@ -39,8 +39,10 @@ Component {
                             anchors.fill: parent; anchors.leftMargin: 8; anchors.rightMargin: 8; spacing: 10
                             Text { text: modelData.name; font.pixelSize: 12; color: Theme.text_color; Layout.fillWidth: true }
                             Text {
-                                text: modelData.connected ? "Conectado" : "Desconectado"
-                                font.pixelSize: 11; color: modelData.connected ? Theme.color_g : Theme.color_a_text
+                                text: modelData.connected ? "Connected" : "Disconnected"
+                                font.pixelSize: 11
+                                font.bold: true
+                                color: modelData.connected ? Theme.color_g : Theme.color_a_text
                             }
                         }
                     }

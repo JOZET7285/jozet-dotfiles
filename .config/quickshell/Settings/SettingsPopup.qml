@@ -136,11 +136,17 @@ BasePopup {
                 id: notifSection
                 ColumnLayout {
                     spacing: 12
-                    Text { text: "Notificaciones"; font.pixelSize: 16; font.bold: true; color: Theme.text_color }
+                    Text { text: "Notifications"; font.pixelSize: 16; font.bold: true; color: Theme.text_color }
                     Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 1; color: Theme.color_3 }
                     RowLayout {
                         spacing: 10
-                        Text { text: "No molestar:"; font.pixelSize: 12; color: Theme.color_b; Layout.preferredWidth: 100 }
+                        Text { 
+                            text: "Do not disturb:"
+                            font.pixelSize: 12
+                            font.bold: true
+                            color: Theme.color_a_text
+                            Layout.preferredWidth: 100 
+                        }
                         Rectangle {
                             Layout.preferredWidth: 40; Layout.preferredHeight: 22; radius: 11
                             color: SystemManager.getSetting("display.notifications.do_not_disturb") ? Theme.color_g : Theme.color_3
@@ -154,7 +160,7 @@ BasePopup {
                             }
                             Rectangle {
                                 width: 18; height: 18; radius: 9
-                                color: "white"
+                                color: Theme.color_a_text
                                 x: SystemManager.getSetting("display.notifications.do_not_disturb") ? 20 : 2
                                 anchors.verticalCenter: parent.verticalCenter
                                 Behavior on x { NumberAnimation { duration: 150 } }

@@ -41,6 +41,7 @@ Component {
                         Layout.margins: 15
                         text: "Blur:" 
                         font.pixelSize: 12 
+                        font.bold: true
                         color: Theme.color_a_text
                         Layout.preferredWidth: 100 
                     }
@@ -72,6 +73,7 @@ Component {
                         id: principalBlur
                         text: Math.round((SystemManager.getSetting("display.lockscreen.blur") - 0.84) / 0.16 * 100) + "%"
                         font.pixelSize: 12
+                        font.bold: true
                         color: Theme.color_a_text
                         Layout.preferredWidth: 25
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
@@ -107,6 +109,7 @@ Component {
                         Layout.margins: 15
                         text: "Opacity:" 
                         font.pixelSize: 12 
+                        font.bold: true
                         color: Theme.color_a_text
                         Layout.preferredWidth: 100 
                     }
@@ -138,6 +141,7 @@ Component {
                         id: principalOpacity
                         text: Math.round((SystemManager.getSetting("display.lockscreen.opacity") - 0.5) / 0.5 * 100) + "%"                        
                         font.pixelSize: 12
+                        font.bold: true
                         color: Theme.color_a_text
                         Layout.preferredWidth: 25
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
@@ -196,6 +200,7 @@ Component {
                         Layout.margins: 15
                         text: "Left Monitor:" 
                         font.pixelSize: 12 
+                        font.bold: true
                         color: Theme.color_a_text
                         Layout.preferredWidth: 100 
                     }
@@ -230,7 +235,8 @@ Component {
                     Text { 
                         Layout.margins: 15
                         text: "Right Monitor:" 
-                        font.pixelSize: 12 
+                        font.pixelSize: 12
+                        font.bold: true 
                         color: Theme.color_a_text
                         Layout.preferredWidth: 100 
                     }

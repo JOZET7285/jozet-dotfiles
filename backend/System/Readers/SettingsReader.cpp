@@ -16,8 +16,20 @@ static const QVariantMap DEFAULTS = {
     }},
     {"connections", QVariantMap{
         {"network", QVariantMap{
-            {"wifi_enabled", true},
-            {"airplane_mode", false}
+            {"airplane_mode", false},
+            {"access_point", QVariantMap{
+                {"enabled", true},
+                {"interface", ""},
+                {"name", ""},
+                {"password", ""},
+                {"security", true}
+            }},
+            {"network", QVariantMap {
+                {"ethernet", ""},
+                {"wifi", ""},
+                {"enabled", true}
+            }},
+            {"wifi_enabled", true}
         }},
         {"bluetooth", QVariantMap{
             {"enabled", true},
