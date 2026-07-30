@@ -36,6 +36,7 @@ BasePrincipalPopup{
         Item {
             width: appLauncher.width
             height: 560
+            clip: true
 
             RowLayout {
                 id: header
@@ -50,7 +51,6 @@ BasePrincipalPopup{
                     font.pixelSize: 15
                     font.bold: true
                 }
-                Item { Layout.fillWidth: true }
                 Text {
                     text: appListModel.values.length + " result" + (appListModel.values.length === 1 ? "" : "s")
                     color: Theme.text_color_secondary

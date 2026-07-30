@@ -50,6 +50,8 @@ qt6_add_qml_module(JozetPlugin
         System/Readers/FastfetchReader.h
         System/Readers/MatugenReader.cpp
         System/Readers/MatugenReader.h
+        System/Readers/HyprlandWriter.cpp
+        System/Readers/HyprlandWriter.h
 )
 target_include_directories(JozetPlugin PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}

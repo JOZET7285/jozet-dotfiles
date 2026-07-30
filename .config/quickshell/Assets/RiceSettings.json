@@ -7,9 +7,9 @@
         "network": {
             "access_point": {
                 "enabled": false,
-                "interface": "",
-                "network_name": "",
-                "password": "",
+                "interface": "wlo1",
+                "network_name": "no se",
+                "password": "REMOVED_SECRET",
                 "security": true
             },
             "airplane_mode": false,
@@ -28,8 +28,12 @@
     },
     "display": {
         "lockscreen": {
-            "blur": true,
+            "blur": 0.88,
+            "leftLand": false,
             "notifications": false,
+            "opacity": 0.8,
+            "rightLand": false,
+            "scale": 1,
             "timeout_min": 5
         },
         "notifications": {
@@ -37,7 +41,7 @@
         }
     },
     "energy": {
-        "active_profile": "balanced",
+        "active_profile": "perform",
         "profiles": {
             "balanced": {
                 "brightness": 80,
@@ -66,11 +70,16 @@
         "font": "JetBrains Mono",
         "hyprland": {
             "border_radius": 8,
-            "border_size": 2,
-            "gaps_in": 5,
-            "gaps_out": 10
+            "border_size": 10,
+            "gaps_in": 6,
+            "gaps_out": 8
         },
         "mode": "dark",
-        "wallpaper_path": "/home/pruebas/.config/quickshell/wallpapers/8-bit-xkgev2tzaemj20m0.jpg"
+        "panel": {
+            "compact": false,
+            "scale": 1,
+            "size": 0.8
+        },
+        "wallpaper_path": "/home/pruebas/.config/quickshell/wallpapers/zsejjk1vppaf1.jpeg"
     }
 }

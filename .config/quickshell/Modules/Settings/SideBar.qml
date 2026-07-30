@@ -109,7 +109,7 @@ Rectangle {
                             }
 
                             MouseArea {
-                                id: sectionMa
+                                id: sectionMa 
                                 anchors.fill: parent
                                 hoverEnabled: true
                                 cursorShape: Qt.PointingHandCursor

@@ -13,6 +13,15 @@ Rectangle {
     implicitHeight: (Theme.height - 5)* scaleFactor
     color: "transparent"
     Behavior on implicitWidth { NumberAnimation { duration: 250; easing.type: Easing.InOutQuad } }
+
+    property bool compactMode: SystemManager.getSetting("theme.panel.compact") === true
+
+    Connections {
+        target: SystemManager
+        function onRiceSettingsChanged() {
+            compactMode = SystemManager.getSetting("theme.panel.compact") === true
+        }
+    }
     MouseArea {
         id: area
         anchors.fill: parent
@@ -30,7 +39,7 @@ Rectangle {
             font.pixelSize: 14
         }
         Text{
-            visible: scaleFactor > 0.8 ? true : area.containsMouse
+            visible: compactMode ? area.containsMouse : true
             text: connection.name !== "" ? connection.name : (connection.type == "ethernet" ? "Ethernet" : connection.type == "wifi" ? "Wi-Fi" : "No connection")
             color: connection.type == "unknown" ? Theme.color_r : Theme.color_a_text
             font.bold: true

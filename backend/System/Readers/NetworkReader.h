@@ -26,6 +26,7 @@ namespace jozet {
     struct WifiNetwork {
         QString ssid;
         int signal;
+        bool saved;
         bool connected;
         QString security;
         int frequency;
@@ -39,7 +40,7 @@ namespace jozet {
         QVariantMap wifiInfo() const;
         Q_INVOKABLE QVariantList availableNetworks() const;
         void scanAvailableNetworks(std::function<void(QVariantList)> callback);
-        void connectToWifi(const QString &ssid, const QString &password);
+        void connectToWifi(const QString &ssid, const QString &password, const bool &saved);
 
     private:
         void detectInterfaces();

@@ -13,8 +13,14 @@ BasePrincipalPopup {
 
     onSelectedConnectionTypeChanged: {
         if (selectedConnectionType === "ethernet") connection = SystemManager.ethernetInfo
-        else if (selectedConnectionType === "wifi") { connection = SystemManager.wifiInfo; SystemManager.scanNetworks() }
+        else if (selectedConnectionType === "wifi") { connection = SystemManager.wifiInfo; SystemManager.scanNetworks(); }
         else connection = SystemManager.ethernetInfo.status == "up" ? SystemManager.ethernetInfo : SystemManager.wifiInfo
+    }
+    
+    onOpenChanged: {
+        if (connection.type === "wifi" && open) {
+            SystemManager.scanNetworks();
+        }
     }
 
     popupContent: Component {

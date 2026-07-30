@@ -23,7 +23,11 @@ Rectangle {
     ListView {
         anchors.fill: parent
         anchors.margins: 10
-        model: SystemManager.availableNetworks.filter(net => !net.connected)
+         model: {
+            if (!SystemManager.availableNetworks) return [];
+            let rawArray = Array.from(SystemManager.availableNetworks);
+            return rawArray.sort((a, b) => b.signal - a.signal);
+        }
         spacing: 8
 
         delegate: Item {
@@ -35,10 +39,16 @@ Rectangle {
                 id: networkAvailableContainer
                 width: parent.width
                 height: verifyConnect.visible ? 35 + 35 : 35
-                color: maNetworkBtn.containsMouse ? Theme.color_3 : Theme.color_1_solid
+                opacity: maNetworkBtn.containsMouse ? 0.6 : 1
+                color: Theme.color_1_solid
+                border {
+                        width: 1
+                        color: modelData.connected ? Theme.color_a_text : Theme.color_1_solid
+                    }
                 radius: 8
                 
                 Behavior on color { ColorAnimation { duration: 200; easing.type: Easing.InOutQuad }}
+                Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.InOutQuad }}
 
                 Text {
                     id: infoNetworkAvailable
@@ -46,7 +56,7 @@ Rectangle {
                     anchors.topMargin: 10 
                     anchors.horizontalCenter: parent.horizontalCenter
                     text: modelData.ssid + " - " + modelData.signal + "%"
-                    color: Theme.color_b_text
+                    color: modelData.saved ? Theme.color_a_text : Theme.text_color
                     font.bold: true
                     font.pixelSize: 13
                 }
@@ -107,7 +117,8 @@ Rectangle {
                             anchors.fill: parent
                             hoverEnabled: true
                             onClicked: {
-                                SystemManager.connectToNetwork(modelData.ssid, passwordField.text)
+                                SystemManager.connectToNetwork(modelData.ssid, passwordField.text, modelData.saved)
+                                SystemManager.scanNetworks()
                                 verifyConnect.visible = false
                             }
                         }
@@ -119,7 +130,16 @@ Rectangle {
                     id: maNetworkBtn
                     anchors.fill: parent
                     hoverEnabled: true
-                    onClicked: { verifyConnect.visible = !verifyConnect.visible } 
+                    onClicked: {
+                        if(!modelData.connected){
+                            if(modelData.saved){
+                                SystemManager.connectToNetwork(modelData.ssid, '', modelData.saved);
+                                SystemManager.scanNetworks()
+                            } else { 
+                                verifyConnect.visible = !verifyConnect.visible 
+                            }
+                        }
+                    }
                 }
             }
         }

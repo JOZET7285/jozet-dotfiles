@@ -9,6 +9,9 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QFileInfoList>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
 
 #include <algorithm>
 
@@ -56,6 +59,8 @@ SystemManager::SystemManager(QObject *parent) : QObject(parent)
     connect(&m_matugenReader, &MatugenReader::colorsChanged, this, [this]() {
         emit matugenColorsChanged();
     });
+
+    m_hyprlandWriter = new HyprlandWriter(&m_settingsReader, this);
 
     m_volumeReader.startEventListener([](){});
     m_bluetoothReader.updateDevices();
@@ -252,9 +257,9 @@ void SystemManager::scanNetworks()
     });
 }
 
-void SystemManager::connectToNetwork(const QString &ssid, const QString &password)
+void SystemManager::connectToNetwork(const QString &ssid, const QString &password, const bool &saved)
 {
-    m_networkReader.connectToWifi(ssid, password);
+    m_networkReader.connectToWifi(ssid, password, saved);
 }
 
 // Bluetooth
@@ -700,6 +705,123 @@ void SystemManager::persistBrightnessToActiveProfile(int percentage)
 // ------------------------------------------------------------
 void SystemManager::refreshSystemInfo() {
     m_fastfetchReader.refresh();
+}
+
+// Monitors
+// ------------------------------------------------------------
+void SystemManager::refreshMonitors() {
+    emit systemInfoChanged();
+}
+
+QString SystemManager::getMonitorsJson() {
+    QProcess proc;
+    proc.start("hyprctl", {"monitors", "-j"});
+    proc.waitForFinished(3000);
+    return QString::fromUtf8(proc.readAllStandardOutput()).trimmed();
+}
+
+static QString escapeLuaString(const QString &s) {
+    QString out = s;
+    out.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n");
+    return out;
+}
+
+void SystemManager::applyMonitorConfig(const QString &name, const QString &resolution, const QString &rate, int transform, double scale) {
+    QString rateStr = rate;
+    rateStr.replace(',', '.');
+    QString lua = QString("hl.monitor({output=\"%1\", mode=\"%2@%3\", position=\"auto\", scale=%4")
+        .arg(escapeLuaString(name), escapeLuaString(resolution), escapeLuaString(rateStr))
+        .arg(scale, 0, 'f', 2);
+    if (transform != 0)
+        lua += QString(", transform=%1").arg(transform);
+    lua += "})";
+    QProcess proc;
+    proc.start("hyprctl", {"eval", lua});
+    proc.waitForFinished(3000);
+}
+
+void SystemManager::setMonitorEnabled(const QString &name, bool enabled) {
+    if (enabled) {
+        QProcess getProc;
+        getProc.start("hyprctl", {"monitors", "-j"});
+        getProc.waitForFinished(3000);
+        QByteArray json = getProc.readAllStandardOutput();
+        QJsonDocument doc = QJsonDocument::fromJson(json);
+        if (doc.isArray()) {
+            for (const QJsonValue &val : doc.array()) {
+                QJsonObject obj = val.toObject();
+                if (obj["name"].toString() == name) {
+                    int w = obj["width"].toInt();
+                    int h = obj["height"].toInt();
+                    double rate = obj["refreshRate"].toDouble();
+                    QString lua = QString("hl.monitor({output=\"%1\", mode=\"%2x%3@%4\", position=\"auto\", scale=1, disabled=false})")
+                        .arg(escapeLuaString(name)).arg(w).arg(h).arg(qRound(rate));
+                    QProcess proc;
+                    proc.start("hyprctl", {"eval", lua});
+                    proc.waitForFinished(3000);
+                    return;
+                }
+            }
+        }
+    } else {
+        QString lua = QString("hl.monitor({output=\"%1\", disabled=true})").arg(escapeLuaString(name));
+        QProcess proc;
+        proc.start("hyprctl", {"eval", lua});
+        proc.waitForFinished(3000);
+    }
+}
+
+void SystemManager::setMonitorLayout(const QString &primary, const QString &secondary, const QString &mode) {
+    if (mode == "mirror") {
+        QString lua = QString("hl.monitor({output=\"%1\", mode=\"preferred\", position=\"auto\", scale=1, mirror=\"%2\"})")
+            .arg(escapeLuaString(secondary), escapeLuaString(primary));
+        QProcess proc;
+        proc.start("hyprctl", {"eval", lua});
+        proc.waitForFinished(3000);
+    } else if (mode == "extend") {
+        QProcess getProc;
+        getProc.start("hyprctl", {"monitors", "-j"});
+        getProc.waitForFinished(3000);
+        QByteArray json = getProc.readAllStandardOutput();
+        QJsonDocument doc = QJsonDocument::fromJson(json);
+        if (doc.isArray()) {
+            QJsonArray arr = doc.array();
+            QJsonObject primaryObj;
+            for (int i = 0; i < arr.size(); i++) {
+                if (arr[i].toObject()["name"].toString() == primary) {
+                    primaryObj = arr[i].toObject();
+                    break;
+                }
+            }
+            int xOffset = primaryObj["width"].toInt();
+            for (int i = 0; i < arr.size(); i++) {
+                QJsonObject m = arr[i].toObject();
+                if (m["name"].toString() == secondary) {
+                    int w = m["width"].toInt();
+                    int h = m["height"].toInt();
+                    double rate = m["refreshRate"].toDouble();
+                    QString lua = QString("hl.monitor({output=\"%1\", mode=\"%2x%3@%4\", position=\"%5x0\", scale=1})")
+                        .arg(escapeLuaString(secondary)).arg(w).arg(h).arg(qRound(rate)).arg(xOffset);
+                    QProcess proc;
+                    proc.start("hyprctl", {"eval", lua});
+                    proc.waitForFinished(3000);
+                    return;
+                }
+            }
+        }
+    } else if (mode == "single") {
+        QString lua = QString("hl.monitor({output=\"%1\", disabled=true})").arg(escapeLuaString(secondary));
+        QProcess proc;
+        proc.start("hyprctl", {"eval", lua});
+        proc.waitForFinished(3000);
+    }
+}
+
+void SystemManager::setMonitorVrr(const QString &name, bool enabled) {
+    QString lua = QString("hl.monitor({output=\"%1\", vrr=%2})").arg(escapeLuaString(name), enabled ? "1" : "0");
+    QProcess proc;
+    proc.start("hyprctl", {"eval", lua});
+    proc.waitForFinished(3000);
 }
 
 // Update

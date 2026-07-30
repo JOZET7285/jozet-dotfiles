@@ -15,7 +15,15 @@ Rectangle {
     id: rightLand
 
     property int marginScaled: 15 * scaleFactor
+    property bool compactMode: SystemManager.getSetting("theme.panel.compact") === true
     property var popups: [networkPopup, bluetoothPopup, energyPopup, volumePopup, powerPopup]
+
+    Connections {
+        target: SystemManager
+        function onRiceSettingsChanged() {
+            compactMode = SystemManager.getSetting("theme.panel.compact") === true
+        }
+    }
     property var connection:
     SystemManager.ethernetInfo.status == "up"
         ? SystemManager.ethernetInfo
@@ -109,7 +117,7 @@ Rectangle {
                     font.pixelSize: 14
                 }
                 Text {
-                    visible: scaleFactor > 0.8 ? true : volumeBtnArea.containsMouse 
+                    visible: compactMode ? volumeBtnArea.containsMouse : true
                     text: volumePopup.playbackDevice ? volumePopup.playbackDevice.volume + "%" : "0%"
                     color: Theme.color_a_text
                     font.pixelSize: 12
@@ -157,7 +165,7 @@ Rectangle {
                     Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
                 }   
                 Text {
-                    visible: scaleFactor > 0.8 ? true : batteryBtnArea.containsMouse
+                    visible: compactMode ? batteryBtnArea.containsMouse : true
                     color: {
                         if(SystemManager.batteryStatus === "Charging") return Theme.color_g_text
                         else if (SystemManager.batteryStatus === "Full") return Theme.color_a_text

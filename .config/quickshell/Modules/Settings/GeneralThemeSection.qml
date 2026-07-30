@@ -25,79 +25,212 @@ Component {
             runMatugen.running = true
         }
 
+        property real panelSize: parseFloat(SystemManager.getSetting("theme.panel.size")) || 1.0
+
         spacing: 12
         Text { text: "Appearance"; font.pixelSize: 16; font.bold: true; color: Theme.text_color }
         Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 1; color: Theme.color_3 }
 
-        RowLayout {
-            spacing: 10
-            Text { text: "Theme:"; font.pixelSize: 12; color: Theme.text_color; Layout.preferredWidth: 100 }
-            Rectangle {
-                Layout.preferredWidth: 28; Layout.preferredHeight: 28; radius: 14
-                color: maDarkTheme.containsMouse ? Theme.dark_2_solid : Theme.dark_1_solid 
-                Behavior on color { ColorAnimation { duration: 250 }}
-                border { 
-                    color: SystemManager.riceSettings.theme.mode === "dark" ? Theme.color_b_accent : Theme.color_3
-                    width: 2 
-                }
-                MouseArea {
-                    id: maDarkTheme
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked: {
-                        SystemManager.setSetting("theme.mode", "dark")
-                        regenerateMatugen("dark")
+        Text { text: "Mode"; font.pixelSize: 14; font.bold: true; color: Theme.color_a_text; Layout.leftMargin: 20 }
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.leftMargin: 15; Layout.rightMargin: 15
+            implicitHeight: modeRow.implicitHeight + 20
+            color: Theme.color_2; radius: 5
+            clip: true
+            RowLayout {
+                id: modeRow
+                anchors { top: parent.top; left: parent.left; right: parent.right }
+                anchors.margins: 10; spacing: 10
+                Text { text: "Theme:"; font.pixelSize: 12; color: Theme.text_color }
+                Rectangle {
+                    Layout.preferredWidth: 28; Layout.preferredHeight: 28; radius: 14
+                    color: maDarkTheme.containsMouse ? Theme.dark_2_solid : Theme.dark_1_solid
+                    Behavior on color { ColorAnimation { duration: 250 }}
+                    border { color: SystemManager.riceSettings.theme.mode === "dark" ? Theme.color_b_accent : Theme.color_3; width: 2 }
+                    MouseArea {
+                        id: maDarkTheme; anchors.fill: parent; hoverEnabled: true
+                        onClicked: { SystemManager.setSetting("theme.mode", "dark"); regenerateMatugen("dark") }
                     }
                 }
-            }
-            Rectangle {
-                Layout.preferredWidth: 28; Layout.preferredHeight: 28; radius: 14
-                color: maLightTheme.containsMouse ? Theme.light_2_solid : Theme.light_1_solid 
-                Behavior on color { ColorAnimation { duration: 250 }}
-                border { 
-                    color: SystemManager.riceSettings.theme.mode === "light" ? Theme.color_b_accent : Theme.color_3
-                    width: 2 
-                }
-                MouseArea {
-                    id: maLightTheme
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    onClicked: {
-                        SystemManager.setSetting("theme.mode", "light")
-                        regenerateMatugen("light")
+                Rectangle {
+                    Layout.preferredWidth: 28; Layout.preferredHeight: 28; radius: 14
+                    color: maLightTheme.containsMouse ? Theme.light_2_solid : Theme.light_1_solid
+                    Behavior on color { ColorAnimation { duration: 250 }}
+                    border { color: SystemManager.riceSettings.theme.mode === "light" ? Theme.color_b_accent : Theme.color_3; width: 2 }
+                    MouseArea {
+                        id: maLightTheme; anchors.fill: parent; hoverEnabled: true
+                        onClicked: { SystemManager.setSetting("theme.mode", "light"); regenerateMatugen("light") }
                     }
                 }
+                Item { Layout.fillWidth: true }
             }
         }
-        RowLayout {
-            spacing: 10
-            Text { text: "Accent:"; font.pixelSize: 12; color: Theme.text_color; Layout.preferredWidth: 100 }
-            Repeater {
-                model: [
-                    { key: "b", color: Theme.color_b_solid },
-                    { key: "p", color: Theme.color_p_solid },
-                    { key: "g", color: Theme.color_g_solid },
-                    { key: "y", color: Theme.color_y_solid },
-                    { key: "o", color: Theme.color_o_solid },
-                    { key: "r", color: Theme.color_r_solid },
-                    { key: "bw", color: Theme.text_color },
-                    { key: "m", color: Theme.color_matugen},
-                ]
-                Rectangle {
-                    Layout.preferredWidth: 24; Layout.preferredHeight: 24; radius: 12
-                    color: modelData.color
-                    border {
-                        color: Theme.accentKey === modelData.key ? "white" : "transparent"
-                        width: 2
-                    }
-                    Behavior on border.color { ColorAnimation { duration: 150 } }
-                    MouseArea {
-                        anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: SystemManager.setSetting("theme.accent_color", modelData.key)
+
+        Item { Layout.preferredHeight: 8 }
+
+        Text { text: "Accent Color"; font.pixelSize: 14; font.bold: true; color: Theme.color_a_text; Layout.leftMargin: 20 }
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.leftMargin: 15; Layout.rightMargin: 15
+            implicitHeight: accentRow.implicitHeight + 20
+            color: Theme.color_2
+            radius: 5
+            clip: true
+            RowLayout {
+                id: accentRow
+                anchors {
+                    top: parent.top 
+                    left: parent.left
+                    right: parent.right 
+                }
+                anchors.margins: 10; spacing: 8
+                Text { text: "Accent:"; font.pixelSize: 12; color: Theme.text_color }
+                Repeater {
+                    model: [
+                        { key: "b", color: Theme.color_b_solid },
+                        { key: "p", color: Theme.color_p_solid },
+                        { key: "g", color: Theme.color_g_solid },
+                        { key: "y", color: Theme.color_y_solid },
+                        { key: "o", color: Theme.color_o_solid },
+                        { key: "r", color: Theme.color_r_solid },
+                        { key: "bw", color: Theme.text_color },
+                        { key: "m", color: Theme.color_matugen},
+                    ]
+                    Rectangle {
+                        Layout.preferredWidth: 24; Layout.preferredHeight: 24; radius: 12
+                        color: modelData.color
+                        border { color: SystemManager.riceSettings.theme.accent_color === modelData.key ? "white" : "transparent"; width: 2 }
+                        Behavior on border.color { ColorAnimation { duration: 150 } }
+                        MouseArea {
+                            anchors.fill: parent; cursorShape: Qt.PointingHandCursor
+                            onClicked: SystemManager.setSetting("theme.accent_color", modelData.key)
+                        }
                     }
                 }
+                Item { Layout.fillWidth: true }
             }
+        }
+
+        Text { text: "Principal Panel"; font.pixelSize: 14; font.bold: true; color: Theme.color_a_text; Layout.leftMargin: 20 }
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.leftMargin: 15; Layout.rightMargin: 15
+            implicitHeight: panelColumn.implicitHeight + 20
+            color: Theme.color_2
+            radius: 5
+            clip: true
+            
+            ColumnLayout {
+                id: panelColumn
+                anchors.fill: parent
+                anchors.margins: 10
+                spacing: 8
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: 8
+                    Text {
+                        text: "scale: "
+                        font.pixelSize: 12
+                        color: Theme.text_color
+                    }
+                    Item { Layout.fillWidth: true }
+                    Rectangle {
+                        Layout.preferredWidth: 20
+                        Layout.preferredHeight: 20
+                        color: decScale.containsMouse ? Theme.color_4 : Theme.color_3
+                        radius: 2
+                        Text {
+                            anchors.centerIn: parent
+                            text: "-"
+                            font.pixelSize: 12
+                            color: Theme.text_color   
+                        }
+                        MouseArea {
+                            id: decScale; anchors.fill: parent; hoverEnabled: true
+                            onClicked: {
+                                var next = Math.round(Math.max(0.75, panelSize - 0.05) * 100) / 100
+                                panelSize = next
+                                SystemManager.setSetting("theme.panel.size", next)
+                            }
+                        }
+                    }
+                    Text {
+                        id: sizeText
+                        text: Math.round(Math.max(0.75, Math.min(1.25, panelSize)) * 100) + "%"
+                        font.pixelSize: 12
+                        color: Theme.text_color
+                    }
+                    Rectangle {
+                        Layout.preferredWidth: 20
+                        Layout.preferredHeight: 20
+                        color: incScale.containsMouse ? Theme.color_4 : Theme.color_3
+                        radius: 2
+                        Text {
+                            anchors.centerIn: parent
+                            text: "+"
+                            font.pixelSize: 12
+                            color: Theme.text_color   
+                        }
+                        MouseArea {
+                            id: incScale; anchors.fill: parent; hoverEnabled: true
+                            onClicked: {
+                                var next = Math.round(Math.min(1.25, panelSize + 0.05) * 100) / 100
+                                panelSize = next
+                                SystemManager.setSetting("theme.panel.size", next)
+                            }
+                        }
+                    }
+                }
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: 8
+                    Text {
+                        text: "Compact: "
+                        font.pixelSize: 12
+                        color: Theme.text_color
+                    }
+                    Item { Layout.fillWidth: true }
+                    Rectangle {
+                        Layout.preferredWidth: 40
+                        Layout.preferredHeight: 20
+                        color: Theme.color_3
+                        radius: 10
+                        Rectangle {
+                            id: compactIndicator
+                            width: 20
+                            height: 20
+                            radius: 20
+                            color: SystemManager.getSetting("theme.panel.compact") ? Theme.color_a_text : Theme.color_4
+                            x: SystemManager.getSetting("theme.panel.compact") ? 20 : 0
+                        }
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                var value = SystemManager.getSetting("theme.panel.compact");
+                                SystemManager.setSetting("theme.panel.compact", !value)
+                                if (value) {
+                                    compactIndicator.x = 0
+                                    compactIndicator.color = Theme.color_4
+                                }else {
+                                    compactIndicator.x = 20
+                                    compactIndicator.color = Theme.color_a_text
+                                }
+                            }
+                        }
+                    }
+                }
+                Text {
+                    Layout.fillWidth: true
+                    visible: window ? window.suggestCompact : false
+                    text: "Sugerencia: activa Compact para aprovechar mejor tu pantalla"
+                    font.pixelSize: 10
+                    color: Theme.color_y_text
+                    wrapMode: Text.WordWrap
+                }
+            }
+            
         }
 
         Item { Layout.fillHeight: true }

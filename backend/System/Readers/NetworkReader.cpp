@@ -29,26 +29,65 @@ void NetworkReader::scanAvailableNetworks(std::function<void(QVariantList)> call
     QThread *workerThread = QThread::create([this, callback]() {
         m_networks.clear();
 
-        QDBusInterface nm("org.freedesktop.NetworkManager",
-                          "/org/freedesktop/NetworkManager",
-                          "org.freedesktop.NetworkManager",
-                          QDBusConnection::systemBus());
+        QStringList savedSsids;
+        QProcess nmcliProc;
+        
+        nmcliProc.start("nmcli", QStringList() << "-g" << "NAME,TYPE" << "connection" << "show");
+        if (nmcliProc.waitForFinished(3000)) {
+            QString output = QString::fromUtf8(nmcliProc.readAllStandardOutput());
+            QStringList lines = output.split('\n', Qt::SkipEmptyParts);
+            
+            for (const QString &line : lines) {
+                QStringList parts = line.split(':');
+                if (parts.size() >= 2) {
+                    QString name = parts.at(0).trimmed();
+                    QString type = parts.at(1).trimmed();
+                    
+                    if (type == "802-11-wireless" || type == "wifi") {
+                        name.remove(QRegularExpression("^\"|\"$")); 
+                        name = name.trimmed();
 
-        QDBusReply<QDBusObjectPath> activeConnPath = nm.call("GetProperty", "PrimaryConnection");
-        QString activeSsid = "";
-        if (activeConnPath.isValid()) {
-            QDBusInterface activeConn("org.freedesktop.NetworkManager", activeConnPath.value().path(),
-                                       "org.freedesktop.DBus.Properties", QDBusConnection::systemBus());
-            QVariant ssidVar = activeConn.call("Get", "org.freedesktop.NetworkManager.Connection.Active", "Id").arguments().at(0).value<QDBusVariant>().variant();
-            activeSsid = ssidVar.toString();
+                        if (!name.isEmpty() && !savedSsids.contains(name)) {
+                            savedSsids.append(name);
+                        }
+                    }
+                }
+            }
         }
 
-        QDBusReply<QList<QDBusObjectPath>> devices = nm.call("GetDevices");
+        QDBusInterface nmProps("org.freedesktop.NetworkManager",
+                               "/org/freedesktop/NetworkManager",
+                               "org.freedesktop.DBus.Properties",
+                               QDBusConnection::systemBus());
+
+        QDBusMessage primaryConnReply = nmProps.call("Get", "org.freedesktop.NetworkManager", "PrimaryConnection");
+        QString activeSsid = "";
+
+        if (primaryConnReply.type() != QDBusMessage::ErrorMessage && !primaryConnReply.arguments().isEmpty()) {
+            QDBusObjectPath activeConnPath = primaryConnReply.arguments().at(0).value<QDBusVariant>().variant().value<QDBusObjectPath>();
+            if (!activeConnPath.path().isEmpty() && activeConnPath.path() != "/") {
+                QDBusInterface activeConnProps("org.freedesktop.NetworkManager", activeConnPath.path(),
+                                               "org.freedesktop.DBus.Properties", QDBusConnection::systemBus());
+                QDBusMessage idReply = activeConnProps.call("Get", "org.freedesktop.NetworkManager.Connection.Active", "Id");
+                if (idReply.type() != QDBusMessage::ErrorMessage && !idReply.arguments().isEmpty()) {
+                    activeSsid = idReply.arguments().at(0).value<QDBusVariant>().variant().toString();
+                }
+            }
+        }
+
+        QDBusInterface nmMethods("org.freedesktop.NetworkManager",
+                                 "/org/freedesktop/NetworkManager",
+                                 "org.freedesktop.NetworkManager",
+                                 QDBusConnection::systemBus());
+
+        QDBusReply<QList<QDBusObjectPath>> devices = nmMethods.call("GetDevices");
+        
         if (devices.isValid()) {
             for (const QDBusObjectPath &devicePath : devices.value()) {
-                QDBusInterface props("org.freedesktop.NetworkManager", devicePath.path(), "org.freedesktop.DBus.Properties", QDBusConnection::systemBus());
+                QDBusInterface devInterface("org.freedesktop.NetworkManager", devicePath.path(), 
+                                            "org.freedesktop.NetworkManager.Device", QDBusConnection::systemBus());
 
-                if (props.call("Get", "org.freedesktop.NetworkManager.Device", "DeviceType").arguments().at(0).value<QDBusVariant>().variant().toUInt() != 2)
+                if (devInterface.property("DeviceType").toUInt() != 2)
                     continue;
 
                 QDBusInterface wifi("org.freedesktop.NetworkManager", devicePath.path(),
@@ -61,13 +100,17 @@ void NetworkReader::scanAvailableNetworks(std::function<void(QVariantList)> call
                 if (!aps.isValid()) continue;
 
                 for (const QDBusObjectPath &apPath : aps.value()) {
-                    QDBusInterface apProps("org.freedesktop.NetworkManager", apPath.path(), "org.freedesktop.DBus.Properties", QDBusConnection::systemBus());
+                    QDBusInterface apProps("org.freedesktop.NetworkManager", apPath.path(), 
+                                           "org.freedesktop.NetworkManager.AccessPoint", QDBusConnection::systemBus());
 
-                    QString ssid = QString::fromUtf8(apProps.call("Get", "org.freedesktop.NetworkManager.AccessPoint", "Ssid").arguments().at(0).value<QDBusVariant>().variant().toByteArray());
+                    QByteArray ssidBytes = apProps.property("Ssid").toByteArray();
+                    QString ssid = QString::fromUtf8(ssidBytes);
+
                     if (ssid.isEmpty()) continue;
 
-                    int freq = apProps.call("Get", "org.freedesktop.NetworkManager.AccessPoint", "Frequency").arguments().at(0).value<QDBusVariant>().variant().toInt();
-                    int strength = apProps.call("Get", "org.freedesktop.NetworkManager.AccessPoint", "Strength").arguments().at(0).value<QDBusVariant>().variant().toInt();
+                    int freq = apProps.property("Frequency").toInt();
+                    int strength = apProps.property("Strength").toInt();
+                    bool saved = savedSsids.contains(ssid);
 
                     bool exists = false;
                     for (const auto &n : m_networks) { if (n.ssid == ssid) exists = true; }
@@ -76,13 +119,14 @@ void NetworkReader::scanAvailableNetworks(std::function<void(QVariantList)> call
                     WifiNetwork network;
                     network.ssid = ssid;
                     network.signal = strength;
+                    network.saved = saved;
                     network.frequency = freq;
                     network.connected = (ssid == activeSsid);
                     network.security = "WPA2";
 
                     m_networks.push_back(network);
                 }
-                break;
+                break; 
             }
         }
 
@@ -97,17 +141,23 @@ void NetworkReader::scanAvailableNetworks(std::function<void(QVariantList)> call
     workerThread->start();
 }
 
-void NetworkReader::connectToWifi(const QString &ssid, const QString &password) {
-    QProcess *process = new QProcess(); // Se remueve 'this'
-    QStringList args = {"device", "wifi", "connect", ssid, "password", password};
+void NetworkReader::connectToWifi(const QString &ssid, const QString &password, const bool &saved) {
+    QProcess *process = new QProcess();
     
-    QObject::connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), 
-            [process](int, QProcess::ExitStatus) {
-        process->deleteLater();
-    });
-    
-    process->start("nmcli", args);
+    QObject::connect(process, &QProcess::finished, process, &QProcess::deleteLater);
+
+    QString program = "nmcli";
+    QStringList args;
+
+    if (!saved) {
+        args = QStringList() << "device" << "wifi" << "connect" << ssid << "password" << password;
+    } else {
+        args = QStringList() << "connection" << "up" << ssid;
+    }
+
+    process->start(program, args);
 }
+
 
 QVariantList NetworkReader::availableNetworks() const
 {
@@ -116,6 +166,7 @@ QVariantList NetworkReader::availableNetworks() const
         QVariantMap map;
         map["ssid"] = network.ssid;
         map["signal"] = network.signal;
+        map["saved"] = network.saved;
         map["connected"] = network.connected;
         map["security"] = network.security;
         map["frequency"] = network.frequency;

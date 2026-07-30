@@ -16,6 +16,15 @@ BasePopup {
     property int configIndex: 0
     property int sectionIndex: 0
 
+    function scanNetworks() {
+        SystemManager.scanNetworks()
+    }
+
+    function forgetNetwork(ssid) {
+        Quickshell.execDetached(["nmcli", "connection", "delete", ssid])
+        SystemManager.scanNetworks()
+    }
+
     property var configs: [
         {
             config: "System",
@@ -47,14 +56,15 @@ BasePopup {
             icon: "\uf108",
             sections: [
                 { name: "LockScreen", icon: "\uf023" },
-                { name: "Notifications", icon: "\uf0f3" }
+                { name: "Notifications", icon: "\uf0f3" },
+                { name: "Monitors", icon: "\uf108" }
             ]
         },
         {
             config: "Theme",
             icon: "\uf1fc",
             sections: [
-                { name: "General", icon: "\uf53f" },
+                { name: "General", icon: "\uf1fc" },
                 { name: "Hyprland", icon: "\uf009" },
                 { name: "Cursor", icon: "\uf245" }
             ]
@@ -71,7 +81,7 @@ BasePopup {
                 0: [infoSection, energySection, audioSection],
                 1: [networkSection, accessPointSection, bluetoothSection],
                 2: [usbSection],
-                3: [lockSection, notifSection],
+                3: [lockSection, notifSection, monitorsSection],
                 4: [generalThemeSection, hyprlandSection, cursorSection]
             })
 
@@ -108,52 +118,19 @@ BasePopup {
                 }
             }
 
-            // --- System ---
             InfoSection { id: infoSection }
             EnergySection { id: energySection }
             AudioSection { id: audioSection }
 
-            // --- Connections ---
             NetworkSection { id: networkSection }
             AccessPointSection { id: accessPointSection }
             BluetoothSection { id: bluetoothSection }
 
-            // --- Devices ---
             UsbSection { id: usbSection }
 
-            // --- Display ---
-            Component {
-                id: lockSection
-                ColumnLayout {
-                    spacing: 12
-                    Text { text: "Lock Screen"; font.pixelSize: 16; font.bold: true; color: Theme.text_color }
-                    Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 1; color: Theme.color_3 }
-                    RowLayout {
-                        spacing: 10
-                        Text { text: "Blur:"; font.pixelSize: 12; color: Theme.color_b; Layout.preferredWidth: 100 }
-                        Rectangle {
-                            Layout.preferredWidth: 40; Layout.preferredHeight: 22; radius: 11
-                            color: SystemManager.getSetting("display.lockscreen.blur") ? Theme.color_g : Theme.color_3
-                            MouseArea {
-                                anchors.fill: parent
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: {
-                                    var current = SystemManager.getSetting("display.lockscreen.blur")
-                                    SystemManager.setSetting("display.lockscreen.blur", !current)
-                                }
-                            }
-                            Rectangle {
-                                width: 18; height: 18; radius: 9
-                                color: "white"
-                                x: SystemManager.getSetting("display.lockscreen.blur") ? 20 : 2
-                                anchors.verticalCenter: parent.verticalCenter
-                                Behavior on x { NumberAnimation { duration: 150 } }
-                            }
-                        }
-                    }
-                    Item { Layout.fillHeight: true }
-                }
-            }
+            MonitorsSection { id: monitorsSection }
+
+            LockScreenSection { id: lockSection }
 
             Component {
                 id: notifSection
