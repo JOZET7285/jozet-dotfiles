@@ -85,7 +85,7 @@ Component {
 
             Component.onCompleted: scrollView.loadMonitors()
 
-            Text { text: "Monitores"; font.pixelSize: 16; font.bold: true; color: Theme.text_color }
+            Text { text: "Monitors"; font.pixelSize: 16; font.bold: true; color: Theme.text_color }
             Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 1; color: Theme.color_3 }
 
             Repeater {

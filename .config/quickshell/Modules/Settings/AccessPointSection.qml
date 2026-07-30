@@ -11,7 +11,12 @@ Component {
     ColumnLayout {
         spacing: 8
 
-        Text { text: "Access Point"; font.pixelSize: 16; font.bold: true; color: Theme.text_color }
+        Text { 
+            text: "Access Point"
+            font.pixelSize: 16
+            font.bold: true
+            color: Theme.text_color 
+        }
         Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 1; color: Theme.color_3 }
 
         Rectangle {
@@ -36,7 +41,13 @@ Component {
                         Layout.margins: 5
                         spacing: 10
                         visible: key !== "network_name" || SystemManager.getSetting("connections.network.access_point.network_name") !== ""
-                        Text { text: label + ":"; font.pixelSize: 12; color: Theme.color_a_text; Layout.preferredWidth: 90 }
+                        Text { 
+                            text: label + ":"
+                            font.pixelSize: 12
+                            font.bold: true
+                            color: Theme.color_a_text
+                            Layout.preferredWidth: 90 
+                        }
                         Text {
                             text: {
                                 var v = SystemManager.getSetting("connections.network.access_point." + key);
@@ -160,7 +171,13 @@ Component {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 10
-                    Text { text: "Enabled:"; font.pixelSize: 12; color: Theme.color_a_text; Layout.preferredWidth: 90 }
+                    Text { 
+                        text: "Enabled:" 
+                        font.pixelSize: 12 
+                        font.bold: true 
+                        color: Theme.color_a_text 
+                        Layout.preferredWidth: 90 
+                    }
                     Item { Layout.fillWidth: true }
                     Rectangle {
                         Layout.preferredWidth: 40 
@@ -207,6 +224,7 @@ Component {
                     Text {
                         text: "Starting AP…"
                         font.pixelSize: 12 
+                        font.bold: true
                         color: Theme.color_y 
                         Layout.preferredWidth: 90
                     }
@@ -214,7 +232,13 @@ Component {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 10
-                    Text { text: "Interface:"; font.pixelSize: 12; color: Theme.color_a_text; Layout.preferredWidth: 90 }
+                    Text { 
+                        text: "Interface:"
+                        font.pixelSize: 12
+                        font.bold: true
+                        color: Theme.color_a_text
+                        Layout.preferredWidth: 90 
+                    }
 
                     Process {
                         id: ifaceLister

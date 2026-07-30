@@ -41,10 +41,17 @@ Component {
                                 var v = SystemManager.ethernetInfo[key] || "";
                                 return v !== "";
                             }
-                            Text { text: label + ":"; font.pixelSize: 12; color: Theme.color_a_text; Layout.preferredWidth: 90 }
+                            Text { 
+                                text: label + ":"
+                                font.pixelSize: 12
+                                font.bold: true
+                                color: Theme.color_a_text
+                                Layout.preferredWidth: 90 
+                            }
                             Text {
                                 text: SystemManager.ethernetInfo[key] || ""
-                                font.pixelSize: 12; color: key === "status" ? Theme.color_g : Theme.text_color
+                                font.pixelSize: 12 
+                                color: key === "status" ? Theme.color_g : Theme.text_color
                                 Layout.fillWidth: true
                             }
                         }
@@ -80,7 +87,13 @@ Component {
                                 var v = SystemManager.wifiInfo[key];
                                 return v !== undefined && v !== "";
                             }
-                            Text { text: label + ":"; font.pixelSize: 12; color: Theme.color_a_text; Layout.preferredWidth: 90 }
+                            Text { 
+                                text: label + ":"
+                                font.pixelSize: 12
+                                color: Theme.color_a_text 
+                                Layout.preferredWidth: 90 
+                                font.bold: true
+                            }
                             Text {
                                 text: {
                                     var v = SystemManager.wifiInfo[key];
@@ -88,7 +101,8 @@ Component {
                                     if (key === "qual") return v + "%";
                                     return v;
                                 }
-                                font.pixelSize: 12; color: key === "status" ? Theme.color_g : Theme.text_color
+                                font.pixelSize: 12
+                                color: key === "status" ? Theme.color_g : Theme.text_color
                                 Layout.fillWidth: true
                             }
                         }
