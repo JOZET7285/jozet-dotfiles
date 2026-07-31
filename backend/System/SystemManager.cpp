@@ -57,6 +57,7 @@ SystemManager::SystemManager(QObject *parent) : QObject(parent)
     });
 
     connect(&m_matugenReader, &MatugenReader::colorsChanged, this, [this]() {
+        m_hyprlandWriter->applyAll();
         emit matugenColorsChanged();
     });
 
@@ -69,7 +70,7 @@ SystemManager::SystemManager(QObject *parent) : QObject(parent)
         emit notificationClosed(id, reason);
     });
 
-    m_hyprlandWriter = new HyprlandWriter(&m_settingsReader, this);
+    m_hyprlandWriter = new HyprlandWriter(&m_settingsReader, &m_matugenReader, this);
 
     m_volumeReader.startEventListener([](){});
     m_bluetoothReader.updateDevices();

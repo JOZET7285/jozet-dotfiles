@@ -11,9 +11,13 @@ hl.config({
   general = {
     gaps_in = s.gaps_in,
     gaps_out = s.gaps_out,
+    border_size = s.border_size,
+    ["col.active_border"] = s.active_border,
+    ["col.inactive_border"] = s.inactive_border,
   },
 
   decoration = {
+    rounding = s.border_radius,
     blur = {
       enabled = true,
       size = 9,

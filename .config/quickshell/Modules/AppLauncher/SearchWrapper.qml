@@ -6,24 +6,13 @@ import Quickshell.Io
 import Qt5Compat.GraphicalEffects
 import "../../Components"
 
-Rectangle {
-    id: searchWrapper
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.top: header.bottom
-    anchors.topMargin: 10
-    height: 32
-    radius: 10
-    clip: true
-    color: Theme.color_1
-    border.color: Theme.color_4
-    border.width: 1
+RowLayout { 
+    anchors.fill: parent
 
     Text {
         id: searchIcon
-        anchors.left: parent.left
-        anchors.leftMargin: 12
-        anchors.verticalCenter: parent.verticalCenter
+        Layout.leftMargin: 10
+        Layout.alignment: Qt.AlignVCenter
         text: "\uf002"
         font.pixelSize: 14
         color: Theme.text_color
@@ -31,12 +20,8 @@ Rectangle {
 
     TextField {
         id: searchAppField
-        anchors.left: searchIcon.right
-        anchors.leftMargin: 10
-        anchors.right: clearIcon.visible ? clearIcon.left : parent.right
-        anchors.rightMargin: 8
-        anchors.verticalCenter: parent.verticalCenter
-        height: parent.height
+        Layout.fillHeight: true
+        Layout.fillWidth: true
         color: Theme.text_color
         background: Item {}
         leftPadding: 0
@@ -54,9 +39,8 @@ Rectangle {
     Text {
         id: clearIcon
         visible: searchAppField.text.length > 0
-        anchors.right: parent.right
-        anchors.rightMargin: 12
-        anchors.verticalCenter: parent.verticalCenter
+        Layout.alignment: Qt.AlignVCenter
+        Layout.rightMargin: 10
         text: "\uf00d"
         font.family: Theme.iconFont
         font.pixelSize: 13

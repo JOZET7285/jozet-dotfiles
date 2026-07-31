@@ -1,5 +1,6 @@
 #include "Readers/HyprlandWriter.h"
 #include "Readers/SettingsReader.h"
+#include "Readers/MatugenReader.h"
 #include <QDebug>
 #include <QProcess>
 
@@ -13,8 +14,8 @@ static const QHash<QString, QString> SETTING_MAP = {
     {"system.keyboard_layout", "input:kb_layout"},
 };
 
-HyprlandWriter::HyprlandWriter(SettingsReader *reader, QObject *parent)
-    : QObject(parent), m_reader(reader) {
+HyprlandWriter::HyprlandWriter(SettingsReader *reader, MatugenReader *matugen, QObject *parent)
+    : QObject(parent), m_reader(reader), m_matugen(matugen) {
     applyAll();
     connect(m_reader, &SettingsReader::settingsChanged, this, [this]() {
         applyAll();
@@ -44,8 +45,39 @@ void HyprlandWriter::applyAll() {
     proc.start("hyprctl", {"eval", lua});
     proc.waitForFinished(3000);
 
+    applyBorderColors();
     writeLuaDataFile();
     restartHypridle();
+}
+
+QString HyprlandWriter::accentColor() const
+{
+    return m_matugen ? m_matugen->colors().value("accent").toString() : QString();
+}
+
+QString HyprlandWriter::toHyprColor(const QString &hex, const QString &alpha) const
+{
+    QString c = hex.trimmed();
+    if (c.startsWith('#'))
+        c = c.mid(1);
+    return "0x" + alpha + c;
+}
+
+void HyprlandWriter::applyBorderColors()
+{
+    QString accent = accentColor();
+    if (accent.isEmpty())
+        return;
+
+    QString active = toHyprColor(accent);
+    QString inactive = toHyprColor(accent, "40");
+
+    QString lua = QString("hl.config({general={[\"col.active_border\"]=\"%1\",[\"col.inactive_border\"]=\"%2\"}})")
+        .arg(active, inactive);
+
+    QProcess proc;
+    proc.start("hyprctl", {"eval", lua});
+    proc.waitForFinished(3000);
 }
 
 void HyprlandWriter::applySetting(const QString &key, const QVariant &value) {
@@ -115,6 +147,15 @@ void HyprlandWriter::writeLuaDataFile() {
     auto hyprland = theme.value("hyprland").toMap();
     auto system = s.value("system").toMap();
 
+    QString accent = accentColor();
+    QString active = toHyprColor(accent);
+    QString inactive = toHyprColor(accent, "40");
+    QString activeLine, inactiveLine;
+    if (!accent.isEmpty()) {
+        activeLine = QString("    active_border = \"%1\",\n").arg(active);
+        inactiveLine = QString("    inactive_border = \"%1\",\n").arg(inactive);
+    }
+
     QFile file(luaDataPath());
     if (file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         QTextStream out(&file);
@@ -124,6 +165,8 @@ void HyprlandWriter::writeLuaDataFile() {
         out << "    gaps_out = " << hyprland.value("gaps_out", 10).toInt() << ",\n";
         out << "    border_radius = " << hyprland.value("border_radius", 8).toInt() << ",\n";
         out << "    border_size = " << hyprland.value("border_size", 2).toInt() << ",\n";
+        out << activeLine;
+        out << inactiveLine;
         out << "    kb_layout = \"" << system.value("keyboard_layout", "latam").toString() << "\",\n";
         out << "}\n";
         file.close();

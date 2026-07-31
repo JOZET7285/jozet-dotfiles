@@ -19,8 +19,7 @@ Component {
             if (!wallpaper) return
 
             runMatugen.command = ["sh", "-c",
-                "matugen image '" + wallpaper + "' -m " + mode + " -j hex --prefer darkness 2>/dev/null | " +
-                "python3 -c \"import json,sys; d=json.load(sys.stdin); print(json.dumps({'accent': d['colors']['primary']['" + mode + "']['color']}))\" > ~/.config/jozet/matugen-colors.json"
+                "matugen image '" + wallpaper + "' -m " + mode + " -j hex --prefer darkness 2>/dev/null"
             ]
             runMatugen.running = true
         }

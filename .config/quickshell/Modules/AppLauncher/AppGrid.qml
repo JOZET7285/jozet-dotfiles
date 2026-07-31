@@ -8,15 +8,8 @@ import "../../Components"
 
 GridView {
     id: appGrid
-    anchors {
-        left: parent.left
-        right: parent.right
-        top: searchWrapper.bottom
-        margins: 12
-        bottom: parent.bottom
-    }
-    cellWidth: 90
-    cellHeight: 95
+    cellWidth: 90 * scaleFactor
+    cellHeight: 95 * scaleFactor
     clip: true
     flow: GridView.FlowLeftToRight
 
@@ -28,7 +21,7 @@ GridView {
         id: verticalScrollBar
         policy: ScrollBar.AsNeeded
         contentItem: Rectangle {
-            implicitWidth: 5
+            implicitWidth: 3
             radius: 3
             color: Theme.light_3
         }
@@ -71,8 +64,8 @@ GridView {
 
             Image {
                 anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width * 0.8
-                height: 36
+                width: (parent.width * 0.8) * scaleFactor
+                height: 36 * scaleFactor
                 source: modelData.icon ? Quickshell.iconPath(modelData.icon) : ""
                 fillMode: Image.PreserveAspectFit
                 asynchronous: true

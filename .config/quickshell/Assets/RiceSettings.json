@@ -72,16 +72,16 @@
         "font": "JetBrains Mono",
         "hyprland": {
             "border_radius": 10,
-            "border_size": 10,
+            "border_size": 3,
             "gaps_in": 6,
             "gaps_out": 6
         },
         "mode": "dark",
         "panel": {
-            "compact": false,
+            "compact": true,
             "scale": 1,
-            "size": 0.8
+            "size": 0.75
         },
-        "wallpaper_path": "/home/pruebas/.config/quickshell/wallpapers/drop-your-best-arch-linux-wallpapers-cause-i-need-one-v0-gwpc3guuwq6h1.webp"
+        "wallpaper_path": "/home/pruebas/.config/quickshell/wallpapers/drop-your-best-arch-linux-wallpapers-cause-i-need-one-v0-rdqn98d9t96h1.webp"
     }
 }
