@@ -21,7 +21,7 @@ fi
 
 PACMAN_PKGS=(
     hyprland qt6-base qt6-declarative quickshell awww capitaine-cursors
-    cmake base-devel git
+    cmake base-devel git qt6-5compat jq
     networkmanager network-manager-applet
     pipewire pipewire-pulse pipewire-alsa wireplumber
     playerctl brightnessctl power-profiles-daemon
