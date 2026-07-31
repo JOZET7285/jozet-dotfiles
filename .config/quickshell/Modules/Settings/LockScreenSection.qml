@@ -147,8 +147,8 @@ Component {
                         Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     }
                     Rectangle {
-                        Layout.preferredWidth: 22 
-                        Layout.preferredHeight: 22 
+                        Layout.preferredWidth: 20 
+                        Layout.preferredHeight: 20
                         radius: 5
                         color: Theme.color_3
                         Text {
@@ -197,7 +197,6 @@ Component {
                 RowLayout {
                     spacing: 10
                     Text { 
-                        Layout.margins: 15
                         text: "Left Monitor:" 
                         font.pixelSize: 12 
                         font.bold: true
@@ -205,35 +204,37 @@ Component {
                         Layout.preferredWidth: 100 
                     }
                     Rectangle {
-                        Layout.preferredWidth: 44
-                        Layout.preferredHeight: 22
-                        radius: 11
+                        Layout.preferredWidth: 40; Layout.preferredHeight: 22; radius: 11
                         color: Theme.color_1
-                        Rectangle {
-                            id: leftMonitorToggle
-                            anchors.verticalCenter: parent.verticalCenter
-                            width: 20
-                            height: 20
-                            radius: 10
-                            color: Theme.color_a_text
-                            x: SystemManager.getSetting("display.lockscreen.leftLand") ? 22 : 1
-                            Behavior on x { NumberAnimation { duration: 250 }}
-                        }
                         MouseArea {
                             anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
                             onClicked: {
                                 var value = SystemManager.getSetting("display.lockscreen.leftLand")
                                 SystemManager.setSetting("display.lockscreen.leftLand", !value)
-                                if(!value) leftMonitorToggle.x = 22
-                                else leftMonitorToggle.x = 1
+                                if(value) {
+                                    leftMonitorToggle.color = Theme.color_2
+                                    leftMonitorToggle.x = 2
+                                } else {
+                                    leftMonitorToggle.color = Theme.color_a_text
+                                    leftMonitorToggle.x = 20
+                                }
                             }
+                        }
+                        Rectangle {
+                            id: leftMonitorToggle
+                            width: 18; height: 18; radius: 9
+                            color: SystemManager.getSetting("display.lockscreen.leftLand") ? Theme.color_a_text : Theme.color_3
+                            x: SystemManager.getSetting("display.lockscreen.leftLand") ? 20 : 2
+                            anchors.verticalCenter: parent.verticalCenter
+                            Behavior on x { NumberAnimation { duration: 150 } }
+                            Behavior on color { ColorAnimation { duration: 150 } }
                         }
                     }
                 }
                 RowLayout {
                     spacing: 10
                     Text { 
-                        Layout.margins: 15
                         text: "Right Monitor:" 
                         font.pixelSize: 12
                         font.bold: true 
@@ -241,28 +242,31 @@ Component {
                         Layout.preferredWidth: 100 
                     }
                     Rectangle {
-                        Layout.preferredWidth: 44
-                        Layout.preferredHeight: 22
-                        radius: 11
+                        Layout.preferredWidth: 40; Layout.preferredHeight: 22; radius: 11
                         color: Theme.color_1
-                        Rectangle {
-                            id: rightMonitorToggle
-                            anchors.verticalCenter: parent.verticalCenter
-                            width: 20
-                            height: 20
-                            radius: 10
-                            color: Theme.color_a_text
-                            x: SystemManager.getSetting("display.lockscreen.rightLand") ? 22 : 1
-                            Behavior on x { NumberAnimation { duration: 250 }}
-                        }
                         MouseArea {
                             anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
                             onClicked: {
                                 var value = SystemManager.getSetting("display.lockscreen.rightLand")
                                 SystemManager.setSetting("display.lockscreen.rightLand", !value)
-                                if(!value) rightMonitorToggle.x = 22
-                                else rightMonitorToggle.x = 1
+                                if(value) {
+                                    rightMonitorToggle.color = Theme.color_2
+                                    rightMonitorToggle.x = 2
+                                } else {
+                                    rightMonitorToggle.color = Theme.color_a_text
+                                    rightMonitorToggle.x = 20
+                                }
                             }
+                        }
+                        Rectangle {
+                            id: rightMonitorToggle
+                            width: 18; height: 18; radius: 9
+                            color: SystemManager.getSetting("display.lockscreen.rightLand") ? Theme.color_a_text : Theme.color_3
+                            x: SystemManager.getSetting("display.lockscreen.rightLand") ? 20 : 2
+                            anchors.verticalCenter: parent.verticalCenter
+                            Behavior on x { NumberAnimation { duration: 150 } }
+                            Behavior on color { ColorAnimation { duration: 150 } }
                         }
                     }
                 }

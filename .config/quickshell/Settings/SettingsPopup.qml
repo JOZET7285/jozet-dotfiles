@@ -81,7 +81,7 @@ BasePopup {
                 0: [infoSection, energySection, audioSection],
                 1: [networkSection, accessPointSection, bluetoothSection],
                 2: [usbSection],
-                3: [lockSection, notifSection, monitorsSection],
+                3: [lockSection, notifySection, monitorsSection],
                 4: [generalThemeSection, hyprlandSection, cursorSection]
             })
 
@@ -132,46 +132,8 @@ BasePopup {
 
             LockScreenSection { id: lockSection }
 
-            Component {
-                id: notifSection
-                ColumnLayout {
-                    spacing: 12
-                    Text { text: "Notifications"; font.pixelSize: 16; font.bold: true; color: Theme.text_color }
-                    Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 1; color: Theme.color_3 }
-                    RowLayout {
-                        spacing: 10
-                        Text { 
-                            text: "Do not disturb:"
-                            font.pixelSize: 12
-                            font.bold: true
-                            color: Theme.color_a_text
-                            Layout.preferredWidth: 100 
-                        }
-                        Rectangle {
-                            Layout.preferredWidth: 40; Layout.preferredHeight: 22; radius: 11
-                            color: SystemManager.getSetting("display.notifications.do_not_disturb") ? Theme.color_g : Theme.color_3
-                            MouseArea {
-                                anchors.fill: parent
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: {
-                                    var current = SystemManager.getSetting("display.notifications.do_not_disturb")
-                                    SystemManager.setSetting("display.notifications.do_not_disturb", !current)
-                                }
-                            }
-                            Rectangle {
-                                width: 18; height: 18; radius: 9
-                                color: Theme.color_a_text
-                                x: SystemManager.getSetting("display.notifications.do_not_disturb") ? 20 : 2
-                                anchors.verticalCenter: parent.verticalCenter
-                                Behavior on x { NumberAnimation { duration: 150 } }
-                            }
-                        }
-                    }
-                    Item { Layout.fillHeight: true }
-                }
-            }
+            NotificationSection { id: notifySection }
 
-            // --- Theme ---
             GeneralThemeSection { id: generalThemeSection }
 
             Component {
@@ -181,49 +143,75 @@ BasePopup {
                     Text { text: "Hyprland"; font.pixelSize: 16; font.bold: true; color: Theme.text_color }
                     Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 1; color: Theme.color_3 }
 
-                    Repeater {
-                        model: [
-                            { key: "theme.hyprland.gaps_in", label: "Gaps In" },
-                            { key: "theme.hyprland.gaps_out", label: "Gaps Out" },
-                            { key: "theme.hyprland.border_radius", label: "Border Radius" },
-                            { key: "theme.hyprland.border_size", label: "Border Size" }
-                        ]
-                        RowLayout {
-                            spacing: 10
-                            Text { text: modelData.label + ":"; font.pixelSize: 12; color: Theme.color_b; Layout.preferredWidth: 100 }
-                            Rectangle {
-                                Layout.preferredWidth: 28; Layout.preferredHeight: 28; radius: 6
-                                color: Theme.color_3
-                                MouseArea {
-                                    anchors.fill: parent
-                                    cursorShape: Qt.PointingHandCursor
-                                    onClicked: {
-                                        var val = SystemManager.getSetting(modelData.key)
-                                        if (val > 0) SystemManager.setSetting(modelData.key, val - 1)
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.fillHeight: true
+                        Layout.leftMargin: 15
+                        Layout.rightMargin: 15
+                        color: Theme.color_2
+                        radius: 5
+                        ColumnLayout {
+                            anchors.fill: parent
+                            anchors.margins: 15
+                            spacing: 8
+                            Repeater {
+                                model: [
+                                    { key: "theme.hyprland.gaps_in", label: "Gaps In" },
+                                    { key: "theme.hyprland.gaps_out", label: "Gaps Out" },
+                                    { key: "theme.hyprland.border_radius", label: "Border Radius" },
+                                    { key: "theme.hyprland.border_size", label: "Border Size" }
+                                ]
+                                RowLayout {
+                                    spacing: 10
+                                    Text { 
+                                        text: modelData.label + ":"
+                                        font.pixelSize: 12 
+                                        font.bold: true
+                                        color: Theme.color_a_text 
+                                        Layout.preferredWidth: 100 
+                                    }
+                                    Rectangle {
+                                        Layout.preferredWidth: 28; Layout.preferredHeight: 28; radius: 6
+                                        color: Theme.color_3
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            cursorShape: Qt.PointingHandCursor
+                                            onClicked: {
+                                                var val = SystemManager.getSetting(modelData.key)
+                                                if (val > 0) SystemManager.setSetting(modelData.key, val - 1)
+                                                hyprlandIndicator.text = val - 1
+                                            }
+                                        }
+                                        Text { anchors.centerIn: parent; text: "-"; color: Theme.text_color; font.pixelSize: 14 }
+                                    }
+                                    Text {
+                                        id: hyprlandIndicator
+                                        text: SystemManager.getSetting(modelData.key)
+                                        font.pixelSize: 13; 
+                                        color: Theme.text_color; 
+                                        font.bold: true
+                                        Layout.preferredWidth: 30; horizontalAlignment: Text.AlignHCenter
+                                    }
+                                    Rectangle {
+                                        Layout.preferredWidth: 28; Layout.preferredHeight: 28; radius: 6
+                                        color: Theme.color_3
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            cursorShape: Qt.PointingHandCursor
+                                            onClicked: {
+                                                var val = SystemManager.getSetting(modelData.key)
+                                                SystemManager.setSetting(modelData.key, val + 1)
+                                                hyprlandIndicator.text = val + 1
+                                            }
+                                        }
+                                        Text { anchors.centerIn: parent; text: "+"; color: Theme.text_color; font.pixelSize: 14 }
                                     }
                                 }
-                                Text { anchors.centerIn: parent; text: "-"; color: Theme.text_color; font.pixelSize: 14 }
-                            }
-                            Text {
-                                text: SystemManager.getSetting(modelData.key)
-                                font.pixelSize: 13; color: Theme.text_color; font.bold: true
-                                Layout.preferredWidth: 30; horizontalAlignment: Text.AlignHCenter
-                            }
-                            Rectangle {
-                                Layout.preferredWidth: 28; Layout.preferredHeight: 28; radius: 6
-                                color: Theme.color_3
-                                MouseArea {
-                                    anchors.fill: parent
-                                    cursorShape: Qt.PointingHandCursor
-                                    onClicked: {
-                                        var val = SystemManager.getSetting(modelData.key)
-                                        SystemManager.setSetting(modelData.key, val + 1)
-                                    }
-                                }
-                                Text { anchors.centerIn: parent; text: "+"; color: Theme.text_color; font.pixelSize: 14 }
                             }
                         }
+                        
                     }
+                    
                     Item { Layout.fillHeight: true }
                 }
             }

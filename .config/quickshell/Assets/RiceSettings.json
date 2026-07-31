@@ -8,6 +8,7 @@
             "access_point": {
                 "enabled": false,
                 "interface": "wlo1",
+                "name": "",
                 "network_name": "no se",
                 "password": "REMOVED_SECRET",
                 "security": true
@@ -37,7 +38,8 @@
             "timeout_min": 5
         },
         "notifications": {
-            "do_not_disturb": false
+            "do_not_disturb": true,
+            "position": 1
         }
     },
     "energy": {
@@ -69,10 +71,10 @@
         "accent_color": "m",
         "font": "JetBrains Mono",
         "hyprland": {
-            "border_radius": 8,
+            "border_radius": 10,
             "border_size": 10,
             "gaps_in": 6,
-            "gaps_out": 8
+            "gaps_out": 6
         },
         "mode": "dark",
         "panel": {
@@ -80,6 +82,6 @@
             "scale": 1,
             "size": 0.8
         },
-        "wallpaper_path": "/home/pruebas/.config/quickshell/wallpapers/zsejjk1vppaf1.jpeg"
+        "wallpaper_path": "/home/pruebas/.config/quickshell/wallpapers/drop-your-best-arch-linux-wallpapers-cause-i-need-one-v0-gwpc3guuwq6h1.webp"
     }
 }

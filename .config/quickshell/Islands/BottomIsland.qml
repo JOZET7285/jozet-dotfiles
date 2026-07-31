@@ -28,7 +28,7 @@ Rectangle {
         return 0;
     } 
     width: activeHover ? 250 : parent.width
-    height: activeHover ? 33 * scaleFactor : 15 * scaleFactor
+    height: activeHover ? 30 * scaleFactor : 15 * scaleFactor
     color: Theme.color_1_solid
     
     border {
@@ -40,6 +40,37 @@ Rectangle {
     Behavior on color { ColorAnimation { duration: 250 } }
     Behavior on height { NumberAnimation { duration: 250 } }
     Behavior on width { NumberAnimation { duration: 200 } }
+
+    ListModel {
+        id: notificationModel
+    }
+
+    Connections {
+        target: SystemManager
+
+        function onNotificationReceived() {
+            if (SystemManager.doNotDisturb) return;
+
+            let notif = SystemManager.latestNotification;
+            notificationModel.insert(0, {
+                "notifId": notif.id,
+                "appName": notif.appName,
+                "summary": notif.summary,
+                "body": notif.body,
+                "appIcon": notif.appIcon
+            });
+        }
+
+        function onNotificationClosed(id) {
+            for (let i = 0; i < notificationModel.count; i++) {
+                if (notificationModel.get(i).notifId === id) {
+                    notificationModel.remove(i, 1);
+                    break;
+                }
+            }
+        }
+    }
+
 
     Process {
         id: qsIpcCmd
@@ -117,6 +148,7 @@ Rectangle {
             Layout.fillWidth: true
             hoverEnabled: false
             onClicked: { 
+                openPopupButton('notificationPopup') 
             }
             background: Rectangle {
                 color: "transparent"
@@ -126,6 +158,18 @@ Rectangle {
                 color: Theme.color_a_text
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
+            }
+            
+            Rectangle {
+                width: 8
+                height: 8
+                radius: 4
+                color: Theme.color_a_text                
+                anchors.top: parent.top
+                anchors.right: parent.right
+                anchors.topMargin: 4
+                anchors.rightMargin: 4
+                visible: notificationModel.count > 0
             }
         }
         Button {

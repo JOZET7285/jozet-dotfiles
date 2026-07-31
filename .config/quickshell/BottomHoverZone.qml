@@ -42,10 +42,19 @@ PanelWindow {
     }
     MouseArea {
         id: hoverZone
-        anchors.fill:parent
+        anchors {
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+        }
+        height: 5
         hoverEnabled: true
         onEntered: {
             bottomLand.positionX = mouseX 
+            hoverZone.height = 20
+        }
+        onExited: {
+            hoverZone.height = 5
         }
     }
     Item {

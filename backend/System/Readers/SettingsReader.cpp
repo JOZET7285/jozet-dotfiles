@@ -51,7 +51,8 @@ static const QVariantMap DEFAULTS = {
             {"notifications", false}
         }},
         {"notifications", QVariantMap{
-            {"do_not_disturb", false}
+            {"do_not_disturb", false},
+            {"position", 3}
         }}
     }},
     {"energy", QVariantMap{

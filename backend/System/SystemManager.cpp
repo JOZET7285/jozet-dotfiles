@@ -60,6 +60,15 @@ SystemManager::SystemManager(QObject *parent) : QObject(parent)
         emit matugenColorsChanged();
     });
 
+    connect(&m_notifyReader, &NotifyReader::notificationReceived, this, [this](const QVariantMap &notif) {
+        m_latestNotification = notif;
+        emit notificationReceived();
+    });
+
+    connect(&m_notifyReader, &NotifyReader::notificationClosed, this, [this](uint id, uint reason) {
+        emit notificationClosed(id, reason);
+    });
+
     m_hyprlandWriter = new HyprlandWriter(&m_settingsReader, this);
 
     m_volumeReader.startEventListener([](){});
@@ -705,6 +714,24 @@ void SystemManager::persistBrightnessToActiveProfile(int percentage)
 // ------------------------------------------------------------
 void SystemManager::refreshSystemInfo() {
     m_fastfetchReader.refresh();
+}
+
+bool SystemManager::doNotDisturb() const
+{
+    return m_settingsReader.get("display.notifications.do_not_disturb").toBool();
+}
+
+void SystemManager::setDoNotDisturb(bool dnd)
+{
+    if (doNotDisturb() != dnd) {
+        m_settingsReader.set("display.notifications.do_not_disturb", dnd);
+        emit doNotDisturbChanged();
+    }
+}
+
+void SystemManager::closeNotification(uint id)
+{
+    m_notifyReader.CloseNotification(id);
 }
 
 // Monitors

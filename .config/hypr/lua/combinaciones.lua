@@ -15,10 +15,19 @@ hl.bind(mainMod .. " + TAB", hl.dsp.exec_cmd("sh -c 'monitor=$(hyprctl activewor
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("sh -c 'monitor=$(hyprctl activeworkspace -j | jq -r .monitor); qs ipc call wallpaperSelector-$monitor toggle'"))
 
 -- Ventanas
-hl.bind(mainMod .. " + C", hl.dsp.window.kill(active))
+hl.bind(mainMod .. " + C", hl.dsp.window.close())
 hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))
 hl.bind(mainMod .. " + P", hl.dsp.exec_cmd("quickshell-client --name quickshell --send toggle"))
+
+hl.bind(mainMod .. " + left",  hl.dsp.window.move{ direction = "left" })
+hl.bind(mainMod .. " + right", hl.dsp.window.move{ direction = "right" })
+hl.bind(mainMod .. " + up",    hl.dsp.window.move{ direction = "up" })
+hl.bind(mainMod .. " + down",  hl.dsp.window.move{ direction = "down" })
+
+hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
+hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+
 
 -- Movimiento de foco
 hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }))

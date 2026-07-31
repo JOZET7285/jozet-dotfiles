@@ -17,6 +17,10 @@ PanelWindow {
     property string playerState: "Pause"
     property bool playing: (mainProcesses.currentSongTitle === "Sin reproducción")
 
+    property int notifPosition: parseInt(SystemManager.getSetting("display.notifications.position")) || 0
+    property bool topNotify: notifPosition < 2
+    property bool leftNotify: notifPosition % 2 === 0
+
     property var modelData 
     screen: modelData
     
@@ -32,6 +36,9 @@ PanelWindow {
         target: SystemManager
         function onRiceSettingsChanged() {
             userScale = parseFloat(SystemManager.getSetting("theme.panel.size")) || 1.0
+            
+            let newPos = parseInt(SystemManager.getSetting("display.notifications.position"))
+            notifPosition = isNaN(newPos) ? 0 : newPos
         }
     }
 
@@ -40,10 +47,11 @@ PanelWindow {
 
     property var popupTopList: [leftLand.popups, rightLand.popups]
     property var popupList: [diskPopup, ramPopup, cpuPopup, tempPopup, todayPopup, settingsPopup] 
-    property var popupBottomList: [agendPopup, wallpaperSelector, eventPopup]
+    property var popupBottomList: [agendPopup, wallpaperSelector, eventPopup, notificationPopup]
     property bool bottomPopupsOpened: (agendPopup.open || agendPopup.animating || 
                                        wallpaperSelector.open || wallpaperSelector.animating || 
-                                       eventPopup.open || eventPopup.animating)
+                                       eventPopup.open || eventPopup.animating || 
+                                       notificationPopup.open || notificationPopup.animating)
 
     property bool anyPopupOpen: {
         for (let i = 0; i < popupList.length; i++) {
@@ -113,7 +121,9 @@ PanelWindow {
         Region { item: (todayPopup.open || todayPopup.animating) ? todayPopup : null }
         Region { item: (agendPopup.open || agendPopup.animating) ? agendPopup : null }
         Region { item: (eventPopup.open || eventPopup.animating) ? eventPopup : null }
+        Region { item: (notificationPopup.open || notificationPopup.animating) ? notificationPopup : null }
         Region { item: (settingsPopup.open || settingsPopup.animating) ? settingsPopup : null }
+        Region { item: notificationToast }
     }
     color: "transparent"
     
@@ -252,6 +262,7 @@ PanelWindow {
         Item {
             id: bottomPopupsContainer
             anchors {
+                right: parent.right
                 bottom: parent.bottom
                 horizontalCenter: parent.horizontalCenter
                 bottomMargin: 40
@@ -274,6 +285,28 @@ PanelWindow {
                 anchors.bottom: parent.bottom
                 onOpenChanged: rootUISys.closeOtherBottomPopups(this)
             }
+            NotificationPopup {
+                id: notificationPopup
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                anchors.rightMargin: 15
+                onOpenChanged: rootUISys.closeOtherBottomPopups(this)
+            }
+        }
+        NotificationToast {
+            id: notificationToast
+            anchors {
+                top: topNotify ? (leftNotify ? leftLand.bottom : rightLand.bottom) : undefined
+                bottom: !topNotify ? parent.bottom : undefined
+                left: leftNotify ? parent.left : undefined
+                right: !leftNotify ? parent.right : undefined
+                
+                topMargin: topNotify ? 12 : 40 * scaleFactor 
+                rightMargin: 10
+                bottomMargin: 25 * scaleFactor
+                leftMargin: 10
+            }
+            z: 100
         }
     }
 }

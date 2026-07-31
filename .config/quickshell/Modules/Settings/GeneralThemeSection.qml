@@ -184,40 +184,40 @@ Component {
                     }
                 }
                 RowLayout {
-                    Layout.fillWidth: true
-                    spacing: 8
+                    spacing: 10
                     Text {
-                        text: "Compact: "
+                        text: "Compact:"
                         font.pixelSize: 12
-                        color: Theme.text_color
+                        font.bold: true
+                        color: Theme.color_a_text
+                        Layout.preferredWidth: 100
                     }
-                    Item { Layout.fillWidth: true }
                     Rectangle {
-                        Layout.preferredWidth: 40
-                        Layout.preferredHeight: 20
-                        color: Theme.color_3
-                        radius: 10
-                        Rectangle {
-                            id: compactIndicator
-                            width: 20
-                            height: 20
-                            radius: 20
-                            color: SystemManager.getSetting("theme.panel.compact") ? Theme.color_a_text : Theme.color_4
-                            x: SystemManager.getSetting("theme.panel.compact") ? 20 : 0
-                        }
+                        Layout.preferredWidth: 40; Layout.preferredHeight: 22; radius: 11
+                        color: Theme.color_1
                         MouseArea {
                             anchors.fill: parent
+                            cursorShape: Qt.PointingHandCursor
                             onClicked: {
-                                var value = SystemManager.getSetting("theme.panel.compact");
+                                var value = SystemManager.getSetting("theme.panel.compact")
                                 SystemManager.setSetting("theme.panel.compact", !value)
-                                if (value) {
-                                    compactIndicator.x = 0
-                                    compactIndicator.color = Theme.color_4
-                                }else {
-                                    compactIndicator.x = 20
+                                if(value) {
+                                    compactIndicator.color = Theme.color_2
+                                    compactIndicator.x = 2
+                                } else {
                                     compactIndicator.color = Theme.color_a_text
+                                    compactIndicator.x = 20
                                 }
                             }
+                        }
+                        Rectangle {
+                            id: compactIndicator
+                            width: 18; height: 18; radius: 9
+                            color: SystemManager.getSetting("theme.panel.compact") ? Theme.color_a_text : Theme.color_3
+                            x: SystemManager.getSetting("theme.panel.compact") ? 20 : 2
+                            anchors.verticalCenter: parent.verticalCenter
+                            Behavior on x { NumberAnimation { duration: 150 } }
+                            Behavior on color { ColorAnimation { duration: 150 } }
                         }
                     }
                 }

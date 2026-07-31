@@ -169,51 +169,42 @@ Component {
                 anchors.margins: 15
                 spacing: 8
                 RowLayout {
-                    Layout.fillWidth: true
                     spacing: 10
                     Text { 
                         text: "Enabled:" 
                         font.pixelSize: 12 
                         font.bold: true 
                         color: Theme.color_a_text 
-                        Layout.preferredWidth: 90 
+                        Layout.preferredWidth: 100 
                     }
-                    Item { Layout.fillWidth: true }
                     Rectangle {
-                        Layout.preferredWidth: 40 
-                        Layout.preferredHeight: 22
-                        radius: 11
+                        Layout.preferredWidth: 40; Layout.preferredHeight: 22; radius: 11
                         color: Theme.color_1
-                        Rectangle {
-                            id: enabledApIndicator
-                            width: 18 
-                            height: 18 
-                            radius: 9 
-                            color: {
-                                var en = SystemManager.getSetting("connections.network.access_point.enabled") === true;
-                                return en ? Theme.color_a_text : Theme.color_3;
-                            }
-                            anchors.verticalCenter: parent.verticalCenter
-                            x: SystemManager.getSetting("connections.network.access_point.enabled") === true ? 20 : 2
-                            Behavior on x { NumberAnimation { duration: 150 } }
-                        }
                         MouseArea {
                             anchors.fill: parent
                             cursorShape: Qt.PointingHandCursor
                             onClicked: {
-                                var current = SystemManager.getSetting("connections.network.access_point.enabled") === true;
-                                SystemManager.setSetting("connections.network.access_point.enabled", !current);
-                                if (!current) {
+                                var current = SystemManager.getSetting("connections.network.access_point.enabled") === true
+                                SystemManager.setSetting("connections.network.access_point.enabled", !current)
+                                if(current) {
                                     startAP();
-                                    enabledApIndicator.x = 20
-                                    enabledApIndicator.color = Theme.color_a_text
-                                }
-                                else {
-                                    stopAP();
+                                    enabledApIndicator.color = Theme.color_2
                                     enabledApIndicator.x = 2
-                                    enabledApIndicator.color = Theme.color_3
+                                } else {
+                                    stopAP();
+                                    enabledApIndicator.color = Theme.color_a_text
+                                    enabledApIndicator.x = 20
                                 }
                             }
+                        }
+                        Rectangle {
+                            id: enabledApIndicator
+                            width: 18; height: 18; radius: 9
+                            color: SystemManager.getSetting("connections.network.access_point.enabled") === true ? Theme.color_a_text : Theme.color_3
+                            x: SystemManager.getSetting("connections.network.access_point.enabled") === true ? 20 : 2
+                            anchors.verticalCenter: parent.verticalCenter
+                            Behavior on x { NumberAnimation { duration: 150 } }
+                            Behavior on color { ColorAnimation { duration: 150 } }
                         }
                     }
                 }
@@ -359,44 +350,39 @@ Component {
                 }
 
                 RowLayout {
-                    Layout.fillWidth: true
                     spacing: 10
                     Text { 
                         text: "Security:" 
                         font.pixelSize: 12
                         font.bold: true
                         color: Theme.color_a_text
-                        Layout.preferredWidth: 90 }
-                    Item { Layout.fillWidth: true }
+                        Layout.preferredWidth: 100 }
                     Rectangle {
-                        Layout.preferredWidth: 40 
-                        Layout.preferredHeight: 22 
-                        radius: 11
+                        Layout.preferredWidth: 40; Layout.preferredHeight: 22; radius: 11
                         color: Theme.color_1 
-                        Rectangle {
-                            id: securityToggle
-                            width: 18
-                            height: 18
-                            radius: 9
-                            color: SystemManager.getSetting("connections.network.access_point.security") === true ? Theme.color_a_text : Theme.color_3
-                            anchors.verticalCenter: parent.verticalCenter
-                            x: SystemManager.getSetting("connections.network.access_point.security") === true ? 20 : 2
-                            Behavior on x { NumberAnimation { duration: 150 } }
-                        }
                         MouseArea {
                             anchors.fill: parent
                             cursorShape: Qt.PointingHandCursor
                             onClicked: {
                                 var current = SystemManager.getSetting("connections.network.access_point.security") === true;
                                 SystemManager.setSetting("connections.network.access_point.security", !current);
-                                if(!current){
-                                    securityToggle.x = 20
-                                    securityToggle.color = Theme.color_a_text
-                                }else {
+                                if(current){
+                                    securityToggle.color = Theme.color_2
                                     securityToggle.x = 2
-                                    securityToggle.color = Theme.color_3
+                                }else {
+                                    securityToggle.color = Theme.color_a_text
+                                    securityToggle.x = 20
                                 }
                             }
+                        }
+                        Rectangle {
+                            id: securityToggle
+                            width: 18; height: 18; radius: 9
+                            color: SystemManager.getSetting("connections.network.access_point.security") === true ? Theme.color_a_text : Theme.color_3
+                            x: SystemManager.getSetting("connections.network.access_point.security") === true ? 20 : 2
+                            anchors.verticalCenter: parent.verticalCenter
+                            Behavior on x { NumberAnimation { duration: 150 } }
+                            Behavior on color { ColorAnimation { duration: 150 } }
                         }
                     }
                 }

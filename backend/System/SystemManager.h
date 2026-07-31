@@ -28,6 +28,7 @@
 #include "Readers/FastfetchReader.h"
 #include "Readers/MatugenReader.h"
 #include "Readers/HyprlandWriter.h"
+#include "Readers/NotifyReader.h"
 
 namespace jozet {
 
@@ -101,9 +102,12 @@ class SystemManager : public QObject
     // SETTINGS --------------------------------------------------
     Q_PROPERTY(QVariantMap riceSettings READ riceSettings NOTIFY riceSettingsChanged)
     Q_PROPERTY(QVariantMap matugenColors READ matugenColors NOTIFY matugenColorsChanged)
+    Q_PROPERTY(bool doNotDisturb READ doNotDisturb WRITE setDoNotDisturb NOTIFY doNotDisturbChanged)
 
     // SYSTEM INFO -----------------------------------------------
     Q_PROPERTY(QVariantMap systemInfo READ systemInfo NOTIFY systemInfoChanged)
+    Q_PROPERTY(QVariantMap latestNotification READ latestNotification NOTIFY notificationReceived)
+
 
 public:
     explicit SystemManager(QObject *parent = nullptr);
@@ -226,6 +230,10 @@ public:
     // SYSTEM INFO -----------------------------------------------
     QVariantMap systemInfo() const { return m_fastfetchReader.systemInfo(); }
     Q_INVOKABLE void refreshSystemInfo();
+    QVariantMap latestNotification() const { return m_latestNotification; }
+    bool doNotDisturb() const;
+    void setDoNotDisturb(bool dnd);
+    Q_INVOKABLE void closeNotification(uint id);
 
     // MONITORS --------------------------------------------------
     Q_INVOKABLE QString getMonitorsJson();
@@ -261,6 +269,9 @@ signals:
     void riceSettingsChanged();
     void systemInfoChanged();
     void matugenColorsChanged();
+    void notificationReceived();
+    void notificationClosed(uint id, uint reason);
+    void doNotDisturbChanged();
 
 private slots:
     void update();
@@ -327,6 +338,8 @@ private:
     // SETTINGS ---------------------
     void applyActiveProfileBrightness();    
     void persistBrightnessToActiveProfile(int percentage);
+    NotifyReader m_notifyReader;
+    QVariantMap m_latestNotification;
     
     // HELPERS --------------------------------------------
     void updateCpu();

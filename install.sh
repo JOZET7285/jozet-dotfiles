@@ -20,7 +20,7 @@ if [[ "${1:-}" == "--yes" ]]; then
 fi
 
 PACMAN_PKGS=(
-    hyprland qt6-base qt6-declarative quickshell awww capitaine-cursors
+    hyprland qt6-base qt6-declarative awww capitaine-cursors
     cmake base-devel git qt6-5compat jq
     networkmanager network-manager-applet
     pipewire pipewire-pulse pipewire-alsa wireplumber
@@ -29,9 +29,13 @@ PACMAN_PKGS=(
     kitty neovim zsh
     ttf-jetbrains-mono-nerd ttf-firacode-nerd
     starship fastfetch
-    matugen
     zsh-autosuggestions
     zsh-syntax-highlighting
+)
+
+AUR_PKGS=(
+    matugen-bin
+    quickshell-git
 )
 
 declare -A LINK_MAP=(
@@ -103,10 +107,12 @@ install_packages() {
         || die "falla la instalacion de paquetes oficiales"
     ok "Official packages installed."
 
-    info "installing packages from the AUR..."
-    yay -S --needed --noconfirm "${AUR_PKGS[@]}" \
-        || die "AUR package installation failed."
-    ok "AUR packages installed."
+    if [[ ${#AUR_PKGS[@]} -gt 0 ]]; then
+        info "Installing packages from the AUR..."
+        yay -S --needed --noconfirm "${AUR_PKGS[@]}" \
+            || die "AUR package installation failed."
+        ok "AUR packages installed."
+    fi
 }
 
 # ---------------------------------------------------------------------------

@@ -233,23 +233,17 @@ Rectangle {
         }
 
         RowLayout {
-            Layout.fillWidth: true; spacing: 10
-            Text { 
+            spacing: 10
+            Text {
                 text: "Enabled:"
-                font.pixelSize: 11
+                font.pixelSize: 12
                 font.bold: true
                 color: Theme.color_a_text
-                Layout.preferredWidth: 80 
+                Layout.preferredWidth: 100
             }
             Rectangle {
                 Layout.preferredWidth: 40; Layout.preferredHeight: 22; radius: 11
-                color: monitorData.disabled === false ? Theme.color_g : Theme.color_3
-                Rectangle {
-                    width: 18; height: 18; radius: 9; color: Theme.text_color
-                    anchors.verticalCenter: parent.verticalCenter
-                    x: monitorData.disabled === false ? 20 : 2
-                    Behavior on x { NumberAnimation { duration: 150 } }
-                }
+                color: Theme.color_1
                 MouseArea {
                     anchors.fill: parent; cursorShape: Qt.PointingHandCursor
                     onClicked: {
@@ -257,29 +251,42 @@ Rectangle {
                         onRefresh()
                     }
                 }
+                Rectangle {
+                    width: 18; height: 18; radius: 9
+                    color: monitorData.disabled === false ? Theme.color_a_text : Theme.color_3
+                    x: monitorData.disabled === false ? 20 : 2
+                    anchors.verticalCenter: parent.verticalCenter
+                    Behavior on x { NumberAnimation { duration: 150 } }
+                    Behavior on color { ColorAnimation { duration: 150 } }
+                }
             }
-            Text { 
+        }
+        RowLayout {
+            spacing: 10
+            Text {
                 text: "VRR:"
-                font.pixelSize: 11
+                font.pixelSize: 12
                 font.bold: true
                 color: Theme.color_a_text
-                Layout.leftMargin: 20 
+                Layout.preferredWidth: 100
             }
             Rectangle {
                 Layout.preferredWidth: 40; Layout.preferredHeight: 22; radius: 11
-                color: monitorData.vrr === true ? Theme.color_g : Theme.color_3
-                Rectangle {
-                    width: 18; height: 18; radius: 9; color: Theme.text_color
-                    anchors.verticalCenter: parent.verticalCenter
-                    x: monitorData.vrr === true ? 20 : 2
-                    Behavior on x { NumberAnimation { duration: 150 } }
-                }
+                color: Theme.color_1
                 MouseArea {
                     anchors.fill: parent; cursorShape: Qt.PointingHandCursor
                     onClicked: {
                         SystemManager.setMonitorVrr(monitorData.name, monitorData.vrr !== true)
                         onRefresh()
                     }
+                }
+                Rectangle {
+                    width: 18; height: 18; radius: 9
+                    color: monitorData.vrr === true ? Theme.color_a_text : Theme.color_3
+                    x: monitorData.vrr === true ? 20 : 2
+                    anchors.verticalCenter: parent.verticalCenter
+                    Behavior on x { NumberAnimation { duration: 150 } }
+                    Behavior on color { ColorAnimation { duration: 150 } }
                 }
             }
         }
