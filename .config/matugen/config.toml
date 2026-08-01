@@ -3,4 +3,4 @@ reload_apps = false
 
 [templates.jzt]
 input_path = "~/.config/matugen/templates/jzt-rice-colors.json"
-output_path = "~/.local/share/jozet/matugen-colors.json"
+output_path = "~/.local/share/jzt/matugen-colors.json"
