@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 #
-# install.sh — instalador de jozet-dotfiles
+# install.sh — jozet-dotfiles installer
 #
-# Requiere Arch Linux (o derivada) con yay disponible o instalable.
-# Uso:
-#   ./install.sh            instalación normal (con confirmaciones)
-#   ./install.sh --yes      no pregunta nada, asume "sí" en todo
+# Requires Arch Linux (or a derivative) with yay available or installable.
+# Usage:
+#   ./install.sh            normal installation (with confirmations)
+#   ./install.sh --yes      skip all prompts, assume "yes" to everything
 #
 set -euo pipefail
 
@@ -15,7 +15,7 @@ set -euo pipefail
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKUP_DIR="$HOME/.jozet-dotfiles-backup-$(date +%Y%m%d-%H%M%S)"
 ASSUME_YES=false
-if [[ "${1:-}" == "--yes" ]]; then 
+if [[ "${1:-}" == "--yes" ]]; then
     ASSUME_YES=true
 fi
 
@@ -52,7 +52,7 @@ declare -A LINK_MAP=(
 )
 
 # ---------------------------------------------------------------------------
-# Output U.
+# Output
 # ---------------------------------------------------------------------------
 c_info="\033[1;34m"; c_ok="\033[1;32m"; c_warn="\033[1;33m"; c_err="\033[1;31m"; c_off="\033[0m"
 info()  { echo -e "${c_info}==>${c_off} $*"; }
@@ -62,30 +62,30 @@ err()   { echo -e "${c_err}  ✗${c_off} $*" >&2; }
 die()   { err "$*"; exit 1; }
 
 confirm() {
-    if $ASSUME_YES; then 
+    if $ASSUME_YES; then
         return 0
     fi
     local prompt="$1"
-    read -rp "$(echo -e "${c_warn}?${c_off} ${prompt} [s/N] ")" reply
-    [[ "$reply" =~ ^[sSyY]$ ]]
+    read -rp "$(echo -e "${c_warn}?${c_off} ${prompt} [y/N] ")" reply
+    [[ "$reply" =~ ^[yY]$ ]]
 }
 
 # ---------------------------------------------------------------------------
-# Checks prev.
+# Pre-checks
 # ---------------------------------------------------------------------------
 check_arch() {
     command -v pacman >/dev/null 2>&1 || die "This rice is only for Arch Linux or distributions based on it."
 }
 
 check_not_root() {
-    if [[ "$EUID" -eq 0 ]]; then 
+    if [[ "$EUID" -eq 0 ]]; then
         die "Do not run this script as the root user. Use your normal user account."
     fi
 }
 
 ensure_yay() {
     if command -v yay >/dev/null 2>&1; then
-        ok "yay ya está instalado"
+        ok "yay is already installed"
         return
     fi
     info "yay is not installed; it will be installed automatically."
@@ -99,13 +99,30 @@ ensure_yay() {
 }
 
 # ---------------------------------------------------------------------------
+# Conflicting packages
+# ---------------------------------------------------------------------------
+ensure_no_quickshell_conflict() {
+    if pacman -Qi quickshell >/dev/null 2>&1; then
+        warn "The stable 'quickshell' package is installed and conflicts with quickshell-git."
+        if confirm "Remove the stable quickshell package to install quickshell-git?"; then
+            sudo pacman -R --noconfirm quickshell
+            ok "Stable quickshell removed."
+        else
+            die "Cannot continue with quickshell and quickshell-git in conflict."
+        fi
+    fi
+}
+
+# ---------------------------------------------------------------------------
 # Packages installation
 # ---------------------------------------------------------------------------
 install_packages() {
     info "Installing official packages..."
     yay -S --needed --noconfirm "${PACMAN_PKGS[@]}" \
-        || die "falla la instalacion de paquetes oficiales"
+        || die "Failed to install official packages."
     ok "Official packages installed."
+
+    ensure_no_quickshell_conflict
 
     if [[ ${#AUR_PKGS[@]} -gt 0 ]]; then
         info "Installing packages from the AUR..."
@@ -146,10 +163,10 @@ link_configs() {
 }
 
 # ---------------------------------------------------------------------------
-# Backend Qt (JozetPlugin)
+# Qt backend (JozetPlugin)
 # ---------------------------------------------------------------------------
 build_backend() {
-    info "Compiling plugin of Qt (backend)..."
+    info "Compiling the Qt plugin (backend)..."
     cmake -S "$REPO_DIR/backend" -B "$REPO_DIR/backend/build" -DCMAKE_BUILD_TYPE=Release \
         || die "CMake failed to configure the backend."
     cmake --build "$REPO_DIR/backend/build" -j"$(nproc)" \
@@ -161,10 +178,10 @@ fix_import_path() {
     local target="$HOME/.config/hypr/lua/inicializar.lua"
     local build_path="$REPO_DIR/backend/build"
 
-    [[ -f "$target" ]] || { warn "$target not found, skipping route fix..."; return; }
+    [[ -f "$target" ]] || { warn "$target not found, skipping path fix..."; return; }
 
     if grep -q "QML2_IMPORT_PATH=$build_path" "$target"; then
-        ok "The initializer already points to the correct dir."
+        ok "The initializer already points to the correct directory."
         return
     fi
 
@@ -174,7 +191,7 @@ fix_import_path() {
 }
 
 # ---------------------------------------------------------------------------
-# System Services
+# System services
 # ---------------------------------------------------------------------------
 setup_services() {
     info "Enabling services..."
@@ -184,7 +201,7 @@ setup_services() {
         || warn "NetworkManager could not be enabled."
     sudo systemctl enable --now bluetooth \
         || warn "Bluetooth could not be enabled."
-    ok "configured services"
+    ok "Services configured."
 }
 
 # ---------------------------------------------------------------------------
@@ -200,7 +217,7 @@ main() {
     echo " Backups: $BACKUP_DIR "
     echo "=================================================="
 
-    confirm "Continue with the installation?" || die "cancelled by the user."
+    confirm "Continue with the installation?" || die "Cancelled by the user."
 
     ensure_yay
     install_packages
@@ -210,8 +227,8 @@ main() {
     setup_services
 
     echo
-    ok "Your rice is ready! Log out and enter Hyprland from your display manager to enjoy it.."
-    warn "Your settings were not deleted; they were saved in: $BACKUP_DIR"
+    ok "Your rice is ready! Log out and enter Hyprland from your display manager to enjoy it."
+    warn "Your previous settings were not deleted; they were saved in: $BACKUP_DIR"
 }
 
 main "$@"
