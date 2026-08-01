@@ -99,7 +99,7 @@ static QString generatePreview(const QString &themePath, const QString &themeNam
     if (img.width() > 48 || img.height() > 48)
         img = img.scaled(48, 48, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-    QDir cacheDir(QDir::homePath() + "/.cache/jozet/cursors");
+    QDir cacheDir(QDir::homePath() + "/.cache/jzt/cursors");
     cacheDir.mkpath(".");
 
     const QString outPath = cacheDir.filePath(themeName + ".png");
