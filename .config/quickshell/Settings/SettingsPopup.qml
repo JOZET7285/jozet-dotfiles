@@ -218,13 +218,7 @@ BasePopup {
 
             Component {
                 id: cursorSection
-                ColumnLayout {
-                    spacing: 12
-                    Text { text: "Cursor"; font.pixelSize: 16; font.bold: true; color: Theme.text_color }
-                    Rectangle { Layout.fillWidth: true; Layout.preferredHeight: 1; color: Theme.color_3 }
-                    Text { text: "Próximamente"; font.pixelSize: 12; color: Theme.color_b }
-                    Item { Layout.fillHeight: true }
-                }
+                CursorSection {}
             }
         }
     }

@@ -29,6 +29,7 @@
 #include "Readers/MatugenReader.h"
 #include "Readers/HyprlandWriter.h"
 #include "Readers/NotifyReader.h"
+#include "Readers/CursorReader.h"
 
 namespace jozet {
 
@@ -103,6 +104,7 @@ class SystemManager : public QObject
     Q_PROPERTY(QVariantMap riceSettings READ riceSettings NOTIFY riceSettingsChanged)
     Q_PROPERTY(QVariantMap matugenColors READ matugenColors NOTIFY matugenColorsChanged)
     Q_PROPERTY(bool doNotDisturb READ doNotDisturb WRITE setDoNotDisturb NOTIFY doNotDisturbChanged)
+    Q_PROPERTY(QVariantList availableCursors READ availableCursors NOTIFY availableCursorsChanged)
 
     // SYSTEM INFO -----------------------------------------------
     Q_PROPERTY(QVariantMap systemInfo READ systemInfo NOTIFY systemInfoChanged)
@@ -111,13 +113,19 @@ class SystemManager : public QObject
 
 public:
     explicit SystemManager(QObject *parent = nullptr);
+    
     Q_INVOKABLE bool authenticateUser(const QString &username, const QString &password);
     bool locked() const { return m_locked; }
     void setLocked(bool locked);
     Q_INVOKABLE void lockSession();
     Q_INVOKABLE void unlockSession();
+    
     Q_INVOKABLE QString getWallpaperCachePath(const QString &monitorName);
+    
     QVariantMap matugenColors() const { return m_matugenReader.colors(); }
+    
+    QVariantList availableCursors() const { return m_cursorReader.availableCursors(); }
+    Q_INVOKABLE void refreshCursors() { m_cursorReader.refreshCursors(); }
 
     // RAM -----------------------------------------------
     QVariantMap ramInfo() const;
@@ -272,6 +280,7 @@ signals:
     void notificationReceived();
     void notificationClosed(uint id, uint reason);
     void doNotDisturbChanged();
+    void availableCursorsChanged();
 
 private slots:
     void update();
@@ -296,6 +305,7 @@ private:
     MatugenReader m_matugenReader;
     HyprlandWriter *m_hyprlandWriter = nullptr;
     bool m_locked = false;
+    CursorReader m_cursorReader;
 
     // RAM ------------------------------------------------
     QVariantMap m_ramInfo;

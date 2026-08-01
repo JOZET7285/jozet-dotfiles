@@ -69,10 +69,15 @@
     },
     "theme": {
         "accent_color": "m",
+        "cursor": {
+            "size": 12,
+            "speed": 0.3,
+            "theme": "Bibata-Modern-Ice"
+        },
         "font": "JetBrains Mono",
         "hyprland": {
             "border_radius": 10,
-            "border_size": 3,
+            "border_size": 2,
             "gaps_in": 6,
             "gaps_out": 6
         },

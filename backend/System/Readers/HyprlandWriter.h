@@ -23,6 +23,7 @@ public slots:
 private:
     QString accentColor() const;
     QString toHyprColor(const QString &hex, const QString &alpha = "ff") const;
+    void applyCursorTheme();
     void runHyprctl(const QString &keyword, const QString &value);
     void restartHypridle();
     QString luaDataPath() const;

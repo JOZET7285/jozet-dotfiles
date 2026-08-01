@@ -12,6 +12,7 @@ static const QHash<QString, QString> SETTING_MAP = {
     {"theme.hyprland.border_radius", "decoration:rounding"},
     {"theme.hyprland.border_size", "general:border_size"},
     {"system.keyboard_layout", "input:kb_layout"},
+    {"theme.cursor.speed", "input:sensitivity"},
 };
 
 HyprlandWriter::HyprlandWriter(SettingsReader *reader, MatugenReader *matugen, QObject *parent)
@@ -32,22 +33,48 @@ void HyprlandWriter::applyAll() {
 
     auto theme = s.value("theme").toMap();
     auto hyprland = theme.value("hyprland").toMap();
+    auto cursor = theme.value("cursor").toMap();
     auto system = s.value("system").toMap();
 
-    QString lua = QString("hl.config({general={gaps_in=%1,gaps_out=%2,border_size=%3},decoration={rounding=%4},input={kb_layout=\"%5\"}})")
+    double speed = cursor.value("speed", 1.0).toDouble();
+    if (speed <= 0.0)
+        speed = 1.0;
+
+    QString lua = QString("hl.config({general={gaps_in=%1,gaps_out=%2,border_size=%3},decoration={rounding=%4},input={kb_layout=\"%5\",sensitivity=%6}})")
         .arg(hyprland.value("gaps_in", 5).toInt())
         .arg(hyprland.value("gaps_out", 10).toInt())
         .arg(hyprland.value("border_size", 2).toInt())
         .arg(hyprland.value("border_radius", 8).toInt())
-        .arg(escapeLua(system.value("keyboard_layout", "latam").toString()));
+        .arg(escapeLua(system.value("keyboard_layout", "latam").toString()))
+        .arg(speed);
 
     QProcess proc;
     proc.start("hyprctl", {"eval", lua});
     proc.waitForFinished(3000);
 
+    applyCursorTheme();
     applyBorderColors();
     writeLuaDataFile();
     restartHypridle();
+}
+
+void HyprlandWriter::applyCursorTheme()
+{
+    auto cursor = m_reader->settings().value("theme").toMap().value("cursor").toMap();
+
+    QString theme = cursor.value("theme").toString().trimmed();
+    if (theme.isEmpty())
+        return;
+
+    int size = cursor.value("size", 24).toInt();
+    if (size < 4)
+        size = 4;
+    if (size > 128)
+        size = 128;
+
+    QProcess proc;
+    proc.start("hyprctl", {"setcursor", theme, QString::number(size)});
+    proc.waitForFinished(3000);
 }
 
 QString HyprlandWriter::accentColor() const
@@ -81,6 +108,9 @@ void HyprlandWriter::applyBorderColors()
 }
 
 void HyprlandWriter::applySetting(const QString &key, const QVariant &value) {
+    if (key == "theme.cursor.theme" || key == "theme.cursor.size") {
+        applyCursorTheme();
+    }
     if (SETTING_MAP.contains(key)) {
         QString kw = SETTING_MAP[key];
         QStringList parts = kw.split(':');
@@ -145,7 +175,12 @@ void HyprlandWriter::writeLuaDataFile() {
     auto s = m_reader->settings();
     auto theme = s.value("theme").toMap();
     auto hyprland = theme.value("hyprland").toMap();
+    auto cursor = theme.value("cursor").toMap();
     auto system = s.value("system").toMap();
+
+    double speed = cursor.value("speed", 1.0).toDouble();
+    if (speed <= 0.0)
+        speed = 1.0;
 
     QString accent = accentColor();
     QString active = toHyprColor(accent);
@@ -168,6 +203,9 @@ void HyprlandWriter::writeLuaDataFile() {
         out << activeLine;
         out << inactiveLine;
         out << "    kb_layout = \"" << system.value("keyboard_layout", "latam").toString() << "\",\n";
+        out << "    cursor_theme = \"" << cursor.value("theme", "").toString() << "\",\n";
+        out << "    cursor_size = " << cursor.value("size", 24).toInt() << ",\n";
+        out << "    cursor_speed = " << speed << ",\n";
         out << "}\n";
         file.close();
     }

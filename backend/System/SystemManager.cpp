@@ -70,6 +70,10 @@ SystemManager::SystemManager(QObject *parent) : QObject(parent)
         emit notificationClosed(id, reason);
     });
 
+    connect(&m_cursorReader, &CursorReader::availableCursorsChanged, this, [this]() {
+        emit availableCursorsChanged();
+    });
+
     m_hyprlandWriter = new HyprlandWriter(&m_settingsReader, &m_matugenReader, this);
 
     m_volumeReader.startEventListener([](){});
@@ -79,6 +83,7 @@ SystemManager::SystemManager(QObject *parent) : QObject(parent)
     fetchWeather();
     refreshTodayData();
     refreshWorkspaces();
+    refreshCursors();
 }
 
 // RAM

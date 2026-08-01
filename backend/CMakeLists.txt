@@ -7,7 +7,7 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -march=native -mtune=native -flto -ffast-math")
 
-find_package(Qt6 REQUIRED COMPONENTS Core Qml Network DBus)
+find_package(Qt6 REQUIRED COMPONENTS Core Qml Network DBus Gui)
 
 qt6_add_qml_module(JozetPlugin
     URI Jozet.System
@@ -54,11 +54,13 @@ qt6_add_qml_module(JozetPlugin
         System/Readers/HyprlandWriter.h
         System/Readers/NotifyReader.cpp
         System/Readers/NotifyReader.h
+        System/Readers/CursorReader.cpp
+        System/Readers/CursorReader.h
 )
 target_include_directories(JozetPlugin PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/System
 )
-target_link_libraries(JozetPlugin PRIVATE Qt6::Core Qt6::DBus Qt6::Qml Qt6::Network pam)
+target_link_libraries(JozetPlugin PRIVATE Qt6::Core Qt6::DBus Qt6::Qml Qt6::Network Qt6::Gui pam)
 
 set_target_properties(JozetPlugin PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)

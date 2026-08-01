@@ -1,8 +1,19 @@
 local s = require("lua.datos")
 
+local speed = s.cursor_speed
+if speed == nil or speed <= 0 then speed = 1.0 end
+
+hl.env("XCURSOR_SIZE", tostring(s.cursor_size))
+hl.env("HYPRCURSOR_SIZE", tostring(s.cursor_size))
+if s.cursor_theme ~= nil and s.cursor_theme ~= "" then
+  hl.env("XCURSOR_THEME", s.cursor_theme)
+  hl.env("HYPRCURSOR_THEME", s.cursor_theme)
+end
+
 hl.config({
   input = {
     kb_layout = s.kb_layout,
+    sensitivity = speed,
     touchpad = {
       natural_scroll = true
     },

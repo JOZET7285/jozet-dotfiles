@@ -89,6 +89,11 @@ static const QVariantMap DEFAULTS = {
             {"gaps_out", 10},
             {"border_radius", 8},
             {"border_size", 2}
+        }},
+        {"cursor", QVariantMap{
+            {"size", 24},
+            {"theme", ""},
+            {"speed", 1.0}
         }}
     }}
 };
