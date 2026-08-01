@@ -99,7 +99,7 @@ static const QVariantMap DEFAULTS = {
 };
 
 SettingsReader::SettingsReader(QObject *parent) : QObject(parent) {
-    m_filePath = QDir::homePath() + "/.config/quickshell/Assets/RiceSettings.json";
+    m_filePath = QDir::homePath() + "/.local/share/jzt/rice-settings.json";
     load();
 }
 

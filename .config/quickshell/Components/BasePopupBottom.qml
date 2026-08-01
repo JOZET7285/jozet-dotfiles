@@ -14,7 +14,6 @@ FocusScope {
     property int customWidth: 300
     property int customHeight: 0
     property string ipcTarget: ""
-    property bool hoveredPopup: false 
     
     property Component popupContent: null
 
@@ -26,10 +25,7 @@ FocusScope {
     onOpenChanged: {
         if (open) {
             contentLoader.active = true;
-            basePopupRoot.hoveredPopup = false;
-            outPopupTimer.stop();
         } else {
-            outPopupTimer.stop();
             if (contentLoader.item) {
                 contentLoader.item.startCloseAnimation();
             }
@@ -49,15 +45,6 @@ FocusScope {
         anchors.fill: parent
         active: false
         sourceComponent: wrapperComponent
-    }
-
-    Timer {
-        id: outPopupTimer
-        interval: 1500
-        repeat: false
-        onTriggered: {
-            basePopupRoot.open = false
-        }
     }
 
     Component {
@@ -92,22 +79,6 @@ FocusScope {
                 border {
                     color: Theme.color_3_solid
                     width: 1
-                }
-
-                MouseArea {
-                    id: mouseArea
-                    anchors.fill: parent
-                    hoverEnabled: !basePopupRoot.animating
-                    
-                    onEntered: {
-                        basePopupRoot.hoveredPopup = true
-                        outPopupTimer.stop();
-                    }
-                    onExited: {
-                        if (basePopupRoot.hoveredPopup) {
-                            outPopupTimer.restart();
-                        }
-                    }
                 }
                 
                 Loader {

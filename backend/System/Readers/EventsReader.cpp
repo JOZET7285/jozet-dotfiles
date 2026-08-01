@@ -8,7 +8,7 @@
 namespace jozet {
     QVariantList EventsReader::readEvents() {
         QVariantList events;
-        QFile file(QDir::homePath() + "/.config/quickshell/Assets/Events.json");
+        QFile file(QDir::homePath() + "/.local/share/jzt/events.json");
         
         if (file.open(QIODevice::ReadOnly)) {
             QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
@@ -20,7 +20,7 @@ namespace jozet {
     }
     void EventsReader::writeEvents(const QVariantList &events) {
         QThread *workerThread = QThread::create([events]() {
-            QFile file(QDir::homePath() + "/.config/quickshell/Assets/Events.json");
+            QFile file(QDir::homePath() + "/.local/share/jzt/events.json");
             if (file.open(QIODevice::WriteOnly)) {
                 QJsonArray array = QJsonArray::fromVariantList(events);
                 QJsonDocument doc(array);
