@@ -129,12 +129,10 @@ BasePopup {
             UsbSection { id: usbSection }
 
             MonitorsSection { id: monitorsSection }
-
             LockScreenSection { id: lockSection }
-
             NotificationSection { id: notifySection }
 
-            GeneralThemeSection { id: generalThemeSection }
+            GeneralThemeSection { id: generalThemeSection; }
 
             Component {
                 id: hyprlandSection

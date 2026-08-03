@@ -20,10 +20,17 @@ PanelWindow {
     property real userScale: parseFloat(SystemManager.getSetting("theme.panel.size")) || 1.0
     property real scaleFactor: (scalePreFactor > 1.0 ? 1.0 : scalePreFactor) * userScale
 
+    property bool floatingMode: SystemManager.getSetting("theme.panel.floating") === true
+    property bool shinyEdge: SystemManager.getSetting("theme.panel.shiny_edge") === true
+    property bool roundedCorners: SystemManager.getSetting("theme.panel.rounded_corners") === true
+
     Connections {
         target: SystemManager
         function onRiceSettingsChanged() {
             userScale = parseFloat(SystemManager.getSetting("theme.panel.size")) || 1.0
+            rootUIBottom.floatingMode = SystemManager.getSetting("theme.panel.floating") === true
+            rootUIBottom.shinyEdge = SystemManager.getSetting("theme.panel.shiny_edge") === true
+            rootUIBottom.roundedCorners = SystemManager.getSetting("theme.panel.rounded_corners") === true
         }
     }
 
@@ -31,7 +38,7 @@ PanelWindow {
         bottom: true
     }
     implicitWidth: modelData ? modelData.width : 1920
-    implicitHeight: 30
+    implicitHeight: 35 * scaleFactor
     exclusiveZone: 10
     color: "transparent"
     focusable: false

@@ -10,15 +10,21 @@ import "../Process"
 import Jozet.System 1.0
 
 Rectangle {
-    y: 5
-    
+    id: leftMonitorIsland
+    property bool hovered: hoverDetector.hovered
     readonly property var marginScaled: 10 * scaleFactor
     
     width: leftRowLayoutMonitor.implicitWidth + 20
     height: 30 * scaleFactor
     color: Theme.color_1_solid
-    radius: Theme.radius
+    radius: roundedCorners ? (floatingMode ? 10 : Theme.radius) : 0
+    border.color: shinyEdge ? Theme.color_a_text : Theme.color_1
+    border.width: 2
     clip: true
+
+    HoverHandler {
+        id: hoverDetector
+    }
     
     anchors {
         right: centerLand.left
@@ -28,6 +34,8 @@ Rectangle {
     Behavior on width {NumberAnimation {duration: 750; easing.type: Easing.OutCubic }}
     Behavior on height { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
     Behavior on color { ColorAnimation { duration: 250 } }
+    Behavior on radius { NumberAnimation { duration: 250 } }
+    Behavior on border.color { ColorAnimation { duration: 250 } }
     
     RowLayout {
         id: leftRowLayoutMonitor

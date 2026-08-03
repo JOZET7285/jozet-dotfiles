@@ -13,7 +13,7 @@ Rectangle {
     property real positionX: 0.0
     anchors {
         bottom: parent.bottom
-        bottomMargin: -2
+        bottomMargin: floatingMode ? 2 : -2
     }
     x: {
         if (activeHover){
@@ -33,13 +33,19 @@ Rectangle {
     
     border {
         width: 2
-        color: Theme.color_3
+        color: shinyEdge ? Theme.color_a_text : Theme.color_3
     }
-    topLeftRadius: 30
-    topRightRadius: 30
+    topLeftRadius: roundedCorners ? 30 : 0
+    topRightRadius: roundedCorners ? 30 : 0
+    radius: floatingMode && roundedCorners ? 10 : 0
     Behavior on color { ColorAnimation { duration: 250 } }
     Behavior on height { NumberAnimation { duration: 250 } }
     Behavior on width { NumberAnimation { duration: 200 } }
+    Behavior on radius { NumberAnimation { duration: 250 } }
+    Behavior on topLeftRadius { NumberAnimation { duration: 250 } }
+    Behavior on topRightRadius { NumberAnimation { duration: 250 } }
+    Behavior on border.color { ColorAnimation { duration: 250 } }
+    Behavior on anchors.bottomMargin { NumberAnimation { duration: 250 } }
 
     ListModel {
         id: notificationModel

@@ -13,6 +13,8 @@ Rectangle {
     property color color_text: Theme.color_b
     property color color_icon: Theme.text_color
     signal clicked()
+    signal entered()
+    signal exited()
 
     Layout.preferredHeight: parent.height - 5
     Layout.preferredWidth: btnAppLauncherContent.implicitWidth + 25 
@@ -55,5 +57,7 @@ Rectangle {
         hoverEnabled: true
         onClicked: root.clicked()
         cursorShape: Qt.PointingHandCursor
+        onEntered: root.entered()
+        onExited: root.exited()
     }
 }

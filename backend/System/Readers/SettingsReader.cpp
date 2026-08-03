@@ -80,7 +80,11 @@ static const QVariantMap DEFAULTS = {
         {"accent_color", "b"},
         {"panel", QVariantMap{
             {"scale", 1.0},
-            {"compact", false}
+            {"compact", false},
+            {"floating", false},
+            {"shiny_edge", false},
+            {"rounded_corners", true},
+            {"always_visible_monitoring", false}
         }},
         {"wallpaper_path", "~/.config/quickshell/wallpapers/"},
         {"font", "JetBrains Mono"},

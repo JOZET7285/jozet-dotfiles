@@ -14,12 +14,22 @@ Rectangle {
     anchors {
         horizontalCenter: parent.horizontalCenter
     }
+    y: floatingMode ? 2 : -2
     width: centerRowLayoutId.implicitWidth + 20
     height: 38 * scaleFactor
     color: Theme.color_1_solid
-    bottomLeftRadius: 38
-    bottomRightRadius: 38
+    bottomLeftRadius: roundedCorners ? 38 : 0
+    bottomRightRadius: roundedCorners ? 38 : 0
+    radius: floatingMode && roundedCorners ? 10 : 0
+    border.color: shinyEdge ? Theme.color_a_text : Theme.color_1
+    border.width: 2
+    clip: true
     Behavior on color { ColorAnimation { duration: 250 } }
+    Behavior on y { NumberAnimation { duration: 250 } }
+    Behavior on radius { NumberAnimation { duration: 250 } }
+    Behavior on bottomLeftRadius { NumberAnimation { duration: 250 } }
+    Behavior on bottomRightRadius { NumberAnimation { duration: 250 } }
+    Behavior on border.color { ColorAnimation { duration: 250 } }
 
     RowLayout {
         id: centerRowLayoutId

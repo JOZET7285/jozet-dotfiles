@@ -31,12 +31,18 @@ Rectangle {
         : 38 * scaleFactor)
     anchors {
         left: parent.left
-        leftMargin: -2
+        leftMargin: floatingMode ? 2 : -2
     }
-    y: -2
+    y: floatingMode ? 2 : -2
     color: Theme.color_1_solid
-    bottomRightRadius: popupOpened ? 10 : 38
-    border.color: popupOpened ? Theme.color_2 : Theme.color_1
+
+    bottomRightRadius: roundedCorners ? (popupOpened ? 10 : 38) : 0
+    radius: floatingMode && roundedCorners ? 10 : 0
+    
+    border.color: {
+        if(shinyEdge) return Theme.color_a_text
+        else return popupOpened ? Theme.color_2 : Theme.color_1
+    }
     border.width: 2
     clip: true
     property alias appLauncherOpen: appLauncher.open
@@ -44,6 +50,11 @@ Rectangle {
     Behavior on width { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
     Behavior on height { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
     Behavior on color { ColorAnimation { duration: 250 } }
+    Behavior on border.color { ColorAnimation { duration: 250 } }
+    Behavior on y { NumberAnimation { duration: 250 } }
+    Behavior on anchors.leftMargin { NumberAnimation { duration: 250 } }
+    Behavior on radius { NumberAnimation { duration: 250 } }
+    Behavior on bottomRightRadius { NumberAnimation { duration: 250 } }
 
     RowLayout {
         id: leftRowLayoutId

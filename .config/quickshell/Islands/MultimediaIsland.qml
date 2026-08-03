@@ -10,7 +10,7 @@ import Jozet.System 1.0
 
 Rectangle {
     id: container
-    y: open ? 5 : -(height + 10)
+    y: open ? (floatingMode ? 2 : -2) : -(height + 10)
     anchors {
         left: leftLand.right
         leftMargin: 15
@@ -18,7 +18,10 @@ Rectangle {
     width: mediaRowLayout.implicitWidth + 20
     height: 38 * scaleFactor
     color: Theme.color_1_solid
-    radius: Theme.radius
+    radius: roundedCorners ? (floatingMode ? 10 : Theme.radius) : 0
+    border.color: shinyEdge ? Theme.color_a_text : Theme.color_1
+    border.width: 2
+    clip: true
     visible: scaleFactor < 0.8 ? false : (open || animating)
 
     property bool open: SystemManager.playingApplications.length > 0
@@ -40,6 +43,8 @@ Rectangle {
     }
 
     Behavior on color { ColorAnimation { duration: 250 } }
+    Behavior on radius { NumberAnimation { duration: 250 } }
+    Behavior on border.color { ColorAnimation { duration: 250 } }
 
     RowLayout {
         id: mediaRowLayout

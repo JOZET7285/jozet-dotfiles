@@ -39,8 +39,17 @@ PanelWindow {
             
             let newPos = parseInt(SystemManager.getSetting("display.notifications.position"))
             notifPosition = isNaN(newPos) ? 0 : newPos
+
+            rootUISys.floatingMode = SystemManager.getSetting("theme.panel.floating") === true
+            rootUISys.shinyEdge = SystemManager.getSetting("theme.panel.shiny_edge") === true
+            rootUISys.roundedCorners = SystemManager.getSetting("theme.panel.rounded_corners") === true
+            rootUISys.alwaysVisibleMonitoring = SystemManager.getSetting("theme.panel.always_visible_monitoring") === true
         }
     }
+    property bool floatingMode: SystemManager.getSetting("theme.panel.floating") === true
+    property bool shinyEdge: SystemManager.getSetting("theme.panel.shiny_edge") === true
+    property bool roundedCorners: SystemManager.getSetting("theme.panel.rounded_corners") === true
+    property bool alwaysVisibleMonitoring: SystemManager.getSetting("theme.panel.always_visible_monitoring") === true
 
     focusable: needsKeyboardFocus
     WlrLayershell.keyboardFocus: needsKeyboardFocus ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
@@ -124,6 +133,7 @@ PanelWindow {
         Region { item: (notificationPopup.open || notificationPopup.animating) ? notificationPopup : null }
         Region { item: (settingsPopup.open || settingsPopup.animating) ? settingsPopup : null }
         Region { item: notificationToast }
+        Region { item: topHoverZone }
     }
     color: "transparent"
     
@@ -204,6 +214,21 @@ PanelWindow {
     }
 
     Item {
+        id: topHoverZone
+        anchors { 
+            top: parent.top
+            left: parent.left
+            right: parent.right 
+        }
+        height: 8
+        MouseArea { 
+            id: topHoverArea
+            anchors.fill: parent 
+            hoverEnabled: true 
+        }
+    }
+
+    Item {
         anchors.fill: parent
         focus: needsKeyboardFocus
 
@@ -214,12 +239,30 @@ PanelWindow {
             }
         }
 
-        LeftMonitorIsland { id: leftLandMonitor }
+        LeftMonitorIsland { 
+            id: leftLandMonitor
+            y: {
+                if (!alwaysVisibleMonitoring) {
+                    return (topHoverArea.containsMouse || leftLandMonitor.hovered) ? 5 * scaleFactor : -30 * scaleFactor
+                }
+                return 5 * scaleFactor
+            } 
+            Behavior on y { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
+        }
+        RightMonitorIsland { 
+            id: rightLandMonitor
+            y: {
+                if (!alwaysVisibleMonitoring) {
+                    return (topHoverArea.containsMouse || rightLandMonitor.hovered) ? 5 * scaleFactor : -30 * scaleFactor
+                }
+                return 5 * scaleFactor
+            } 
+            Behavior on y { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
+        }
         LeftIsland { id: leftLand }
         MultimediaIsland { id: multimediaLand }
         CenterIsland { id: centerLand }
         RightIsland { id: rightLand }
-        RightMonitorIsland { id: rightLandMonitor }
 
         Item {
             id: centerPopupsContainer

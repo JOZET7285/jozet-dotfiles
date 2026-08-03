@@ -56,16 +56,24 @@ Rectangle {
 
     anchors { 
         right: parent.right 
-        rightMargin: -2
+        rightMargin: floatingMode ? 2 : -2
     }
-    y: -2
+    y: floatingMode ? 2 : -2
     color: Theme.color_1_solid
-    bottomLeftRadius: popupOpened ? 10 : 38
-    border.color: popupOpened ? Theme.color_2 : Theme.color_1
+    bottomLeftRadius: roundedCorners ? (popupOpened ? 10 : 38) : 0
+    radius: floatingMode && roundedCorners ? 10 : 0
+    border.color: {
+        if(shinyEdge) return Theme.color_a_text
+        else return popupOpened ? Theme.color_2 : Theme.color_1
+    }
     border.width: 2
     clip: true
 
     Behavior on border.color { ColorAnimation { duration: 250; easing.type: Easing.OutCubic } }
+    Behavior on y { NumberAnimation { duration: 250 } }
+    Behavior on anchors.rightMargin { NumberAnimation { duration: 250 } }
+    Behavior on radius { NumberAnimation { duration: 250 } }
+    Behavior on bottomLeftRadius { NumberAnimation { duration: 250 } }
 
     RowLayout {
         id: rightRowLayoutId
