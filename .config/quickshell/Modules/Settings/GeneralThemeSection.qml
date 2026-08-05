@@ -4,11 +4,15 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
+import QtQuick.Window
 import "../../Components/"
 
 Component {
     id: generalThemeSection
+    
     ScrollView {
+        property real panelSize: parseFloat(SystemManager.getSetting("theme.panel.size")) || 1.0
+
         id: control
         padding: 5 
         clip: true
@@ -27,8 +31,6 @@ Component {
                 ]
                 runMatugen.running = true
             }
-
-            property real panelSize: parseFloat(SystemManager.getSetting("theme.panel.size")) || 1.0
 
             spacing: 12
             Text { text: "Appearance"; font.pixelSize: 16; font.bold: true; color: Theme.text_color }
@@ -166,6 +168,7 @@ Component {
                             id: sizeText
                             text: Math.round(Math.max(0.75, Math.min(1.25, panelSize)) * 100) + "%"
                             font.pixelSize: 12
+                            font.bold: true 
                             color: Theme.text_color
                         }
                         Rectangle {
@@ -229,7 +232,7 @@ Component {
                     }
                     Text {
                         Layout.fillWidth: true
-                        visible: window ? window.suggestCompact : false
+                        visible: suggestCompact
                         text: "Sugerencia: activa Compact para aprovechar mejor tu pantalla"
                         font.pixelSize: 10
                         color: Theme.color_y_text

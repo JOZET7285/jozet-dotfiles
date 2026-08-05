@@ -18,15 +18,15 @@ Rectangle {
             if (positionX + ( width / 2 ) > modelData.width - mediaWidth) {
                 return modelData.width - width - mediaWidth;
             }
-            else if (positionX - ( width / 2 ) < modelData.x) {
+            else if ((positionX + modelData.x) - ( width / 2 ) < modelData.x) {
                 return 0;
             }
-            else return positionX - (width / 2);
+            else return positionX - (width / 2); 
         }
         return 0;
     } 
 
-    height: activeHover ? 30 * scaleFactor : 15 * scaleFactor
+    height: activeHover ? 30 : 15
     color: Theme.color_1_solid
     
     border {

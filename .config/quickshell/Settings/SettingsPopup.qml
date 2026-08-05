@@ -15,6 +15,7 @@ BasePopup {
 
     property int configIndex: 0
     property int sectionIndex: 0
+    property bool suggestCompact: false
 
     function scanNetworks() {
         SystemManager.scanNetworks()

@@ -25,7 +25,7 @@ PanelWindow {
     property real scalePreFactor: modelData ? (modelData.width / baseWidth) : 1.0
     property real userScale: parseFloat(SystemManager.getSetting("theme.panel.size")) || 1.0
     property real scaleFactor: (scalePreFactor > 1.0 ? 1.0 : scalePreFactor) * userScale
-    readonly property bool suggestCompact: scaleFactor < 0.8
+    readonly property bool suggestCompact: scalePreFactor < 0.8
 
     readonly property bool needsKeyboardFocus: anyPopupOpen
 
@@ -214,6 +214,7 @@ PanelWindow {
     }
 
     Item {
+        id: contentRoot
         anchors.fill: parent
         focus: needsKeyboardFocus
 
@@ -287,6 +288,7 @@ PanelWindow {
                     rootUISys.closeOtherPopups(this)
                     if (open) SystemManager.refreshSystemInfo()
                 }
+                suggestCompact: rootUISys.suggestCompact
             }
         }
         Item {
