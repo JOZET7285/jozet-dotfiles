@@ -6,7 +6,6 @@ import Quickshell.Wayland
 import "../Components"
 import "../Components/Pills"
 import "../Popups"
-import "../Process"
 import Jozet.System 1.0
 
 Rectangle {

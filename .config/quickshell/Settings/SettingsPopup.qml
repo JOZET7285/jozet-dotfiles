@@ -169,15 +169,19 @@ BasePopup {
                                         Layout.preferredWidth: 100 
                                     }
                                     Rectangle {
-                                        Layout.preferredWidth: 28; Layout.preferredHeight: 28; radius: 6
+                                        Layout.preferredWidth: 28
+                                        Layout.preferredHeight: 28
+                                        radius: 6
                                         color: Theme.color_3
                                         MouseArea {
                                             anchors.fill: parent
                                             cursorShape: Qt.PointingHandCursor
                                             onClicked: {
                                                 var val = SystemManager.getSetting(modelData.key)
-                                                if (val > 0) SystemManager.setSetting(modelData.key, val - 1)
-                                                hyprlandIndicator.text = val - 1
+                                                if (val > 0) {
+                                                    SystemManager.setSetting(modelData.key, val - 1)
+                                                    hyprlandIndicator.text = val - 1
+                                                }
                                             }
                                         }
                                         Text { anchors.centerIn: parent; text: "-"; color: Theme.text_color; font.pixelSize: 14 }

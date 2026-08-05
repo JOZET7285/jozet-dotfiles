@@ -1,4 +1,5 @@
-local s = require("lua.datos")
+package.path = package.path .. ";" .. os.getenv("HOME") .. "/.local/share/jzt/datos.lua"
+local s = require("datos")
 
 hl.window_rule({
     name = "general",

@@ -56,6 +56,8 @@ qt6_add_qml_module(JozetPlugin
         System/Readers/NotifyReader.h
         System/Readers/CursorReader.cpp
         System/Readers/CursorReader.h
+        System/Readers/MediaReader.cpp
+        System/Readers/MediaReader.h
 )
 target_include_directories(JozetPlugin PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}

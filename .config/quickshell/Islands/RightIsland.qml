@@ -6,7 +6,6 @@ import Quickshell.Wayland
 import QtQuick.Effects
 import "../Components"
 import "../Popups"
-import "../Process"
 import "../Modules/Network"
 import "../Modules/Panel"
 import Jozet.System 1.0
@@ -101,7 +100,6 @@ Rectangle {
             radius: 8
             visible: activePopup == null || activePopup == volumePopup
             Behavior on color { ColorAnimation { duration: 350; easing.type: Easing.InOutQuad } }
-            Behavior on implicitWidth { NumberAnimation { duration: 150; easing.type: Easing.InOutQuad } }
             
             MouseArea {
                 id: volumeBtnArea
@@ -141,7 +139,6 @@ Rectangle {
             color: "transparent"
             visible: activePopup == null || activePopup == energyPopup
             
-            Behavior on implicitWidth { NumberAnimation { duration: 150; easing.type: Easing.InOutQuad } }
             Row {
                 id: contentbatRow
                 anchors.centerIn: parent
@@ -206,7 +203,6 @@ Rectangle {
             color: "transparent"
             visible: activePopup == null || activePopup == powerPopup
             Behavior on color { ColorAnimation { duration: 250; easing.type: Easing.InOutQuad } }
-            Behavior on implicitWidth { NumberAnimation { duration: 150; easing.type: Easing.InOutQuad } }
             
             MouseArea {
                 id: powerBtnArea

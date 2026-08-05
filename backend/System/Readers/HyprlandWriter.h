@@ -18,6 +18,7 @@ public:
 public slots:
     void applyAll();
     void applyBorderColors();
+    void applyColorScheme();
     void applySetting(const QString &key, const QVariant &value);
 
 private:

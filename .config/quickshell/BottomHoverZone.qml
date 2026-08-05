@@ -5,7 +5,6 @@ import Quickshell.Io
 import Quickshell.Wayland
 import "Components"
 import "Popups"
-import "Process"
 import "Islands"
 import "Settings"
 import Jozet.System 1.0
@@ -38,38 +37,85 @@ PanelWindow {
         bottom: true
     }
     implicitWidth: modelData ? modelData.width : 1920
-    implicitHeight: 35 * scaleFactor
-    exclusiveZone: 10
+    implicitHeight: 170
+    exclusiveZone: 15
     color: "transparent"
     focusable: false
 
     mask: Region {
         Region { item: bottomLand }
         Region { item: hoverZone }
+        Region { item: mediaIsland }
+        Region { item: hoverMediaZone }
     }
-    MouseArea {
-        id: hoverZone
+    Item {
         anchors {
             bottom: parent.bottom
             left: parent.left
             right: parent.right
         }
-        height: 5
-        hoverEnabled: true
-        onEntered: {
-            bottomLand.positionX = mouseX 
-            hoverZone.height = 20
+        height: 20
+        MouseArea {
+            id: hoverMediaZone
+            anchors {
+                bottom: parent.bottom
+                right: parent.right
+            }
+            height: mediaIsland.activeHover || mediaIsland.openPopup ? 40 : 5
+            width: mediaIsland.width
+            hoverEnabled: true
+
+            onClicked: {
+                mediaIsland.openPopup = !mediaIsland.openPopup
+            }
         }
-        onExited: {
-            hoverZone.height = 5
+        MouseArea {
+            id: hoverZone
+            anchors {
+                bottom: parent.bottom
+                left: parent.left
+                right: hoverMediaZone.left
+            }
+            height: 5
+            hoverEnabled: true
+            onEntered: {
+                bottomLand.positionX = mouseX 
+                hoverZone.height = 20
+            }
+            onExited: {
+                hoverZone.height = 5
+            }
         }
     }
+    
     Item {
-        anchors.fill: parent
+        anchors {
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+        }
+        height: 30
         
         BottomIsland { 
             id: bottomLand
             activeHover: hoverZone.containsMouse
+            anchors {
+                bottom: parent.bottom
+                bottomMargin: floatingMode ? 2 : -2
+            }
+            width: activeHover ? 250 * scaleFactor : parent.width - mediaIsland.width
+            mediaWidth: SystemManager.mediaHasPlayer ? 200 : 0
+            Behavior on width { NumberAnimation { duration: 200 } }
+        }
+        MultimediaIsland {
+            id: mediaIsland
+            activeHover: hoverMediaZone.containsMouse
+            visible: SystemManager.mediaHasPlayer
+            anchors {
+                right: parent.right
+                bottom: parent.bottom
+                bottomMargin: floatingMode ? 2 : - 2
+            }
         }
     }
 }

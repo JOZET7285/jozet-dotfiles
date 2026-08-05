@@ -1,4 +1,5 @@
-local s = require("lua.datos")
+package.path = package.path .. ";" .. os.getenv("HOME") .. "/.local/share/jzt/datos.lua"
+local s = require("datos")
 
 local speed = s.cursor_speed
 if speed == nil or speed <= 0 then speed = 1.0 end

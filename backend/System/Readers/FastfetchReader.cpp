@@ -8,10 +8,6 @@
 namespace jozet {
 
 FastfetchReader::FastfetchReader(QObject *parent) : QObject(parent) {
-    m_timer = new QTimer(this);
-    connect(m_timer, &QTimer::timeout, this, &FastfetchReader::fetch);
-    m_timer->start(30000);
-
     fetch();
 }
 
@@ -24,14 +20,22 @@ void FastfetchReader::refresh() {
 }
 
 void FastfetchReader::fetch() {
-    QProcess process;
-    process.start("fastfetch", {"--format", "json"});
-    process.waitForFinished(5000);
-
-    if (process.exitCode() != 0)
+    if (m_fetching)
         return;
+    m_fetching = true;
 
-    QJsonDocument doc = QJsonDocument::fromJson(process.readAllStandardOutput());
+    auto *process = new QProcess(this);
+    connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+            this, [this, process](int, QProcess::ExitStatus) {
+        parseOutput(process->readAllStandardOutput());
+        process->deleteLater();
+        m_fetching = false;
+    });
+    process->start("fastfetch", {"--format", "json"});
+}
+
+void FastfetchReader::parseOutput(const QByteArray &raw) {
+    QJsonDocument doc = QJsonDocument::fromJson(raw);
     if (doc.isNull() || !doc.isArray())
         return;
 

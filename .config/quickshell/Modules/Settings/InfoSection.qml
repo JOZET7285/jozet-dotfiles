@@ -55,7 +55,7 @@ Component {
                 add("GPU Type", info.gpuType);
 
                 // Memory
-                add("RAM", SystemManager.ramInfo.usedMB + "MB / " + info.ramTotal + "  (" + SystemManager.ramInfo.usagePercent + ")");
+                add("RAM", info.ramUsed + " / " + info.ramTotal + "  (" + info.ramPercent + ")");
 
                 // Disk
                 if (info.diskRootTotal) add("Root (/)", info.diskRootUsed + " / " + info.diskRootTotal + "  [" + info.diskRootFs + "]");

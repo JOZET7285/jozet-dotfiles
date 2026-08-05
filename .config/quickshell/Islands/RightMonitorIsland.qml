@@ -6,7 +6,6 @@ import Quickshell.Wayland
 import "../Components/Pills"
 import "../Components"
 import "../Popups"
-import "../Process"
 import "../Islands"
 import Jozet.System 1.0
 

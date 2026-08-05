@@ -33,12 +33,6 @@ SystemManager::SystemManager(QObject *parent) : QObject(parent)
     connect(weatherTimer, &QTimer::timeout, this, &SystemManager::fetchWeather);
     weatherTimer->start(900000);
 
-    auto *appsTimer = new QTimer(this);
-    connect(appsTimer, &QTimer::timeout, this, [this]() {
-        m_volumeReader.updateVolumeStatus();
-    });
-    appsTimer->start(8000);
-
     connect(m_networkManager, &QNetworkAccessManager::finished, this, &SystemManager::handleNetworkReply);
     connect(&m_bluetoothReader, &BluetoothReader::devicesChanged, this, [this]() { emit bluetoothChanged(); });
     connect(&m_volumeReader, &VolumeReader::dataUpdated, this, [this]() { emit volumeChanged(); });
@@ -57,7 +51,7 @@ SystemManager::SystemManager(QObject *parent) : QObject(parent)
     });
 
     connect(&m_matugenReader, &MatugenReader::colorsChanged, this, [this]() {
-        m_hyprlandWriter->applyAll();
+        m_hyprlandWriter->applyColorScheme();
         emit matugenColorsChanged();
     });
 
@@ -72,6 +66,14 @@ SystemManager::SystemManager(QObject *parent) : QObject(parent)
 
     connect(&m_cursorReader, &CursorReader::availableCursorsChanged, this, [this]() {
         emit availableCursorsChanged();
+    });
+
+    connect(&m_mediaReader, &MediaReader::mediaChanged, this, [this]() {
+        emit mediaChanged();
+    });
+
+    connect(&m_mediaReader, &MediaReader::positionChanged, this, [this]() {
+        emit mediaPositionChanged();
     });
 
     m_hyprlandWriter = new HyprlandWriter(&m_settingsReader, &m_matugenReader, this);
@@ -118,12 +120,6 @@ void SystemManager::updateRam()
         m_ramInfo = newRamInfo;
         emit ramInfoChanged();
     }
-
-    QVariantList newProcessList = m_processReader.readTopRamProcesses(5);
-    if (m_topRamProcesses != newProcessList) {
-        m_topRamProcesses = newProcessList;
-        emit topRamProcessesChanged();
-    }
 }
 
 // CPU
@@ -159,6 +155,14 @@ void SystemManager::updateCpu() {
     if (m_cpuFrequency != currentFreq) {
         m_cpuFrequency = currentFreq;
         emit cpuFrequencyChanged();
+    }
+}
+
+void SystemManager::refreshTopProcesses() {
+    QVariantList newRamProcessList = m_processReader.readTopRamProcesses(5);
+    if (m_topRamProcesses != newRamProcessList) {
+        m_topRamProcesses = newRamProcessList;
+        emit topRamProcessesChanged();
     }
 
     QVariantList newCpuProcessList = m_processReader.readTopCpuProcesses(5);
@@ -665,6 +669,7 @@ void SystemManager::setSetting(const QString &key, const QVariant &value) {
 
 void SystemManager::resetSettings() {
     m_settingsReader.reset();
+    m_hyprlandWriter->applyAll();
 }
 
 void SystemManager::applyActiveProfileBrightness()
@@ -879,6 +884,7 @@ void SystemManager::update() {
     if (counter % 4 == 0) {
         refreshDiskStats();
         refreshTodayData();
+        refreshTopProcesses();
     }
 }
 

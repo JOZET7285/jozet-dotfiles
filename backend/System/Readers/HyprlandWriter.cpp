@@ -18,8 +18,8 @@ static const QHash<QString, QString> SETTING_MAP = {
 HyprlandWriter::HyprlandWriter(SettingsReader *reader, MatugenReader *matugen, QObject *parent)
     : QObject(parent), m_reader(reader), m_matugen(matugen) {
     applyAll();
-    connect(m_reader, &SettingsReader::settingsChanged, this, [this]() {
-        applyAll();
+    connect(m_reader, &SettingsReader::settingChanged, this, [this](const QString &key, const QVariant &value) {
+        applySetting(key, value);
     });
 }
 
@@ -107,6 +107,12 @@ void HyprlandWriter::applyBorderColors()
     proc.waitForFinished(3000);
 }
 
+void HyprlandWriter::applyColorScheme()
+{
+    applyBorderColors();
+    writeLuaDataFile();
+}
+
 void HyprlandWriter::applySetting(const QString &key, const QVariant &value) {
     if (key == "theme.cursor.theme" || key == "theme.cursor.size") {
         applyCursorTheme();
@@ -168,7 +174,7 @@ void HyprlandWriter::restartHypridle() {
 }
 
 QString HyprlandWriter::luaDataPath() const {
-    return QDir::homePath() + "/.config/hypr/lua/datos.lua";
+    return QDir::homePath() + "/.local/share/jzt/datos.lua";
 }
 
 void HyprlandWriter::writeLuaDataFile() {

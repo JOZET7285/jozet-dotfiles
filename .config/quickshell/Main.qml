@@ -5,7 +5,6 @@ import Quickshell.Io
 import Quickshell.Wayland
 import "Components"
 import "Popups"
-import "Process"
 import "Islands"
 import "Settings"
 import Jozet.System 1.0
@@ -14,8 +13,6 @@ PanelWindow {
     id: rootUISys
     property string currentTime: "00:00"
     property string currentDate: ""
-    property string playerState: "Pause"
-    property bool playing: (mainProcesses.currentSongTitle === "Sin reproducción")
 
     property int notifPosition: parseInt(SystemManager.getSetting("display.notifications.position")) || 0
     property bool topNotify: notifPosition < 2
@@ -118,7 +115,6 @@ PanelWindow {
     mask: Region {
         Region { item: leftLandMonitor }
         Region { item: leftLand }
-        Region { item: multimediaLand }
         Region { item: centerLand }
         Region { item: rightLand }
         Region { item: rightLandMonitor } 
@@ -138,8 +134,6 @@ PanelWindow {
     color: "transparent"
     
     HoverHandler { id: hoverPanelWindow } 
-
-    MainProcess{ id: mainProcesses }
 
     Process {
         id: applyWallpaper
@@ -187,15 +181,6 @@ PanelWindow {
                 applyWallpaper.running = true;
                 attempts++;
             }
-        }
-    }
-
-    Timer {
-        interval: 2000
-        running: true
-        repeat: true
-        onTriggered: {
-            mainProcesses.refreshAll()
         }
     }
 
@@ -260,7 +245,6 @@ PanelWindow {
             Behavior on y { NumberAnimation { duration: 250; easing.type: Easing.OutCubic } }
         }
         LeftIsland { id: leftLand }
-        MultimediaIsland { id: multimediaLand }
         CenterIsland { id: centerLand }
         RightIsland { id: rightLand }
 
@@ -299,7 +283,10 @@ PanelWindow {
             SettingsPopup {
                 id: settingsPopup
                 anchors.horizontalCenter: parent.horizontalCenter
-                onOpenChanged: rootUISys.closeOtherPopups(this)
+                onOpenChanged: {
+                    rootUISys.closeOtherPopups(this)
+                    if (open) SystemManager.refreshSystemInfo()
+                }
             }
         }
         Item {

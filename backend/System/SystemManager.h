@@ -30,6 +30,7 @@
 #include "Readers/HyprlandWriter.h"
 #include "Readers/NotifyReader.h"
 #include "Readers/CursorReader.h"
+#include "Readers/MediaReader.h"
 
 namespace jozet {
 
@@ -110,6 +111,15 @@ class SystemManager : public QObject
     Q_PROPERTY(QVariantMap systemInfo READ systemInfo NOTIFY systemInfoChanged)
     Q_PROPERTY(QVariantMap latestNotification READ latestNotification NOTIFY notificationReceived)
 
+    // MEDIA -------------------------------------------------------
+    Q_PROPERTY(QString mediaTitle READ mediaTitle NOTIFY mediaChanged)
+    Q_PROPERTY(QString mediaArtist READ mediaArtist NOTIFY mediaChanged)
+    Q_PROPERTY(QString mediaAlbum READ mediaAlbum NOTIFY mediaChanged)
+    Q_PROPERTY(QString mediaArtUrl READ mediaArtUrl NOTIFY mediaChanged)
+    Q_PROPERTY(bool mediaPlaying READ mediaPlaying NOTIFY mediaChanged)
+    Q_PROPERTY(bool mediaHasPlayer READ mediaHasPlayer NOTIFY mediaChanged)
+    Q_PROPERTY(qint64 mediaPositionUs READ mediaPositionUs NOTIFY mediaPositionChanged)
+    Q_PROPERTY(qint64 mediaLengthUs READ mediaLengthUs NOTIFY mediaChanged)
 
 public:
     explicit SystemManager(QObject *parent = nullptr);
@@ -243,6 +253,20 @@ public:
     void setDoNotDisturb(bool dnd);
     Q_INVOKABLE void closeNotification(uint id);
 
+    // MEDIA -------------------------------------------------------
+    QString mediaTitle() const { return m_mediaReader.title(); }
+    QString mediaArtist() const { return m_mediaReader.artist(); }
+    QString mediaAlbum() const { return m_mediaReader.album(); }
+    QString mediaArtUrl() const { return m_mediaReader.artUrl(); }
+    bool mediaPlaying() const { return m_mediaReader.isPlaying(); }
+    bool mediaHasPlayer() const { return m_mediaReader.hasPlayer(); }
+    qint64 mediaPositionUs() const { return m_mediaReader.positionUs(); }
+    qint64 mediaLengthUs() const { return m_mediaReader.lengthMicroseconds(); }
+
+    Q_INVOKABLE void mediaPlayPause() { m_mediaReader.playPause(); }
+    Q_INVOKABLE void mediaNext() { m_mediaReader.next(); }
+    Q_INVOKABLE void mediaPrevious() { m_mediaReader.previous(); }
+
     // MONITORS --------------------------------------------------
     Q_INVOKABLE QString getMonitorsJson();
     Q_INVOKABLE void applyMonitorConfig(const QString &name, const QString &resolution, const QString &rate, int transform, double scale);
@@ -281,10 +305,13 @@ signals:
     void notificationClosed(uint id, uint reason);
     void doNotDisturbChanged();
     void availableCursorsChanged();
+    void mediaChanged();
+    void mediaPositionChanged();
 
 private slots:
     void update();
     void fetchWeather();
+    void refreshTopProcesses();
     void handleNetworkReply(QNetworkReply *reply);
 
 private:
@@ -306,6 +333,7 @@ private:
     HyprlandWriter *m_hyprlandWriter = nullptr;
     bool m_locked = false;
     CursorReader m_cursorReader;
+    MediaReader m_mediaReader;
 
     // RAM ------------------------------------------------
     QVariantMap m_ramInfo;

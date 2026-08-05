@@ -1,7 +1,6 @@
 #pragma once
 #include <QObject>
 #include <QVariantMap>
-#include <QTimer>
 
 namespace jozet {
 
@@ -21,10 +20,11 @@ signals:
     void systemInfoChanged();
 
 private:
-    QTimer *m_timer;
     QVariantMap m_info;
+    bool m_fetching = false;
 
     void fetch();
+    void parseOutput(const QByteArray &output);
 };
 
 }

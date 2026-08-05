@@ -11,23 +11,21 @@ import Jozet.System 1.0
 Rectangle {
     property bool activeHover: false
     property real positionX: 0.0
-    anchors {
-        bottom: parent.bottom
-        bottomMargin: floatingMode ? 2 : -2
-    }
+    property int mediaWidth: 200
+
     x: {
         if (activeHover){
-            if (positionX + ( width / 2 ) > modelData.width){
-                return modelData.width-width;
+            if (positionX + ( width / 2 ) > modelData.width - mediaWidth) {
+                return modelData.width - width - mediaWidth;
             }
             else if (positionX - ( width / 2 ) < modelData.x) {
-                return modelData.positionX - width/2;
+                return 0;
             }
             else return positionX - (width / 2);
         }
         return 0;
     } 
-    width: activeHover ? 250 : parent.width
+
     height: activeHover ? 30 * scaleFactor : 15 * scaleFactor
     color: Theme.color_1_solid
     
@@ -40,7 +38,6 @@ Rectangle {
     radius: floatingMode && roundedCorners ? 10 : 0
     Behavior on color { ColorAnimation { duration: 250 } }
     Behavior on height { NumberAnimation { duration: 250 } }
-    Behavior on width { NumberAnimation { duration: 200 } }
     Behavior on radius { NumberAnimation { duration: 250 } }
     Behavior on topLeftRadius { NumberAnimation { duration: 250 } }
     Behavior on topRightRadius { NumberAnimation { duration: 250 } }
