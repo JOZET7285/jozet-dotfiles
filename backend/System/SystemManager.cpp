@@ -96,14 +96,15 @@ SystemManager::SystemManager(QObject *parent) : QObject(parent)
 
     m_hyprlandWriter = new HyprlandWriter(&m_settingsReader, &m_matugenReader, this);
 
-    m_volumeReader.startEventListener([](){});
-    m_bluetoothReader.updateDevices();
-    m_volumeReader.updateVolumeStatus();
-
-    fetchWeather();
-    refreshTodayData();
-    refreshWorkspaces();
-    refreshCursors();
+    QTimer::singleShot(0, this, [this]() {
+        m_volumeReader.startEventListener([](){});
+        m_bluetoothReader.updateDevices();
+        m_volumeReader.updateVolumeStatus();
+        fetchWeather();
+        refreshTodayData();
+        refreshWorkspaces();
+        refreshCursors();
+    });
 }
 
 // RAM

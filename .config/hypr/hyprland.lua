@@ -3,6 +3,3 @@ require("lua.monitores")
 require("lua.combinaciones")
 require("lua.window_rules")
 require("lua.ajustes")
-
--- HyprMod managed settings
-require("hyprland-gui")

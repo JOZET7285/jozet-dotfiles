@@ -31,6 +31,7 @@ PACMAN_PKGS=(
     starship fastfetch
     zsh-autosuggestions
     zsh-syntax-highlighting
+    swayosd
 )
 
 AUR_PKGS=(
@@ -48,6 +49,7 @@ declare -A LINK_MAP=(
     [".config/gtk-4.0"]="$HOME/.config/gtk-4.0"
     [".config/starship.toml"]="$HOME/.config/starship.toml"
     [".config/matugen"]="$HOME/.config/matugen"
+    [".config/swayosd"]="$HOME/.config/swayosd"
     ["home/.zshrc"]="$HOME/.zshrc"
 )
 

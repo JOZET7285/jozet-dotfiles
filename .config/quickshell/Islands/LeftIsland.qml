@@ -11,7 +11,7 @@ import Jozet.System 1.0
 
 Rectangle {
     property int marginScaled: 15 * scaleFactor
-    property var popups: [appLauncher, workspacesPopup]
+    property var popups: [appLauncher]
     property var activePopup: {
         for (var i = 0; i < popups.length; i++){
             var p = popups[i]
@@ -133,11 +133,6 @@ Rectangle {
                 cursorShape: Qt.PoitingHandCursor
             }
         }
-    }
-    WorkspacesPopup {
-        id: workspacesPopup
-        anchors.top: leftRowLayoutId.bottom
-        anchors.left: parent.left
     }
     AppLauncher {
         id: appLauncher

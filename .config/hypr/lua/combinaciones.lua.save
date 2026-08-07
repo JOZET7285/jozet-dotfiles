@@ -11,7 +11,7 @@ hl.bind(mainMod .. " + K", hl.dsp.exec_cmd("kitty"))
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("hyprctl dispatch exit")) 
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("sh -c 'monitor=$(hyprctl activeworkspace -j | jq -r .monitor); qs ipc call networkPopup-$monitor toggle'"))
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd("sh -c 'monitor=$(hyprctl activeworkspace -j | jq -r .monitor); qs ipc call todayPopup-$monitor toggle'"))
-hl.bind(mainMod .. " + TAB", hl.dsp.exec_cmd("sh -c 'monitor=$(hyprctl activeworkspace -j | jq -r .monitor); qs ipc call workspacePopup-$monitor toggle'"))
+hl.bind(mainMod .. " + TAB", hl.dsp.exec_cmd("sh -c 'monitor=$(hyprctl activeworkspace -j | jq -r .monitor); qs ipc call workspacesPopup-$monitor toggle'"))
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("sh -c 'monitor=$(hyprctl activeworkspace -j | jq -r .monitor); qs ipc call wallpaperSelector-$monitor toggle'"))
 
 -- Ventanas
@@ -42,19 +42,17 @@ for i = 1, 10 do
     hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
 end
 
--- Workspaces especiales
-hl.bind(mainMod .. " + ALT + M", hl.dsp.workspace.toggle_special("music"))
-hl.bind(mainMod .. " + ALT + T", hl.dsp.workspace.toggle_special("terminal"))
-hl.bind(mainMod .. " + ALT + S", hl.dsp.workspace.toggle_special("special"))
-hl.bind(mainMod .. " + SHIFT + ALT + M", hl.dsp.window.move({ workspace = "special:music" }))
-hl.bind(mainMod .. " + SHIFT + ALT + T", hl.dsp.window.move({ workspace = "special:terminal" }))
-hl.bind(mainMod .. " + SHIFT + ALT + S", hl.dsp.window.move({ workspace = "special:special" }))
-
--- Gestos del touchpad: carrusel de workspaces especiales
-local carrusel = os.getenv("HOME") .. "/.config/hypr/scripts/carrusel.sh"
-hl.gesture({ fingers = 3, direction = "up", action = function() hl.exec_cmd(carrusel .. " up") end })
-hl.gesture({ fingers = 3, direction = "left", action = function() hl.exec_cmd(carrusel .. " next") end })
-hl.gesture({ fingers = 3, direction = "right", action = function() hl.exec_cmd(carrusel .. " prev") end })
+hl.gesture({
+    fingers = 3,
+    direction = "horizontal",
+    action = "workspace"
+})
+hl.gesture({
+      fingers = 3,
+      direction = "up",
+      action = "special",
+      workspace_name = "magic"
+  })
 
 -- Multimedia
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("swayosd-client --output-volume +2 --max-volume 100"), { locked = true, repeating = true })

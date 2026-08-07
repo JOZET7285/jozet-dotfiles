@@ -1,10 +1,10 @@
 hl.on("hyprland.start", function ()
     hl.exec_cmd("awww-daemon")
     hl.exec_cmd("QML2_IMPORT_PATH=/home/jozet/jozet-dotfiles/backend/build quickshell")
-    hl.exec_cmd("nm-applet --indicator")
     hl.exec_cmd("systemctl --user restart pipewire pipewire-pulse wireplumber")
-    hl.exec_cmd("hypridle")
-    hl.exec_cmd("swayosd-server --style " .. os.getenv("HOME") .. "/.config/swayosd/style.css")
+    hl.exec_cmd("sleep 2 && nm-applet --indicator &")
+    hl.exec_cmd("sleep 2 && swayosd-server --style " .. os.getenv("HOME") .. "/.config/swayosd/style.css &")
+    hl.exec_cmd("sleep 3 && hypridle &")
 end)
 
 package.path = package.path .. ";" .. os.getenv("HOME") .. "/.local/share/jzt/config/?.lua"

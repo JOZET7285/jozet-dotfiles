@@ -30,6 +30,10 @@ PanelWindow {
         : SystemManager.wifiInfo
     property bool loginError: false
 
+    property url faceImage: {            
+        let configHome = Quickshell.env("XDG_CONFIG_HOME") || (Quickshell.env("HOME"));
+        return "file:/" + configHome + "/.local/share/jzt/assets/.face";
+    }
 
     property string currentTime: Qt.formatDateTime(new Date(), "hh:mm")
     property string currentDate: Qt.formatDateTime(new Date(), "ddd, dd MMM")
@@ -307,22 +311,60 @@ PanelWindow {
                     Layout.alignment: Qt.AlignHCenter
                 }
             }
-
+            
             ColumnLayout {
                 anchors.centerIn: parent
                 spacing: 15
+                Rectangle {
+                    color: Theme.color_3
+                    radius: 10
+                    Layout.preferredWidth: 300
+                    Layout.preferredHeight: 220
+                    ColumnLayout {
+                        anchors.centerIn: parent
+                        Item {
+                            width: 150 
+                            height: 150 
+                            Image {
+                                id: artImage
+                                anchors.fill: parent
+                                source: faceImage
+                                fillMode: Image.PreserveAspectCrop
+                                visible: false
+                            }
+                            MultiEffect {
+                                anchors.fill: parent
+                                source: artImage
+                                maskEnabled: true
+                                maskSource: artMask
+                            }
+                            Item {
+                                id: artMask
+                                width: parent.width
+                                height: parent.height
+                                visible: false
+                                layer.enabled: true
+                                Rectangle {
+                                    anchors.fill: parent
+                                    radius: 10
+                                    color: Theme.color_1_solid
+                                }
+                            }
+                        }
 
-                Text {
-                    text: SystemManager.currentUsername
-                    color: Theme.text_color
-                    font.pixelSize: 30
-                    font.bold: true
-                    Layout.alignment: Qt.AlignHCenter
+                        Text {
+                            text: SystemManager.currentUsername
+                            color: Theme.text_color
+                            font.pixelSize: 30
+                            font.bold: true
+                            Layout.alignment: Qt.AlignHCenter
+                        }
+                    }
                 }
 
                 TextField {
                     id: passwordInput
-                    placeholderText: "Contraseña"
+                    placeholderText: "Password"
                     echoMode: TextInput.Password
                     horizontalAlignment: TextInput.AlignHCenter
                     color: Theme.text_color
@@ -336,7 +378,7 @@ PanelWindow {
                     onAccepted: tryLogin()
                 }
                 Text {
-                    text: "Contraseña incorrecta"
+                    text: "Incorrect P1assword"
                     color: Theme.color_r_text
                     font.pixelSize: 12
                     visible: loginError
@@ -349,7 +391,7 @@ PanelWindow {
                     Layout.preferredWidth: 120
                     contentItem: Text {
                         text: parent.text
-                        color: Theme.color_text
+                        color: Theme.text_color
                         horizontalAlignment: Text.AlignHCenter
                     }
                     background: Rectangle {
@@ -358,7 +400,7 @@ PanelWindow {
                     }
                     onClicked: tryLogin()
                 }
-            }
+            }            
         }
     }
 

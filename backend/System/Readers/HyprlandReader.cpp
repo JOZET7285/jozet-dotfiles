@@ -37,12 +37,33 @@ void HyprlandReader::readWorkspacesAsync(std::function<void(QVariantList)> callb
         for (const QJsonValue &value : monitorsArray) {
             QJsonObject monitorObj = value.toObject();
             QVariantMap monitorData;
+            
+            QJsonObject specialWs = monitorObj["specialWorkspace"].toObject();
+
+            monitorData["specialWorkspace"] = QVariantMap{
+                { "id", specialWs["id"].toInt() },
+                { "name", specialWs["name"].toString() },
+                { "active", !specialWs["name"].toString().isEmpty() },
+                { "apps", QVariantList() }
+            };
+
+            QJsonObject activeWs = monitorObj["activeWorkspace"].toObject();
+
+            monitorData["activeWorkspace"] = QVariantMap{
+                { "id", activeWs["id"].toInt() },
+                { "name", activeWs["name"].toString() }
+            };
+
             QString monitorName = monitorObj["name"].toString();
+            monitorData["name"] = monitorName;
             monitorData["id"] = monitorObj["id"].toInt();
             monitorData["width"] = monitorObj["width"].toInt();
             monitorData["height"] = monitorObj["height"].toInt();
             monitorData["x"] = monitorObj["x"].toInt();
             monitorData["y"] = monitorObj["y"].toInt();
+            
+            monitorData["workspacesMap"] = QVariantMap(); 
+
             monitorsMap[monitorName] = monitorData;
         }
 
@@ -57,17 +78,14 @@ void HyprlandReader::readWorkspacesAsync(std::function<void(QVariantList)> callb
 
             QMap<int, QVariantMap> monitorsByIdMap;
             for (auto it = monitorsMap.constBegin(); it != monitorsMap.constEnd(); ++it) {
-                QVariantMap monData = it.value();
-                int monitorId = monData["id"].toInt();
-                monitorsByIdMap[monitorId] = monData;
+                monitorsByIdMap[it.value()["id"].toInt()] = it.value();
             }
-
-            QMap<int, QVariantList> workspaceAppsMap;
-            QMap<int, int> workspaceToMonitorIdMap;
 
             for (const QJsonValue &value : clientsArray) {
                 QJsonObject clientObj = value.toObject();
-                int workspaceId = clientObj["workspace"].toObject()["id"].toInt();
+                QJsonObject wsObj = clientObj["workspace"].toObject();
+                int workspaceId = wsObj["id"].toInt();
+                QString workspaceName = wsObj["name"].toString();
                 
                 int targetMonitorId = -1;
                 
@@ -80,9 +98,11 @@ void HyprlandReader::readWorkspacesAsync(std::function<void(QVariantList)> callb
                     }
                 }
 
-                if (targetMonitorId != -1) {
-                    workspaceToMonitorIdMap[workspaceId] = targetMonitorId;
+                if (targetMonitorId == -1 && !monitorsByIdMap.isEmpty()) {
+                    targetMonitorId = monitorsByIdMap.firstKey();
                 }
+
+                if (targetMonitorId == -1) continue;
 
                 QVariantMap appData;
                 appData["address"] = clientObj["address"].toString();
@@ -97,32 +117,57 @@ void HyprlandReader::readWorkspacesAsync(std::function<void(QVariantList)> callb
                 appData["w"] = sizeArray.size() > 0 ? sizeArray.at(0).toInt() : 0;
                 appData["h"] = sizeArray.size() > 1 ? sizeArray.at(1).toInt() : 0;
 
-                workspaceAppsMap[workspaceId].append(appData);
+                QVariantMap &monitorData = monitorsByIdMap[targetMonitorId];
+                QVariantMap swData = monitorData["specialWorkspace"].toMap();
+
+                if (workspaceName.startsWith("special:") || workspaceId == swData["id"].toInt()) {
+                    QVariantList swApps = swData["apps"].toList();
+                    swApps.append(appData);
+                    swData["apps"] = swApps;
+                    monitorData["specialWorkspace"] = swData;
+                } else {
+                    QVariantMap wsMap = monitorData["workspacesMap"].toMap();
+                    QVariantMap currentWs;
+                    
+                    if (wsMap.contains(QString::number(workspaceId))) {
+                        currentWs = wsMap[QString::number(workspaceId)].toMap();
+                    } else {
+                        currentWs["id"] = workspaceId;
+                        currentWs["name"] = workspaceName;
+                        currentWs["apps"] = QVariantList();
+                    }
+                    
+                    QVariantList apps = currentWs["apps"].toList();
+                    apps.append(appData);
+                    currentWs["apps"] = apps;
+                    
+                    wsMap[QString::number(workspaceId)] = currentWs;
+                    monitorData["workspacesMap"] = wsMap;
+                }
             }
 
-            QVariantList workspacesData;
-            for (auto it = workspaceAppsMap.constBegin(); it != workspaceAppsMap.constEnd(); ++it) {
-                int wsId = it.key();
+            QVariantList finalMonitorsData;
+            for (auto it = monitorsByIdMap.begin(); it != monitorsByIdMap.end(); ++it) {
+                QVariantMap mon = it.value();
+                QVariantMap wsMap = mon["workspacesMap"].toMap();
+                QVariantList wsList;
                 
-                int finalMonitorId = workspaceToMonitorIdMap.value(wsId, (wsId <= 10) ? 0 : 1);
-                
-                QVariantMap finalMonitorData = monitorsByIdMap.value(finalMonitorId, QVariantMap());
-
-                if (finalMonitorData.isEmpty() && !monitorsByIdMap.isEmpty()) {
-                    finalMonitorData = monitorsByIdMap.constBegin().value();
+                for (auto wsIt = wsMap.constBegin(); wsIt != wsMap.constEnd(); ++wsIt) {
+                    wsList.append(wsIt.value());
                 }
 
-                QVariantMap workspaceNode;
-                workspaceNode["id"] = wsId;
-                workspaceNode["apps"] = it.value();
-                workspaceNode["monitor"] = finalMonitorData;
+                std::sort(wsList.begin(), wsList.end(), [](const QVariant &a, const QVariant &b) {
+                    return a.toMap()["id"].toInt() < b.toMap()["id"].toInt();
+                });
+
+                mon["workspaces"] = wsList;
+                mon.remove("workspacesMap");
                 
-                workspacesData.append(workspaceNode);
+                finalMonitorsData.append(mon);
             }
 
-            callback(workspacesData);
+            callback(finalMonitorsData);
         };
-
 
         QObject::connect(clientSocket, &QLocalSocket::connected, [clientSocket]() {
             clientSocket->write("j/clients");
@@ -197,6 +242,7 @@ void HyprlandReader::connectEventSocket() {
 
             static const QList<QByteArray> relevantEvents = {
                 "workspace>>", "workspacev2>>", "moveworkspace>>",
+                "activespecial>>", "activespecialv2>>",
                 "movewindow>>", "openwindow>>", "closewindow>>",
                 "changefloatingmode>>", "monitoradded>>", "monitorremoved>>"
             };

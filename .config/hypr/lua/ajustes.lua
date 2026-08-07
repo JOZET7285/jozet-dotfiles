@@ -2,7 +2,9 @@ package.path = package.path .. ";" .. os.getenv("HOME") .. "/.local/share/jzt/co
 local s = require("datos")
 
 local speed = s.cursor_speed
-if speed == nil or speed <= 0 then speed = 1.0 end
+if speed == nil or speed < -1.0 or speed > 1.0 then 
+    speed = 0.0 
+end
 
 hl.env("XCURSOR_SIZE", tostring(s.cursor_size))
 hl.env("HYPRCURSOR_SIZE", tostring(s.cursor_size))
@@ -38,4 +40,10 @@ hl.config({
       xray = true,
     },
   },
+
+  gestures = {
+        workspace_swipe_distance = 900,
+        workspace_swipe_min_speed_to_force = 80,
+        workspace_swipe_invert = false,
+    },
 })

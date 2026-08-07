@@ -52,7 +52,7 @@ PanelWindow {
     WlrLayershell.keyboardFocus: needsKeyboardFocus ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
 
     property var popupTopList: [leftLand.popups, rightLand.popups]
-    property var popupList: [diskPopup, ramPopup, cpuPopup, tempPopup, todayPopup, settingsPopup] 
+    property var popupList: [diskPopup, ramPopup, cpuPopup, tempPopup, todayPopup, settingsPopup, workspacesPopup] 
     property var popupBottomList: [agendPopup, wallpaperSelector, eventPopup, notificationPopup]
     property bool bottomPopupsOpened: (agendPopup.open || agendPopup.animating || 
                                        wallpaperSelector.open || wallpaperSelector.animating || 
@@ -124,6 +124,7 @@ PanelWindow {
         Region { item: (cpuPopup.open || cpuPopup.animating) ? cpuPopup : null }
         Region { item: (tempPopup.open || tempPopup.animating) ? tempPopup : null }
         Region { item: (todayPopup.open || todayPopup.animating) ? todayPopup : null }
+        Region { item: (workspacesPopup.open || workspacesPopup.animating) ? workspacesPopup : null }
         Region { item: (agendPopup.open || agendPopup.animating) ? agendPopup : null }
         Region { item: (eventPopup.open || eventPopup.animating) ? eventPopup : null }
         Region { item: (notificationPopup.open || notificationPopup.animating) ? notificationPopup : null }
@@ -289,6 +290,11 @@ PanelWindow {
                     if (open) SystemManager.refreshSystemInfo()
                 }
                 suggestCompact: rootUISys.suggestCompact
+            }
+            WorkspacePopup {
+                id: workspacesPopup
+                anchors.horizontalCenter: parent.horizontalCenter
+                onOpenChanged: rootUISys.closeOtherPopups(this)
             }
         }
         Item {

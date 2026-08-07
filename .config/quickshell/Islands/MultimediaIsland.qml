@@ -95,7 +95,7 @@ Rectangle {
             }
 
             Text {
-                text: SystemManager.mediaTitle
+                text: SystemManager.mediaTitle + " - " + SystemManager.mediaArtist
                 font.pixelSize: (activeHover || openPopup ? 14 : 10) * scaleFactor
                 color: Theme.color_a_text
                 elide: Text.ElideRight
