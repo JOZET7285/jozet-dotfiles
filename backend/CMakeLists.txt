@@ -46,8 +46,8 @@ qt6_add_qml_module(JozetPlugin
         System/Readers/UdisksReader.h
         System/Readers/SettingsReader.cpp
         System/Readers/SettingsReader.h
-        System/Readers/FastfetchReader.cpp
-        System/Readers/FastfetchReader.h
+        System/Readers/HardwareReader.cpp
+        System/Readers/HardwareReader.h
         System/Readers/MatugenReader.cpp
         System/Readers/MatugenReader.h
         System/Readers/HyprlandWriter.cpp

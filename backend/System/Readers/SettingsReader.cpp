@@ -86,7 +86,7 @@ static const QVariantMap DEFAULTS = {
             {"rounded_corners", true},
             {"always_visible_monitoring", false}
         }},
-        {"wallpaper_path", "~/.config/quickshell/wallpapers/"},
+        {"wallpaper_path", "~/.local/share/jzt/wallpapers/"},
         {"font", "JetBrains Mono"},
         {"hyprland", QVariantMap{
             {"gaps_in", 5},
@@ -103,7 +103,7 @@ static const QVariantMap DEFAULTS = {
 };
 
 SettingsReader::SettingsReader(QObject *parent) : QObject(parent) {
-    m_filePath = QDir::homePath() + "/.local/share/jzt/rice-settings.json";
+    m_filePath = QDir::homePath() + "/.local/share/jzt/config/rice-settings.json";
     load();
 }
 

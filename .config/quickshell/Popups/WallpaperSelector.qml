@@ -15,8 +15,8 @@ BasePopupBottom {
         let envDir = Quickshell.env("WALLPAPER_DIR");
         if (envDir) return "file://" + envDir;
         
-        let configHome = Quickshell.env("XDG_CONFIG_HOME") || (Quickshell.env("HOME") + "/.config");
-        return "file://" + configHome + "/quickshell/wallpapers";
+        let configHome = Quickshell.env("XDG_CONFIG_HOME") || (Quickshell.env("HOME") + "/.local");
+        return "file://" + configHome + "/share/jzt/assets/wallpapers";
     }
     property string currentMonitor: modelData.name
 

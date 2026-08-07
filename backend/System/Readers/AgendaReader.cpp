@@ -10,7 +10,7 @@ namespace jozet {
 
     QVariantList AgendaReader::readAgenda() {
         QVariantList agenda;
-        QFile file(QDir::homePath() + "/.local/share/jzt/agenda.json");
+        QFile file(QDir::homePath() + "/.local/share/jzt/config/agenda.json");
         
         if (file.open(QIODevice::ReadOnly)) {
             QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
@@ -23,7 +23,7 @@ namespace jozet {
 
     void AgendaReader::writeAgenda(const QVariantList &agenda) {
         QThread *workerThread = QThread::create([agenda]() {
-            QFile file(QDir::homePath() + "/.local/share/jzt/agenda.json");
+            QFile file(QDir::homePath() + "/.local/share/jzt/config/agenda.json");
             
             if (file.open(QIODevice::WriteOnly)) {
                 QJsonArray array = QJsonArray::fromVariantList(agenda);

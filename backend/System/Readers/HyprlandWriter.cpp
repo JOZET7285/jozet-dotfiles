@@ -174,7 +174,7 @@ void HyprlandWriter::restartHypridle() {
 }
 
 QString HyprlandWriter::luaDataPath() const {
-    return QDir::homePath() + "/.local/share/jzt/datos.lua";
+    return QDir::homePath() + "/.local/share/jzt/config/datos.lua";
 }
 
 void HyprlandWriter::writeLuaDataFile() {

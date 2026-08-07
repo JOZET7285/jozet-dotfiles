@@ -4,9 +4,10 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("nm-applet --indicator")
     hl.exec_cmd("systemctl --user restart pipewire pipewire-pulse wireplumber")
     hl.exec_cmd("hypridle")
+    hl.exec_cmd("swayosd-server --style " .. os.getenv("HOME") .. "/.config/swayosd/style.css")
 end)
 
-package.path = package.path .. ";" .. os.getenv("HOME") .. "/.local/share/jzt/?.lua"
+package.path = package.path .. ";" .. os.getenv("HOME") .. "/.local/share/jzt/config/?.lua"
 
 local ok, datos = pcall(require, "datos")
 if not ok then

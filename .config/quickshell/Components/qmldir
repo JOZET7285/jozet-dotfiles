@@ -4,4 +4,5 @@ BasePillSimple 1.0 Pills/BasePillSimple.qml
 BasePopup 1.0 BasePopup.qml
 BasePopupBottom 1.0 BasePopupBottom.qml
 BasePrincipalPopup 1.0 BasePrincipalPopup.qml
+OsdIndicator 1.0 OsdIndicator.qml
 singleton Theme 1.0 Theme.qml

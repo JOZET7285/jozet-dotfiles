@@ -55,7 +55,6 @@ void HyprlandReader::readWorkspacesAsync(std::function<void(QVariantList)> callb
             QJsonDocument clientDoc = QJsonDocument::fromJson(*clientBuffer);
             QJsonArray clientsArray = clientDoc.isArray() ? clientDoc.array() : QJsonArray();            
 
-            // 1. Convertimos el mapa original a un mapa indexado por ID numérico (0, 1, etc.)
             QMap<int, QVariantMap> monitorsByIdMap;
             for (auto it = monitorsMap.constBegin(); it != monitorsMap.constEnd(); ++it) {
                 QVariantMap monData = it.value();
@@ -63,31 +62,24 @@ void HyprlandReader::readWorkspacesAsync(std::function<void(QVariantList)> callb
                 monitorsByIdMap[monitorId] = monData;
             }
 
-            // Estructuras para agrupar las aplicaciones y los monitores correspondientes por cada Workspace ID
             QMap<int, QVariantList> workspaceAppsMap;
-            QMap<int, int> workspaceToMonitorIdMap; // Almacena el ID numérico del monitor por workspace
+            QMap<int, int> workspaceToMonitorIdMap;
 
-            // 2. Procesamos todas las ventanas/clientes abiertos
             for (const QJsonValue &value : clientsArray) {
                 QJsonObject clientObj = value.toObject();
                 int workspaceId = clientObj["workspace"].toObject()["id"].toInt();
                 
-                // Extraemos el identificador de monitor que reporta la aplicación
-                // En versiones recientes de Hyprland, "monitor" puede ser un entero directo (ID)
                 int targetMonitorId = -1;
                 
                 if (clientObj["monitor"].isDouble()) {
                     targetMonitorId = clientObj["monitor"].toInt();
                 } else {
-                    // Si en tu versión actual es un string (e.g., "eDP-1" o "HDMI-A-1"), 
-                    // buscamos a qué ID numérico corresponde dentro del mapa original de monitores
                     QString monitorStringName = clientObj["monitor"].toString();
                     if (monitorsMap.contains(monitorStringName)) {
                         targetMonitorId = monitorsMap[monitorStringName]["id"].toInt();
                     }
                 }
 
-                // Si se determinó un ID válido, guardamos la relación para este espacio de trabajo
                 if (targetMonitorId != -1) {
                     workspaceToMonitorIdMap[workspaceId] = targetMonitorId;
                 }
@@ -108,19 +100,14 @@ void HyprlandReader::readWorkspacesAsync(std::function<void(QVariantList)> callb
                 workspaceAppsMap[workspaceId].append(appData);
             }
 
-            // 3. Construimos el árbol final de datos plano y limpio destinado a QML
             QVariantList workspacesData;
             for (auto it = workspaceAppsMap.constBegin(); it != workspaceAppsMap.constEnd(); ++it) {
                 int wsId = it.key();
                 
-                // Recuperamos el ID del monitor asociado. Si no se registró, se infiere según
-                // el comportamiento por defecto de Hyprland (Workspaces 1-10 van al Monitor 0)
                 int finalMonitorId = workspaceToMonitorIdMap.value(wsId, (wsId <= 10) ? 0 : 1);
                 
-                // Extraemos la geometría física exacta del monitor desde nuestro mapa numérico seguro
                 QVariantMap finalMonitorData = monitorsByIdMap.value(finalMonitorId, QVariantMap());
 
-                // Respaldo de seguridad de última instancia: si el mapa sigue vacío, asignamos el primer monitor disponible
                 if (finalMonitorData.isEmpty() && !monitorsByIdMap.isEmpty()) {
                     finalMonitorData = monitorsByIdMap.constBegin().value();
                 }
@@ -128,7 +115,7 @@ void HyprlandReader::readWorkspacesAsync(std::function<void(QVariantList)> callb
                 QVariantMap workspaceNode;
                 workspaceNode["id"] = wsId;
                 workspaceNode["apps"] = it.value();
-                workspaceNode["monitor"] = finalMonitorData; // Asignación correcta a nivel superior
+                workspaceNode["monitor"] = finalMonitorData;
                 
                 workspacesData.append(workspaceNode);
             }

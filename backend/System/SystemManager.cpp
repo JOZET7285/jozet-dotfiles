@@ -33,6 +33,23 @@ SystemManager::SystemManager(QObject *parent) : QObject(parent)
     connect(weatherTimer, &QTimer::timeout, this, &SystemManager::fetchWeather);
     weatherTimer->start(900000);
 
+    QDir backlightDir("/sys/class/backlight");
+    const QStringList backlightDevices = backlightDir.entryList(QDir::NoDotAndDotDot | QDir::Dirs);
+    if (!backlightDevices.isEmpty()) {
+        m_backlightPath = "/sys/class/backlight/" + backlightDevices.first();
+
+        m_brightnessWatcher = new QFileSystemWatcher(this);
+        m_brightnessWatcher->addPath(m_backlightPath + "/brightness");
+
+        connect(m_brightnessWatcher, &QFileSystemWatcher::fileChanged, this, [this](const QString &path) {
+            updateBrightness();
+            if (!m_brightnessWatcher->files().contains(path))
+                m_brightnessWatcher->addPath(path);
+        });
+
+        updateBrightness();
+    }
+
     connect(m_networkManager, &QNetworkAccessManager::finished, this, &SystemManager::handleNetworkReply);
     connect(&m_bluetoothReader, &BluetoothReader::devicesChanged, this, [this]() { emit bluetoothChanged(); });
     connect(&m_volumeReader, &VolumeReader::dataUpdated, this, [this]() { emit volumeChanged(); });
@@ -46,7 +63,8 @@ SystemManager::SystemManager(QObject *parent) : QObject(parent)
         emit riceSettingsChanged();
         applyActiveProfileBrightness();
     });
-    connect(&m_fastfetchReader, &FastfetchReader::systemInfoChanged, this, [this]() {
+    
+    connect(&m_hardwareReader, &HardwareReader::systemInfoChanged, this, [this]() {
         emit systemInfoChanged();
     });
 
@@ -483,29 +501,28 @@ void SystemManager::updateBattery()
     }
 }
 
-void SystemManager::updateBrightness()
-{
-    runCommandAsync(
-        "brightnessctl",
-        {"-m"},
-        [this](const QString &output) {
+void SystemManager::updateBrightness() {
+    if (m_backlightPath.isEmpty())
+        return;
 
-            if (output.isEmpty())
-                return;
+    QFile currentFile(m_backlightPath + "/brightness");
+    QFile maxFile(m_backlightPath + "/max_brightness");
 
-            QStringList parts = output.split(',');
+    if (!currentFile.open(QIODevice::ReadOnly) || !maxFile.open(QIODevice::ReadOnly))
+        return;
 
-            if (parts.size() >= 4) {
+    int current = QString::fromUtf8(currentFile.readAll()).trimmed().toInt();
+    int max = QString::fromUtf8(maxFile.readAll()).trimmed().toInt();
 
-                int brightness =
-                    parts[3].chopped(1).toInt();
+    if (max <= 0)
+        return;
 
-                if (m_brightness != brightness) {
-                    m_brightness = brightness;
-                    emit brightnessChanged();
-                }
-            }
-        });
+    int brightness = qRound((current * 100.0) / max);
+
+    if (m_brightness != brightness) {
+        m_brightness = brightness;
+        emit brightnessChanged();
+    }
 }
 
 void SystemManager::updatePowerProfile()
@@ -724,7 +741,7 @@ void SystemManager::persistBrightnessToActiveProfile(int percentage)
 // System Info
 // ------------------------------------------------------------
 void SystemManager::refreshSystemInfo() {
-    m_fastfetchReader.refresh();
+    m_hardwareReader.refresh();
 }
 
 bool SystemManager::doNotDisturb() const
@@ -874,7 +891,6 @@ void SystemManager::update() {
 
     if (counter % 2 == 0) {
         updateBattery();
-        updateBrightness();
         updatePowerProfile();
         m_networkReader.updateNetworkStatus([this]() {
             emit networkChanged();

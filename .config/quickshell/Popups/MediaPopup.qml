@@ -45,12 +45,12 @@ Rectangle {
     RowLayout {
         id: contentRow
         anchors.fill: parent
-        anchors.margins: marginScaled
-        spacing: 10 * scaleFactor
+        anchors.margins: 10
+        spacing: 5
 
         Item {
-            Layout.preferredWidth: 56 * scaleFactor
-            Layout.preferredHeight: 56 * scaleFactor
+            Layout.preferredWidth: 100 * scaleFactor
+            Layout.preferredHeight: 100 * scaleFactor
 
             Rectangle {
                 id: artPlaceholder
@@ -96,15 +96,18 @@ Rectangle {
 
         ColumnLayout {
             Layout.fillWidth: true
-            spacing: 6 * scaleFactor
+            spacing: 6
 
             ColumnLayout {
-                spacing: 2 * scaleFactor
+                spacing: 2
                 Text {
                     Layout.fillWidth: true
                     text: SystemManager.mediaTitle
                     color: Theme.color_a_text
-                    font { bold: true; pixelSize: 12 * scaleFactor }
+                    font { 
+                        bold: true 
+                        pixelSize: 12 
+                    }
                     elide: Text.ElideRight
                     maximumLineCount: 1
                 }
@@ -112,7 +115,7 @@ Rectangle {
                     Layout.fillWidth: true
                     text: SystemManager.mediaArtist + (SystemManager.mediaAlbum ? " · " + SystemManager.mediaAlbum : "")
                     color: Theme.text_color
-                    font.pixelSize: 10 * scaleFactor
+                    font.pixelSize: 10
                     elide: Text.ElideRight
                     maximumLineCount: 1
                     opacity: 0.7
@@ -124,12 +127,12 @@ Rectangle {
                 Text {
                     text: formatTime(SystemManager.mediaPositionUs)
                     color: Theme.color_a_text
-                    font.pixelSize: 10 * scaleFactor
+                    font.pixelSize: 10
                     font.family: "monospace"
                 }
                 Rectangle {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 3 * scaleFactor
+                    Layout.preferredHeight: 3
                     radius: height / 2
                     color: Theme.color_3
                     Rectangle {
@@ -145,7 +148,7 @@ Rectangle {
                 Text {
                     text: formatTime(SystemManager.mediaLengthUs)
                     color: Theme.color_a_text
-                    font.pixelSize: 10 * scaleFactor
+                    font.pixelSize: 10
                 }
             }
 

@@ -1,0 +1,36 @@
+window#osd {
+    border-radius: 100px;
+    border: 2px solid #2b2b2b;
+    background: alpha(#1a1a1a, 0.9);
+    min-width: 280px;
+    min-height: 30px;
+}
+
+#container {
+    margin: 20px;
+}
+
+image, label {
+    color: #cdd6f4;
+}
+
+progressbar, segmentedprogress {
+    min-height: 8px;
+    border-radius: 999px;
+    background: transparent;
+    border: none;
+}
+
+trough, segment {
+    min-height: inherit;
+    border-radius: inherit;
+    border: none;
+    background: alpha(#cdd6f4, 0.2);
+}
+
+progress, segment.active {
+    min-height: inherit;
+    border-radius: inherit;
+    border: none;
+    background: #89b4fa;
+}

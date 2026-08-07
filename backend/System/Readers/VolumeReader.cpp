@@ -11,7 +11,7 @@ namespace jozet {
 VolumeReader::VolumeReader(QObject *parent) : QObject(parent) {
     m_updateTimer = new QTimer(this);
     m_updateTimer->setSingleShot(true);
-    m_updateTimer->setInterval(150);
+    m_updateTimer->setInterval(80);
     connect(m_updateTimer, &QTimer::timeout, this, &VolumeReader::updateVolumeStatus);
 
     updateVolumeStatus();

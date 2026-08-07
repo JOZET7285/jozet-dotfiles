@@ -25,7 +25,7 @@
 #include "Readers/PamAuthenticator.h"
 #include "Readers/UdisksReader.h"
 #include "Readers/SettingsReader.h"
-#include "Readers/FastfetchReader.h"
+#include "Readers/HardwareReader.h"
 #include "Readers/MatugenReader.h"
 #include "Readers/HyprlandWriter.h"
 #include "Readers/NotifyReader.h"
@@ -246,7 +246,7 @@ public:
     Q_INVOKABLE void resetSettings();
 
     // SYSTEM INFO -----------------------------------------------
-    QVariantMap systemInfo() const { return m_fastfetchReader.systemInfo(); }
+    QVariantMap systemInfo() const { return m_hardwareReader.systemInfo(); }
     Q_INVOKABLE void refreshSystemInfo();
     QVariantMap latestNotification() const { return m_latestNotification; }
     bool doNotDisturb() const;
@@ -327,13 +327,15 @@ private:
     HyprlandReader m_hyprlandReader;
     UdisksReader m_udisksReader;
     SettingsReader m_settingsReader;
-    FastfetchReader m_fastfetchReader;
+    HardwareReader m_hardwareReader;
     QVariantList m_workspaces;
     MatugenReader m_matugenReader;
     HyprlandWriter *m_hyprlandWriter = nullptr;
     bool m_locked = false;
     CursorReader m_cursorReader;
     MediaReader m_mediaReader;
+    QFileSystemWatcher *m_brightnessWatcher = nullptr;
+    QString m_backlightPath;
 
     // RAM ------------------------------------------------
     QVariantMap m_ramInfo;

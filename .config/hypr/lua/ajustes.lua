@@ -1,4 +1,4 @@
-package.path = package.path .. ";" .. os.getenv("HOME") .. "/.local/share/jzt/?.lua"
+package.path = package.path .. ";" .. os.getenv("HOME") .. "/.local/share/jzt/config/?.lua"
 local s = require("datos")
 
 local speed = s.cursor_speed

@@ -7,7 +7,7 @@
 namespace jozet {
 
 MatugenReader::MatugenReader(QObject *parent) : QObject(parent) {
-    m_filePath = QDir::homePath() + "/.local/share/jzt/matugen-colors.json";
+    m_filePath = QDir::homePath() + "/.local/share/jzt/config/matugen-colors.json";
     load();
 
     QDir().mkpath(QFileInfo(m_filePath).absolutePath());

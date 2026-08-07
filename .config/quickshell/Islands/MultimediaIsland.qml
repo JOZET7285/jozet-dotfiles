@@ -14,8 +14,8 @@ Rectangle {
     property bool activeHover: active && hoverMediaZone.containsMouse
     property bool openPopup: false
 
-    width: active ? (openPopup || activeHover ? 300 * scaleFactor : 195 * scaleFactor) : 0
-    height: openPopup ? 150 : (activeHover ? 30 * scaleFactor : 15 * scaleFactor)
+    width: active ? (openPopup || activeHover ? 400 * scaleFactor : 300 * scaleFactor) : 0
+    height: openPopup ? 150 : (activeHover ? 30 : 15)
 
     color: Theme.color_1_solid
     radius: floatingMode ? (roundedCorners ? 10 : 0) : 0
